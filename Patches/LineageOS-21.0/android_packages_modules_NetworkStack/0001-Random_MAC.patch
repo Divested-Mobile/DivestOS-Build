@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pratyush <39559233+empratyush@users.noreply.github.com>
+Date: Thu, 20 May 2021 13:21:31 +0530
+Subject: [PATCH] avoid reusing DHCP state for full MAC randomization
+
+---
+ src/android/net/dhcp/DhcpClient.java | 29 +++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/src/android/net/dhcp/DhcpClient.java b/src/android/net/dhcp/DhcpClient.java
+index b0bac047..e5e79362 100644
+--- a/src/android/net/dhcp/DhcpClient.java
++++ b/src/android/net/dhcp/DhcpClient.java
+@@ -75,6 +75,9 @@ import android.net.metrics.IpConnectivityLog;
+ import android.net.networkstack.aidl.dhcp.DhcpOption;
+ import android.net.util.HostnameTransliterator;
+ import android.net.util.SocketUtils;
++import android.net.wifi.WifiConfiguration;
++import android.net.wifi.WifiInfo;
++import android.net.wifi.WifiManager;
+ import android.os.Handler;
+ import android.os.Message;
+ import android.os.PowerManager;
+@@ -115,6 +118,7 @@ import java.net.SocketAddress;
+ import java.net.SocketException;
+ import java.nio.ByteBuffer;
+ import java.util.Arrays;
++import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Random;
+ 
+@@ -1270,7 +1274,7 @@ public class DhcpClient extends StateMachine {
+                                 + " lease expiry: "  + attributes.assignedV4AddressExpiry
+                                 + " current time: "  + currentTime);
+                     }
+-                    if (currentTime >= attributes.assignedV4AddressExpiry) {
++                    if (currentTime >= attributes.assignedV4AddressExpiry || shouldAvoidStateReuse()) {
+                         // Lease has expired.
+                         transitionTo(mDhcpInitState);
+                         return HANDLED;
+@@ -1303,6 +1307,29 @@ public class DhcpClient extends StateMachine {
+         return true;
+     }
+ 
++    private static final int RANDOMIZATION_ALWAYS = 100;
++
++    private boolean shouldAvoidStateReuse() {
++        try {
++            WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
++            WifiInfo wifiInfo =  wifiManager.getConnectionInfo();
++            if (wifiInfo != null) {
++                int connectedNetworkId = wifiInfo.getNetworkId();
++                List<WifiConfiguration> configurationList = wifiManager.getConfiguredNetworks();
++                for (WifiConfiguration configuration : configurationList){
++                    if (configuration.networkId == connectedNetworkId){
++                        return configuration.macRandomizationSetting == RANDOMIZATION_ALWAYS;
++                    }
++                }
++            }
++        } catch (Exception e) {
++            loge(e.getLocalizedMessage(), e);
++        }
++
++        loge("ConfiguredNetworks should contain Connected network id config");
++        return true;
++    }
++
+     private void receiveOfferOrAckPacket(final DhcpPacket packet, final boolean acceptRapidCommit) {
+         if (!isValidPacket(packet)) return;
+ 

@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: anupritaisno1 <www.anuprita804@gmail.com>
+Date: Wed, 13 Oct 2021 12:30:25 +0300
+Subject: [PATCH] add a real explicit_bzero implementation
+
+Clang, GCC and other compilers special-case standard C functions like
+memset. Calls to memset will be optimized out.
+
+OpenBSD provides explicit_bzero to work around this but Android simply
+defines it as memset so nothing prevents it from being optimized away.
+
+This implementation uses a memory read constraint via empty inline
+assembly rather than something that may be broken via link-time
+optimization in the future.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+Change-Id: Ia021e30f86ee4b998d541fbf7262110f9d1d6fbf
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/Android.bp                                        | 1 +
+ libc/bionic/explicit_bzero.cpp                         | 7 +++++++
+ libc/include/string.h                                  | 2 ++
+ libc/libc.map.txt                                      | 1 +
+ libc/upstream-openbsd/android/include/openbsd-compat.h | 4 ----
+ 5 files changed, 11 insertions(+), 4 deletions(-)
+ create mode 100644 libc/bionic/explicit_bzero.cpp
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index 13cefe94f..9f8b689af 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -1127,6 +1127,7 @@ cc_library_static {
+         "bionic/eventfd.cpp",
+         "bionic/exec.cpp",
+         "bionic/execinfo.cpp",
++        "bionic/explicit_bzero.cpp",
+         "bionic/faccessat.cpp",
+         "bionic/fchmod.cpp",
+         "bionic/fchmodat.cpp",
+diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
+new file mode 100644
+index 000000000..dd43f9c00
+--- /dev/null
++++ b/libc/bionic/explicit_bzero.cpp
+@@ -0,0 +1,7 @@
++#include <string.h>
++
++void* _Nonnull explicit_bzero(void* _Nonnull s, size_t n) {
++  void *ptr = memset(s, 0, n);
++  __asm__ __volatile__("" : : "r"(ptr) : "memory");
++  return ptr;
++}
+diff --git a/libc/include/string.h b/libc/include/string.h
+index 47bdd7271..e601ea022 100644
+--- a/libc/include/string.h
++++ b/libc/include/string.h
+@@ -64,6 +64,8 @@ void* _Nonnull memmove(void* _Nonnull __dst, const void* _Nonnull __src, size_t
+  */
+ void* _Nonnull memset(void* _Nonnull __dst, int __ch, size_t __n);
+ 
++void* _Nonnull explicit_bzero(void* _Nonnull s, size_t n);
++
+ /**
+  * [memset_explicit(3)](http://man7.org/linux/man-pages/man3/memset_explicit.3.html)
+  * writes the bottom 8 bits of the given int to the next `n` bytes of `dst`,
+diff --git a/libc/libc.map.txt b/libc/libc.map.txt
+index 5d87cd8ef..dd2e6c6f7 100644
+--- a/libc/libc.map.txt
++++ b/libc/libc.map.txt
+@@ -332,6 +332,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero; # introduced=33
+     faccessat;
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/upstream-openbsd/android/include/openbsd-compat.h b/libc/upstream-openbsd/android/include/openbsd-compat.h
+index 8e6f87da8..26dc01863 100644
+--- a/libc/upstream-openbsd/android/include/openbsd-compat.h
++++ b/libc/upstream-openbsd/android/include/openbsd-compat.h
+@@ -57,10 +57,6 @@ extern const char* __progname;
+ /* OpenBSD has this, but we can't really implement it correctly on Linux. */
+ #define issetugid() 0
+ 
+-#if !defined(ANDROID_HOST_MUSL)
+-#define explicit_bzero(p, s) memset(p, 0, s)
+-#endif
+-
+ #if defined(ANDROID_HOST_MUSL)
+ #define __LIBC_HIDDEN__ __attribute__((visibility("hidden")))
+ #endif

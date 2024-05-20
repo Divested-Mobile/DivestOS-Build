@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 12 Dec 2023 20:37:48 +0200
+Subject: [PATCH] disable hardened_malloc for surfaceflinger
+
+---
+ libc/bionic/libc_init_dynamic.cpp | 3 +++
+ libc/bionic/malloc_common.cpp     | 1 +
+ libc/include/stdlib.h             | 1 +
+ 3 files changed, 5 insertions(+)
+
+diff --git a/libc/bionic/libc_init_dynamic.cpp b/libc/bionic/libc_init_dynamic.cpp
+index 7097a70b0..f83d24ea7 100644
+--- a/libc/bionic/libc_init_dynamic.cpp
++++ b/libc/bionic/libc_init_dynamic.cpp
+@@ -87,6 +87,9 @@ static void init_prog_id(libc_globals* globals) {
+   if (IS("/apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2.7-service-google")) {
+     prog_id = PROG_PIXEL_CAMERA_PROVIDER_SERVICE;
+   }
++  else if (IS("/system/bin/surfaceflinger")) {
++    prog_id = PROG_SURFACEFLINGER;
++  }
+ #undef IS
+ 
+   // libc_globals struct is write-protected
+diff --git a/libc/bionic/malloc_common.cpp b/libc/bionic/malloc_common.cpp
+index 9b7310347..1ab4861af 100644
+--- a/libc/bionic/malloc_common.cpp
++++ b/libc/bionic/malloc_common.cpp
+@@ -426,6 +426,7 @@ void InitNativeAllocatorDispatch(libc_globals* globals) {
+   bool hardened_impl = true;
+   switch (get_prog_id()) {
+       case PROG_PIXEL_CAMERA_PROVIDER_SERVICE:
++      case PROG_SURFACEFLINGER:
+         hardened_impl = false;
+         break;
+       default:
+diff --git a/libc/include/stdlib.h b/libc/include/stdlib.h
+index cb8d3d3b2..5dd67daa4 100644
+--- a/libc/include/stdlib.h
++++ b/libc/include/stdlib.h
+@@ -214,6 +214,7 @@ int get_prog_id();
+ #define is_prog(id) (get_prog_id() == id)
+ 
+ #define PROG_PIXEL_CAMERA_PROVIDER_SERVICE 1
++#define PROG_SURFACEFLINGER 3
+ __END_DECLS
+ 
+ #include <android/legacy_stdlib_inlines.h>

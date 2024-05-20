@@ -1,0 +1,148 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 13 Feb 2022 00:55:33 -0500
+Subject: [PATCH] allow toggling presidential alerts
+
+---
+ res/values/config.xml                                 |  2 +-
+ res/values/strings.xml                                |  2 ++
+ res/xml/preferences.xml                               |  3 +--
+ .../CellBroadcastAlertService.java                    |  4 ++--
+ .../CellBroadcastChannelManager.java                  |  6 +++---
+ .../cellbroadcastreceiver/CellBroadcastReceiver.java  |  8 ++++++++
+ .../cellbroadcastreceiver/CellBroadcastSettings.java  | 11 ++++++++++-
+ 7 files changed, 27 insertions(+), 9 deletions(-)
+
+diff --git a/res/values/config.xml b/res/values/config.xml
+index d678715e7..1e866e3ca 100644
+--- a/res/values/config.xml
++++ b/res/values/config.xml
+@@ -22,7 +22,7 @@
+     <!-- Whether to show main switch settings at the top -->
+     <bool name="show_main_switch_settings">true</bool>
+     <!-- Whether to show presidential alert settings -->
+-    <bool name="show_presidential_alerts_settings">false</bool>
++    <bool name="show_presidential_alerts_settings">true</bool>
+     <!-- Whether to show extreme alert settings -->
+     <bool name="show_extreme_alert_settings">true</bool>
+     <!-- Whether to show severe alert settings -->
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 66a8a306c..10d43df0a 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -392,4 +392,6 @@
+     <!-- Notification title and text when alerting user that their CB settings have changed -->
+     <string name="notification_cb_settings_changed_title">Settings changed by carrier</string>
+     <string name="notification_cb_settings_changed_text">Tap to see wireless emergency alert settings</string>
++
++    <string name="enable_cmas_presidential_alerts_summary_override">National warning messages.</string>
+ </resources>
+diff --git a/res/xml/preferences.xml b/res/xml/preferences.xml
+index fc0649e24..08c1ccf30 100644
+--- a/res/xml/preferences.xml
++++ b/res/xml/preferences.xml
+@@ -45,9 +45,8 @@
+ 
+         <!-- Show checkbox for Presidential alerts in settings -->
+         <SwitchPreference android:defaultValue="true"
+-                          android:enabled="false"
+                           android:key="enable_cmas_presidential_alerts"
+-                          android:summary="@string/enable_cmas_presidential_alerts_summary"
++                          android:summary="@string/enable_cmas_presidential_alerts_summary_override"
+                           android:title="@string/enable_cmas_presidential_alerts_title"/>
+ 
+         <!-- Enable CMAS Extreme Threat alerts -->
+diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java b/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
+index 0f9a5ed16..d45b8f854 100644
+--- a/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
++++ b/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
+@@ -575,8 +575,8 @@ public class CellBroadcastAlertService extends Service {
+         }
+         // CMAS warning types
+         if (resourcesKey == R.array.cmas_presidential_alerts_channels_range_strings) {
+-            // always enabled
+-            return true;
++            return emergencyAlertEnabled && checkAlertConfigEnabled(
++                    subId, CellBroadcastSettings.KEY_ENABLE_CMAS_PRESIDENTIAL_ALERTS, true);
+         }
+         if (resourcesKey == R.array.cmas_alert_extreme_channels_range_strings) {
+             return emergencyAlertEnabled && checkAlertConfigEnabled(
+diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastChannelManager.java b/src/com/android/cellbroadcastreceiver/CellBroadcastChannelManager.java
+index eaca6d741..e4cf7a509 100644
+--- a/src/com/android/cellbroadcastreceiver/CellBroadcastChannelManager.java
++++ b/src/com/android/cellbroadcastreceiver/CellBroadcastChannelManager.java
+@@ -279,9 +279,9 @@ public class CellBroadcastChannelManager {
+                                 }
+                                 break;
+                             case KEY_ALWAYS_ON:
+-                                if (value.equalsIgnoreCase("true")) {
+-                                    mAlwaysOn = true;
+-                                }
++                                //if (value.equalsIgnoreCase("true")) {
++                                    //mAlwaysOn = true;
++                                //}
+                                 break;
+                             case KEY_SCREEN_ON_DURATION:
+                                 mScreenOnDuration = Integer.parseInt(value);
+diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java b/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
+index e8b55feb1..4b6541011 100644
+--- a/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
++++ b/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
+@@ -660,6 +660,8 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
+                     break;
+ 
+                 case CdmaSmsCbProgramData.OPERATION_CLEAR_CATEGORIES:
++                    tryCdmaSetCategory(mContext,
++                            CdmaSmsCbProgramData.CATEGORY_CMAS_PRESIDENTIAL_LEVEL_ALERT, false);
+                     tryCdmaSetCategory(mContext,
+                             CdmaSmsCbProgramData.CATEGORY_CMAS_EXTREME_THREAT, false);
+                     tryCdmaSetCategory(mContext,
+@@ -687,6 +689,12 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
+         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+ 
+         switch (category) {
++            case CdmaSmsCbProgramData.CATEGORY_CMAS_PRESIDENTIAL_LEVEL_ALERT:
++                sharedPrefs.edit().putBoolean(
++                        CellBroadcastSettings.KEY_ENABLE_CMAS_PRESIDENTIAL_ALERTS, enable)
++                        .apply();
++                break;
++
+             case CdmaSmsCbProgramData.CATEGORY_CMAS_EXTREME_THREAT:
+                 sharedPrefs.edit().putBoolean(
+                                 CellBroadcastSettings.KEY_ENABLE_CMAS_EXTREME_THREAT_ALERTS, enable)
+diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastSettings.java b/src/com/android/cellbroadcastreceiver/CellBroadcastSettings.java
+index f5484e24c..7e94aab04 100644
+--- a/src/com/android/cellbroadcastreceiver/CellBroadcastSettings.java
++++ b/src/com/android/cellbroadcastreceiver/CellBroadcastSettings.java
+@@ -505,6 +505,9 @@ public class CellBroadcastSettings extends CollapsingToolbarBaseActivity {
+             if (mAreaUpdateInfoCheckBox != null) {
+                 mAreaUpdateInfoCheckBox.setOnPreferenceChangeListener(startConfigServiceListener);
+             }
++            if (mPresidentialCheckBox != null) {
++                mPresidentialCheckBox.setOnPreferenceChangeListener(startConfigServiceListener);
++            }
+             if (mExtremeCheckBox != null) {
+                 mExtremeCheckBox.setOnPreferenceChangeListener(startConfigServiceListener);
+             }
+@@ -614,7 +617,9 @@ public class CellBroadcastSettings extends CollapsingToolbarBaseActivity {
+ 
+             if (mPresidentialCheckBox != null) {
+                 mPresidentialCheckBox.setVisible(
+-                        res.getBoolean(R.bool.show_presidential_alerts_settings));
++                        res.getBoolean(R.bool.show_presidential_alerts_settings)
++                        && !channelManager.getCellBroadcastChannelRanges(
++                                R.array.cmas_presidential_alerts_channels_range_strings).isEmpty());
+                 if (isWatch && !mPresidentialCheckBox.isVisible()) {
+                     preferenceScreen.removePreference(mPresidentialCheckBox);
+                 }
+@@ -826,6 +831,10 @@ public class CellBroadcastSettings extends CollapsingToolbarBaseActivity {
+         private void setAlertsEnabled(boolean alertsEnabled) {
+             Resources res = CellBroadcastSettings.getResourcesForDefaultSubId(getContext());
+ 
++            if (mPresidentialCheckBox != null) {
++                mPresidentialCheckBox.setEnabled(alertsEnabled);
++                mPresidentialCheckBox.setChecked(alertsEnabled);
++            }
+             if (mSevereCheckBox != null) {
+                 mSevereCheckBox.setEnabled(alertsEnabled);
+                 mSevereCheckBox.setChecked(alertsEnabled);

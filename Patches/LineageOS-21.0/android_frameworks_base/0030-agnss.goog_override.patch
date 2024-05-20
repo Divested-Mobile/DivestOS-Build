@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 20 Jan 2023 21:45:50 -0500
+Subject: [PATCH] Replace agnss.goog with the Broadcom PSDS server
+
+This is heavily based off of the GrapheneOS patch for their server handling:
+https://github.com/GrapheneOS/platform_frameworks_base/commit/f29bedd2aad471b27d1eb6ec3b49e9751d8e0c5a
+
+Change-Id: Idd867bcd55d65d4aae7f9744de4807db46cf4374
+Signed-off-by: Tad <tad@spotco.us>
+---
+ .../location/gnss/GnssPsdsDownloader.java     | 45 ++++++++++++++-----
+ 1 file changed, 35 insertions(+), 10 deletions(-)
+
+diff --git a/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java b/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
+index 243910dd9541..f111d5190340 100644
+--- a/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
++++ b/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
+@@ -18,6 +18,7 @@ package com.android.server.location.gnss;
+ 
+ import android.annotation.Nullable;
+ import android.net.TrafficStats;
++import android.os.Build;
+ import android.util.Log;
+ 
+ import com.android.internal.util.TrafficStatsConstants;
+@@ -53,20 +54,39 @@ class GnssPsdsDownloader {
+     private static final int REALTIME_PSDS_SERVER_INDEX = 3;
+     private static final int MAX_PSDS_TYPE_INDEX = 3;
+ 
++    // Broadcom GNSS almanac server URLs
++    private static final String BROADCOM_LONGTERM_PSDS_SERVER_1 = "https://gllto.glpals.com/7day/v5/latest/lto2.dat";
++    private static final String BROADCOM_LONGTERM_PSDS_SERVER_2 = null;
++    private static final String BROADCOM_LONGTERM_PSDS_SERVER_3 = null;
++    private static final String BROADCOM_NORMAL_PSDS_SERVER = "https://gllto.glpals.com/rto/v1/latest/rto.dat";
++    private static final String BROADCOM_REALTIME_PSDS_SERVER = "https://gllto.glpals.com/rtistatus4.dat";
++
+     private final String[] mLongTermPsdsServers;
+     private final String[] mPsdsServers;
+     // to load balance our server requests
+     private int mNextServerIndex;
+ 
++    private static boolean shouldUseBroadcomServer() {
++        boolean supportedDevice = Build.DEVICE.equals("cheetah") || Build.DEVICE.equals("panther") || Build.DEVICE.equals("raven") || Build.DEVICE.equals("oriole") || Build.DEVICE.equals("bluejay") || Build.DEVICE.equals("lynx") || Build.DEVICE.equals("tangorpro") || Build.DEVICE.equals("felix");
++        return supportedDevice;
++    }
++
+     GnssPsdsDownloader(Properties properties) {
+         // read PSDS servers from the Properties object
+         int count = 0;
+-        String longTermPsdsServer1 = properties.getProperty(
+-                GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_1);
+-        String longTermPsdsServer2 = properties.getProperty(
+-                GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_2);
+-        String longTermPsdsServer3 = properties.getProperty(
+-                GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_3);
++        String longTermPsdsServer1;
++        String longTermPsdsServer2;
++        String longTermPsdsServer3;
++
++        if (shouldUseBroadcomServer()) {
++            longTermPsdsServer1 = BROADCOM_LONGTERM_PSDS_SERVER_1;
++            longTermPsdsServer2 = BROADCOM_LONGTERM_PSDS_SERVER_2;
++            longTermPsdsServer3 = BROADCOM_LONGTERM_PSDS_SERVER_3;
++        } else {
++            longTermPsdsServer1 = properties.getProperty(GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_1);
++            longTermPsdsServer2 = properties.getProperty(GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_2);
++            longTermPsdsServer3 = properties.getProperty(GnssConfiguration.CONFIG_LONGTERM_PSDS_SERVER_3);
++        }
+         if (longTermPsdsServer1 != null) count++;
+         if (longTermPsdsServer2 != null) count++;
+         if (longTermPsdsServer3 != null) count++;
+@@ -86,10 +106,15 @@ class GnssPsdsDownloader {
+             mNextServerIndex = random.nextInt(count);
+         }
+ 
+-        String normalPsdsServer = properties.getProperty(
+-                GnssConfiguration.CONFIG_NORMAL_PSDS_SERVER);
+-        String realtimePsdsServer = properties.getProperty(
+-                GnssConfiguration.CONFIG_REALTIME_PSDS_SERVER);
++        String normalPsdsServer;
++        String realtimePsdsServer;
++        if (shouldUseBroadcomServer()) {
++            normalPsdsServer = BROADCOM_NORMAL_PSDS_SERVER;
++            realtimePsdsServer = BROADCOM_REALTIME_PSDS_SERVER;
++        } else {
++            normalPsdsServer = properties.getProperty(GnssConfiguration.CONFIG_NORMAL_PSDS_SERVER);
++            realtimePsdsServer = properties.getProperty(GnssConfiguration.CONFIG_REALTIME_PSDS_SERVER);
++        }
+         mPsdsServers = new String[MAX_PSDS_TYPE_INDEX + 1];
+         mPsdsServers[NORMAL_PSDS_SERVER_INDEX] = normalPsdsServer;
+         mPsdsServers[REALTIME_PSDS_SERVER_INDEX] = realtimePsdsServer;

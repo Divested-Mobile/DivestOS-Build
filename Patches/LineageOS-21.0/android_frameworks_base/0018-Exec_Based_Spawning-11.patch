@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:58:51 -0400
+Subject: [PATCH] disable preloading HALs for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 699899e02f85..da2f93d4539c 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -142,9 +142,11 @@ public class ZygoteInit {
+             Resources.preloadResources();
+             bootTimingsTraceLog.traceEnd(); // PreloadResources
+         }
+-        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+-        nativePreloadAppProcessHALs();
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        if (fullPreload) {
++            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
++            nativePreloadAppProcessHALs();
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        }
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
+         maybePreloadGraphicsDriver();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);

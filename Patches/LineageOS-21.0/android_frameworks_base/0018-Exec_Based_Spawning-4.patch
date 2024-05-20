@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:43:55 -0400
+Subject: [PATCH] pass through fullPreload to libcore
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 1675d41580d6..87d393d97d14 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -125,7 +125,7 @@ public class ZygoteInit {
+     static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         Log.d(TAG, "begin preload");
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+-        beginPreload();
++        beginPreload(fullPreload);
+         bootTimingsTraceLog.traceEnd(); // BeginPreload
+         bootTimingsTraceLog.traceBegin("PreloadClasses");
+         preloadClasses();
+@@ -147,7 +147,7 @@ public class ZygoteInit {
+         // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+         // for memory sharing purposes.
+         WebViewFactory.prepareWebViewInZygote();
+-        endPreload();
++        endPreload(fullPreload);
+         warmUpJcaProviders();
+         Log.d(TAG, "end preload");
+ 
+@@ -165,14 +165,14 @@ public class ZygoteInit {
+         preload(new TimingsTraceLog("ZygoteInitTiming_lazy", Trace.TRACE_TAG_DALVIK));
+     }
+ 
+-    private static void beginPreload() {
++    private static void beginPreload(boolean fullPreload) {
+         Log.i(TAG, "Calling ZygoteHooks.beginPreload()");
+ 
+-        ZygoteHooks.onBeginPreload();
++        ZygoteHooks.onBeginPreload(fullPreload);
+     }
+ 
+-    private static void endPreload() {
+-        ZygoteHooks.onEndPreload();
++    private static void endPreload(boolean fullPreload) {
++        ZygoteHooks.onEndPreload(fullPreload);
+ 
+         Log.i(TAG, "Called ZygoteHooks.endPreload()");
+     }

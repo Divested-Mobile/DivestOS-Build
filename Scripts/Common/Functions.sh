@@ -771,27 +771,6 @@ disableAPEX() {
 }
 export -f disableAPEX;
 
-includeOE() {
-	cd "$DOS_BUILD_BASE/$1";
-	#Skip: Pixel 2 series (only supports Google Fi), Pixel 3/a series (broken on 20.0)
-	if [[ "$1" != *"device/google/bonito"* ]] && [[ "$1" != *"device/google/crosshatch"* ]] && [[ "$1" != *"device/google/wahoo"* ]]; then
-		if [ -f device.mk ]; then
-			if grep -sq "euicc.xml" device.mk; then
-				echo -e "\nPRODUCT_PACKAGES += OpenEUICC" >> device.mk;
-				echo "Enabled OpenEUICC inclusion for $1";
-			fi;
-		fi;
-		if [ -f device-lineage.mk ]; then
-			if grep -sq "euicc.xml" device-lineage.mk; then
-				echo -e "\nPRODUCT_PACKAGES += OpenEUICC" >> device-lineage.mk;
-				echo "Enabled OpenEUICC inclusion for $1";
-			fi;
-		fi;
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f includeOE;
-
 enableStrongEncryption() {
 	cd "$DOS_BUILD_BASE/$1";
 	if [ -f BoardConfig.mk ]; then

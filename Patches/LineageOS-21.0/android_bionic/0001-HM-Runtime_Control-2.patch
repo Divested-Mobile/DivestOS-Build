@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 2 May 2023 16:45:26 +0300
+Subject: [PATCH] support assigning ID to path of current executable
+
+---
+ libc/bionic/libc_init_dynamic.cpp | 27 ++++++++++++++++++++++++++-
+ libc/include/stdlib.h             |  3 +++
+ libc/libc.map.txt                 |  1 +
+ libc/private/bionic_globals.h     |  1 +
+ 4 files changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/libc/bionic/libc_init_dynamic.cpp b/libc/bionic/libc_init_dynamic.cpp
+index c61810e34..804e586e2 100644
+--- a/libc/bionic/libc_init_dynamic.cpp
++++ b/libc/bionic/libc_init_dynamic.cpp
+@@ -72,6 +72,28 @@ extern "C" __attribute__((weak)) void __hwasan_library_unloaded(ElfW(Addr) base,
+                                                                 const ElfW(Phdr)* phdr,
+                                                                 ElfW(Half) phnum);
+ 
++static void init_prog_id(libc_globals* globals) {
++  char exe_path[500];
++  ssize_t readlink_res = readlink("/proc/self/exe", exe_path, sizeof(exe_path) - 1 /* space for NUL terminator */);
++  if (readlink_res <= 0) {
++    return;
++  }
++  exe_path[readlink_res] = '\0';
++
++  int prog_id = 0;
++
++#define IS(prog) (!strcmp(exe_path, prog))
++
++#undef IS
++
++  // libc_globals struct is write-protected
++  globals->prog_id = prog_id;
++}
++
++int get_prog_id() {
++  return __libc_globals->prog_id;
++}
++
+ // We need a helper function for __libc_preinit because compiling with LTO may
+ // inline functions requiring a stack protector check, but __stack_chk_guard is
+ // not initialized at the start of __libc_preinit. __libc_preinit_impl will run
+@@ -103,7 +125,10 @@ static void __libc_preinit_impl() {
+ #endif
+ 
+   // Hooks for various libraries to let them know that we're starting up.
+-  __libc_globals.mutate(__libc_init_malloc);
++  __libc_globals.mutate([](libc_globals* globals) {
++    init_prog_id(globals);
++    __libc_init_malloc(globals);
++  });
+ 
+   // Install reserved signal handlers for assisting the platform's profilers.
+   __libc_init_profiling_handlers();
+diff --git a/libc/include/stdlib.h b/libc/include/stdlib.h
+index 2830a493d..5ce8f9103 100644
+--- a/libc/include/stdlib.h
++++ b/libc/include/stdlib.h
+@@ -210,6 +210,9 @@ long strtol_l(const char* _Nonnull __s, char* _Nullable * _Nullable __end_ptr, i
+ // Implemented as static inlines before 26.
+ #endif
+ 
++int get_prog_id();
++#define is_prog(id) (get_prog_id() == id)
++
+ __END_DECLS
+ 
+ #include <android/legacy_stdlib_inlines.h>
+diff --git a/libc/libc.map.txt b/libc/libc.map.txt
+index 156e9ee32..5d87cd8ef 100644
+--- a/libc/libc.map.txt
++++ b/libc/libc.map.txt
+@@ -420,6 +420,7 @@ LIBC {
+     get_nprocs; # introduced=23
+     get_nprocs_conf; # introduced=23
+     get_phys_pages; # introduced=23
++    get_prog_id;
+     getaddrinfo;
+     getauxval; # introduced-arm=18 introduced-arm64=21 introduced-x86=18 introduced-x86_64=21
+     getc;
+diff --git a/libc/private/bionic_globals.h b/libc/private/bionic_globals.h
+index 8ea7d4d66..66f8d84b0 100644
+--- a/libc/private/bionic_globals.h
++++ b/libc/private/bionic_globals.h
+@@ -65,6 +65,7 @@ struct libc_globals {
+   // limit is enabled and some other hook is enabled at the same time.
+   _Atomic(const MallocDispatch*) default_dispatch_table;
+   MallocDispatch malloc_dispatch_table;
++  int prog_id;
+ };
+ 
+ struct memtag_dynamic_entries_t {

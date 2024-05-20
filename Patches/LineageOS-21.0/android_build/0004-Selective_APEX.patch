@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Mon, 7 Mar 2022 01:38:23 +0000
+Subject: [PATCH] only enable APEX on 6th/7th gen Pixel devices
+
+Change-Id: Icffb72d8c3ed0e33e76538bb3427377c33c55ff9
+[tad@spotco.us]: adjusted for Lineage
+---
+ target/product/generic_system.mk | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/target/product/generic_system.mk b/target/product/generic_system.mk
+index 8ed85ab6fa..7b9ed53281 100644
+--- a/target/product/generic_system.mk
++++ b/target/product/generic_system.mk
+@@ -21,8 +21,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_default.mk)
+ # Add adb keys to debuggable AOSP builds (if they exist)
+ $(call inherit-product-if-exists, vendor/google/security/adb/vendor_key.mk)
+ 
+-# Enable updating of APEXes
+-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
++# Enable updating of APEXes on 6th and 7th generation Pixel devices only
++ifneq (,$(filter lineage_cheetah lineage_panther lineage_oriole lineage_raven lineage_bluejay lineage_lynx lineage_tangorpro lineage_felix, $(TARGET_PRODUCT)))
++    $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
++endif
+ 
+ # Shared java libs
+ PRODUCT_PACKAGES += \

@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:28:27 -0400
+Subject: [PATCH] disable OpenGL preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 87d393d97d14..f30e17183fca 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -139,9 +139,11 @@ public class ZygoteInit {
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+         nativePreloadAppProcessHALs();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+-        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
+-        maybePreloadGraphicsDriver();
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        if (fullPreload) {
++            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
++            maybePreloadGraphicsDriver();
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        }
+         preloadSharedLibraries();
+         preloadTextResources();
+         // Ask the WebViewFactory to do any initialization that must run in the zygote process,

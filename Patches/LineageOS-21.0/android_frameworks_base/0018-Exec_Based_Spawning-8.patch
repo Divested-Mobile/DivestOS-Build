@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:31:29 -0400
+Subject: [PATCH] disable WebView reservation for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 21d412a3f9ec..2ced52d06a17 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -148,9 +148,11 @@ public class ZygoteInit {
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+         preloadSharedLibraries();
+         preloadTextResources();
+-        // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+-        // for memory sharing purposes.
+-        WebViewFactory.prepareWebViewInZygote();
++        if (fullPreload) {
++            // Ask the WebViewFactory to do any initialization that must run in the zygote process,
++            // for memory sharing purposes.
++            WebViewFactory.prepareWebViewInZygote();
++        }
+         endPreload(fullPreload);
+         warmUpJcaProviders();
+         Log.d(TAG, "end preload");

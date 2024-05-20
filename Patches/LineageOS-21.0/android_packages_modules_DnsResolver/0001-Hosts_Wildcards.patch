@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tom Marshall <tdm.code@gmail.com>
+Date: Thu, 16 Jan 2020 13:07:04 -0800
+Subject: [PATCH] DnsResolver: Support wildcards in cached hosts file
+
+If an exact name is not found in the hosts file and the host name
+contains at least one dot, search for entries of the form "*.domain",
+where domain is the portion of the host name after the first dot.  If
+that is not found, repeat using the domain.
+
+Example: a.b.c.example.com would search for the following in turn:
+	a.b.c.example.com
+	*.b.c.example.com
+	*.c.example.com
+	*.example.com
+	*.com
+
+Note: this change is the analogue of the bionic change of the same name.
+Both should be kept in sync.
+
+Change-Id: I4b0bb81699151d5b371850daebf785e35ec9b170
+---
+ hosts_cache.cpp | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/hosts_cache.cpp b/hosts_cache.cpp
+index a40fb403..258eac1b 100644
+--- a/hosts_cache.cpp
++++ b/hosts_cache.cpp
+@@ -126,7 +126,7 @@ static int cmp_hcent_name(const void *a, const void *b)
+     return hstrcmp(na, nb);
+ }
+ 
+-static struct hcent *_hcfindname(const char *name)
++static struct hcent *_hcfindname_exact(const char *name)
+ {
+     size_t first, last, mid;
+     struct hcent *cur = NULL;
+@@ -167,6 +167,33 @@ found:
+     return cur;
+ }
+ 
++static struct hcent *_hcfindname(const char *name)
++{
++    struct hcent *ent;
++    char namebuf[MAX_HOSTLEN];
++    char *p;
++    char *dot;
++
++    ent = _hcfindname_exact(name);
++    if (!ent && strlen(name) < sizeof(namebuf)) {
++        strlcpy(namebuf, name, sizeof(namebuf));
++        p = namebuf;
++        do {
++            dot = strchr(p, '.');
++            if (!dot)
++                break;
++            if (dot > p) {
++                *(dot - 1) = '*';
++                ent = _hcfindname_exact(dot - 1);
++            }
++            p = dot + 1;
++        }
++        while (!ent);
++    }
++
++    return ent;
++}
++
+ /*
+  * Find next name on line, if any.
+  *

@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 13 Dec 2018 09:26:25 -0500
+Subject: [PATCH] increase max_map_count for hardened malloc
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index f261ebe49..1c6826f68 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -1121,6 +1121,8 @@ on boot
+     symlink /sys/class/block/${dev.mnt.dev.data} /dev/sys/block/by-name/userdata
+     symlink /sys/class/block/${dev.mnt.rootdisk.data} /dev/sys/block/by-name/rootdisk
+ 
++    write /proc/sys/vm/max_map_count 1048576
++
+     # F2FS tuning. Set cp_interval larger than dirty_expire_centisecs, 30 secs,
+     # to avoid power consumption when system becomes mostly idle. Be careful
+     # to make it too large, since it may bring userdata loss, if they

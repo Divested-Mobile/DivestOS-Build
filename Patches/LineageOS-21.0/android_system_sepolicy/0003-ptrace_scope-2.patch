@@ -1,0 +1,102 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Mon, 11 Oct 2021 02:35:13 +0100
+Subject: [PATCH] allow system to use persist.native_debug
+
+[tad@spotco.us]: added to older targets to match
+
+Change-Id: I16c9a17fb5d48dd1e95b55579bbf287d499b5bcc
+---
+ prebuilts/api/29.0/private/property_contexts | 1 +
+ prebuilts/api/30.0/private/property_contexts | 1 +
+ prebuilts/api/31.0/private/property_contexts | 1 +
+ prebuilts/api/32.0/private/property_contexts | 1 +
+ prebuilts/api/33.0/private/property_contexts | 1 +
+ prebuilts/api/34.0/private/property_contexts | 1 +
+ private/property_contexts                    | 1 +
+ 7 files changed, 7 insertions(+)
+
+diff --git a/prebuilts/api/29.0/private/property_contexts b/prebuilts/api/29.0/private/property_contexts
+index cb81ba693..f1fbfebd0 100644
+--- a/prebuilts/api/29.0/private/property_contexts
++++ b/prebuilts/api/29.0/private/property_contexts
+@@ -49,6 +49,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+diff --git a/prebuilts/api/30.0/private/property_contexts b/prebuilts/api/30.0/private/property_contexts
+index 7908bb107..5f2dae1e5 100644
+--- a/prebuilts/api/30.0/private/property_contexts
++++ b/prebuilts/api/30.0/private/property_contexts
+@@ -57,6 +57,7 @@ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+diff --git a/prebuilts/api/31.0/private/property_contexts b/prebuilts/api/31.0/private/property_contexts
+index e0700fe0a..3a5ca4db1 100644
+--- a/prebuilts/api/31.0/private/property_contexts
++++ b/prebuilts/api/31.0/private/property_contexts
+@@ -54,6 +54,7 @@ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+diff --git a/prebuilts/api/32.0/private/property_contexts b/prebuilts/api/32.0/private/property_contexts
+index f235b35b7..895b8f1df 100644
+--- a/prebuilts/api/32.0/private/property_contexts
++++ b/prebuilts/api/32.0/private/property_contexts
+@@ -54,6 +54,7 @@ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+diff --git a/prebuilts/api/33.0/private/property_contexts b/prebuilts/api/33.0/private/property_contexts
+index c653445eb..edbfc92ec 100644
+--- a/prebuilts/api/33.0/private/property_contexts
++++ b/prebuilts/api/33.0/private/property_contexts
+@@ -58,6 +58,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
+ persist.debug.user_mode_emulation u:object_r:system_user_mode_emulation_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+diff --git a/prebuilts/api/34.0/private/property_contexts b/prebuilts/api/34.0/private/property_contexts
+index 433144e4e..66f7bab41 100644
+--- a/prebuilts/api/34.0/private/property_contexts
++++ b/prebuilts/api/34.0/private/property_contexts
+@@ -59,6 +59,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
+ persist.debug.user_mode_emulation u:object_r:system_user_mode_emulation_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+diff --git a/private/property_contexts b/private/property_contexts
+index 5bd75ee14..6b5506bc4 100644
+--- a/private/property_contexts
++++ b/private/property_contexts
+@@ -59,6 +59,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
+ persist.debug.user_mode_emulation u:object_r:system_user_mode_emulation_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0

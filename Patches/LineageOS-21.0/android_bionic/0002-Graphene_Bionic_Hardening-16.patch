@@ -1,0 +1,97 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Renlord <me@renlord.com>
+Date: Sun, 20 Oct 2019 00:17:11 +0300
+Subject: [PATCH] add secondary stack randomization
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/bionic/pthread_create.cpp | 30 ++++++++++++++++++++++++++----
+ libc/include/sys/cdefs.h       |  1 +
+ 2 files changed, 27 insertions(+), 4 deletions(-)
+
+diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
+index f21e3a63f..035967d3c 100644
+--- a/libc/bionic/pthread_create.cpp
++++ b/libc/bionic/pthread_create.cpp
+@@ -29,6 +29,7 @@
+ #include <pthread.h>
+ 
+ #include <errno.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <sys/auxv.h>
+ #include <sys/mman.h>
+@@ -212,12 +213,24 @@ int __init_thread(pthread_internal_t* thread) {
+ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_size) {
+   const StaticTlsLayout& layout = __libc_shared_globals()->static_tls_layout;
+ 
++  // round up if the given stack size is not in multiples of PAGE_SIZE
++  stack_size = __BIONIC_ALIGN(stack_size, PAGE_SIZE);
+   size_t thread_page_size = __BIONIC_ALIGN(sizeof(pthread_internal_t), PAGE_SIZE);
+ 
+-  // Allocate in order: stack guard, stack, guard page, pthread_internal_t, static TLS, guard page.
++  // Place a randomly sized gap above the stack, up to 10% as large as the stack
++  // on 32-bit and 50% on 64-bit where virtual memory is plentiful.
++#if __LP64__
++  size_t max_gap_size = stack_size / 2;
++#else
++  size_t max_gap_size = stack_size / 10;
++#endif
++  // Make sure random stack top guard size are multiples of PAGE_SIZE.
++  size_t gap_size = __BIONIC_ALIGN(arc4random_uniform(max_gap_size), PAGE_SIZE);
++
++  // Allocate in order: stack guard, stack, (random) guard page(s), pthread_internal_t, static TLS, guard page.
+   size_t mmap_size;
+   if (__builtin_add_overflow(stack_size, stack_guard_size, &mmap_size)) return {};
+-  if (__builtin_add_overflow(mmap_size, PTHREAD_GUARD_SIZE, &mmap_size)) return {};
++  if (__builtin_add_overflow(mmap_size, gap_size, &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, thread_page_size, &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, layout.size(), &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, PTHREAD_GUARD_SIZE, &mmap_size)) return {};
+@@ -245,6 +258,9 @@ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_si
+     prot_str = "R+W+MTE";
+   }
+ #endif
++  // Stack is at the lower end of mapped space, stack guard region is at the lower end of stack.
++  // Make the usable portion of the stack between the guard region and random gap readable and
++  // writable.
+   if (mprotect(space + stack_guard_size, stack_size, prot) != 0) {
+     async_safe_format_log(
+         ANDROID_LOG_WARN, "libc",
+@@ -253,8 +269,11 @@ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_si
+     munmap(space, mmap_size);
+     return {};
+   }
++  prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, space, stack_guard_size, "stack guard");
++  char* const stack_top_guard = space + stack_guard_size + stack_size;
++  prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, stack_top_guard, gap_size, "stack top guard");
+ 
+-  char* const thread = space + stack_guard_size + stack_size + PTHREAD_GUARD_SIZE;
++  char* const thread = space + stack_guard_size + stack_size + gap_size;
+   char* const static_tls_space = thread + thread_page_size;
+ 
+   if (mprotect(thread, thread_page_size + layout.size(), PROT_READ | PROT_WRITE) != 0) {
+@@ -273,7 +292,10 @@ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_si
+   result.mmap_size_unguarded = mmap_size - stack_guard_size - PTHREAD_GUARD_SIZE;
+   result.static_tls = static_tls_space;
+   result.stack_base = space;
+-  result.stack_top = space + stack_guard_size + stack_size;
++  // Choose a random base within the first page of the stack. Waste no more
++  // than the space originally wasted by pthread_internal_t for compatibility.
++  result.stack_top = space + stack_guard_size + stack_size - arc4random_uniform(sizeof(pthread_internal_t));
++  result.stack_top = reinterpret_cast<char*>(__BIONIC_ALIGN_DOWN(reinterpret_cast<size_t>(result.stack_top), 16));
+   return result;
+ }
+ 
+diff --git a/libc/include/sys/cdefs.h b/libc/include/sys/cdefs.h
+index a8fb6240a..dd95423c4 100644
+--- a/libc/include/sys/cdefs.h
++++ b/libc/include/sys/cdefs.h
+@@ -61,6 +61,7 @@
+ #endif
+ 
+ #define __BIONIC_ALIGN(__value, __alignment) (((__value) + (__alignment)-1) & ~((__alignment)-1))
++#define __BIONIC_ALIGN_DOWN(value, alignment) ((value) & ~((alignment) - 1))
+ 
+ /*
+  * The nullness constraints of this parameter or return value are

@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Wed, 1 Nov 2023 21:27:18 +0200
+Subject: [PATCH] never enable GWP-ASan
+
+It weakens hardened_malloc protections, especially when memory tagging is enabled.
+---
+ libc/bionic/gwp_asan_wrappers.h       |  7 -------
+ libc/bionic/malloc_common.cpp         |  8 --------
+ libc/bionic/malloc_common_dynamic.cpp | 10 ----------
+ 3 files changed, 25 deletions(-)
+
+diff --git a/libc/bionic/gwp_asan_wrappers.h b/libc/bionic/gwp_asan_wrappers.h
+index 219da9fc5..9053d4aa4 100644
+--- a/libc/bionic/gwp_asan_wrappers.h
++++ b/libc/bionic/gwp_asan_wrappers.h
+@@ -35,13 +35,6 @@
+ #include "private/bionic_globals.h"
+ #include "private/bionic_malloc_dispatch.h"
+ 
+-// Enable GWP-ASan, used by android_mallopt. Should always be called in a
+-// single-threaded context.
+-bool EnableGwpAsan(const android_mallopt_gwp_asan_options_t& options);
+-
+-// Hooks for libc to possibly install GWP-ASan.
+-bool MaybeInitGwpAsanFromLibc(libc_globals* globals);
+-
+ // Returns whether GWP-ASan is the provided dispatch table pointer. Used in
+ // heapprofd's signal-initialization sequence to determine the intermediate
+ // dispatch pointer to use when initing.
+diff --git a/libc/bionic/malloc_common.cpp b/libc/bionic/malloc_common.cpp
+index 1ab4861af..9363d7b63 100644
+--- a/libc/bionic/malloc_common.cpp
++++ b/libc/bionic/malloc_common.cpp
+@@ -340,14 +340,6 @@ extern "C" bool android_mallopt(int opcode, void* arg, size_t arg_size) {
+   if (opcode == M_SET_ALLOCATION_LIMIT_BYTES) {
+     return LimitEnable(arg, arg_size);
+   }
+-  if (opcode == M_INITIALIZE_GWP_ASAN) {
+-    if (arg == nullptr || arg_size != sizeof(android_mallopt_gwp_asan_options_t)) {
+-      errno = EINVAL;
+-      return false;
+-    }
+-
+-    return EnableGwpAsan(*reinterpret_cast<android_mallopt_gwp_asan_options_t*>(arg));
+-  }
+   if (opcode == M_MEMTAG_STACK_IS_ON) {
+     if (arg == nullptr || arg_size != sizeof(bool)) {
+       errno = EINVAL;
+diff --git a/libc/bionic/malloc_common_dynamic.cpp b/libc/bionic/malloc_common_dynamic.cpp
+index 2cafe9249..84be92ee1 100644
+--- a/libc/bionic/malloc_common_dynamic.cpp
++++ b/libc/bionic/malloc_common_dynamic.cpp
+@@ -383,8 +383,6 @@ static void MallocInitImpl(libc_globals* globals) {
+   char prop[PROP_VALUE_MAX];
+   char* options = prop;
+ 
+-  MaybeInitGwpAsanFromLibc(globals);
+-
+ #if defined(USE_SCUDO)
+   __libc_shared_globals()->scudo_stack_depot = __scudo_get_stack_depot_addr();
+   __libc_shared_globals()->scudo_region_info = __scudo_get_region_info_addr();
+@@ -533,14 +531,6 @@ extern "C" bool android_mallopt(int opcode, void* arg, size_t arg_size) {
+     }
+     return FreeMallocLeakInfo(reinterpret_cast<android_mallopt_leak_info_t*>(arg));
+   }
+-  if (opcode == M_INITIALIZE_GWP_ASAN) {
+-    if (arg == nullptr || arg_size != sizeof(android_mallopt_gwp_asan_options_t)) {
+-      errno = EINVAL;
+-      return false;
+-    }
+-
+-    return EnableGwpAsan(*reinterpret_cast<android_mallopt_gwp_asan_options_t*>(arg));
+-  }
+   if (opcode == M_MEMTAG_STACK_IS_ON) {
+     if (arg == nullptr || arg_size != sizeof(bool)) {
+       errno = EINVAL;

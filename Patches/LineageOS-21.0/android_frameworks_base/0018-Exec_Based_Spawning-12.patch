@@ -1,0 +1,289 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: anupritaisno1 <www.anuprita804@gmail.com>
+Date: Sat, 31 Oct 2020 00:26:09 +0200
+Subject: [PATCH] pass through runtime flags for exec spawning and implement
+ them in the child
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ .../com/android/internal/os/ExecInit.java     |  14 +-
+ core/java/com/android/internal/os/Zygote.java |   9 +
+ .../android/internal/os/ZygoteConnection.java |   2 +-
+ core/jni/com_android_internal_os_Zygote.cpp   | 164 ++++++++++--------
+ 4 files changed, 107 insertions(+), 82 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+index 830e5b562a91..749c67abf389 100644
+--- a/core/java/com/android/internal/os/ExecInit.java
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -31,15 +31,20 @@ public class ExecInit {
+         // Parse our mandatory argument.
+         int targetSdkVersion = Integer.parseInt(args[0], 10);
+ 
++        // Parse the runtime_flags.
++        int runtimeFlags = Integer.parseInt(args[1], 10);
++
+         // Mimic system Zygote preloading.
+         ZygoteInit.preload(new TimingsTraceLog("ExecInitTiming",
+                 Trace.TRACE_TAG_DALVIK), false);
+ 
+         // Launch the application.
+-        String[] runtimeArgs = new String[args.length - 1];
+-        System.arraycopy(args, 1, runtimeArgs, 0, runtimeArgs.length);
++        String[] runtimeArgs = new String[args.length - 2];
++        System.arraycopy(args, 2, runtimeArgs, 0, runtimeArgs.length);
+         Runnable r = execInit(targetSdkVersion, runtimeArgs);
+ 
++        Zygote.nativeHandleRuntimeFlags(runtimeFlags);
++
+         r.run();
+     }
+ 
+@@ -52,9 +57,9 @@ public class ExecInit {
+      * @param args Arguments for {@link RuntimeInit#main}.
+      */
+     public static void execApplication(String niceName, int targetSdkVersion,
+-            String instructionSet, String[] args) {
++            String instructionSet, int runtimeFlags, String[] args) {
+         int niceArgs = niceName == null ? 0 : 1;
+-        int baseArgs = 5 + niceArgs;
++        int baseArgs = 6 + niceArgs;
+         String[] argv = new String[baseArgs + args.length];
+         if (VMRuntime.is64BitInstructionSet(instructionSet)) {
+             argv[0] = "/system/bin/app_process64";
+@@ -68,6 +73,7 @@ public class ExecInit {
+         }
+         argv[3 + niceArgs] = "com.android.internal.os.ExecInit";
+         argv[4 + niceArgs] = Integer.toString(targetSdkVersion);
++        argv[5 + niceArgs] = Integer.toString(runtimeFlags);
+         System.arraycopy(args, 0, argv, baseArgs, args.length);
+ 
+         WrapperInit.preserveCapabilities();
+diff --git a/core/java/com/android/internal/os/Zygote.java b/core/java/com/android/internal/os/Zygote.java
+index cab84bb01f70..07691fcec545 100644
+--- a/core/java/com/android/internal/os/Zygote.java
++++ b/core/java/com/android/internal/os/Zygote.java
+@@ -1497,4 +1497,13 @@ public final class Zygote {
+         }
+         return runtimeFlags;
+     }
++
++    /**
++     * Used on GrapheneOS to set up runtime flags
++     *
++     * @param runtimeFlags flags to be passed to the native method
++     *
++     * @hide
++     */
++    public static native void nativeHandleRuntimeFlags(int runtimeFlags);
+ }
+diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
+index cc936ccefb91..eea7b1e57b37 100644
+--- a/core/java/com/android/internal/os/ZygoteConnection.java
++++ b/core/java/com/android/internal/os/ZygoteConnection.java
+@@ -539,7 +539,7 @@ class ZygoteConnection {
+                 if (SystemProperties.getBoolean("sys.spawn.exec", false) &&
+                         (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                     ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
+-                            VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);
++                            VMRuntime.getCurrentInstructionSet(), parsedArgs.mRuntimeFlags, parsedArgs.mRemainingArgs);
+ 
+                     // Should not get here.
+                     throw new IllegalStateException("ExecInit.execApplication unexpectedly returned");
+diff --git a/core/jni/com_android_internal_os_Zygote.cpp b/core/jni/com_android_internal_os_Zygote.cpp
+index 7c5885adb220..9fc92a480e1e 100644
+--- a/core/jni/com_android_internal_os_Zygote.cpp
++++ b/core/jni/com_android_internal_os_Zygote.cpp
+@@ -1872,6 +1872,86 @@ static void BindMountStorageDirs(JNIEnv* env, jobjectArray pkg_data_info_list,
+   }
+ }
+ 
++static void HandleRuntimeFlags(JNIEnv* env, jint& runtime_flags, const char* process_name, const char* nice_name_ptr) {
++    // Set process properties to enable debugging if required.
++    if ((runtime_flags & RuntimeFlags::DEBUG_ENABLE_PTRACE) != 0) {
++        EnableDebugger();
++        // Don't pass unknown flag to the ART runtime.
++        runtime_flags &= ~RuntimeFlags::DEBUG_ENABLE_PTRACE;
++    }
++    if ((runtime_flags & RuntimeFlags::PROFILE_FROM_SHELL) != 0) {
++        // simpleperf needs the process to be dumpable to profile it.
++        if (prctl(PR_SET_DUMPABLE, 1, 0, 0, 0) == -1) {
++            ALOGE("prctl(PR_SET_DUMPABLE) failed: %s", strerror(errno));
++            RuntimeAbort(env, __LINE__, "prctl(PR_SET_DUMPABLE, 1) failed");
++        }
++    }
++
++    HeapTaggingLevel heap_tagging_level;
++    switch (runtime_flags & RuntimeFlags::MEMORY_TAG_LEVEL_MASK) {
++        case RuntimeFlags::MEMORY_TAG_LEVEL_TBI:
++            heap_tagging_level = M_HEAP_TAGGING_LEVEL_TBI;
++            break;
++        case RuntimeFlags::MEMORY_TAG_LEVEL_ASYNC:
++            heap_tagging_level = M_HEAP_TAGGING_LEVEL_ASYNC;
++            break;
++        case RuntimeFlags::MEMORY_TAG_LEVEL_SYNC:
++            heap_tagging_level = M_HEAP_TAGGING_LEVEL_SYNC;
++            break;
++        default:
++            heap_tagging_level = M_HEAP_TAGGING_LEVEL_NONE;
++            break;
++    }
++    mallopt(M_BIONIC_SET_HEAP_TAGGING_LEVEL, heap_tagging_level);
++
++    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
++    // runtime.
++    runtime_flags &= ~RuntimeFlags::MEMORY_TAG_LEVEL_MASK;
++
++    // Avoid heap zero initialization for applications without MTE. Zero init may
++    // cause app compat problems, use more memory, or reduce performance. While it
++    // would be nice to have them for apps, we will have to wait until they are
++    // proven out, have more efficient hardware, and/or apply them only to new
++    // applications.
++    if (!(runtime_flags & RuntimeFlags::NATIVE_HEAP_ZERO_INIT_ENABLED)) {
++        mallopt(M_BIONIC_ZERO_INIT, 0);
++    }
++
++    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
++    // runtime.
++    runtime_flags &= ~RuntimeFlags::NATIVE_HEAP_ZERO_INIT_ENABLED;
++
++    android_mallopt_gwp_asan_options_t gwp_asan_options;
++    const char* kGwpAsanAppRecoverableSysprop =
++            "persist.device_config.memory_safety_native.gwp_asan_recoverable_apps";
++    // The system server doesn't have its nice name set by the time SpecializeCommon is called.
++    gwp_asan_options.program_name = nice_name_ptr ?: process_name;
++    switch (runtime_flags & RuntimeFlags::GWP_ASAN_LEVEL_MASK) {
++        default:
++        case RuntimeFlags::GWP_ASAN_LEVEL_DEFAULT:
++            gwp_asan_options.desire = GetBoolProperty(kGwpAsanAppRecoverableSysprop, true)
++                    ? Action::TURN_ON_FOR_APP_SAMPLED_NON_CRASHING
++                    : Action::DONT_TURN_ON_UNLESS_OVERRIDDEN;
++            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
++            break;
++        case RuntimeFlags::GWP_ASAN_LEVEL_NEVER:
++            gwp_asan_options.desire = Action::DONT_TURN_ON_UNLESS_OVERRIDDEN;
++            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
++            break;
++        case RuntimeFlags::GWP_ASAN_LEVEL_ALWAYS:
++            gwp_asan_options.desire = Action::TURN_ON_FOR_APP;
++            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
++            break;
++        case RuntimeFlags::GWP_ASAN_LEVEL_LOTTERY:
++            gwp_asan_options.desire = Action::TURN_ON_WITH_SAMPLING;
++            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
++            break;
++    }
++    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
++    // runtime.
++    runtime_flags &= ~RuntimeFlags::GWP_ASAN_LEVEL_MASK;
++}
++
+ // Utility routine to specialize a zygote child process.
+ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids, jint runtime_flags,
+                              jobjectArray rlimits, jlong permitted_capabilities,
+@@ -2019,84 +2099,9 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids,
+         }
+     }
+ 
+-    // Set process properties to enable debugging if required.
+-    if ((runtime_flags & RuntimeFlags::DEBUG_ENABLE_PTRACE) != 0) {
+-        EnableDebugger();
+-        // Don't pass unknown flag to the ART runtime.
+-        runtime_flags &= ~RuntimeFlags::DEBUG_ENABLE_PTRACE;
+-    }
+-    if ((runtime_flags & RuntimeFlags::PROFILE_FROM_SHELL) != 0) {
+-        // simpleperf needs the process to be dumpable to profile it.
+-        if (prctl(PR_SET_DUMPABLE, 1, 0, 0, 0) == -1) {
+-            ALOGE("prctl(PR_SET_DUMPABLE) failed: %s", strerror(errno));
+-            RuntimeAbort(env, __LINE__, "prctl(PR_SET_DUMPABLE, 1) failed");
+-        }
+-    }
+-
+-    HeapTaggingLevel heap_tagging_level;
+-    switch (runtime_flags & RuntimeFlags::MEMORY_TAG_LEVEL_MASK) {
+-        case RuntimeFlags::MEMORY_TAG_LEVEL_TBI:
+-            heap_tagging_level = M_HEAP_TAGGING_LEVEL_TBI;
+-            break;
+-        case RuntimeFlags::MEMORY_TAG_LEVEL_ASYNC:
+-            heap_tagging_level = M_HEAP_TAGGING_LEVEL_ASYNC;
+-            break;
+-        case RuntimeFlags::MEMORY_TAG_LEVEL_SYNC:
+-            heap_tagging_level = M_HEAP_TAGGING_LEVEL_SYNC;
+-            break;
+-        default:
+-            heap_tagging_level = M_HEAP_TAGGING_LEVEL_NONE;
+-            break;
+-    }
+-    mallopt(M_BIONIC_SET_HEAP_TAGGING_LEVEL, heap_tagging_level);
+-
+-    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
+-    // runtime.
+-    runtime_flags &= ~RuntimeFlags::MEMORY_TAG_LEVEL_MASK;
+-
+-    // Avoid heap zero initialization for applications without MTE. Zero init may
+-    // cause app compat problems, use more memory, or reduce performance. While it
+-    // would be nice to have them for apps, we will have to wait until they are
+-    // proven out, have more efficient hardware, and/or apply them only to new
+-    // applications.
+-    if (!(runtime_flags & RuntimeFlags::NATIVE_HEAP_ZERO_INIT_ENABLED)) {
+-        mallopt(M_BIONIC_ZERO_INIT, 0);
+-    }
+-
+-    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
+-    // runtime.
+-    runtime_flags &= ~RuntimeFlags::NATIVE_HEAP_ZERO_INIT_ENABLED;
+-
+     const char* nice_name_ptr = nice_name.has_value() ? nice_name.value().c_str() : nullptr;
+-    android_mallopt_gwp_asan_options_t gwp_asan_options;
+-    const char* kGwpAsanAppRecoverableSysprop =
+-            "persist.device_config.memory_safety_native.gwp_asan_recoverable_apps";
+-    // The system server doesn't have its nice name set by the time SpecializeCommon is called.
+-    gwp_asan_options.program_name = nice_name_ptr ?: process_name;
+-    switch (runtime_flags & RuntimeFlags::GWP_ASAN_LEVEL_MASK) {
+-        default:
+-        case RuntimeFlags::GWP_ASAN_LEVEL_DEFAULT:
+-            gwp_asan_options.desire = GetBoolProperty(kGwpAsanAppRecoverableSysprop, true)
+-                    ? Action::TURN_ON_FOR_APP_SAMPLED_NON_CRASHING
+-                    : Action::DONT_TURN_ON_UNLESS_OVERRIDDEN;
+-            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
+-            break;
+-        case RuntimeFlags::GWP_ASAN_LEVEL_NEVER:
+-            gwp_asan_options.desire = Action::DONT_TURN_ON_UNLESS_OVERRIDDEN;
+-            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
+-            break;
+-        case RuntimeFlags::GWP_ASAN_LEVEL_ALWAYS:
+-            gwp_asan_options.desire = Action::TURN_ON_FOR_APP;
+-            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
+-            break;
+-        case RuntimeFlags::GWP_ASAN_LEVEL_LOTTERY:
+-            gwp_asan_options.desire = Action::TURN_ON_WITH_SAMPLING;
+-            android_mallopt(M_INITIALIZE_GWP_ASAN, &gwp_asan_options, sizeof(gwp_asan_options));
+-            break;
+-    }
+-    // Now that we've used the flag, clear it so that we don't pass unknown flags to the ART
+-    // runtime.
+-    runtime_flags &= ~RuntimeFlags::GWP_ASAN_LEVEL_MASK;
++
++    HandleRuntimeFlags(env, runtime_flags, process_name, nice_name_ptr);
+ 
+     SetCapabilities(permitted_capabilities, effective_capabilities, permitted_capabilities,
+                     fail_fn);
+@@ -3004,6 +3009,10 @@ static void com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload(JNIEn
+     gPreloadFdsExtracted = true;
+ }
+ 
++static void nativeHandleRuntimeFlagsWrapper(JNIEnv* env, jclass, jint runtime_flags) {
++    HandleRuntimeFlags(env, runtime_flags, nullptr, nullptr);
++}
++
+ static const JNINativeMethod gMethods[] = {
+         {"nativeForkAndSpecialize",
+          "(II[II[[IILjava/lang/String;Ljava/lang/String;[I[IZLjava/lang/String;Ljava/lang/"
+@@ -3056,6 +3065,7 @@ static const JNINativeMethod gMethods[] = {
+          (void*)com_android_internal_os_Zygote_nativeMarkOpenedFilesBeforePreload},
+         {"nativeAllowFilesOpenedByPreload", "()V",
+          (void*)com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload},
++        {"nativeHandleRuntimeFlags", "(I)V", (void*)nativeHandleRuntimeFlagsWrapper},
+ };
+ 
+ int register_com_android_internal_os_Zygote(JNIEnv* env) {

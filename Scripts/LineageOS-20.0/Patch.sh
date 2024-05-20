@@ -156,19 +156,19 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0015-Bluetooth_Timeout-Fix.patc
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0017-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-2.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-3.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-4.patch";
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-5.patch"; #XXX: reverted upstream
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-6.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-7.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-8.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-9.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-10.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-13.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-14.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-2.patch"; #Disable exec spawning when using debugging options (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-3.patch"; #Add parameter for avoiding full preload with exec (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-4.patch"; #Pass through fullPreload to libcore (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-5.patch"; #Disable OpenGL preloading for exec spawning (GrapheneOS) XXX: reverted upstream
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-6.patch"; #Disable resource preloading for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-7.patch"; #Disable class preloading for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-8.patch"; #Disable WebView reservation for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-9.patch"; #Disable JCA provider warm up for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-10.patch"; #Disable preloading classloaders for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.patch"; #Disable preloading HALs for exec spawning (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch"; #Pass through runtime flags for exec spawning and implement them in the child (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-13.patch"; #exec spawning: don't close the binder connection when the app crashes (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-14.patch"; #exec spawning: support runtime resource overlays (GrapheneOS)
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
@@ -288,7 +288,7 @@ fi;
 #fi;
 
 if enterAndClear "packages/apps/CellBroadcastReceiver"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_CellBroadcastReceiver/0001-presidential_alert_toggle.patch"; #Allow toggling presidential alertss (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_CellBroadcastReceiver/0001-presidential_alert_toggle.patch"; #Allow toggling presidential alerts (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -361,7 +361,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Swit
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support (DivestOS)
 if [ "$DOS_OTA_SERVER_EXTENDED" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0003-Server_Choices.patch"; fi; #Add server choices (DivestOS)
 sed -i 's/PROP_BUILD_VERSION_INCREMENTAL);/PROP_BUILD_VERSION_INCREMENTAL).replaceAll("\\\\.", "");/' app/src/main/java/org/lineageos/updater/misc/Utils.java; #Remove periods from incremental version
-#TODO: Remove changelog
 fi;
 
 if enterAndClear "packages/inputmethods/LatinIME"; then
@@ -459,7 +458,7 @@ awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i '/TARGET_EXCLUDES_AUDIOFX/,+3d' config/common_full.mk; fi; #Remove AudioFX
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/*.mk; #Change buildtype
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
-#cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
+cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 awk -i inplace '!/Eleven/' config/common_full.mk; #Remove Music Player
 awk -i inplace '!/enforce-product-packages-exist-internal/' config/common.mk; #Ignore missing packages
 cp -f "$DOS_PATCHES_COMMON/config_webview_packages.xml" overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Change allowed WebView providers
@@ -567,7 +566,6 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'updateRegDb "{}"';
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableAPEX "{}"';
-#if [ "$DOS_DEBLOBBER_REMOVE_EUICC_FULL" = false ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'includeOE "{}"'; fi;
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableEnforceRRO "{}"'; fi;
 cd "$DOS_BUILD_BASE";
 deblobAudio;
@@ -577,7 +575,7 @@ enableAutoVarInit || true;
 changeDefaultDNS; #Change the default DNS servers
 fixupCarrierConfigs || true; #Remove silly carrier restrictions
 removeUntrustedCerts || true;
-sed -i 's/SSLv23_NO_TLSv1_2/TLSv1_2/' device/*/*/gps*xml* device/*/*/location/gps*xml* device/*/*/gnss/*/config/gps*xml*; #Enforce TLSv1.2 for SUPL on Tensor devices (GrapheneOS)
+sed -i 's/SSLv23_NO_TLSv1_2/TLSv1_2/' device/*/*/gps*xml* device/*/*/location/gps*xml* device/*/*/gnss/*/config/gps*xml* || true;; #Enforce TLSv1.2 for SUPL on Tensor devices (GrapheneOS)
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 

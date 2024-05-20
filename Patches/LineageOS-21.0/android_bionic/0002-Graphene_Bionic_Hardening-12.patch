@@ -1,0 +1,87 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 27 Jan 2016 18:02:15 -0500
+Subject: [PATCH] add XOR mangling mitigation for thread-local dtors
+
+memtag_stack struct member is required to be at its exact position by static_assert below.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/bionic/__cxa_thread_atexit_impl.cpp | 8 +++++---
+ libc/bionic/libc_init_common.cpp         | 2 ++
+ libc/private/bionic_globals.h            | 1 +
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/libc/bionic/__cxa_thread_atexit_impl.cpp b/libc/bionic/__cxa_thread_atexit_impl.cpp
+index 99077c101..74608513e 100644
+--- a/libc/bionic/__cxa_thread_atexit_impl.cpp
++++ b/libc/bionic/__cxa_thread_atexit_impl.cpp
+@@ -13,15 +13,17 @@
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
++#include <stdint.h>
+ #include <sys/cdefs.h>
+ 
+ #include <private/bionic_defs.h>
++#include <private/bionic_globals.h>
+ 
+ #include "pthread_internal.h"
+ 
+ class thread_local_dtor {
+  public:
+-  void (*func) (void *);
++  uintptr_t func;
+   void *arg;
+   void *dso_handle; // unused...
+   thread_local_dtor* next;
+@@ -35,7 +37,7 @@ __BIONIC_WEAK_FOR_NATIVE_BRIDGE
+ int __cxa_thread_atexit_impl(void (*func) (void *), void *arg, void *dso_handle) {
+   thread_local_dtor* dtor = new thread_local_dtor();
+ 
+-  dtor->func = func;
++  dtor->func = __libc_globals->dtor_cookie ^ reinterpret_cast<uintptr_t>(func);
+   dtor->arg = arg;
+   dtor->dso_handle = dso_handle;
+ 
+@@ -54,7 +56,7 @@ extern "C" __LIBC_HIDDEN__ void __cxa_thread_finalize() {
+     thread_local_dtor* current = thread->thread_local_dtors;
+     thread->thread_local_dtors = current->next;
+ 
+-    current->func(current->arg);
++    (reinterpret_cast<void (*)(void*)>(__libc_globals->dtor_cookie ^ current->func))(current->arg);
+     if (__loader_remove_thread_local_dtor != nullptr) {
+       __loader_remove_thread_local_dtor(current->dso_handle);
+     }
+diff --git a/libc/bionic/libc_init_common.cpp b/libc/bionic/libc_init_common.cpp
+index 7ef79b61a..9c946b077 100644
+--- a/libc/bionic/libc_init_common.cpp
++++ b/libc/bionic/libc_init_common.cpp
+@@ -46,6 +46,7 @@
+ #include "heap_tagging.h"
+ #include "private/ScopedPthreadMutexLocker.h"
+ #include "private/WriteProtected.h"
++#include "private/bionic_arc4random.h"
+ #include "private/bionic_defs.h"
+ #include "private/bionic_globals.h"
+ #include "private/bionic_tls.h"
+@@ -70,6 +71,7 @@ void __libc_init_globals() {
+   __libc_globals.mutate([](libc_globals* globals) {
+     __libc_init_vdso(globals);
+     __libc_init_setjmp_cookie(globals);
++    arc4random_buf(&globals->dtor_cookie, sizeof(globals->dtor_cookie));
+   });
+ }
+ 
+diff --git a/libc/private/bionic_globals.h b/libc/private/bionic_globals.h
+index 66f8d84b0..bd34e3a08 100644
+--- a/libc/private/bionic_globals.h
++++ b/libc/private/bionic_globals.h
+@@ -50,6 +50,7 @@ struct libc_globals {
+   uintptr_t heap_pointer_tag;
+   _Atomic(bool) memtag_stack;
+   _Atomic(bool) decay_time_enabled;
++  long dtor_cookie;
+ 
+   // In order to allow a complete switch between dispatch tables without
+   // the need for copying each function by function in the structure,

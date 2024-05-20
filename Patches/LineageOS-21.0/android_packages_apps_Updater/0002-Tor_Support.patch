@@ -1,0 +1,397 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 20 Sep 2018 21:44:53 -0400
+Subject: [PATCH] Add support for routing over Tor
+
+Change-Id: Ibfe080c3d801af34fb64fda1b6b8f4f39a2b1ccf
+---
+ app/src/main/AndroidManifest.xml              |  4 ++
+ .../lineageos/updater/UpdatesActivity.java    | 12 ++++
+ .../updater/UpdatesCheckReceiver.java         |  4 ++
+ .../updater/controller/UpdaterController.java |  8 +++
+ .../updater/download/DownloadClient.java      |  8 ++-
+ .../download/HttpURLConnectionClient.java     | 27 ++++++--
+ .../org/lineageos/updater/misc/Constants.java |  1 +
+ .../org/lineageos/updater/misc/Utils.java     | 65 +++++++++++++++++++
+ .../main/res/layout/preferences_dialog.xml    |  8 +++
+ app/src/main/res/values/strings.xml           |  2 +
+ 10 files changed, 134 insertions(+), 5 deletions(-)
+
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index 80fd2bc..02d2b53 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -14,6 +14,10 @@
+     <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
+     <uses-permission android:name="android.permission.WAKE_LOCK" />
+ 
++    <queries>
++        <package android:name="org.torproject.android" />
++    </queries>
++
+     <application
+         android:allowBackup="false"
+         android:icon="@mipmap/ic_launcher"
+diff --git a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
+index 25ca0b8..4dbc077 100644
+--- a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
++++ b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
+@@ -473,10 +473,14 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+ 
+         final DownloadClient downloadClient;
+         try {
++            if(Utils.isOnionRoutingEnabled(getApplicationContext())) {
++                Utils.requestStartOrbot(getApplicationContext());
++            }
+             downloadClient = new DownloadClient.Builder()
+                     .setUrl(url)
+                     .setDestination(jsonFileTmp)
+                     .setDownloadCallback(callback)
++                    .setUseOnionRouting(Utils.isOnionRoutingEnabled(getApplicationContext()))
+                     .build();
+         } catch (IOException exception) {
+             Log.e(TAG, "Could not build download client");
+@@ -580,6 +584,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+     private void showPreferencesDialog() {
+         View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
+         Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
++        SwitchCompat onionRouting = view.findViewById(R.id.preferences_onion_routing);
+         SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
+         SwitchCompat meteredNetworkWarning = view.findViewById(
+                 R.id.preferences_metered_network_warning);
+@@ -592,6 +597,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+ 
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+         autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
++        onionRouting.setChecked(prefs.getBoolean(Constants.PREF_ONION_ROUTING, false));
+         autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
+         meteredNetworkWarning.setChecked(prefs.getBoolean(Constants.PREF_METERED_NETWORK_WARNING,
+                 prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true)));
+@@ -632,6 +638,8 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+                     prefs.edit()
+                             .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
+                                     autoCheckInterval.getSelectedItemPosition())
++                            .putBoolean(Constants.PREF_ONION_ROUTING,
++                                    onionRouting.isChecked() && Utils.isOrbotInstalled(getApplicationContext()))
+                             .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
+                             .putBoolean(Constants.PREF_METERED_NETWORK_WARNING,
+                                     meteredNetworkWarning.isChecked())
+@@ -645,6 +653,10 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+                         UpdatesCheckReceiver.cancelUpdatesCheck(this);
+                     }
+ 
++                    if(onionRouting.isChecked() && !Utils.isOrbotInstalled(getApplicationContext())) {
++                        showSnackbar(R.string.snack_orbot_not_available, Snackbar.LENGTH_LONG);
++                    }
++
+                     if (Utils.isABDevice()) {
+                         boolean enableABPerfMode = abPerfMode.isChecked();
+                         mUpdaterService.getUpdaterController().setPerformanceMode(enableABPerfMode);
+diff --git a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
+index 9f45423..382fbd4 100644
+--- a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
++++ b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
+@@ -110,10 +110,14 @@ public class UpdatesCheckReceiver extends BroadcastReceiver {
+         };
+ 
+         try {
++            if(Utils.isOnionRoutingEnabled(context)) {
++                Utils.requestStartOrbot(context);
++            }
+             DownloadClient downloadClient = new DownloadClient.Builder()
+                     .setUrl(url)
+                     .setDestination(jsonNew)
+                     .setDownloadCallback(callback)
++                    .setUseOnionRouting(Utils.isOnionRoutingEnabled(context))
+                     .build();
+             downloadClient.start();
+         } catch (IOException e) {
+diff --git a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
+index daa710c..1e51c5b 100644
+--- a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
++++ b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
+@@ -374,12 +374,16 @@ public class UpdaterController {
+         update.setFile(destination);
+         DownloadClient downloadClient;
+         try {
++            if(Utils.isOnionRoutingEnabled(mContext)) {
++                Utils.requestStartOrbot(mContext);
++            }
+             downloadClient = new DownloadClient.Builder()
+                     .setUrl(update.getDownloadUrl())
+                     .setDestination(update.getFile())
+                     .setDownloadCallback(getDownloadCallback(downloadId))
+                     .setProgressListener(getProgressListener(downloadId))
+                     .setUseDuplicateLinks(true)
++                    .setUseOnionRouting(Utils.isOnionRoutingEnabled(mContext))
+                     .build();
+         } catch (IOException exception) {
+             Log.e(TAG, "Could not build download client");
+@@ -419,6 +423,9 @@ public class UpdaterController {
+             verifyUpdateAsync(downloadId);
+             notifyUpdateChange(downloadId);
+         } else {
++            if(Utils.isOnionRoutingEnabled(mContext)) {
++                Utils.requestStartOrbot(mContext);
++            }
+             DownloadClient downloadClient;
+             try {
+                 downloadClient = new DownloadClient.Builder()
+@@ -427,6 +434,7 @@ public class UpdaterController {
+                         .setDownloadCallback(getDownloadCallback(downloadId))
+                         .setProgressListener(getProgressListener(downloadId))
+                         .setUseDuplicateLinks(true)
++                        .setUseOnionRouting(Utils.isOnionRoutingEnabled(mContext))
+                         .build();
+             } catch (IOException exception) {
+                 Log.e(TAG, "Could not build download client");
+diff --git a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
+index 3494947..7a7f7cf 100644
+--- a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
++++ b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
+@@ -60,6 +60,7 @@ public interface DownloadClient {
+         private DownloadClient.DownloadCallback mCallback;
+         private DownloadClient.ProgressListener mProgressListener;
+         private boolean mUseDuplicateLinks;
++        private boolean mOnionRouting;
+ 
+         public DownloadClient build() throws IOException {
+             if (mUrl == null) {
+@@ -70,7 +71,7 @@ public interface DownloadClient {
+                 throw new IllegalStateException("No download callback defined");
+             }
+             return new HttpURLConnectionClient(mUrl, mDestination, mProgressListener, mCallback,
+-                    mUseDuplicateLinks);
++                    mUseDuplicateLinks, mOnionRouting);
+         }
+ 
+         public Builder setUrl(String url) {
+@@ -97,5 +98,10 @@ public interface DownloadClient {
+             mUseDuplicateLinks = useDuplicateLinks;
+             return this;
+         }
++
++        public Builder setUseOnionRouting(boolean onionRouting) {
++            mOnionRouting = onionRouting;
++            return this;
++        }
+     }
+ }
+diff --git a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
+index b9c4b5d..b94fff0 100644
+--- a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
++++ b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
+@@ -18,12 +18,16 @@ package org.lineageos.updater.download;
+ import android.os.SystemClock;
+ import android.util.Log;
+ 
++import org.lineageos.updater.misc.Utils;
++
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.OutputStream;
+ import java.net.HttpURLConnection;
++import java.net.InetSocketAddress;
++import java.net.Proxy;
+ import java.net.URL;
+ import java.util.Comparator;
+ import java.util.List;
+@@ -42,6 +46,7 @@ public class HttpURLConnectionClient implements DownloadClient {
+     private final DownloadClient.ProgressListener mProgressListener;
+     private final DownloadClient.DownloadCallback mCallback;
+     private final boolean mUseDuplicateLinks;
++    private final boolean mUseOnionRouting;
+ 
+     private DownloadThread mDownloadThread;
+ 
+@@ -56,8 +61,14 @@ public class HttpURLConnectionClient implements DownloadClient {
+     HttpURLConnectionClient(String url, File destination,
+             DownloadClient.ProgressListener progressListener,
+             DownloadClient.DownloadCallback callback,
+-            boolean useDuplicateLinks) throws IOException {
+-        mClient = (HttpURLConnection) new URL(url).openConnection();
++            boolean useDuplicateLinks, boolean useOnionRouting) throws IOException {
++        mUseOnionRouting = useOnionRouting;
++        if(mUseOnionRouting) {
++            Proxy orbot = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
++            mClient = (HttpURLConnection) new URL(url).openConnection(orbot);
++        } else {
++            mClient = (HttpURLConnection) new URL(url).openConnection();
++        }
+         mDestination = destination;
+         mProgressListener = progressListener;
+         mCallback = callback;
+@@ -177,7 +188,12 @@ public class HttpURLConnectionClient implements DownloadClient {
+         private void changeClientUrl(URL newUrl) throws IOException {
+             String range = mClient.getRequestProperty("Range");
+             mClient.disconnect();
+-            mClient = (HttpURLConnection) newUrl.openConnection();
++            if(mUseOnionRouting) {
++                Proxy orbot = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
++                mClient = (HttpURLConnection) newUrl.openConnection(orbot);
++            } else {
++                mClient = (HttpURLConnection) newUrl.openConnection();
++            }
+             if (range != null) {
+                 mClient.setRequestProperty("Range", range);
+             }
+@@ -232,7 +248,7 @@ public class HttpURLConnectionClient implements DownloadClient {
+                     }
+                     Log.d(TAG, "Downloading from " + newUrl);
+                     changeClientUrl(url);
+-                    mClient.setConnectTimeout(5000);
++                    mClient.setConnectTimeout(mUseOnionRouting ? 45000 : 5000);
+                     mClient.connect();
+                     if (!isSuccessCode(mClient.getResponseCode())) {
+                         throw new IOException("Server replied with " + mClient.getResponseCode());
+@@ -257,6 +273,9 @@ public class HttpURLConnectionClient implements DownloadClient {
+         public void run() {
+             boolean justResumed = false;
+             try {
++                if(mUseOnionRouting) {
++                    Utils.waitUntilOrbotIsAvailable();
++                }
+                 mClient.setInstanceFollowRedirects(!mUseDuplicateLinks);
+                 mClient.connect();
+                 int responseCode = mClient.getResponseCode();
+diff --git a/app/src/main/java/org/lineageos/updater/misc/Constants.java b/app/src/main/java/org/lineageos/updater/misc/Constants.java
+index beb9423..a51ab15 100644
+--- a/app/src/main/java/org/lineageos/updater/misc/Constants.java
++++ b/app/src/main/java/org/lineageos/updater/misc/Constants.java
+@@ -30,6 +30,7 @@ public final class Constants {
+ 
+     public static final String PREF_LAST_UPDATE_CHECK = "last_update_check";
+     public static final String PREF_AUTO_UPDATES_CHECK_INTERVAL = "auto_updates_check_interval";
++    public static final String PREF_ONION_ROUTING = "onion_routing";
+     public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
+     public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
+     public static final String PREF_METERED_NETWORK_WARNING = "pref_metered_network_warning";
+diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
+index f3d334b..67ad386 100644
+--- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
++++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
+@@ -46,6 +46,7 @@ import java.io.BufferedReader;
+ import java.io.File;
+ import java.io.FileReader;
+ import java.io.IOException;
++import java.net.Socket;
+ import java.util.ArrayList;
+ import java.util.Enumeration;
+ import java.util.HashSet;
+@@ -151,11 +152,75 @@ public class Utils {
+         return updates;
+     }
+ 
++    //Credit: https://stackoverflow.com/a/6758962
++    public static boolean isPackageInstalled(Context context, String packageID) {
++        PackageManager pm = context.getPackageManager();
++        try {
++            pm.getPackageInfo(packageID, PackageManager.GET_META_DATA);
++        } catch(PackageManager.NameNotFoundException e) {
++            return false;
++        }
++        return true;
++    }
++
++    public static boolean isOrbotInstalled(Context context) {
++        return isPackageInstalled(context, "org.torproject.android");
++    }
++
++    public static boolean isOnionRoutingEnabled(Context context) {
++        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
++        return preferences.getBoolean(Constants.PREF_ONION_ROUTING, false);
++    }
++
++    //Credit: OrbotHelper/NetCipher
++    public static void requestStartOrbot(Context context) {
++        Intent intent = new Intent("org.torproject.android.intent.action.START");
++        intent.setPackage("org.torproject.android");
++        intent.putExtra("org.torproject.android.intent.extra.PACKAGE_NAME", context.getPackageName());
++        context.sendBroadcast(intent);
++    }
++
++    //Credit: https://www.geekality.net/2013/04/30/java-simple-check-to-see-if-a-server-is-listening-on-a-port/
++    public static boolean isPortListening(String host, int port) {
++        Socket s = null;
++        try {
++            s = new Socket(host, port);
++            return true;
++        } catch(Exception e) {
++            return false;
++        } finally {
++            if (s != null) {
++                try {
++                    s.close();
++                } catch(Exception e1) {
++                }
++            }
++        }
++    }
++
++    public static boolean waitUntilOrbotIsAvailable() {
++        int tries = 0;
++        boolean listening;
++        while(!(listening = isPortListening("127.0.0.1", 9050)) && tries <= 60) {
++            tries++;
++            try {
++                Thread.sleep(1000);
++            } catch(Exception e) {
++
++            }
++        }
++        return listening;
++    }
++
+     public static String getServerURL(Context context) {
+         String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
+         String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
+                 SystemProperties.get(Constants.PROP_DEVICE));
+         String server = "0OTA_SERVER_CLEARNET0";
++        String serverOnion = "0OTA_SERVER_ONION0";
++        if(serverOnion.toLowerCase().startsWith("http") && isOnionRoutingEnabled(context)) {
++            server = serverOnion;
++        }
+ 
+         return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
+     }
+diff --git a/app/src/main/res/layout/preferences_dialog.xml b/app/src/main/res/layout/preferences_dialog.xml
+index c1b4356..93f1bfc 100644
+--- a/app/src/main/res/layout/preferences_dialog.xml
++++ b/app/src/main/res/layout/preferences_dialog.xml
+@@ -29,6 +29,14 @@
+             android:entries="@array/menu_auto_updates_check_interval_entries" />
+     </LinearLayout>
+ 
++    <androidx.appcompat.widget.SwitchCompat
++        android:id="@+id/preferences_onion_routing"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="16dp"
++        android:text="@string/menu_onion_routing"
++        android:textSize="16sp" />
++
+     <androidx.appcompat.widget.SwitchCompat
+         android:id="@+id/preferences_auto_delete_updates"
+         android:layout_width="match_parent"
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index b59cea4..841be10 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -79,6 +79,7 @@
+     <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
+     <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
+     <string name="menu_auto_updates_check_interval_never">Never</string>
++    <string name="menu_onion_routing">Perform requests over Tor</string>
+     <string name="menu_auto_delete_updates">Delete updates when installed</string>
+     <string name="menu_delete_update">Delete</string>
+     <string name="menu_copy_url">Copy URL</string>
+@@ -96,6 +97,7 @@
+     <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
+     <string name="snack_download_verification_failed">The update verification failed.</string>
+     <string name="snack_download_verified">Download completed.</string>
++    <string name="snack_orbot_not_available">Orbot is not installed, disabling Tor routing!</string>
+ 
+     <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
+ 

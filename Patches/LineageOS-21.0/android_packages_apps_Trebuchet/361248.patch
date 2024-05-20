@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Davide Garberi <dade.garberi@gmail.com>
+Date: Wed, 12 Jul 2023 15:55:29 +0200
+Subject: [PATCH] Launcher3: Allow toggling monochrome icons for all apps
+
+ * This feature has been added by Google in Android 13 QPR2, but
+   hasn't been enabled by default
+ * Instead of forcing it to always enabled, add a toggle so that
+   users can choose whether they want it or not.
+
+Change-Id: I6bf7aa4aca22f80231b06123a9c5fd0386bde851
+---
+ res/values/lineage_strings.xml                        | 4 ++++
+ res/xml/launcher_preferences.xml                      | 7 +++++++
+ src/com/android/launcher3/InvariantDeviceProfile.java | 5 +++++
+ src/com/android/launcher3/icons/LauncherIcons.java    | 3 ++-
+ 4 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/res/values/lineage_strings.xml b/res/values/lineage_strings.xml
+index dd03335495..87f58a47c9 100644
+--- a/res/values/lineage_strings.xml
++++ b/res/values/lineage_strings.xml
+@@ -39,6 +39,10 @@
+     <string name="pref_themed_icons_title">Use themed icons in drawer</string>
+     <string name="pref_themed_icons_summary">Follow themed icons used on home screen</string>
+ 
++    <!-- Force monocrome icons -->
++    <string name="pref_force_mono_icons_title">Force monochrome icons</string>
++    <string name="pref_force_mono_icons_summary">Force monochrome icons for apps that don\'t support them natively</string>
++
+     <!-- Hide labels -->
+     <string name="desktop_show_labels">Show icon labels on desktop</string>
+     <string name="drawer_show_labels">Show icon labels in drawer</string>
+diff --git a/res/xml/launcher_preferences.xml b/res/xml/launcher_preferences.xml
+index 83ef5b3bd2..a10c0f5365 100644
+--- a/res/xml/launcher_preferences.xml
++++ b/res/xml/launcher_preferences.xml
+@@ -84,6 +84,13 @@
+         android:defaultValue="false"
+         android:persistent="true" />
+ 
++    <SwitchPreference
++        android:key="pref_force_mono_icons"
++        android:title="@string/pref_force_mono_icons_title"
++        android:summary="@string/pref_force_mono_icons_summary"
++        android:defaultValue="false"
++        android:persistent="true" />
++
+     <SwitchPreference
+         android:key="pref_desktop_show_labels"
+         android:title="@string/desktop_show_labels"
+diff --git a/src/com/android/launcher3/InvariantDeviceProfile.java b/src/com/android/launcher3/InvariantDeviceProfile.java
+index 6e03a40ce2..65708a349e 100644
+--- a/src/com/android/launcher3/InvariantDeviceProfile.java
++++ b/src/com/android/launcher3/InvariantDeviceProfile.java
+@@ -94,10 +94,13 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener
+     private static final float ICON_SIZE_DEFINED_IN_APP_DP = 48;
+ 
+     public static final String KEY_ALLAPPS_THEMED_ICONS = "pref_allapps_themed_icons";
++    public static final String KEY_FORCE_MONO_ICONS = "pref_force_mono_icons";
+     public static final String KEY_SHOW_DESKTOP_LABELS = "pref_desktop_show_labels";
+     public static final String KEY_SHOW_DRAWER_LABELS = "pref_drawer_show_labels";
+     public static final String KEY_WORKSPACE_LOCK = "pref_workspace_lock";
+ 
++    public static boolean mPrefForceMonoIcons;
++
+     // Constants that affects the interpolation curve between statically defined device profile
+     // buckets.
+     private static final float KNEARESTNEIGHBOR = 3;
+@@ -356,6 +359,8 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener
+     @Override
+     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+         switch (key) {
++            case KEY_FORCE_MONO_ICONS:
++                mPrefForceMonoIcons = prefs.getBoolean(key, false);
+             case KEY_ALLAPPS_THEMED_ICONS:
+             case KEY_SHOW_DESKTOP_LABELS:
+             case KEY_SHOW_DRAWER_LABELS:
+diff --git a/src/com/android/launcher3/icons/LauncherIcons.java b/src/com/android/launcher3/icons/LauncherIcons.java
+index a15348bb57..920294ef57 100644
+--- a/src/com/android/launcher3/icons/LauncherIcons.java
++++ b/src/com/android/launcher3/icons/LauncherIcons.java
+@@ -103,7 +103,8 @@ public class LauncherIcons extends BaseIconFactory implements AutoCloseable {
+     @Override
+     protected Drawable getMonochromeDrawable(Drawable base) {
+         Drawable mono = super.getMonochromeDrawable(base);
+-        if (mono != null || !ENABLE_FORCED_MONO_ICON.get()) {
++        if (mono != null || (!ENABLE_FORCED_MONO_ICON.get() &&
++            !InvariantDeviceProfile.mPrefForceMonoIcons)) {
+             return mono;
+         }
+         if (mMonochromeIconFactory == null) {

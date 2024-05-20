@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+	<remote name="gitlab" fetch="https://gitlab.com/" />
+
+<!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
+	<remove-project name="LineageOS/android_external_bash" />
+	<remove-project name="LineageOS/android_external_htop" />
+	<remove-project name="LineageOS/android_external_libncurses" />
+	<remove-project name="LineageOS/android_external_nano" />
+	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_rsync" />
+	<remove-project name="LineageOS/android_external_unrar" />
+	<remove-project name="LineageOS/android_external_vim" />
+	<remove-project name="LineageOS/android_packages_apps_Eleven" />
+	<remove-project name="LineageOS/android_packages_apps_Jelly" />
+	<!--<remove-project name="LineageOS/android_packages_apps_Stk" />-->
+	<remove-project name="LineageOS/charter" />
+	<remove-project name="LineageOS/cm_crowdin" />
+	<remove-project name="LineageOS/contributors-cloud-generator" />
+	<remove-project name="LineageOS/hudson" />
+	<remove-project name="LineageOS/lineage_wiki" />
+	<remove-project name="LineageOS/mirror" />
+	<remove-project name="LineageOS/www" />
+	<remove-project name="platform/packages/apps/Browser2" />
+	<remove-project name="platform/packages/apps/Music" />
+	<remove-project name="platform/packages/apps/MusicFX" />
+	<remove-project name="platform/packages/apps/QuickSearchBox" />
+	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
+	<!--<remove-project name="platform/packages/modules/AdServices" />-->
+	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
+	<remove-project name="platform/prebuilts/go/darwin-x86" />
+<!-- END OF UNNECESSARY REPO REMOVAL -->
+
+<!-- START OF BRANCH SWITCHING -->
+	<!--<remove-project name="platform/external/swiftshader" />
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
+
+	<!-- Switch to the Mulch WebView -->
+	<remove-project name="LineageOS/android_external_chromium-webview_patches" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm64" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86_64" />
+	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
+<!-- END OF BRANCH SWITCHING -->
+
+<!-- START OF ADDITIONAL REPOS -->
+	<!-- GrapheneOS -->
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
+<!-- END OF ADDITIONAL REPOS -->
+
+<!-- START OF DEVICE REPOS -->
+	<!-- Common -->
+	<project path="system/qcom" name="LineageOS/android_system_qcom" remote="github" revision="lineage-21" />
+	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" revision="lineage-21" />
+	<project path="hardware/sony/macaddrsetup" name="LineageOS/android_hardware_sony_macaddrsetup" remote="github" revision="lineage-21" />
+	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" revision="lineage-21" />
+	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" revision="lineage-21" />
+	<project path="hardware/sony/timekeep" remote="github" name="LineageOS/android_hardware_sony_timekeep" revision="lineage-21" />
+	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
+
+	<!-- Google Pixel 6 (oriole/raven) -->
+	<project path="device/google/oriole" name="LineageOS/android_device_google_oriole" remote="github" revision="lineage-21" />
+	<project path="device/google/raven" name="LineageOS/android_device_google_raven" remote="github" revision="lineage-21" />
+	<project path="device/google/raviole" name="LineageOS/android_device_google_raviole" remote="github" revision="lineage-21" />
+	<project path="device/google/gs101" name="LineageOS/android_device_google_gs101" remote="github" revision="lineage-21" />
+
+	<!-- Google Pixel 6a (bluejay) -->
+	<project path="device/google/bluejay" name="LineageOS/android_device_google_bluejay" remote="github" revision="lineage-21" />
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel 7 (panther/cheetah) -->
+	<project path="device/google/panther" name="LineageOS/android_device_google_panther" remote="github" revision="lineage-21" />
+	<project path="device/google/cheetah" name="LineageOS/android_device_google_cheetah" remote="github" revision="lineage-21" />
+	<project path="device/google/pantah" name="LineageOS/android_device_google_pantah" remote="github" revision="lineage-21" />
+	<project path="device/google/gs201" name="LineageOS/android_device_google_gs201" remote="github" revision="lineage-21" />
+	<project path="kernel/google/gs201/private/gs-google" name="LineageOS/android_kernel_google_gs201" remote="github" revision="lineage-21" />
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel 7a (lynx) -->
+	<project path="device/google/lynx" name="LineageOS/android_device_google_lynx" remote="github" revision="lineage-21" />
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel Tablet (tangorpro) -->
+	<project path="device/google/tangorpro" name="LineageOS/android_device_google_tangorpro" remote="github" revision="lineage-21" />
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel Fold (felix) -->
+	<project path="device/google/felix" name="LineageOS/android_device_google_felix" remote="github" revision="lineage-21" />
+	<!-- uses gs101 commons -->
+
+        <!-- Proprietary Blobs -->
+	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="github" revision="lineage-21" />
+	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="github" revision="lineage-21" />
+	<project path="vendor/google/felix" name="[COLOUR IN THE LINES]/proprietary_vendor_google_felix" remote="github" revision="lineage-21" />
+	<project path="vendor/google/lynx" name="[COLOUR IN THE LINES]/proprietary_vendor_google_lynx" remote="github" revision="lineage-21" />
+	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="github" revision="lineage-21" />
+	<project path="vendor/google/panther" name="[COLOUR IN THE LINES]/proprietary_vendor_google_panther" remote="github" revision="lineage-21" />
+	<project path="vendor/google/raven" name="[COLOUR IN THE LINES]/proprietary_vendor_google_raven" remote="github" revision="lineage-21" />
+	<project path="vendor/google/tangorpro" name="[COLOUR IN THE LINES]/proprietary_vendor_google_tangorpro" remote="github" revision="lineage-21" />
+</manifest>

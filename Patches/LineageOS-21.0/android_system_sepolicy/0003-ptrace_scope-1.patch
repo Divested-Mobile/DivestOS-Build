@@ -1,0 +1,298 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Mon, 11 Oct 2021 02:33:31 +0100
+Subject: [PATCH] allow init to control kernel.yama.ptrace_scope
+
+[tad@spotco.us]: added to older targets to match
+
+Change-Id: Idfbb70acab59a551bdb1f0e1a99b843d87d4362d
+---
+ prebuilts/api/29.0/private/domain.te      | 1 +
+ prebuilts/api/29.0/private/genfs_contexts | 1 +
+ prebuilts/api/29.0/public/init.te         | 3 +++
+ prebuilts/api/30.0/private/domain.te      | 1 +
+ prebuilts/api/30.0/private/genfs_contexts | 1 +
+ prebuilts/api/30.0/public/init.te         | 3 +++
+ prebuilts/api/31.0/private/domain.te      | 1 +
+ prebuilts/api/31.0/private/genfs_contexts | 1 +
+ prebuilts/api/31.0/public/init.te         | 3 +++
+ prebuilts/api/32.0/private/domain.te      | 1 +
+ prebuilts/api/32.0/private/genfs_contexts | 1 +
+ prebuilts/api/32.0/public/init.te         | 3 +++
+ prebuilts/api/33.0/private/domain.te      | 1 +
+ prebuilts/api/33.0/private/genfs_contexts | 1 +
+ prebuilts/api/33.0/public/init.te         | 3 +++
+ prebuilts/api/34.0/private/domain.te      | 1 +
+ prebuilts/api/34.0/private/genfs_contexts | 1 +
+ prebuilts/api/34.0/public/init.te         | 3 +++
+ private/domain.te                         | 1 +
+ private/genfs_contexts                    | 1 +
+ public/init.te                            | 3 +++
+ 21 files changed, 35 insertions(+)
+
+diff --git a/prebuilts/api/29.0/private/domain.te b/prebuilts/api/29.0/private/domain.te
+index 447176ed0..74541b1be 100644
+--- a/prebuilts/api/29.0/private/domain.te
++++ b/prebuilts/api/29.0/private/domain.te
+@@ -86,6 +86,7 @@ userdebug_or_eng(`
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/29.0/private/genfs_contexts b/prebuilts/api/29.0/private/genfs_contexts
+index 804996685..22a1ebf8d 100644
+--- a/prebuilts/api/29.0/private/genfs_contexts
++++ b/prebuilts/api/29.0/private/genfs_contexts
+@@ -68,6 +68,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/29.0/public/init.te b/prebuilts/api/29.0/public/init.te
+index 2d52f5966..aa0036f1b 100644
+--- a/prebuilts/api/29.0/public/init.te
++++ b/prebuilts/api/29.0/public/init.te
+@@ -121,6 +121,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/prebuilts/api/30.0/private/domain.te b/prebuilts/api/30.0/private/domain.te
+index 430cb3f09..0b2c6ef25 100644
+--- a/prebuilts/api/30.0/private/domain.te
++++ b/prebuilts/api/30.0/private/domain.te
+@@ -125,6 +125,7 @@ allow domain boringssl_self_test_marker:dir search;
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/30.0/private/genfs_contexts b/prebuilts/api/30.0/private/genfs_contexts
+index 53d7ffa9e..e9c80fe8b 100644
+--- a/prebuilts/api/30.0/private/genfs_contexts
++++ b/prebuilts/api/30.0/private/genfs_contexts
+@@ -70,6 +70,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/30.0/public/init.te b/prebuilts/api/30.0/public/init.te
+index 403b4c5e6..e7630cd98 100644
+--- a/prebuilts/api/30.0/public/init.te
++++ b/prebuilts/api/30.0/public/init.te
+@@ -144,6 +144,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/prebuilts/api/31.0/private/domain.te b/prebuilts/api/31.0/private/domain.te
+index b91d36d85..d4ca398de 100644
+--- a/prebuilts/api/31.0/private/domain.te
++++ b/prebuilts/api/31.0/private/domain.te
+@@ -116,6 +116,7 @@ allow domain boringssl_self_test_marker:dir search;
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/31.0/private/genfs_contexts b/prebuilts/api/31.0/private/genfs_contexts
+index 30f3496e6..5c3332f1a 100644
+--- a/prebuilts/api/31.0/private/genfs_contexts
++++ b/prebuilts/api/31.0/private/genfs_contexts
+@@ -76,6 +76,7 @@ genfscon proc /sys/kernel/sched_util_clamp_min_rt_default u:object_r:proc_sched:
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/31.0/public/init.te b/prebuilts/api/31.0/public/init.te
+index ea5a9793d..49b23ee61 100644
+--- a/prebuilts/api/31.0/public/init.te
++++ b/prebuilts/api/31.0/public/init.te
+@@ -153,6 +153,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/prebuilts/api/32.0/private/domain.te b/prebuilts/api/32.0/private/domain.te
+index b91d36d85..d4ca398de 100644
+--- a/prebuilts/api/32.0/private/domain.te
++++ b/prebuilts/api/32.0/private/domain.te
+@@ -116,6 +116,7 @@ allow domain boringssl_self_test_marker:dir search;
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/32.0/private/genfs_contexts b/prebuilts/api/32.0/private/genfs_contexts
+index 30f3496e6..5c3332f1a 100644
+--- a/prebuilts/api/32.0/private/genfs_contexts
++++ b/prebuilts/api/32.0/private/genfs_contexts
+@@ -76,6 +76,7 @@ genfscon proc /sys/kernel/sched_util_clamp_min_rt_default u:object_r:proc_sched:
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/32.0/public/init.te b/prebuilts/api/32.0/public/init.te
+index ea5a9793d..49b23ee61 100644
+--- a/prebuilts/api/32.0/public/init.te
++++ b/prebuilts/api/32.0/public/init.te
+@@ -153,6 +153,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/prebuilts/api/33.0/private/domain.te b/prebuilts/api/33.0/private/domain.te
+index bcb9d52e3..cb2140740 100644
+--- a/prebuilts/api/33.0/private/domain.te
++++ b/prebuilts/api/33.0/private/domain.te
+@@ -139,6 +139,7 @@ neverallow {
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/33.0/private/genfs_contexts b/prebuilts/api/33.0/private/genfs_contexts
+index 6c4bf98eb..b99ed055e 100644
+--- a/prebuilts/api/33.0/private/genfs_contexts
++++ b/prebuilts/api/33.0/private/genfs_contexts
+@@ -79,6 +79,7 @@ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/unprivileged_bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/net/core/bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/33.0/public/init.te b/prebuilts/api/33.0/public/init.te
+index 8dcdd3346..551bc6a55 100644
+--- a/prebuilts/api/33.0/public/init.te
++++ b/prebuilts/api/33.0/public/init.te
+@@ -155,6 +155,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/prebuilts/api/34.0/private/domain.te b/prebuilts/api/34.0/private/domain.te
+index f98a285cb..d75be249e 100644
+--- a/prebuilts/api/34.0/private/domain.te
++++ b/prebuilts/api/34.0/private/domain.te
+@@ -203,6 +203,7 @@ neverallow {
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/34.0/private/genfs_contexts b/prebuilts/api/34.0/private/genfs_contexts
+index 26213b258..aa95387a6 100644
+--- a/prebuilts/api/34.0/private/genfs_contexts
++++ b/prebuilts/api/34.0/private/genfs_contexts
+@@ -78,6 +78,7 @@ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/unprivileged_bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/net/core/bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/34.0/public/init.te b/prebuilts/api/34.0/public/init.te
+index a399b3aeb..05e8443c1 100644
+--- a/prebuilts/api/34.0/public/init.te
++++ b/prebuilts/api/34.0/public/init.te
+@@ -155,6 +155,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/private/domain.te b/private/domain.te
+index 2f107dde0..77f09d959 100644
+--- a/private/domain.te
++++ b/private/domain.te
+@@ -203,6 +203,7 @@ neverallow {
+ # with other UIDs to these allowlisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index 19083cef2..393d8a6c7 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -79,6 +79,7 @@ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/unprivileged_bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/net/core/bpf_ u:object_r:proc_bpf:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+diff --git a/public/init.te b/public/init.te
+index 29dd42d43..08f9a7075 100644
+--- a/public/init.te
++++ b/public/init.te
+@@ -156,6 +156,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;

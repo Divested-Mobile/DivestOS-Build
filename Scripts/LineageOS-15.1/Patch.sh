@@ -438,7 +438,6 @@ fi;
 if enterAndClear "packages/apps/Updater"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support (DivestOS)
-#TODO: Remove changelog
 fi;
 
 if enterAndClear "packages/apps/WallpaperPicker"; then

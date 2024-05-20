@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 23 Aug 2017 20:28:03 -0400
+Subject: [PATCH] use -fwrapv when signed overflow checking is off
+
+13: 62bea80ab9189b81a8728b71b284b7afba9d5969
+---
+ cc/cc.go       |  2 ++
+ cc/cc_test.go  |  2 +-
+ cc/sanitize.go | 14 ++++++++++++++
+ 3 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/cc/cc.go b/cc/cc.go
+index 9d5b8d894..01cae261a 100644
+--- a/cc/cc.go
++++ b/cc/cc.go
+@@ -2052,6 +2052,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
+ 	}
+ 	if c.sanitize != nil {
+ 		flags = c.sanitize.flags(ctx, flags)
++	} else {
++		flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
+ 	}
+ 	if c.coverage != nil {
+ 		flags, deps = c.coverage.flags(ctx, flags, deps)
+diff --git a/cc/cc_test.go b/cc/cc_test.go
+index 3631f1998..af9498499 100644
+--- a/cc/cc_test.go
++++ b/cc/cc_test.go
+@@ -4427,7 +4427,7 @@ func TestIncludeDirectoryOrdering(t *testing.T) {
+ 	conly := []string{"-fPIC", "${config.CommonGlobalConlyflags}"}
+ 	cppOnly := []string{"-fPIC", "${config.CommonGlobalCppflags}", "${config.DeviceGlobalCppflags}", "${config.ArmCppflags}"}
+ 
+-	cflags := []string{"-Werror", "-std=candcpp"}
++	cflags := []string{"-Werror", "-std=candcpp", "-fwrapv"}
+ 	cstd := []string{"-std=gnu17", "-std=conly"}
+ 	cppstd := []string{"-std=gnu++20", "-std=cpp", "-fno-rtti"}
+ 
+diff --git a/cc/sanitize.go b/cc/sanitize.go
+index 31c050018..38eeb12af 100644
+--- a/cc/sanitize.go
++++ b/cc/sanitize.go
+@@ -787,8 +787,22 @@ func toDisableUnsignedShiftBaseChange(flags []string) bool {
+ 
+ func (s *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
+ 	if !s.Properties.SanitizerEnabled && !s.Properties.UbsanRuntimeDep {
++		flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
+ 		return flags
+ 	}
++
++	wrapv := true
++	for _, san := range s.Properties.Sanitizers {
++		if san == "signed-integer-overflow" || san == "integer" || san == "undefined" {
++			wrapv = false
++			break
++		}
++	}
++
++	if wrapv {
++		flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
++	}
++
+ 	sanProps := &s.Properties.SanitizeMutated
+ 
+ 	if Bool(sanProps.Address) {

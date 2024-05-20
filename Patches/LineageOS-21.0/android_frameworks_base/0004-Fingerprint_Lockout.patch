@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 12 Sep 2017 01:52:11 -0400
+Subject: [PATCH] use permanent fingerprint lockout immediately
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ .../sensors/fingerprint/hidl/LockoutFrameworkImpl.java          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java b/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
+index 0730c672acd9..cbd7a8963eb1 100644
+--- a/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
++++ b/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
+@@ -43,7 +43,7 @@ public class LockoutFrameworkImpl implements LockoutTracker {
+     private static final String ACTION_LOCKOUT_RESET =
+             "com.android.server.biometrics.sensors.fingerprint.ACTION_LOCKOUT_RESET";
+     private static final int MAX_FAILED_ATTEMPTS_LOCKOUT_TIMED = 5;
+-    private static final int MAX_FAILED_ATTEMPTS_LOCKOUT_PERMANENT = 20;
++    private static final int MAX_FAILED_ATTEMPTS_LOCKOUT_PERMANENT = 5;
+     private static final long FAIL_LOCKOUT_TIMEOUT_MS = 30 * 1000;
+     private static final String KEY_LOCKOUT_RESET_USER = "lockout_reset_user";
+ 

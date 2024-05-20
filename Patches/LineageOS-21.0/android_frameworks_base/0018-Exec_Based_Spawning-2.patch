@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 21 May 2019 23:54:20 -0400
+Subject: [PATCH] disable exec spawning when using debugging options
+
+The debugging options are not yet supported probably, so disable exec
+spawning when doing debugging.
+---
+ core/java/com/android/internal/os/ZygoteConnection.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
+index 9e78c3a8b16c..cc936ccefb91 100644
+--- a/core/java/com/android/internal/os/ZygoteConnection.java
++++ b/core/java/com/android/internal/os/ZygoteConnection.java
+@@ -536,7 +536,8 @@ class ZygoteConnection {
+             throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
+         } else {
+             if (!isZygote) {
+-                if (SystemProperties.getBoolean("sys.spawn.exec", false)) {
++                if (SystemProperties.getBoolean("sys.spawn.exec", false) &&
++                        (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                     ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
+                             VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);
+ 

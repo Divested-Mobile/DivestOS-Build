@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 11 Oct 2019 05:52:49 +0300
+Subject: [PATCH] move pthread_internal_t behind guard page
+
+---
+ libc/bionic/pthread_create.cpp | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
+
+diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
+index 88e57f973..f21e3a63f 100644
+--- a/libc/bionic/pthread_create.cpp
++++ b/libc/bionic/pthread_create.cpp
+@@ -212,10 +212,13 @@ int __init_thread(pthread_internal_t* thread) {
+ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_size) {
+   const StaticTlsLayout& layout = __libc_shared_globals()->static_tls_layout;
+ 
+-  // Allocate in order: stack guard, stack, guard page, static TLS, guard page.
++  size_t thread_page_size = __BIONIC_ALIGN(sizeof(pthread_internal_t), PAGE_SIZE);
++
++  // Allocate in order: stack guard, stack, guard page, pthread_internal_t, static TLS, guard page.
+   size_t mmap_size;
+   if (__builtin_add_overflow(stack_size, stack_guard_size, &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, PTHREAD_GUARD_SIZE, &mmap_size)) return {};
++  if (__builtin_add_overflow(mmap_size, thread_page_size, &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, layout.size(), &mmap_size)) return {};
+   if (__builtin_add_overflow(mmap_size, PTHREAD_GUARD_SIZE, &mmap_size)) return {};
+ 
+@@ -251,13 +254,14 @@ ThreadMapping __allocate_thread_mapping(size_t stack_size, size_t stack_guard_si
+     return {};
+   }
+ 
+-  char* const static_tls_space = space + stack_guard_size + stack_size + PTHREAD_GUARD_SIZE;
++  char* const thread = space + stack_guard_size + stack_size + PTHREAD_GUARD_SIZE;
++  char* const static_tls_space = thread + thread_page_size;
+ 
+-  if (mprotect(static_tls_space, layout.size(), PROT_READ | PROT_WRITE) != 0) {
++  if (mprotect(thread, thread_page_size + layout.size(), PROT_READ | PROT_WRITE) != 0) {
+     async_safe_format_log(
+         ANDROID_LOG_WARN, "libc",
+-        "pthread_create failed: couldn't mprotect R+W %zu-byte static TLS mapping region: %m",
+-        layout.size());
++        "pthread_create failed: couldn't mprotect R+W %zu-byte static TLS and pthread_internal mapping region: %m",
++         thread_page_size + layout.size());
+     munmap(space, mmap_size);
+     return {};
+   }
+@@ -299,13 +303,8 @@ static int __allocate_thread(pthread_attr_t* attr, bionic_tcb** tcbp, void** chi
+     stack_top = static_cast<char*>(attr->stack_base) + attr->stack_size;
+   }
+ 
+-  // Carve out space from the stack for the thread's pthread_internal_t. This
+-  // memory isn't counted in pthread_attr_getstacksize.
+-
+-  // To safely access the pthread_internal_t and thread stack, we need to find a 16-byte aligned boundary.
+-  stack_top = align_down(stack_top - sizeof(pthread_internal_t), 16);
+-
+-  pthread_internal_t* thread = reinterpret_cast<pthread_internal_t*>(stack_top);
++  pthread_internal_t* thread = reinterpret_cast<pthread_internal_t*>(
++      mapping.static_tls - __BIONIC_ALIGN(sizeof(pthread_internal_t), PAGE_SIZE));
+   if (!stack_clean) {
+     // If thread was not allocated by mmap(), it may not have been cleared to zero.
+     // So assume the worst and zero it.

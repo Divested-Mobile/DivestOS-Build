@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <38294951+flawedworld@users.noreply.github.com>
+Date: Mon, 5 Apr 2021 03:02:51 +0100
+Subject: [PATCH] add a property for controlling ptrace_scope
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ rootdir/init.rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 0a8dd41f1..f261ebe49 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -1231,6 +1231,12 @@ on property:perf.drop_caches=3
+ on property:net.tcp_def_init_rwnd=*
+     write /proc/sys/net/ipv4/tcp_default_init_rwnd ${net.tcp_def_init_rwnd}
+ 
++on property:persist.native_debug=true
++    write /proc/sys/kernel/yama/ptrace_scope 0
++
++on property:persist.native_debug=false
++    write /proc/sys/kernel/yama/ptrace_scope 2
++
+ # perf_event_open syscall security:
+ # Newer kernels have the ability to control the use of the syscall via SELinux
+ # hooks. init tests for this, and sets sys_init.perf_lsm_hooks to 1 if the

@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:57:24 -0400
+Subject: [PATCH] disable preloading classloaders for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 55c68981f919..699899e02f85 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -132,9 +132,11 @@ public class ZygoteInit {
+             preloadClasses();
+             bootTimingsTraceLog.traceEnd(); // PreloadClasses
+         }
+-        bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+-        cacheNonBootClasspathClassLoaders();
+-        bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
++            cacheNonBootClasspathClassLoaders();
++            bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
++        }
+         if (fullPreload) {
+             bootTimingsTraceLog.traceBegin("PreloadResources");
+             Resources.preloadResources();

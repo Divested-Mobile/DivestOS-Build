@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:30:59 -0400
+Subject: [PATCH] disable class preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 5cd919d49014..21d412a3f9ec 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -127,9 +127,11 @@ public class ZygoteInit {
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+         beginPreload(fullPreload);
+         bootTimingsTraceLog.traceEnd(); // BeginPreload
+-        bootTimingsTraceLog.traceBegin("PreloadClasses");
+-        preloadClasses();
+-        bootTimingsTraceLog.traceEnd(); // PreloadClasses
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("PreloadClasses");
++            preloadClasses();
++            bootTimingsTraceLog.traceEnd(); // PreloadClasses
++        }
+         bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+         cacheNonBootClasspathClassLoaders();
+         bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders

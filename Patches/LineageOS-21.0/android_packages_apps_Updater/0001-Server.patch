@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 20 Sep 2018 16:43:46 -0400
+Subject: [PATCH] Switch to our update server
+
+Change-Id: I26dc2942736cf0cfe4e7b92ddfdd04b9d74dbae5
+---
+ .../main/java/org/lineageos/updater/misc/Utils.java   | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
+index b7ba720..f3d334b 100644
+--- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
++++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
+@@ -155,16 +155,9 @@ public class Utils {
+         String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
+         String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
+                 SystemProperties.get(Constants.PROP_DEVICE));
+-        String type = SystemProperties.get(Constants.PROP_RELEASE_TYPE).toLowerCase(Locale.ROOT);
++        String server = "0OTA_SERVER_CLEARNET0";
+ 
+-        String serverUrl = SystemProperties.get(Constants.PROP_UPDATER_URI);
+-        if (serverUrl.trim().isEmpty()) {
+-            serverUrl = context.getString(R.string.updater_server_url);
+-        }
+-
+-        return serverUrl.replace("{device}", device)
+-                .replace("{type}", type)
+-                .replace("{incr}", incrementalVersion);
++        return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
+     }
+ 
+     public static String getUpgradeBlockedURL(Context context) {

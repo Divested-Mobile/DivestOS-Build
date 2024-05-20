@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 14 Sep 2017 00:03:16 -0400
+Subject: [PATCH] disable personalized dicts by default
+
+---
+ java/res/xml/prefs_screen_correction.xml                        | 1 -
+ .../com/android/inputmethod/latin/settings/SettingsValues.java  | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/java/res/xml/prefs_screen_correction.xml b/java/res/xml/prefs_screen_correction.xml
+index a943dc1a3..6f6b3666c 100644
+--- a/java/res/xml/prefs_screen_correction.xml
++++ b/java/res/xml/prefs_screen_correction.xml
+@@ -57,7 +57,6 @@
+         android:key="pref_key_use_personalized_dicts"
+         android:title="@string/use_personalized_dicts"
+         android:summary="@string/use_personalized_dicts_summary"
+-        android:defaultValue="true"
+         android:persistent="true" />
+     <CheckBoxPreference
+         android:key="pref_key_use_contacts_dict"
+diff --git a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+index 8eec5b0f3..76fcbdb3a 100644
+--- a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
++++ b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+@@ -150,7 +150,7 @@ public class SettingsValues {
+                 ? Settings.readShowsLanguageSwitchKey(prefs) : true /* forcibly */;
+         mShowsEmojiKey = prefs.getBoolean(Settings.PREF_SHOW_EMOJI_KEY, false);
+         mUseContactsDict = prefs.getBoolean(Settings.PREF_KEY_USE_CONTACTS_DICT, true);
+-        mUsePersonalizedDicts = prefs.getBoolean(Settings.PREF_KEY_USE_PERSONALIZED_DICTS, true);
++        mUsePersonalizedDicts = prefs.getBoolean(Settings.PREF_KEY_USE_PERSONALIZED_DICTS, false);
+         mUseDoubleSpacePeriod = prefs.getBoolean(Settings.PREF_KEY_USE_DOUBLE_SPACE_PERIOD, true)
+                 && inputAttributes.mIsGeneralTextInput;
+         mBlockPotentiallyOffensive = Settings.readBlockPotentiallyOffensive(prefs, res);

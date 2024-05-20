@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 19 Sep 2016 07:57:43 -0400
+Subject: [PATCH] fix undefined out-of-bounds accesses in sched.h
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/include/sched.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/libc/include/sched.h b/libc/include/sched.h
+index b1f18421b..20e25662f 100644
+--- a/libc/include/sched.h
++++ b/libc/include/sched.h
+@@ -215,7 +215,10 @@ int sched_getcpu(void);
+  * statically-sized CPU set. See `CPU_ALLOC` for dynamically-sized CPU sets.
+  */
+ typedef struct {
+-  __CPU_BITTYPE  __bits[ CPU_SETSIZE / __CPU_BITS ];
++  union {
++    __CPU_BITTYPE  __bits_minimum[ CPU_SETSIZE / __CPU_BITS ];
++    __CPU_BITTYPE  __bits[0];
++  };
+ } cpu_set_t;
+ 
+ /**

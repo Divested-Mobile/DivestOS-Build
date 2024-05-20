@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 13 Sep 2016 22:05:56 -0400
+Subject: [PATCH] use -fwrapv when signed overflow checking is off
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ core/config_sanitizers.mk | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/core/config_sanitizers.mk b/core/config_sanitizers.mk
+index 3507961833..01cb295bfe 100644
+--- a/core/config_sanitizers.mk
++++ b/core/config_sanitizers.mk
+@@ -572,3 +572,9 @@ ifneq ($(findstring fsanitize,$(my_cflags)),)
+     endif
+   endif
+ endif
++
++ifeq ($(filter signed-integer-overflow integer undefined,$(my_sanitize)),)
++  ifeq ($(filter -ftrapv,$(my_cflags)),)
++    my_cflags += -fwrapv
++  endif
++endif

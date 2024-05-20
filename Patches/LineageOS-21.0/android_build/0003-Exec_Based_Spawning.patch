@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 17 Sep 2020 10:53:00 -0400
+Subject: [PATCH] disable enforce RRO for mainline devices
+
+This is currently incompatible with exec-based spawning. This also
+impacts the wrapper spawning model for the stock OS which is available
+by default, making it an upstream bug rather than a missing feature for
+exec-based spawning in GrapheneOS.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ target/product/generic_system.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/product/generic_system.mk b/target/product/generic_system.mk
+index 08a7cdf83e..8ed85ab6fa 100644
+--- a/target/product/generic_system.mk
++++ b/target/product/generic_system.mk
+@@ -112,7 +112,7 @@ PRODUCT_COPY_FILES += \
+ # Enable dynamic partition size
+ PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
+ 
+-PRODUCT_ENFORCE_RRO_TARGETS := *
++#PRODUCT_ENFORCE_RRO_TARGETS := *
+ 
+ PRODUCT_NAME := generic_system
+ PRODUCT_BRAND := generic

@@ -1,0 +1,40 @@
+From 66d463347a80617e13f5c5f26b4be07380421876 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 27 Dec 2022 11:40:14 +0200
+Subject: [PATCH] don't allow updating system packages to the same versionCode
+
+versionCode of many system packages, including privileged ones, is set to the current SDK version
+and is thus not incremented during non-major OS upgrades.
+This allowed to downgrade them to the older version that had the same versionCode.
+---
+ .../android/server/pm/InstallPackageHelper.java | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/InstallPackageHelper.java b/services/core/java/com/android/server/pm/InstallPackageHelper.java
+index 4d58218b0cc7..71abd7fd1f89 100644
+--- a/services/core/java/com/android/server/pm/InstallPackageHelper.java
++++ b/services/core/java/com/android/server/pm/InstallPackageHelper.java
+@@ -1624,7 +1624,22 @@ && cannotInstallWithBadPermissionGroups(parsedPackage)) {
+                 }
+ 
+                 if (abortInstall) {
+-                    throw new PrepareFailure(INSTALL_FAILED_INTERNAL_ERROR, message);
++                    throw new PrepareFailure(PackageManager.INSTALL_FAILED_INTERNAL_ERROR, message);
++                }
++            }
++
++            if (parsedPackage.getLongVersionCode() == systemPackage.getLongVersionCode()) {
++                String message = "Not allowed to update system package to the same versionCode";
++                boolean abortInstall = true;
++
++                if (Build.IS_DEBUGGABLE) {
++                    if (SystemProperties.getBoolean("persist.disable_same_versionCode_sys_pkg_update_check", false)) {
++                        Slog.d(TAG, message + ": " + parsedPackage.getManifestPackageName());
++                        abortInstall = false;
++                    }
++                }
++                if (abortInstall) {
++                    throw new PrepareFailure(PackageManager.INSTALL_FAILED_INTERNAL_ERROR, message);
+                 }
+             }
+         }

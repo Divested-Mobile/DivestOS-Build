@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 20 Apr 2022 00:40:53 -0400
+Subject: [PATCH] Add a toggle to disable /etc/hosts lookup
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Iea165003474e1107dc77980985bf9928c369dbb5
+---
+ getaddrinfo.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/getaddrinfo.cpp b/getaddrinfo.cpp
+index 048b6c68..ea21227a 100644
+--- a/getaddrinfo.cpp
++++ b/getaddrinfo.cpp
+@@ -57,6 +57,7 @@
+ 
+ #include <android-base/logging.h>
+ #include <android-base/parseint.h>
++#include <android-base/properties.h>
+ 
+ #include "Experiments.h"
+ #include "netd_resolv/resolv.h"
+@@ -1546,6 +1547,9 @@ static struct addrinfo* getCustomHosts(const size_t netid, const char* _Nonnull
+ 
+ static bool files_getaddrinfo(const size_t netid, const char* name, const addrinfo* pai,
+                               addrinfo** res) {
++    if ((android::base::GetIntProperty("persist.security.hosts_disable", 0) != 0) && (strcmp("localhost", name) != 0) && (strcmp("ip6-localhost", name) != 0))
++        return false;
++
+     struct addrinfo sentinel = {};
+     struct addrinfo *p, *cur;
+     FILE* hostf = nullptr;

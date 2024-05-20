@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:24:21 -0400
+Subject: [PATCH] add parameter for avoiding full preload with exec
+
+---
+ core/java/com/android/internal/os/ExecInit.java   | 2 +-
+ core/java/com/android/internal/os/ZygoteInit.java | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+index 2adcab7fdbe6..830e5b562a91 100644
+--- a/core/java/com/android/internal/os/ExecInit.java
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -33,7 +33,7 @@ public class ExecInit {
+ 
+         // Mimic system Zygote preloading.
+         ZygoteInit.preload(new TimingsTraceLog("ExecInitTiming",
+-                Trace.TRACE_TAG_DALVIK));
++                Trace.TRACE_TAG_DALVIK), false);
+ 
+         // Launch the application.
+         String[] runtimeArgs = new String[args.length - 1];
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 7af196513cae..1675d41580d6 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -122,7 +122,7 @@ public class ZygoteInit {
+      */
+     private static ClassLoader sCachedSystemServerClassLoader = null;
+ 
+-    static void preload(TimingsTraceLog bootTimingsTraceLog) {
++    static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         Log.d(TAG, "begin preload");
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+         beginPreload();
+@@ -154,6 +154,10 @@ public class ZygoteInit {
+         sPreloadComplete = true;
+     }
+ 
++    static void preload(TimingsTraceLog bootTimingsTraceLog) {
++        preload(bootTimingsTraceLog, true);
++    }
++
+     static void lazyPreload() {
+         Preconditions.checkState(!sPreloadComplete);
+         Log.i(TAG, "Lazily preloading resources.");

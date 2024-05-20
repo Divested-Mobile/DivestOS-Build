@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 18 Aug 2022 10:04:46 +0300
+Subject: [PATCH] fix DevicePolicyManager#logoutUser() never succeeding
+
+To succeed, userId to switch to needs to be set with setLogoutUserIdLocked(), but this is not done
+in both callers of this method (both of which are "End session" buttons), making them no-ops.
+---
+ .../server/devicepolicy/DevicePolicyManagerService.java     | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+index cc8da148d272..6a2d88e49c27 100644
+--- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
++++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+@@ -12698,6 +12698,12 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
+         Preconditions.checkCallAuthorization(canManageUsers(caller)
+                 || hasCallingOrSelfPermission(permission.INTERACT_ACROSS_USERS));
+ 
++        synchronized (getLockObject()) {
++            if (getLogoutUserIdUnchecked() == UserHandle.USER_NULL) {
++                setLogoutUserIdLocked(UserHandle.USER_SYSTEM);
++            }
++        }
++
+         int currentUserId = getCurrentForegroundUserId();
+         if (VERBOSE_LOG) {
+             Slogf.v(LOG_TAG, "logout() called by uid %d; current user is %d", caller.getUid(),

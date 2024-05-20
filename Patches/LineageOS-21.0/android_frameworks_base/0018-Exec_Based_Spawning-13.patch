@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Mon, 8 Aug 2022 18:42:19 +0300
+Subject: [PATCH] exec spawning: don't close the binder connection when the app
+ crashes
+
+When an unhandled exception occured, binder connections were closed with
+IPCThreadState::stopProcess() before the invocation of java.lang.Thread#dispatchUncaughtException().
+By default, that method tries to report the crash via ActivityManager#handleApplicationCrash(),
+which always failed due to the closed binder connection.
+This meant that the crash dialog was never shown and additional crash handling was skipped.
+
+Zygote-based spawning never calls IPCThreadState::stopProcess().
+---
+ cmds/app_process/app_main.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/cmds/app_process/app_main.cpp b/cmds/app_process/app_main.cpp
+index 4e41f2c1ac35..9ce4bef5bb6c 100644
+--- a/cmds/app_process/app_main.cpp
++++ b/cmds/app_process/app_main.cpp
+@@ -85,8 +85,10 @@ public:
+         AndroidRuntime* ar = AndroidRuntime::getRuntime();
+         ar->callMain(mClassName, mClass, mArgs);
+ 
+-        IPCThreadState::self()->stopProcess();
+-        hardware::IPCThreadState::self()->stopProcess();
++        if (mClassName != "com.android.internal.os.ExecInit") {
++            IPCThreadState::self()->stopProcess();
++            hardware::IPCThreadState::self()->stopProcess();
++        }
+     }
+ 
+     virtual void onZygoteInit()

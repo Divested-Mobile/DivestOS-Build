@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 13:46:38 +0300
+Subject: [PATCH] add parameter for avoiding full preload with exec
+
+---
+ api/module-lib-current.txt                    |  2 ++
+ .../main/java/dalvik/system/ZygoteHooks.java  | 24 +++++++++++++++++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/api/module-lib-current.txt b/api/module-lib-current.txt
+index 0ff15eaf273..5c3a486fff9 100644
+--- a/api/module-lib-current.txt
++++ b/api/module-lib-current.txt
+@@ -365,7 +365,9 @@ package dalvik.system {
+   public final class ZygoteHooks {
+     method public static void gcAndFinalize();
+     method public static boolean isIndefiniteThreadSuspensionSafe();
++    method public static void onBeginPreload(boolean);
+     method public static void onBeginPreload();
++    method public static void onEndPreload(boolean);
+     method public static void onEndPreload();
+     method public static void postForkChild(int, boolean, boolean, String);
+     method public static void postForkCommon();
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index f1de769e528..961330837a5 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -66,7 +66,7 @@ public final class ZygoteHooks {
+      * @hide
+      */
+     @SystemApi(client = MODULE_LIBRARIES)
+-    public static void onBeginPreload() {
++    public static void onBeginPreload(boolean fullPreload) {
+         com.android.i18n.system.ZygoteHooks.onBeginPreload();
+ 
+         ICU.initializeCacheInZygote();
+@@ -87,13 +87,23 @@ public final class ZygoteHooks {
+         }
+     }
+ 
++    /**
++     * Called when the zygote begins preloading classes and data.
++     *
++     * @hide
++     */
++    @SystemApi(client = MODULE_LIBRARIES)
++    public static void onBeginPreload() {
++        onBeginPreload(true);
++    }
++
+     /**
+      * Called when the zygote has completed preloading classes and data.
+      *
+      * @hide
+      */
+     @SystemApi(client = MODULE_LIBRARIES)
+-    public static void onEndPreload() {
++    public static void onEndPreload(boolean fullPreload) {
+         com.android.i18n.system.ZygoteHooks.onEndPreload();
+ 
+         // Clone standard descriptors as originals closed / rebound during zygote post fork.
+@@ -102,6 +112,16 @@ public final class ZygoteHooks {
+         FileDescriptor.err.cloneForFork();
+     }
+ 
++    /**
++     * Called when the zygote has completed preloading classes and data.
++     *
++     * @hide
++     */
++    @SystemApi(client = MODULE_LIBRARIES)
++    public static void onEndPreload() {
++        onEndPreload(true);
++    }
++
+     /**
+      * Called after GC but before fork, it cleans stale cache entries in
+      * BaseLocale and Locale, so to avoid the cleaning to happen in every

@@ -1,0 +1,118 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 18 Jul 2019 21:21:40 -0400
+Subject: [PATCH] label protected_{fifos,regular} as proc_security
+
+This is needed for init to override the default values.
+
+[tad@spotco.us]: added to older targets to match
+
+Change-Id: I76d0f3111de85be83489443bb9aec77599f4f371
+---
+ prebuilts/api/29.0/private/genfs_contexts | 2 ++
+ prebuilts/api/30.0/private/genfs_contexts | 2 ++
+ prebuilts/api/31.0/private/genfs_contexts | 2 ++
+ prebuilts/api/32.0/private/genfs_contexts | 2 ++
+ prebuilts/api/33.0/private/genfs_contexts | 2 ++
+ prebuilts/api/34.0/private/genfs_contexts | 2 ++
+ private/genfs_contexts                    | 2 ++
+ 7 files changed, 14 insertions(+)
+
+diff --git a/prebuilts/api/29.0/private/genfs_contexts b/prebuilts/api/29.0/private/genfs_contexts
+index 380d4a050..804996685 100644
+--- a/prebuilts/api/29.0/private/genfs_contexts
++++ b/prebuilts/api/29.0/private/genfs_contexts
+@@ -34,7 +34,9 @@ genfscon proc /swaps u:object_r:proc_swaps:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/prebuilts/api/30.0/private/genfs_contexts b/prebuilts/api/30.0/private/genfs_contexts
+index 89232bc01..53d7ffa9e 100644
+--- a/prebuilts/api/30.0/private/genfs_contexts
++++ b/prebuilts/api/30.0/private/genfs_contexts
+@@ -36,7 +36,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/prebuilts/api/31.0/private/genfs_contexts b/prebuilts/api/31.0/private/genfs_contexts
+index 13bfb46e1..30f3496e6 100644
+--- a/prebuilts/api/31.0/private/genfs_contexts
++++ b/prebuilts/api/31.0/private/genfs_contexts
+@@ -39,7 +39,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/prebuilts/api/32.0/private/genfs_contexts b/prebuilts/api/32.0/private/genfs_contexts
+index 13bfb46e1..30f3496e6 100644
+--- a/prebuilts/api/32.0/private/genfs_contexts
++++ b/prebuilts/api/32.0/private/genfs_contexts
+@@ -39,7 +39,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/prebuilts/api/33.0/private/genfs_contexts b/prebuilts/api/33.0/private/genfs_contexts
+index 65784709c..6c4bf98eb 100644
+--- a/prebuilts/api/33.0/private/genfs_contexts
++++ b/prebuilts/api/33.0/private/genfs_contexts
+@@ -40,7 +40,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/prebuilts/api/34.0/private/genfs_contexts b/prebuilts/api/34.0/private/genfs_contexts
+index c0a15f767..26213b258 100644
+--- a/prebuilts/api/34.0/private/genfs_contexts
++++ b/prebuilts/api/34.0/private/genfs_contexts
+@@ -40,7 +40,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/bpf_ u:object_r:proc_bpf:s0
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index 41c60df06..19083cef2 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -41,7 +41,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/bpf_ u:object_r:proc_bpf:s0

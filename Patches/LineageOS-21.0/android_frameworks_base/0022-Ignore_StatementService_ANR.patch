@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 20 Oct 2021 19:40:42 -0400
+Subject: [PATCH] core/config: [temporary] don't report statementservice
+ crashes
+
+There's a known issue in AOSP 12 caused by it creating overly large
+intents for the work manager. It's not caused by anything done by end
+users and they can't work around it so avoid reporting it to them since
+they get a message each time it tries again.
+---
+ core/res/res/values/config.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index 3bc33bac37bc..be714871ad0f 100644
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -4211,7 +4211,7 @@
+ 
+     <!-- List of comma separated package names for which we the system will not show crash, ANR,
+          etc. dialogs. -->
+-    <string translatable="false" name="config_appsNotReportingCrashes"></string>
++    <string translatable="false" name="config_appsNotReportingCrashes">com.android.statementservice</string>
+ 
+     <!-- Inactivity threshold (in milliseconds) used in JobScheduler. JobScheduler will consider
+          the device to be "idle" after being inactive for this long. -->

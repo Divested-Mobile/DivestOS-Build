@@ -1,0 +1,90 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 29 May 2017 20:25:28 -0400
+Subject: [PATCH] Remove voice input key
+
+Change-Id: Ifb56c679d3a9b6c035fcdd4596ec0b3b5653bea8
+---
+ java/res/values-sw430dp/config-per-form-factor.xml          | 2 +-
+ java/res/values/config-per-form-factor.xml                  | 2 +-
+ java/res/xml/prefs_screen_preferences.xml                   | 2 +-
+ .../latin/settings/PreferencesSettingsFragment.java         | 3 +--
+ .../android/inputmethod/latin/settings/SettingsValues.java  | 6 ++----
+ 5 files changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/java/res/values-sw430dp/config-per-form-factor.xml b/java/res/values-sw430dp/config-per-form-factor.xml
+index 1a539c190..5f513b433 100644
+--- a/java/res/values-sw430dp/config-per-form-factor.xml
++++ b/java/res/values-sw430dp/config-per-form-factor.xml
+@@ -25,7 +25,7 @@
+     <bool name="config_default_key_preview_popup">true</bool>
+     <bool name="config_default_sound_enabled">false</bool>
+     <bool name="config_enable_show_emoji_key_option">true</bool>
+-    <bool name="config_enable_show_voice_key_option">true</bool>
++    <bool name="config_enable_show_voice_key_option">false</bool>
+     <bool name="config_key_selection_by_dragging_finger">true</bool>
+     <!-- Showing more keys keyboard, just above the touched point if true, aligned to the key if
+          false -->
+diff --git a/java/res/values/config-per-form-factor.xml b/java/res/values/config-per-form-factor.xml
+index a5259a6d8..499b25fb4 100644
+--- a/java/res/values/config-per-form-factor.xml
++++ b/java/res/values/config-per-form-factor.xml
+@@ -25,7 +25,7 @@
+     <bool name="config_default_key_preview_popup">true</bool>
+     <bool name="config_default_sound_enabled">false</bool>
+     <bool name="config_enable_show_emoji_key_option">true</bool>
+-    <bool name="config_enable_show_voice_key_option">true</bool>
++    <bool name="config_enable_show_voice_key_option">false</bool>
+     <bool name="config_key_selection_by_dragging_finger">true</bool>
+     <!-- Showing more keys keyboard, just above the touched point if true, aligned to the key if
+          false -->
+diff --git a/java/res/xml/prefs_screen_preferences.xml b/java/res/xml/prefs_screen_preferences.xml
+index d2dc51e7f..c7f8b588b 100644
+--- a/java/res/xml/prefs_screen_preferences.xml
++++ b/java/res/xml/prefs_screen_preferences.xml
+@@ -66,6 +66,6 @@
+     <CheckBoxPreference
+         android:key="pref_voice_input_key"
+         android:title="@string/voice_input"
+-        android:defaultValue="true"
++        android:defaultValue="false"
+         android:persistent="true" />
+ </PreferenceScreen>
+diff --git a/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java b/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
+index aba14ee7a..867259309 100644
+--- a/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
++++ b/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
+@@ -61,8 +61,7 @@ public final class PreferencesSettingsFragment extends SubScreenFragment {
+         if (!showEmojiKeyOption) {
+             removePreference(Settings.PREF_SHOW_EMOJI_KEY);
+         }
+-        final boolean showVoiceKeyOption = res.getBoolean(
+-                R.bool.config_enable_show_voice_key_option);
++        final boolean showVoiceKeyOption = false;
+         if (!showVoiceKeyOption) {
+             removePreference(Settings.PREF_VOICE_INPUT_KEY);
+         }
+diff --git a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+index 6eb8e98b8..8eec5b0f3 100644
+--- a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
++++ b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+@@ -140,9 +140,7 @@ public class SettingsValues {
+         mKeyPreviewPopupOn = Settings.readKeyPreviewPopupEnabled(prefs, res);
+         mSlidingKeyInputPreviewEnabled = prefs.getBoolean(
+                 DebugSettings.PREF_SLIDING_KEY_INPUT_PREVIEW, true);
+-        mShowsVoiceInputKey = needsToShowVoiceInputKey(prefs, res)
+-                && mInputAttributes.mShouldShowVoiceInputKey
+-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
++        mShowsVoiceInputKey = false;
+         mShowNumberRow = prefs.getBoolean(Settings.PREF_SHOW_NUMBER_ROW, false);
+         mShowLongpressHints = prefs.getBoolean(Settings.PREF_SHOW_LONGPRESS_HINTS, true);
+         mIncludesOtherImesInLanguageSwitchList = Settings.ENABLE_SHOW_LANGUAGE_SWITCH_KEY_SETTINGS
+@@ -374,7 +372,7 @@ public class SettingsValues {
+                     .remove(Settings.PREF_VOICE_MODE_OBSOLETE)
+                     .apply();
+         }
+-        return prefs.getBoolean(Settings.PREF_VOICE_INPUT_KEY, true);
++        return prefs.getBoolean(Settings.PREF_VOICE_INPUT_KEY, false);
+     }
+ 
+     public String dump() {

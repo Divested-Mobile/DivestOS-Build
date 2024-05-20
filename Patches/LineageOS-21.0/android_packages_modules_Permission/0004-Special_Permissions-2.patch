@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 18 Oct 2021 10:23:42 +0300
+Subject: [PATCH] fix usage UI summary for Network/Sensors
+
+13: 9f1fd4ea8
+---
+ PermissionController/res/values/strings.xml                | 3 +++
+ .../ui/model/v31/PermissionUsageControlPreferenceUtils.kt  | 7 ++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/PermissionController/res/values/strings.xml b/PermissionController/res/values/strings.xml
+index d10c6fb90..ad597ea7c 100644
+--- a/PermissionController/res/values/strings.xml
++++ b/PermissionController/res/values/strings.xml
+@@ -1934,4 +1934,7 @@ Allow <xliff:g id="app_name" example="Gmail">%4$s</xliff:g> to upload a bug repo
+     <string name="safety_label_changes_gear_description">Settings</string>
+ 
+     <!-- Safety Label Change Notifications End -->
++
++    <!-- Summary text if tracking permission usage is not supported [CHAR LIMIT=60] -->
++    <string name="permission_usage_preference_summary_not_supported">Tracking usage not yet supported</string>
+ </resources>
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt b/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
+index 7d299fdda..fbc8022bb 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
++++ b/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
+@@ -75,7 +75,12 @@ object PermissionUsageControlPreferenceUtils {
+             if (count == 0) {
+                 isEnabled = false
+                 val permissionUsageSummaryNotUsed =
+-                    if (show7Days) {
++                    if (
++                            groupName == Manifest.permission_group.NETWORK
++                            || groupName == Manifest.permission_group.OTHER_SENSORS)
++                    {
++                        context.getString(R.string.permission_usage_preference_summary_not_supported)
++                    } else if (show7Days) {
+                         StringUtils.getIcuPluralsString(
+                             context,
+                             R.string.permission_usage_preference_summary_not_used_in_past_n_days,

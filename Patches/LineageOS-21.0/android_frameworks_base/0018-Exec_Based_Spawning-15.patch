@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 9 Apr 2024 14:06:27 +0300
+Subject: [PATCH] exec spawning: add workaround for late init of ART
+ userfaultfd GC
+
+Chromium browser and its derivatives setup a seccomp syscall filter in their isolated processes,
+which blocks creation of new userfaultfds.
+
+Since 14 QPR2, ART uses a new userfaultfd-based GC.
+
+When zygote-based process spawning is used, userfaultfd GC is initialized before any of app's code
+is executed, i.e. before Chromium's seccomp syscall filter is installed.
+
+When exec spawning is used, userfaultfd GC initialization is delayed until first garbage collection.
+Chromium's seccomp syscall filter is already installed at that point.
+
+This leads to crashes of isolated Chromium processes (both browser and WebView), with the following
+log messages:
+ E cr_seccomp: ../../sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc:**CRASHING**:seccomp-bpf failure in syscall
+ E cr_seccomp: nr=0x11a arg1=0x80001 arg2=0xc arg3=0xffffffffffffffff arg4=0xc
+
+As a workaround, perform early initialization of ART userfaultfd GC in isolated processes by calling
+System.gc() before executing app's code. On Pixel 8, this increases startup latency by around 4 to
+10 milliseconds.
+---
+ core/java/com/android/internal/os/ExecInit.java | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+index 39f08b6a0f15..b4b135cde18f 100644
+--- a/core/java/com/android/internal/os/ExecInit.java
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -1,5 +1,6 @@
+ package com.android.internal.os;
+ 
++import android.os.Process;
+ import android.os.Trace;
+ import android.system.ErrnoException;
+ import android.system.Os;
+@@ -120,6 +121,9 @@ public class ExecInit {
+ 
+         // Perform the same initialization that would happen after the Zygote forks.
+         Zygote.nativePreApplicationInit();
++        if (Process.isIsolated()) {
++            System.gc();
++        }
+         return RuntimeInit.applicationInit(targetSdkVersion, /*disabledCompatChanges*/ null, argv, classLoader);
+     }
+ }

@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sat, 5 Nov 2022 12:54:52 +0200
+Subject: [PATCH] don't leak device-wide package list to apps when work profile
+ is present
+
+If the primary user had a work profile, then apps installed in primary user could see packages that
+were installed only in secondary user(s). They couldn't see which secondary user had which apps,
+only presence of such packages was revealed.
+
+This special handling of MATCH_UNINSTALLED_PACKAGES flag was added in October 2016 for compatibility
+with legacy launchers. It is not needed anymore, at least for popular third party launchers.
+
+Note that apps in owner user can still see apps in work profile of owner user, it's part of a public
+API. Also, apps that are not installed in primary user are visible in Settings -> Apps, with
+"Not installed for this user" subtitle.
+
+See commit 0d1fd8d09163566d2c7eb72037f63b6404ada642 and issue report
+https://github.com/GrapheneOS/os-issue-tracker/issues/1634 for more details.
+---
+ .../java/com/android/server/pm/ComputerEngine.java   | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
+index 3cb2420cd223..063fc92dddb8 100644
+--- a/services/core/java/com/android/server/pm/ComputerEngine.java
++++ b/services/core/java/com/android/server/pm/ComputerEngine.java
+@@ -2711,24 +2711,12 @@ public class ComputerEngine implements Computer {
+      * Update given flags when being used to request {@link PackageInfo}.
+      */
+     public final long updateFlagsForPackage(long flags, int userId) {
+-        final boolean isCallerSystemUser = UserHandle.getCallingUserId()
+-                == UserHandle.USER_SYSTEM;
+         if ((flags & PackageManager.MATCH_ANY_USER) != 0) {
+             // require the permission to be held; the calling uid and given user id referring
+             // to the same user is not sufficient
+             enforceCrossUserPermission(Binder.getCallingUid(), userId, false, false,
+                     !isRecentsAccessingChildProfiles(Binder.getCallingUid(), userId),
+                     "MATCH_ANY_USER flag requires INTERACT_ACROSS_USERS permission");
+-        } else if ((flags & PackageManager.MATCH_UNINSTALLED_PACKAGES) != 0
+-                && isCallerSystemUser
+-                && mUserManager.hasProfile(UserHandle.USER_SYSTEM)) {
+-            // If the caller wants all packages and has a profile associated with it,
+-            // then match all users. This is to make sure that launchers that need to access
+-            //work
+-            // profile apps don't start breaking. TODO: Remove this hack when launchers stop
+-            //using
+-            // MATCH_UNINSTALLED_PACKAGES to query apps in other profiles. b/31000380
+-            flags |= PackageManager.MATCH_ANY_USER;
+         }
+         return updateFlags(flags, userId);
+     }

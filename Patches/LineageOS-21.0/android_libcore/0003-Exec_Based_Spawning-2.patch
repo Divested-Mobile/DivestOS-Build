@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 15 Oct 2021 00:00:10 +0300
+Subject: [PATCH] disable cache pinning for exec spawning
+
+---
+ .../src/main/java/dalvik/system/ZygoteHooks.java   | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index 961330837a5..b36bd3f4a39 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -67,11 +67,13 @@ public final class ZygoteHooks {
+      */
+     @SystemApi(client = MODULE_LIBRARIES)
+     public static void onBeginPreload(boolean fullPreload) {
+-        com.android.i18n.system.ZygoteHooks.onBeginPreload();
++        if (fullPreload) {
++            com.android.i18n.system.ZygoteHooks.onBeginPreload();
+ 
+-        ICU.initializeCacheInZygote();
+-        DecimalFormatData.initializeCacheInZygote();
+-        SimpleDateFormatData.initializeCacheInZygote();
++            ICU.initializeCacheInZygote();
++            DecimalFormatData.initializeCacheInZygote();
++            SimpleDateFormatData.initializeCacheInZygote();
++        }
+ 
+         // Look up JaCoCo on the boot classpath, if it exists. This will be used later for enabling
+         // memory-mapped Java coverage.
+@@ -104,7 +106,9 @@ public final class ZygoteHooks {
+      */
+     @SystemApi(client = MODULE_LIBRARIES)
+     public static void onEndPreload(boolean fullPreload) {
+-        com.android.i18n.system.ZygoteHooks.onEndPreload();
++        if (fullPreload) {
++            com.android.i18n.system.ZygoteHooks.onEndPreload();
++        }
+ 
+         // Clone standard descriptors as originals closed / rebound during zygote post fork.
+         FileDescriptor.in.cloneForFork();

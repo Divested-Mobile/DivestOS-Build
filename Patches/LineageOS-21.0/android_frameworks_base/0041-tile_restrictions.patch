@@ -1,0 +1,153 @@
+From e289ce2b276805111724881c242eb0eba058caa1 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Mon, 11 Mar 2024 19:40:18 +0200
+Subject: [PATCH] SystemUI: require unlocking to use QS tiles by default
+
+---
+ .../src/com/android/systemui/qs/QSHost.java   |  1 +
+ .../com/android/systemui/qs/QSHostAdapter.kt  |  2 ++
+ .../com/android/systemui/qs/QSTileHost.java   |  9 +++++
+ .../systemui/qs/tileimpl/QSTileImpl.java      | 36 +++++++++++++++++--
+ 4 files changed, 45 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
+index 1ab64b76b0dc..69fb741550bd 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
+@@ -55,6 +55,7 @@ static List<String> getDefaultSpecs(Resources res) {
+     Context getUserContext();
+     int getUserId();
+     Collection<QSTile> getTiles();
++    com.android.systemui.statusbar.policy.KeyguardStateController getKeyguardStateController();
+     void addCallback(Callback callback);
+     void removeCallback(Callback callback);
+     void removeTile(String tileSpec);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSHostAdapter.kt b/packages/SystemUI/src/com/android/systemui/qs/QSHostAdapter.kt
+index c77233eb1737..32c6ffd86a64 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSHostAdapter.kt
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSHostAdapter.kt
+@@ -78,6 +78,8 @@ constructor(
+         }
+     }
+ 
++    override fun getKeyguardStateController() = qsTileHost.keyguardStateController
++
+     override fun getSpecs(): List<String> {
+         return if (useNewHost) {
+             interactor.currentTilesSpecs.map { it.spec }
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSTileHost.java b/packages/SystemUI/src/com/android/systemui/qs/QSTileHost.java
+index 828d6ed6ab89..0038fe7da7f4 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSTileHost.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSTileHost.java
+@@ -53,6 +53,7 @@
+ import com.android.systemui.settings.UserTracker;
+ import com.android.systemui.shade.ShadeController;
+ import com.android.systemui.statusbar.phone.AutoTileManager;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.tuner.TunerService;
+ import com.android.systemui.tuner.TunerService.Tunable;
+ import com.android.systemui.util.settings.SecureSettings;
+@@ -94,6 +95,7 @@ public class QSTileHost implements QSHost, Tunable, PluginListener<QSFactory>, P
+     static final String TILES = "tiles_prefs";
+ 
+     private final Context mContext;
++    private final KeyguardStateController mKeyguardStateController;
+     private final LinkedHashMap<String, QSTile> mTiles = new LinkedHashMap<>();
+     private final ArrayList<String> mTileSpecs = new ArrayList<>();
+     private final TunerService mTunerService;
+@@ -127,6 +129,7 @@ public QSTileHost(Context context,
+             Lazy<NewQSTileFactory> newQsTileFactoryProvider,
+             QSFactory defaultFactory,
+             @Main Executor mainExecutor,
++            KeyguardStateController keyguardStateController,
+             PluginManager pluginManager,
+             TunerService tunerService,
+             Provider<AutoTileManager> autoTiles,
+@@ -140,6 +143,7 @@ public QSTileHost(Context context,
+             QSPipelineFlagsRepository featureFlags
+     ) {
+         mContext = context;
++        mKeyguardStateController = keyguardStateController;
+         mUserContext = context;
+         mTunerService = tunerService;
+         mPluginManager = pluginManager;
+@@ -209,6 +213,11 @@ public void removeCallback(Callback callback) {
+         mCallbacks.remove(callback);
+     }
+ 
++    @Override
++    public KeyguardStateController getKeyguardStateController() {
++        return mKeyguardStateController;
++    }
++
+     @Override
+     public Collection<QSTile> getTiles() {
+         return mTiles.values();
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
+index 529d68407ce9..5cb51840bb52 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
+@@ -68,6 +68,7 @@
+ import com.android.systemui.qs.QsEventLogger;
+ import com.android.systemui.qs.SideLabelTileLayout;
+ import com.android.systemui.qs.logging.QSLogger;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import java.io.PrintWriter;
+ import java.util.ArrayList;
+@@ -269,6 +270,32 @@ public boolean isAvailable() {
+         return true;
+     }
+ 
++    public enum Action {
++        CLICK,
++        SECONDARY_CLICK,
++        LONG_CLICK,
++    }
++
++    public boolean isAllowedWhenLocked(Action action) {
++        return false;
++    }
++
++    void handleAction(Action action, Runnable handler) {
++        if (isAllowedWhenLocked(action)) {
++            handler.run();
++            return;
++        }
++
++        KeyguardStateController ksc = mHost.getKeyguardStateController();
++        boolean hasSecureKeyguard = ksc.isMethodSecure() && ksc.isShowing();
++
++        if (hasSecureKeyguard) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(handler);
++        } else {
++            handler.run();
++        }
++    }
++
+     // safe to call from any thread
+ 
+     public void addCallback(Callback callback) {
+@@ -592,16 +619,19 @@ public void handleMessage(Message msg) {
+                         mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
+                     } else {
+                         mQSLogger.logHandleClick(mTileSpec, msg.arg1);
+-                        handleClick((View) msg.obj);
++                        View view = (View) msg.obj;
++                        handleAction(Action.CLICK, () -> handleClick(view));
+                     }
+                 } else if (msg.what == SECONDARY_CLICK) {
+                     name = "handleSecondaryClick";
+                     mQSLogger.logHandleSecondaryClick(mTileSpec, msg.arg1);
+-                    handleSecondaryClick((View) msg.obj);
++                    View view = (View) msg.obj;
++                    handleAction(Action.SECONDARY_CLICK, () -> handleSecondaryClick(view));
+                 } else if (msg.what == LONG_CLICK) {
+                     name = "handleLongClick";
+                     mQSLogger.logHandleLongClick(mTileSpec, msg.arg1);
+-                    handleLongClick((View) msg.obj);
++                    View view = (View) msg.obj;
++                    handleAction(Action.LONG_CLICK, () -> handleLongClick(view));
+                 } else if (msg.what == REFRESH_STATE) {
+                     name = "handleRefreshState";
+                     handleRefreshState(msg.obj);

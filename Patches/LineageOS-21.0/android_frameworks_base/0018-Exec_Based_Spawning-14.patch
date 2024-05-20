@@ -1,0 +1,125 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 30 Mar 2023 17:42:56 +0300
+Subject: [PATCH] exec spawning: support runtime resource overlays
+
+---
+ core/java/android/app/IActivityManager.aidl   |  2 ++
+ .../android/content/res/AssetManager.java     | 33 +++++++++++++++++--
+ .../com/android/internal/os/ExecInit.java     |  4 +++
+ .../server/am/ActivityManagerService.java     |  6 ++++
+ 4 files changed, 43 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/app/IActivityManager.aidl b/core/java/android/app/IActivityManager.aidl
+index 260e9859c72d..c3fdad0624d4 100644
+--- a/core/java/android/app/IActivityManager.aidl
++++ b/core/java/android/app/IActivityManager.aidl
+@@ -950,4 +950,6 @@ interface IActivityManager {
+      */
+     oneway void frozenBinderTransactionDetected(int debugPid, int code, int flags, int err);
+     int getBindingUidProcessState(int uid, in String callingPackage);
++
++    String[] getSystemIdmapPaths();
+ }
+diff --git a/core/java/android/content/res/AssetManager.java b/core/java/android/content/res/AssetManager.java
+index 0399995540e7..3885f0fe3dd4 100644
+--- a/core/java/android/content/res/AssetManager.java
++++ b/core/java/android/content/res/AssetManager.java
+@@ -26,6 +26,7 @@ import android.annotation.Nullable;
+ import android.annotation.StringRes;
+ import android.annotation.StyleRes;
+ import android.annotation.TestApi;
++import android.app.ActivityManager;
+ import android.compat.annotation.UnsupportedAppUsage;
+ import android.content.pm.ActivityInfo;
+ import android.content.res.Configuration.NativeConfig;
+@@ -40,6 +41,7 @@ import android.util.TypedValue;
+ import com.android.internal.annotations.GuardedBy;
+ import com.android.internal.annotations.VisibleForTesting;
+ import com.android.internal.content.om.OverlayConfig;
++import com.android.internal.os.ExecInit;
+ 
+ import java.io.FileDescriptor;
+ import java.io.FileNotFoundException;
+@@ -235,6 +237,9 @@ public final class AssetManager implements AutoCloseable {
+         }
+     }
+ 
++    /** @hide */
++    public static volatile String[] systemIdmapPaths_;
++
+     /**
+      * This must be called from Zygote so that system assets are shared by all applications.
+      * @hide
+@@ -251,8 +256,32 @@ public final class AssetManager implements AutoCloseable {
+             final ArrayList<ApkAssets> apkAssets = new ArrayList<>();
+             apkAssets.add(ApkAssets.loadFromPath(frameworkPath, ApkAssets.PROPERTY_SYSTEM));
+ 
+-            final String[] systemIdmapPaths =
+-                    OverlayConfig.getZygoteInstance().createImmutableFrameworkIdmapsInZygote();
++            // createImmutableFrameworkIdmapsInZygote() should be called only in zygote, it fails
++            // in regular processes and is unnecessary there.
++            // When it's called in zygote, overlay state is cached in /data/resource-cache/*@idmap
++            // files. These files are readable by regular app processes.
++            //
++            // When exec-based spawning in used, in-memory cache of assets is lost, and the spawned
++            // process is unable to recreate it, since it's not allowed to create idmaps.
++            //
++            // As a workaround, ask the ActivityManager to return paths of cached idmaps and use
++            // them directly. ActivityManager runs in system_server, which always uses zygote-based
++            // spawning.
++
++            String[] systemIdmapPaths;
++            if (ExecInit.isExecSpawned) {
++                try {
++                    systemIdmapPaths = ActivityManager.getService().getSystemIdmapPaths();
++                    Objects.requireNonNull(systemIdmapPaths);
++                } catch (Throwable t) {
++                    Log.e(TAG, "unable to retrieve systemIdmapPaths", t);
++                    systemIdmapPaths = new String[0];
++                }
++            } else {
++                systemIdmapPaths = OverlayConfig.getZygoteInstance().createImmutableFrameworkIdmapsInZygote();
++                systemIdmapPaths_ = systemIdmapPaths;
++            }
++
+             for (String idmapPath : systemIdmapPaths) {
+                 apkAssets.add(ApkAssets.loadOverlayFromPath(idmapPath, ApkAssets.PROPERTY_SYSTEM));
+             }
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+index 749c67abf389..39f08b6a0f15 100644
+--- a/core/java/com/android/internal/os/ExecInit.java
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -84,6 +84,8 @@ public class ExecInit {
+         }
+     }
+ 
++    public static boolean isExecSpawned;
++
+     /**
+      * The main function called when an application is started with exec-based spawning.
+      *
+@@ -99,6 +101,8 @@ public class ExecInit {
+             Slog.d(RuntimeInit.TAG, "RuntimeInit: Starting application from exec");
+         }
+ 
++        isExecSpawned = true;
++
+         // Check whether the first argument is a "-cp" in argv, and assume the next argument is the
+         // classpath. If found, create a PathClassLoader and use it for applicationInit.
+         ClassLoader classLoader = null;
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 0d95e615911d..ba6d5a027c9d 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -20673,4 +20673,10 @@ public class ActivityManagerService extends IActivityManager.Stub
+         }
+         mOomAdjuster.mCachedAppOptimizer.binderError(debugPid, app, code, flags, err);
+     }
++
++    @Override
++    public String[] getSystemIdmapPaths() {
++        // see comment in AssetManager#createSystemAssetsInZygoteLocked()
++        return android.content.res.AssetManager.systemIdmapPaths_;
++    }
+ }

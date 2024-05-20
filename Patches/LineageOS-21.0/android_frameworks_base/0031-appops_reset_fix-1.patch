@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Fri, 6 Jan 2023 17:20:46 +0200
+Subject: [PATCH] Revert "Null safe package name in AppOps writeState"
+
+This reverts commit 0b925d4f46ef9d0f25fa5fd56e996280e9a98c71.
+
+Reverted commit introduced a bug:
+it skipped the "pkg" tag for ops with null package name.
+This meant that ops with null package name were serialized differently than ops with non-null
+package name.
+Tag hierarchy became the following:
+for non-null package name ops: "pkg" -> "uid" -> "op" -> "st"
+for null package name ops: "uid" -> "op" -> "st"
+
+Uid ops have the same first two tags as null package name ops started to have:
+"uid" -> "op". (refer to the loop over uidStatesClone elements above).
+
+This led to type confusion during deserialization that happens in readState():
+null package name ops were deserialized as uid ops, through readUidOps() instead of through
+readPackage().
+
+Uid ops are serialized differently than uid element inside package ops, specifically the latter
+skips the op mode ("m") attribute when the op mode is at its default value.
+
+Op mode attribute is read unconditionally in readUidOps(), which led to
+XmlPullParserException: Missing attribute "m"
+exception.
+
+This exception is caught in readState(), and is handled by discarding all deserialized state,
+which meant that all appops got reset to their default values.
+
+Subsequent commit adds skipping of ops with null package name during serialization:
+they are invalid, package name is defined and treated as @NonNull in multiple places.
+Such ops are being constructed due to another bug.
+---
+ .../core/java/com/android/server/appop/AppOpsService.java | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/appop/AppOpsService.java b/services/core/java/com/android/server/appop/AppOpsService.java
+index 8e8b9956f3cc..4040e7d31a3c 100644
+--- a/services/core/java/com/android/server/appop/AppOpsService.java
++++ b/services/core/java/com/android/server/appop/AppOpsService.java
+@@ -4715,15 +4715,13 @@ public class AppOpsService extends IAppOpsService.Stub {
+                     String lastPkg = null;
+                     for (int i=0; i<allOps.size(); i++) {
+                         AppOpsManager.PackageOps pkg = allOps.get(i);
+-                        if (!Objects.equals(pkg.getPackageName(), lastPkg)) {
++                        if (!pkg.getPackageName().equals(lastPkg)) {
+                             if (lastPkg != null) {
+                                 out.endTag(null, "pkg");
+                             }
+                             lastPkg = pkg.getPackageName();
+-                            if (lastPkg != null) {
+-                                out.startTag(null, "pkg");
+-                                out.attribute(null, "n", lastPkg);
+-                            }
++                            out.startTag(null, "pkg");
++                            out.attribute(null, "n", lastPkg);
+                         }
+                         out.startTag(null, "uid");
+                         out.attributeInt(null, "n", pkg.getUid());

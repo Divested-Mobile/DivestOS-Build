@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 14 Apr 2020 16:59:46 -0400
+Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
+ previously enabled
+
+Change-Id: Id5e3b8f7793d0783104b8b59581688c8ef821396
+---
+ src/java/com/android/ims/ImsManager.java | 26 +-----------------------
+ 1 file changed, 1 insertion(+), 25 deletions(-)
+
+diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
+index c9252f24..d822cf1d 100644
+--- a/src/java/com/android/ims/ImsManager.java
++++ b/src/java/com/android/ims/ImsManager.java
+@@ -549,13 +549,6 @@ public class ImsManager implements FeatureUpdates {
+      */
+     @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
+     public static boolean isEnhanced4gLteModeSettingEnabledByUser(Context context) {
+-        DefaultSubscriptionManagerProxy p = new DefaultSubscriptionManagerProxy(context);
+-        ImsManager mgr = ImsManager.getInstance(context, p.getDefaultVoicePhoneId());
+-        if (mgr != null) {
+-            return mgr.isEnhanced4gLteModeSettingEnabledByUser();
+-        }
+-        Rlog.e(TAG, "isEnhanced4gLteModeSettingEnabledByUser: ImsManager null, returning default"
+-                + " value.");
+         return false;
+     }
+ 
+@@ -570,24 +563,7 @@ public class ImsManager implements FeatureUpdates {
+      * return the default value.
+      */
+     public boolean isEnhanced4gLteModeSettingEnabledByUser() {
+-        int setting = mSubscriptionManagerProxy.getIntegerSubscriptionProperty(
+-                getSubId(), SubscriptionManager.ENHANCED_4G_MODE_ENABLED,
+-                SUB_PROPERTY_NOT_INITIALIZED);
+-        boolean onByDefault = getBooleanCarrierConfig(
+-                CarrierConfigManager.KEY_ENHANCED_4G_LTE_ON_BY_DEFAULT_BOOL);
+-        boolean isUiUnEditable =
+-                !getBooleanCarrierConfig(CarrierConfigManager.KEY_EDITABLE_ENHANCED_4G_LTE_BOOL)
+-                || getBooleanCarrierConfig(CarrierConfigManager.KEY_HIDE_ENHANCED_4G_LTE_BOOL);
+-        boolean isSettingNotInitialized = setting == SUB_PROPERTY_NOT_INITIALIZED;
+-
+-        // If Enhanced 4G LTE Mode is uneditable, hidden, not initialized and VoIMS opt-in disabled
+-        // we use the default value. If VoIMS opt-in is enabled, we will always allow the user to
+-        // change the IMS enabled setting.
+-        if ((isUiUnEditable || isSettingNotInitialized) && !isVoImsOptInEnabled()) {
+-            return onByDefault;
+-        } else {
+-            return (setting == ProvisioningManager.PROVISIONING_VALUE_ENABLED);
+-        }
++        return false;
+     }
+ 
+     /**

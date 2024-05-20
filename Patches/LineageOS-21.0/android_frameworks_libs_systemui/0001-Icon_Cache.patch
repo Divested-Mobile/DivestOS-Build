@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 2 Nov 2021 14:44:13 -0400
+Subject: [PATCH] invalidate icon cache between OS releases
+
+---
+ .../src/com/android/launcher3/icons/cache/BaseIconCache.java    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
+index d6cd0f2..acb5d9f 100644
+--- a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
++++ b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
+@@ -273,7 +273,7 @@ public abstract class BaseIconCache {
+      */
+     private void updateSystemState() {
+         mLocaleList = mContext.getResources().getConfiguration().getLocales();
+-        mSystemState = mLocaleList.toLanguageTags() + "," + Build.VERSION.SDK_INT;
++        mSystemState = mLocaleList.toLanguageTags() + "," + Build.VERSION.INCREMENTAL;
+         mUserFormatString.clear();
+     }
+ 

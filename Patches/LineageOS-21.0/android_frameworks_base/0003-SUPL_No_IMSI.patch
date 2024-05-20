@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Mon, 29 Oct 2018 12:14:17 +0100
+Subject: [PATCH] SUPL: Don't send IMSI / Phone number to SUPL server
+
+Change-Id: I5ccc4d61e52ac11ef33f44618d0e610089885b87
+---
+ .../android/server/location/gnss/GnssLocationProvider.java | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
+index 0386ee454278..af7dcc7d917a 100644
+--- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
++++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
+@@ -1798,6 +1798,11 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+         int type = AGPS_SETID_TYPE_NONE;
+         String setId = null;
+ 
++        /*
++         * We don't want to tell Google our IMSI or phone number to spy on us!
++         * As devices w/o SIM card also have working GPS, providing this data does
++         * not seem to add a lot of value, at least not for the device holder
++         *
+         int subId = SubscriptionManager.getDefaultDataSubscriptionId();
+         if (mGnssConfiguration.isActiveSimEmergencySuplEnabled() && mNIHandler.getInEmergency()
+                 && mNetworkConnectivityHandler.getActiveSubId() >= 0) {
+@@ -1818,7 +1823,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+                 // This means the framework has the SIM card.
+                 type = AGPS_SETID_TYPE_MSISDN;
+             }
+-        }
++        } */
+ 
+         mGnssNative.setAgpsSetId(type, (setId == null) ? "" : setId);
+     }

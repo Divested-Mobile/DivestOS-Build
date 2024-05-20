@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Fri, 6 Jan 2023 17:22:29 +0200
+Subject: [PATCH] appops: skip ops for invalid null package during state
+ serialization
+
+There's a bug that leads to construction of ops for invalid null package name.
+Package name should always be non-null, it's defined and treated as such in AppOpsService.
+It being null leads to crashes in system_server when appops state is serialized.
+
+Previous commit reverted a buggy workaround for this bug, add a new workaround to prevent these
+crashes.
+---
+ services/core/java/com/android/server/appop/AppOpsService.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/services/core/java/com/android/server/appop/AppOpsService.java b/services/core/java/com/android/server/appop/AppOpsService.java
+index 4040e7d31a3c..ed36f9bf6f8a 100644
+--- a/services/core/java/com/android/server/appop/AppOpsService.java
++++ b/services/core/java/com/android/server/appop/AppOpsService.java
+@@ -4715,6 +4715,9 @@ public class AppOpsService extends IAppOpsService.Stub {
+                     String lastPkg = null;
+                     for (int i=0; i<allOps.size(); i++) {
+                         AppOpsManager.PackageOps pkg = allOps.get(i);
++                        if (pkg.getPackageName() == null) {
++                            continue;
++                        }
+                         if (!pkg.getPackageName().equals(lastPkg)) {
+                             if (lastPkg != null) {
+                                 out.endTag(null, "pkg");
