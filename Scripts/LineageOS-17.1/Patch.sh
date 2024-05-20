@@ -139,7 +139,7 @@ rm -rfv androidtest; #fix compile under A11
 sed -i -e '76,78d;' Android.bp; #fix compile under A10
 awk -i inplace '!/ramdisk_available/' Android.bp; #fix compile under A10
 git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519; #fix compile under A10
-mv include/h_malloc.h  . ; #fix compile under A10
+mv include/h_malloc.h . ; #fix compile under A10
 fi;
 
 if enterAndClear "external/libcups"; then

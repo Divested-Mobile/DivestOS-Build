@@ -1,4 +1,4 @@
-From ff9f020cf0b63d68ac6377c16bef1697eb7bad9a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Sun, 19 Mar 2023 17:57:26 +0200
 Subject: [PATCH] do not auto-grant Camera permission to the eUICC LPA UI app
@@ -12,10 +12,10 @@ which allows the user to give it a one-time grant.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-index 7f786dbdc60b..674a19d35b2b 100644
+index 2c5b6ddc876e..eabc2e2ee63b 100644
 --- a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
 +++ b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-@@ -1097,7 +1097,7 @@ public void revokeDefaultPermissionsFromDisabledTelephonyDataServices(
+@@ -1077,7 +1077,7 @@ final class DefaultPermissionGrantPolicy {
      public void grantDefaultPermissionsToActiveLuiApp(String packageName, int userId) {
          Log.i(TAG, "Granting permissions to active LUI app for user:" + userId);
          grantSystemFixedPermissionsToSystemPackage(NO_PM_CACHE, packageName, userId,

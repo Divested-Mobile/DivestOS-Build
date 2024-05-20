@@ -1,0 +1,107 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Fri, 10 Feb 2023 12:54:21 +0200
+Subject: [PATCH] add a setting for forcibly disabling SUPL
+
+Change-Id: I5c31c319d198f09ace493e601278f8224a259f05
+---
+ core/java/android/provider/Settings.java          |  9 +++++++++
+ .../server/location/gnss/GnssConfiguration.java   | 14 ++++++++++++++
+ .../location/gnss/GnssLocationProvider.java       | 15 +++++++++++++++
+ 3 files changed, 38 insertions(+)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 9fae9911e2fc..2544b7bcb7c8 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -18680,6 +18680,15 @@ public final class Settings {
+          */
+         public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
+ 
++        /**
++         * Force disable Secure User Plane Location (SUPL), 0 or 1.
++         * @hide
++         */
++        public static final String FORCE_DISABLE_SUPL = "force_disable_supl";
++
++        /** @hide */
++        public static final int FORCE_DISABLE_SUPL_DEFAULT = 0;
++
+         /**
+          * The amount of time in milliseconds before a disconnected Wi-Fi adapter is turned off
+          * @hide
+diff --git a/services/core/java/com/android/server/location/gnss/GnssConfiguration.java b/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
+index 5ef89ad4269a..0192ed9de15b 100644
+--- a/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
++++ b/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
+@@ -19,11 +19,13 @@ package com.android.server.location.gnss;
+ import android.content.Context;
+ import android.os.PersistableBundle;
+ import android.os.SystemProperties;
++import android.provider.Settings;
+ import android.telephony.CarrierConfigManager;
+ import android.telephony.SubscriptionManager;
+ import android.telephony.TelephonyManager;
+ import android.text.TextUtils;
+ import android.util.Log;
++import android.util.Slog;
+ 
+ import com.android.internal.util.FrameworkStatsLog;
+ 
+@@ -289,6 +291,7 @@ public class GnssConfiguration {
+          */
+         loadPropertiesFromGpsDebugConfig(mProperties, DEBUG_PROPERTIES_VENDOR_FILE);
+         loadPropertiesFromGpsDebugConfig(mProperties, DEBUG_PROPERTIES_SYSTEM_FILE);
++        applyConfigOverrides(mContext, mProperties);
+         mEsExtensionSec = getRangeCheckedConfigEsExtensionSec();
+ 
+         logConfigurations();
+@@ -489,4 +492,15 @@ public class GnssConfiguration {
+     private static native boolean native_set_satellite_blocklist(int[] constellations, int[] svIds);
+ 
+     private static native boolean native_set_es_extension_sec(int emergencyExtensionSeconds);
++
++    private static void applyConfigOverrides(Context ctx, Properties props) {
++        String key = Settings.Global.FORCE_DISABLE_SUPL;
++        int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
++        if (Settings.Global.getInt(ctx.getContentResolver(), key, def) == 1) {
++            props.setProperty(CONFIG_SUPL_MODE, "0");
++            Slog.d(TAG, "SUPL is force disabled");
++        } else {
++            Slog.d(TAG, "SUPL is not force disabled");
++        }
++    }
+ }
+diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
+index af7dcc7d917a..d4706d9da0a8 100644
+--- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
++++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
+@@ -103,6 +103,7 @@ import android.telephony.TelephonyManager;
+ import android.text.TextUtils;
+ import android.text.format.DateUtils;
+ import android.util.Log;
++import android.util.Slog;
+ import android.util.Pair;
+ import android.util.TimeUtils;
+ 
+@@ -489,6 +490,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+         mGnssNative.setNotificationCallbacks(this);
+         mGnssNative.setLocationRequestCallbacks(this);
+         mGnssNative.setTimeCallbacks(this);
++
++        mContext.getContentResolver().registerContentObserver(
++                Settings.Global.getUriFor(Settings.Global.FORCE_DISABLE_SUPL),
++                false, new ContentObserver(mHandler) {
++            @Override
++            public void onChange(boolean selfChange) {
++                var cr = mContext.getContentResolver();
++                String key = Settings.Global.FORCE_DISABLE_SUPL;
++                int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
++
++                Slog.d(TAG, "FORCE_DISABLE_SUPL changed, value: " + Settings.Global.getInt(cr, key, def));
++                mGnssConfiguration.reloadGpsProperties();
++            }
++        });
+     }
+ 
+     /** Called when system is ready. */

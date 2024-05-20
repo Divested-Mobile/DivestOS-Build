@@ -156,10 +156,10 @@ index c3b149a1e295..a47b82018377 100644
  
      <Button
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 4596ca74bf8f..c52255b62748 100644
+index fe69b195ea4c..bca56dba6b76 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -6363,4 +6363,6 @@ ul.</string>
+@@ -6380,4 +6380,6 @@ ul.</string>
      <!-- Communal profile label on a screen. This can be used as a tab label for this profile in tabbed views and can be used to represent the profile in sharing surfaces, etc. [CHAR LIMIT=20] -->
      <string name="profile_label_communal">Communal</string>
  

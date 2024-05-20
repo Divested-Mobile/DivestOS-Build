@@ -1,0 +1,128 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 31 Jul 2022 10:06:14 +0300
+Subject: [PATCH] Wi-Fi auto turn off
+
+Co-authored-by: Pratyush <codelab@pratyush.dev>
+---
+ core/java/android/provider/Settings.java      |  6 ++
+ .../android/server/ext/SystemServerExt.java   |  5 +-
+ .../com/android/server/ext/WifiAutoOff.java   | 69 +++++++++++++++++++
+ 3 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 services/core/java/com/android/server/ext/WifiAutoOff.java
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index ec292016d3db..c22d62c0d40c 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -18680,6 +18680,12 @@ public final class Settings {
+          */
+         public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
+ 
++        /**
++         * The amount of time in milliseconds before a disconnected Wi-Fi adapter is turned off
++         * @hide
++         */
++        public static final String WIFI_OFF_TIMEOUT = "wifi_off_timeout";
++
+         /**
+          * Whether repair mode is active on the device.
+          * <p>
+diff --git a/services/core/java/com/android/server/ext/SystemServerExt.java b/services/core/java/com/android/server/ext/SystemServerExt.java
+index 83d895650473..66350e2b7f74 100644
+--- a/services/core/java/com/android/server/ext/SystemServerExt.java
++++ b/services/core/java/com/android/server/ext/SystemServerExt.java
+@@ -19,6 +19,7 @@ package com.android.server.ext;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+ import android.content.IntentFilter;
++import android.content.pm.PackageManager;
+ import android.os.Handler;
+ 
+ import com.android.internal.os.BackgroundThread;
+@@ -49,7 +50,9 @@ public final class SystemServerExt {
+     }
+ 
+     void initBgThread() {
+-
++        if (packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI, 0)) {
++            new WifiAutoOff(this);
++        }
+     }
+ 
+     public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter, Handler handler) {
+diff --git a/services/core/java/com/android/server/ext/WifiAutoOff.java b/services/core/java/com/android/server/ext/WifiAutoOff.java
+new file mode 100644
+index 000000000000..c7a3c05fe766
+--- /dev/null
++++ b/services/core/java/com/android/server/ext/WifiAutoOff.java
+@@ -0,0 +1,69 @@
++package com.android.server.ext;
++
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.net.wifi.WifiInfo;
++import android.net.wifi.WifiManager;
++import android.os.Build;
++import android.provider.Settings;
++import android.util.Slog;
++
++class WifiAutoOff extends DelayedConditionalAction {
++    private final WifiManager wifiManager;
++
++    WifiAutoOff(SystemServerExt sse) {
++        super(sse, sse.bgHandler);
++        wifiManager = sse.context.getSystemService(WifiManager.class);
++    }
++
++    @Override
++    protected boolean shouldScheduleAlarm() {
++        return isWifiEnabledAndNotConnected();
++    }
++
++    @Override
++    protected void alarmTriggered() {
++        if (isWifiEnabledAndNotConnected()) {
++            wifiManager.setWifiEnabled(false);
++        }
++    }
++
++    private boolean isWifiEnabledAndNotConnected() {
++        if (wifiManager.isWifiEnabled()) {
++            WifiInfo i = wifiManager.getConnectionInfo();
++            if (i == null) {
++                return true;
++            }
++            return i.getBSSID() == null;
++        }
++
++        return false;
++    }
++
++    @Override
++    protected void registerStateListener() {
++        IntentFilter f = new IntentFilter();
++        f.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
++        f.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
++        // ConnectivityManager APIs seem unfit for listening to Wi-Fi state specifically, they look
++        // to be higher level than that, eg VPN over Wi-Fi isn't considered to be a Wi-Fi connection
++        // by ConnectivityManager
++
++        sse.registerReceiver(new BroadcastReceiver() {
++            @Override
++            public void onReceive(Context context, Intent intent) {
++                if (Build.isDebuggable()) {
++                    Slog.d("WifiAutoOff", "" + intent + ", extras " + intent.getExtras().deepCopy());
++                }
++                update();
++            }
++        }, f, handler);
++    }
++
++    @Override
++    protected String getDelayGlobalSettingsKey() {
++        return Settings.Global.WIFI_OFF_TIMEOUT;
++    }
++}

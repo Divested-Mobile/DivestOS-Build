@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 15 Sep 2022 13:58:34 +0300
+Subject: [PATCH] ignore pid when spoofing permission checks
+
+Permissions are enforced per-uid, checking pid may break spoofing for multi-process apps.
+---
+ core/java/android/app/ContextImpl.java | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
+index f4e5f2959b87..932c79e5bf7c 100644
+--- a/core/java/android/app/ContextImpl.java
++++ b/core/java/android/app/ContextImpl.java
+@@ -2259,18 +2259,16 @@ class ContextImpl extends Context {
+         if (permission == null) {
+             throw new IllegalArgumentException("permission is null");
+         }
+-
+-        final boolean selfCheck = pid == android.os.Process.myPid() && uid == android.os.Process.myUid();
+-
+         if (mParams.isRenouncedPermission(permission)
+-                && selfCheck) {
++                && pid == android.os.Process.myPid() && uid == android.os.Process.myUid()) {
+             Log.v(TAG, "Treating renounced permission " + permission + " as denied");
+             return PERMISSION_DENIED;
+         }
++
+         int res = PermissionManager.checkPermission(permission, pid, uid, getDeviceId());
+ 
+         if (res != PERMISSION_GRANTED) {
+-            if (selfCheck) {
++            if (uid == android.os.Process.myUid()) {
+                 if (AppPermissionUtils.shouldSpoofSelfCheck(permission)) {
+                     return PERMISSION_GRANTED;
+                 }

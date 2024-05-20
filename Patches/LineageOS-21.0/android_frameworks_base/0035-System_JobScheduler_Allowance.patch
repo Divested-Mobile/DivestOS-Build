@@ -1,4 +1,4 @@
-From 51fe11d1639de60bafebc32e6b77428eb0b2628e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Thu, 7 Jul 2022 09:28:40 +0300
 Subject: [PATCH] DeviceIdleJobsController: don't ignore whitelisted system
@@ -65,7 +65,7 @@ diff --git a/apex/jobscheduler/framework/java/com/android/server/DeviceIdleInter
 index caf7e7f4a4ed..1b1d2252dae1 100644
 --- a/apex/jobscheduler/framework/java/com/android/server/DeviceIdleInternal.java
 +++ b/apex/jobscheduler/framework/java/com/android/server/DeviceIdleInternal.java
-@@ -73,7 +73,7 @@ void addPowerSaveTempWhitelistAppDirect(int uid, long duration,
+@@ -73,7 +73,7 @@ public interface DeviceIdleInternal {
  
      boolean isAppOnWhitelist(int appid);
  
@@ -78,7 +78,7 @@ diff --git a/apex/jobscheduler/service/java/com/android/server/DeviceIdleControl
 index 6383ed873e59..f5289001cc32 100644
 --- a/apex/jobscheduler/service/java/com/android/server/DeviceIdleController.java
 +++ b/apex/jobscheduler/service/java/com/android/server/DeviceIdleController.java
-@@ -2375,14 +2375,14 @@ public boolean isAppOnWhitelist(int appid) {
+@@ -2375,14 +2375,14 @@ public class DeviceIdleController extends SystemService
          }
  
          /**
@@ -100,7 +100,7 @@ diff --git a/apex/jobscheduler/service/java/com/android/server/job/controllers/D
 index d5c9ae615486..9e3ebb9cf6bc 100644
 --- a/apex/jobscheduler/service/java/com/android/server/job/controllers/DeviceIdleJobsController.java
 +++ b/apex/jobscheduler/service/java/com/android/server/job/controllers/DeviceIdleJobsController.java
-@@ -90,7 +90,7 @@ public void onReceive(Context context, Intent intent) {
+@@ -90,7 +90,7 @@ public final class DeviceIdleJobsController extends StateController {
                  case PowerManager.ACTION_POWER_SAVE_WHITELIST_CHANGED:
                      synchronized (mLock) {
                          mDeviceIdleWhitelistAppIds =
@@ -109,7 +109,7 @@ index d5c9ae615486..9e3ebb9cf6bc 100644
                          if (DEBUG) {
                              Slog.d(TAG, "Got whitelist "
                                      + Arrays.toString(mDeviceIdleWhitelistAppIds));
-@@ -133,7 +133,7 @@ public DeviceIdleJobsController(JobSchedulerService service) {
+@@ -133,7 +133,7 @@ public final class DeviceIdleJobsController extends StateController {
          mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
          mLocalDeviceIdleController =
                  LocalServices.getService(DeviceIdleInternal.class);
@@ -118,7 +118,7 @@ index d5c9ae615486..9e3ebb9cf6bc 100644
          mPowerSaveTempWhitelistAppIds =
                  mLocalDeviceIdleController.getPowerSaveTempWhitelistAppIds();
          mDeviceIdleUpdateFunctor = new DeviceIdleUpdateFunctor();
-@@ -194,7 +194,7 @@ public void setUidActiveLocked(int uid, boolean active) {
+@@ -194,7 +194,7 @@ public final class DeviceIdleJobsController extends StateController {
      }
  
      /**

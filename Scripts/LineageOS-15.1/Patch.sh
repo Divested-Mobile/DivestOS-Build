@@ -132,7 +132,7 @@ sed -i -e '76,78d;' Android.bp; #fix compile under A10
 awk -i inplace '!/ramdisk_available/' Android.bp; #fix compile under A10
 git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519; #fix compile under A10
 git revert --no-edit a28da3c65aed0528036da9ebd33e0c05b2c5884a; #fix compile under A9
-mv include/h_malloc.h  . ; #fix compile under A10
+mv include/h_malloc.h . ; #fix compile under A10
 awk -i inplace '!/recovery_available/' Android.bp; #fix compile under A9
 awk -i inplace '!/system_shared_libs/' Android.bp; #fix compile under A9
 sed -i 's/c17/c11/' Android.bp; #fix compile under A9
@@ -519,7 +519,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/365982-prereq.patch"; #Fix reliable w
 applyPatch "$DOS_PATCHES/android_system_bt/365982.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
 applyPatch "$DOS_PATCHES/android_system_bt/377017.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [1]
 applyPatch "$DOS_PATCHES/android_system_bt/377018.patch"; #R_asb_2023-12 Reject access to secure services authenticated from temp bonding [2]
-applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject access to  secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [3]
 applyPatch "$DOS_PATCHES/android_system_bt/377020-backport.patch"; #R_asb_2023-12 Reorganize the code for checking auth requirement
 applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce authentication if encryption is required
 applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature

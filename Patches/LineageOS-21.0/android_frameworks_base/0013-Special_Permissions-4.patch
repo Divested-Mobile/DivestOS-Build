@@ -1,0 +1,119 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 31 Jul 2022 18:24:34 +0300
+Subject: [PATCH] infrastructure for spoofing self permission checks
+
+---
+ .../app/ApplicationPackageManager.java        | 13 ++++++++-
+ core/java/android/app/ContextImpl.java        | 18 ++++++++++--
+ .../content/pm/AppPermissionUtils.java        | 29 +++++++++++++++++++
+ 3 files changed, 57 insertions(+), 3 deletions(-)
+ create mode 100644 core/java/android/content/pm/AppPermissionUtils.java
+
+diff --git a/core/java/android/app/ApplicationPackageManager.java b/core/java/android/app/ApplicationPackageManager.java
+index d1694013ae52..d90f463779ef 100644
+--- a/core/java/android/app/ApplicationPackageManager.java
++++ b/core/java/android/app/ApplicationPackageManager.java
+@@ -47,6 +47,7 @@ import android.content.IntentFilter;
+ import android.content.IntentSender;
+ import android.content.pm.ActivityInfo;
+ import android.content.pm.ApkChecksum;
++import android.content.pm.AppPermissionUtils;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.ArchivedPackageInfo;
+ import android.content.pm.ChangedPackages;
+@@ -847,8 +848,18 @@ public class ApplicationPackageManager extends PackageManager {
+ 
+     @Override
+     public int checkPermission(String permName, String pkgName) {
+-        return PermissionManager.checkPackageNamePermission(permName, pkgName,
++        int res = PermissionManager.checkPackageNamePermission(permName, pkgName,
+                 mContext.getDeviceId(), getUserId());
++
++        if (res != PERMISSION_GRANTED) {
++            if (pkgName.equals(ActivityThread.currentPackageName())
++                    && AppPermissionUtils.shouldSpoofSelfCheck(permName))
++            {
++                return PERMISSION_GRANTED;
++            }
++        }
++
++        return res;
+     }
+ 
+     @Override
+diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
+index 014ddd41f8d4..f4e5f2959b87 100644
+--- a/core/java/android/app/ContextImpl.java
++++ b/core/java/android/app/ContextImpl.java
+@@ -48,6 +48,7 @@ import android.content.ReceiverCallNotAllowedException;
+ import android.content.ServiceConnection;
+ import android.content.SharedPreferences;
+ import android.content.pm.ActivityInfo;
++import android.content.pm.AppPermissionUtils;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.IPackageManager;
+ import android.content.pm.PackageManager;
+@@ -2258,12 +2259,25 @@ class ContextImpl extends Context {
+         if (permission == null) {
+             throw new IllegalArgumentException("permission is null");
+         }
++
++        final boolean selfCheck = pid == android.os.Process.myPid() && uid == android.os.Process.myUid();
++
+         if (mParams.isRenouncedPermission(permission)
+-                && pid == android.os.Process.myPid() && uid == android.os.Process.myUid()) {
++                && selfCheck) {
+             Log.v(TAG, "Treating renounced permission " + permission + " as denied");
+             return PERMISSION_DENIED;
+         }
+-        return PermissionManager.checkPermission(permission, pid, uid, getDeviceId());
++        int res = PermissionManager.checkPermission(permission, pid, uid, getDeviceId());
++
++        if (res != PERMISSION_GRANTED) {
++            if (selfCheck) {
++                if (AppPermissionUtils.shouldSpoofSelfCheck(permission)) {
++                    return PERMISSION_GRANTED;
++                }
++            }
++        }
++
++        return res;
+     }
+ 
+     /** @hide */
+diff --git a/core/java/android/content/pm/AppPermissionUtils.java b/core/java/android/content/pm/AppPermissionUtils.java
+new file mode 100644
+index 000000000000..7dc20eec8485
+--- /dev/null
++++ b/core/java/android/content/pm/AppPermissionUtils.java
+@@ -0,0 +1,29 @@
++/*
++ * Copyright (C) 2022 GrapheneOS
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.content.pm;
++
++import android.Manifest;
++
++/** @hide */
++public class AppPermissionUtils {
++
++    // android.app.ApplicationPackageManager#checkPermission(String permName, String pkgName)
++    // android.app.ContextImpl#checkPermission(String permission, int pid, int uid)
++    public static boolean shouldSpoofSelfCheck(String permName) {
++        return false;
++    }
++}

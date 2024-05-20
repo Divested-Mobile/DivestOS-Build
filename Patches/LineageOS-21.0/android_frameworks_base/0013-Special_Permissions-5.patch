@@ -1,0 +1,191 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 31 Jul 2022 18:10:28 +0300
+Subject: [PATCH] app-side infrastructure for special runtime permissions
+
+---
+ core/api/system-current.txt                   |  3 ++
+ .../android/content/pm/IPackageManager.aidl   |  2 +
+ .../pm/SpecialRuntimePermAppUtils.java        | 54 +++++++++++++++++++
+ .../server/pm/PackageManagerService.java      | 19 +++++++
+ .../permission/SpecialRuntimePermUtils.java   | 46 ++++++++++++++++
+ 5 files changed, 124 insertions(+)
+ create mode 100644 core/java/android/content/pm/SpecialRuntimePermAppUtils.java
+ create mode 100644 services/core/java/com/android/server/pm/permission/SpecialRuntimePermUtils.java
+
+diff --git a/core/api/system-current.txt b/core/api/system-current.txt
+index e92564b5d7c2..38e4b74acc38 100644
+--- a/core/api/system-current.txt
++++ b/core/api/system-current.txt
+@@ -4175,6 +4175,9 @@ package android.content.pm {
+     field @NonNull public static final android.os.Parcelable.Creator<android.content.pm.ShortcutManager.ShareShortcutInfo> CREATOR;
+   }
+ 
++  public class SpecialRuntimePermAppUtils {
++  }
++
+   public final class SuspendDialogInfo implements android.os.Parcelable {
+     method public int describeContents();
+     method public void writeToParcel(android.os.Parcel, int);
+diff --git a/core/java/android/content/pm/IPackageManager.aidl b/core/java/android/content/pm/IPackageManager.aidl
+index 6dc8d4738c87..6acfeded7760 100644
+--- a/core/java/android/content/pm/IPackageManager.aidl
++++ b/core/java/android/content/pm/IPackageManager.aidl
+@@ -832,6 +832,8 @@ interface IPackageManager {
+ 
+     boolean[] canPackageQuery(String sourcePackageName, in String[] targetPackageNames, int userId);
+ 
++    int getSpecialRuntimePermissionFlags(String packageName);
++
+     boolean waitForHandler(long timeoutMillis, boolean forBackgroundHandler);
+ 
+     void registerPackageMonitorCallback(IRemoteCallback callback, int userId);
+diff --git a/core/java/android/content/pm/SpecialRuntimePermAppUtils.java b/core/java/android/content/pm/SpecialRuntimePermAppUtils.java
+new file mode 100644
+index 000000000000..efd48cb49aa3
+--- /dev/null
++++ b/core/java/android/content/pm/SpecialRuntimePermAppUtils.java
+@@ -0,0 +1,54 @@
++/*
++ * Copyright (C) 2022 GrapheneOS
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.content.pm;
++
++import android.Manifest;
++import android.annotation.SystemApi;
++import android.app.AppGlobals;
++import android.os.Binder;
++import android.os.Process;
++import android.os.RemoteException;
++import android.permission.PermissionManager;
++
++/** @hide */
++@SystemApi
++public class SpecialRuntimePermAppUtils {
++    private static final int FLAG_INITED = 1;
++
++    private static volatile int cachedFlags;
++
++    private static int getFlags() {
++        int cache = cachedFlags;
++        if (cache != 0) {
++            return cache;
++        }
++
++        IPackageManager pm = AppGlobals.getPackageManager();
++        String pkgName = AppGlobals.getInitialPackage();
++
++        final long token = Binder.clearCallingIdentity(); // in case this method is called in the system_server
++        try {
++            return (cachedFlags = pm.getSpecialRuntimePermissionFlags(pkgName) | FLAG_INITED);
++        } catch (RemoteException e) {
++            throw e.rethrowFromSystemServer();
++        } finally {
++            Binder.restoreCallingIdentity(token);
++        }
++    }
++
++    private SpecialRuntimePermAppUtils() {}
++}
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 7798790c1026..7117861d2d16 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -229,6 +229,7 @@ import com.android.server.pm.permission.LegacyPermissionManagerService;
+ import com.android.server.pm.permission.LegacyPermissionSettings;
+ import com.android.server.pm.permission.PermissionManagerService;
+ import com.android.server.pm.permission.PermissionManagerServiceInternal;
++import com.android.server.pm.permission.SpecialRuntimePermUtils;
+ import com.android.server.pm.pkg.AndroidPackage;
+ import com.android.server.pm.pkg.ArchiveState;
+ import com.android.server.pm.pkg.PackageState;
+@@ -6535,6 +6536,24 @@ public class PackageManagerService implements PackageSender, TestUtilityService
+                     getPerUidReadTimeouts(snapshot), mSnapshotStatistics
+             ).doDump(snapshot, fd, pw, args);
+         }
++
++        @Override
++        public int getSpecialRuntimePermissionFlags(String packageName) {
++            final int callingUid = Binder.getCallingUid();
++
++            synchronized (mLock) {
++                AndroidPackage pkg = mPackages.get(packageName);
++                if (pkg == null) {
++                    throw new IllegalStateException();
++                }
++
++                if (UserHandle.getAppId(callingUid) != pkg.getUid()) { // getUid() confusingly returns appId
++                    throw new SecurityException();
++                }
++
++                return SpecialRuntimePermUtils.getFlags(pkg);
++            }
++        }
+     }
+ 
+     private class PackageManagerInternalImpl extends PackageManagerInternalBase {
+diff --git a/services/core/java/com/android/server/pm/permission/SpecialRuntimePermUtils.java b/services/core/java/com/android/server/pm/permission/SpecialRuntimePermUtils.java
+new file mode 100644
+index 000000000000..fe946ff5d5ca
+--- /dev/null
++++ b/services/core/java/com/android/server/pm/permission/SpecialRuntimePermUtils.java
+@@ -0,0 +1,46 @@
++/*
++ * Copyright (C) 2022 GrapheneOS
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.pm.permission;
++
++import android.Manifest;
++import android.os.Bundle;
++
++import com.android.internal.annotations.GuardedBy;
++import com.android.server.pm.parsing.pkg.AndroidPackage;
++import com.android.server.pm.pkg.component.ParsedUsesPermission;
++
++import static android.content.pm.SpecialRuntimePermAppUtils.*;
++
++public class SpecialRuntimePermUtils {
++
++    @GuardedBy("PackageManagerService.mLock")
++    public static int getFlags(AndroidPackage pkg) {
++        int flags = 0;
++
++        for (ParsedUsesPermission perm : pkg.getUsesPermissions()) {
++            String name = perm.getName();
++            switch (name) {
++                default:
++                    continue;
++            }
++        }
++
++        return flags;
++    }
++
++    private SpecialRuntimePermUtils() {}
++}

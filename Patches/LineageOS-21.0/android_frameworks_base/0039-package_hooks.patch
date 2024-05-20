@@ -1,0 +1,197 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Mon, 27 Mar 2023 16:00:00 +0300
+Subject: [PATCH] add hooks for modifying PackageManagerService behavior
+
+---
+ .../server/ext/PackageManagerHooks.java       | 90 +++++++++++++++++++
+ .../com/android/server/pm/AppsFilterBase.java |  6 ++
+ .../java/com/android/server/pm/Settings.java  |  8 +-
+ .../PermissionManagerServiceImpl.java         | 13 +++
+ 4 files changed, 115 insertions(+), 2 deletions(-)
+ create mode 100644 services/core/java/com/android/server/ext/PackageManagerHooks.java
+
+diff --git a/services/core/java/com/android/server/ext/PackageManagerHooks.java b/services/core/java/com/android/server/ext/PackageManagerHooks.java
+new file mode 100644
+index 000000000000..007b65349e55
+--- /dev/null
++++ b/services/core/java/com/android/server/ext/PackageManagerHooks.java
+@@ -0,0 +1,90 @@
++package com.android.server.ext;
++
++import android.Manifest;
++import android.annotation.Nullable;
++import android.annotation.UserIdInt;
++import android.content.pm.PackageManager;
++import android.content.pm.PackageManagerInternal;
++import android.os.Build;
++import android.os.UserHandle;
++import android.util.ArraySet;
++
++import com.android.server.pm.parsing.pkg.AndroidPackage;
++import com.android.server.pm.permission.Permission;
++import com.android.server.pm.pkg.PackageStateInternal;
++import com.android.server.pm.pkg.parsing.ParsingPackage;
++
++public class PackageManagerHooks {
++
++    // Called when package enabled setting is deserialized from storage
++    @Nullable
++    public static Integer maybeOverridePackageEnabledSetting(String pkgName, @UserIdInt int userId) {
++        switch (pkgName) {
++            default:
++                return null;
++        }
++    }
++
++    // Called when package parsing is completed
++    public static void amendParsedPackage(ParsingPackage pkg) {
++        String pkgName = pkg.getPackageName();
++
++        switch (pkgName) {
++            default:
++                return;
++        }
++    }
++
++    public static void removeUsesPermissions(ParsingPackage pkg, String... perms) {
++        var set = new ArraySet<>(perms);
++        pkg.getRequestedPermissions().removeAll(set);
++        pkg.getUsesPermissions().removeIf(p -> set.contains(p.getName()));
++    }
++
++    public static boolean shouldBlockGrantRuntimePermission(
++            PackageManagerInternal pm, String permName, String packageName, int userId)
++    {
++        return false;
++    }
++
++    public static boolean shouldForciblyGrantPermission(AndroidPackage pkg, Permission perm) {
++        if (!Build.IS_DEBUGGABLE) {
++            return false;
++        }
++
++        String permName = perm.getName();
++
++        switch (pkg.getPackageName()) {
++            default:
++                return false;
++        }
++    }
++
++    // Called when AppsFilter decides whether to restrict package visibility
++    public static boolean shouldFilterAccess(@Nullable PackageStateInternal callingPkgSetting,
++                                             ArraySet<PackageStateInternal> callingSharedPkgSettings,
++                                             PackageStateInternal targetPkgSetting) {
++        if (callingPkgSetting != null && restrictedVisibilityPackages.contains(callingPkgSetting.getPackageName())) {
++            if (!targetPkgSetting.isSystem()) {
++                return true;
++            }
++        }
++
++        if (restrictedVisibilityPackages.contains(targetPkgSetting.getPackageName())) {
++            if (callingPkgSetting != null) {
++                return !callingPkgSetting.isSystem();
++            } else {
++                for (int i = callingSharedPkgSettings.size() - 1; i >= 0; i--) {
++                    if (!callingSharedPkgSettings.valueAt(i).isSystem()) {
++                        return true;
++                    }
++                }
++            }
++        }
++        return false;
++    }
++
++    // Packages in this array are restricted from interacting with and being interacted by non-system apps
++    private static final ArraySet<String> restrictedVisibilityPackages = new ArraySet<>(new String[] {
++    });
++}
+diff --git a/services/core/java/com/android/server/pm/AppsFilterBase.java b/services/core/java/com/android/server/pm/AppsFilterBase.java
+index 0c1d307a4aa9..b0855bb53131 100644
+--- a/services/core/java/com/android/server/pm/AppsFilterBase.java
++++ b/services/core/java/com/android/server/pm/AppsFilterBase.java
+@@ -39,6 +39,7 @@ import android.util.SparseArray;
+ import com.android.internal.annotations.VisibleForTesting;
+ import com.android.internal.util.ArrayUtils;
+ import com.android.internal.util.function.QuadFunction;
++import com.android.server.ext.PackageManagerHooks;
+ import com.android.server.om.OverlayReferenceMapper;
+ import com.android.server.pm.pkg.AndroidPackage;
+ import com.android.server.pm.pkg.PackageStateInternal;
+@@ -449,6 +450,11 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
+                 Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);
+             }
+ 
++            if (PackageManagerHooks.shouldFilterAccess(callingPkgSetting, callingSharedPkgSettings,
++                    targetPkgSetting)) {
++                return true;
++            }
++
+             if (callingPkgSetting != null) {
+                 if (callingPkgSetting.getPkg() != null
+                         && !mFeatureConfig.packageIsEnabled(callingPkgSetting.getPkg())) {
+diff --git a/services/core/java/com/android/server/pm/Settings.java b/services/core/java/com/android/server/pm/Settings.java
+index b097b52cd759..126b212c9eb1 100644
+--- a/services/core/java/com/android/server/pm/Settings.java
++++ b/services/core/java/com/android/server/pm/Settings.java
+@@ -106,6 +106,7 @@ import com.android.permission.persistence.RuntimePermissionsPersistence;
+ import com.android.permission.persistence.RuntimePermissionsState;
+ import com.android.server.LocalServices;
+ import com.android.server.backup.PreferredActivityBackupHelper;
+++import com.android.server.ext.PackageManagerHooks;
+ import com.android.server.pm.Installer.InstallerException;
+ import com.android.server.pm.parsing.PackageInfoUtils;
+ import com.android.server.pm.permission.LegacyPermissionDataProvider;
+@@ -1927,8 +1928,11 @@ public final class Settings implements Watchable, Snappable, ResilientAtomicFile
+                                 parser.getAttributeBoolean(null, ATTR_INSTANT_APP, false);
+                         final boolean virtualPreload =
+                                 parser.getAttributeBoolean(null, ATTR_VIRTUAL_PRELOAD, false);
+-                        final int enabled = parser.getAttributeInt(null, ATTR_ENABLED,
+-                                COMPONENT_ENABLED_STATE_DEFAULT);
++                        final Integer enabledOverride =
++                                PackageManagerHooks.maybeOverridePackageEnabledSetting(name, userId);
++                        final int enabled = (enabledOverride != null) ?
++                                enabledOverride.intValue() :
++                                parser.getAttributeInt(null, ATTR_ENABLED, COMPONENT_ENABLED_STATE_DEFAULT);
+                         final String enabledCaller = parser.getAttributeValue(null,
+                                 ATTR_ENABLED_CALLER);
+                         final String harmfulAppWarning =
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
+index b771b6ba1726..b4a761a8da25 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
+@@ -135,6 +135,7 @@ import com.android.server.PermissionThread;
+ import com.android.server.ServiceThread;
+ import com.android.server.SystemConfig;
+ import com.android.server.Watchdog;
++import com.android.server.ext.PackageManagerHooks;
+ import com.android.server.pm.ApexManager;
+ import com.android.server.pm.KnownPackages;
+ import com.android.server.pm.PackageInstallerService;
+@@ -1360,6 +1361,13 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+             isRolePermission = permission.isRole();
+             isSoftRestrictedPermission = permission.isSoftRestricted();
+         }
++
++        if (PackageManagerHooks.shouldBlockGrantRuntimePermission(mPackageManagerInt, permName, packageName, userId)) {
++            // this method is called from within system_server and from critical system processes,
++            // do not throw an exception, just return
++            return;
++        }
++
+         final boolean mayGrantRolePermission = isRolePermission
+                 && mayManageRolePermission(callingUid);
+         final boolean mayGrantSoftRestrictedPermission = isSoftRestrictedPermission
+@@ -2931,6 +2939,11 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+                         Slog.wtf(LOG_TAG, "Unknown permission protection " + bp.getProtection()
+                                 + " for permission " + bp.getName());
+                     }
++
++                    if (Build.IS_DEBUGGABLE && PackageManagerHooks.shouldForciblyGrantPermission(pkg, bp)) {
++                        uidState.grantPermission(bp);
++                        Slog.d(TAG, "forcibly granted " + bp.getName() + " to " + pkg.getPackageName());
++                    }
+                 }
+ 
+                 if ((installPermissionsChangedForUser || replace)
