@@ -16,7 +16,7 @@ index 3adbd686cd2c..6221541473d3 100644
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
      public boolean forceRefresh() {
          synchronized (mRefreshLock) {
-+            final ContentResolver resolver = mContext.getContentResolver();
++            final ContentResolver resolver = getContext().getContentResolver();
 +
 +            final boolean networkPollTime = Settings.Global.getInt(resolver,
 +                    Settings.Global.AUTO_TIME, 1) != 0;
