@@ -218,11 +218,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35969/^6.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35978/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35982/^6.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36004/^6.9/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36013/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/^6.8/0002.patch
-editKernelLocalversion "-dos.p222"
+editKernelLocalversion "-dos.p221"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

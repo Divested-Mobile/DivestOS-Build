@@ -268,7 +268,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35954/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35962/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35978/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35982/^6.9/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36013/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
@@ -276,7 +275,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.p
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/^6.8/0002.patch
-editKernelLocalversion "-dos.p276"
+editKernelLocalversion "-dos.p275"
 else echo "kernel_google_msm-4.9 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
