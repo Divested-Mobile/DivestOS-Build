@@ -1,5 +1,6 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8250"; then
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0314-0315.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0003.patch
@@ -77,11 +78,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47234/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47266/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47329/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47430/^5.15/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47455/4.9-^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47472/^5.15/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47488/^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47490/^5.15/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47498/^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3108/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3625/^5.19/0001.patch
@@ -106,7 +104,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.12-^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52429/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52437/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52595/^6.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/4.19/0002.patch
@@ -162,7 +159,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35984/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35997/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36004/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.19/0007.patch
-editKernelLocalversion "-dos.p162"
+editKernelLocalversion "-dos.p159"
 else echo "kernel_xiaomi_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -580,7 +580,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47480/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47482/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47483/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47495/4.9/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47498/^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0330/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0494/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0617/4.9/0009.patch
@@ -861,7 +860,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/4.9/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/^6.8/0002.patch
-editKernelLocalversion "-dos.p861"
+editKernelLocalversion "-dos.p860"
 else echo "kernel_samsung_exynos9810 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

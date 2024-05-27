@@ -67,9 +67,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47058/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47173/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47266/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47430/^5.15/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47455/4.9-^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47472/4.9/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47498/^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0012.patch
@@ -271,7 +269,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.p
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/^6.8/0002.patch
-editKernelLocalversion "-dos.p271"
+editKernelLocalversion "-dos.p269"
 else echo "kernel_fairphone_sdm632 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
