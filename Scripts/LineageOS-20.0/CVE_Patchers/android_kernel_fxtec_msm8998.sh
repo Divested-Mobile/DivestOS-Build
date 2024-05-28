@@ -267,6 +267,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52845/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52847/^6.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52855/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52868/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52880/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.4/0001.patch
@@ -369,7 +370,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p369"
+editKernelLocalversion "-dos.p370"
 else echo "kernel_fxtec_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
