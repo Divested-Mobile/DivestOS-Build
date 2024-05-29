@@ -29,6 +29,7 @@ echo "==========================================================================
 for f in */verifiedboot_relkeys.der.x509
 do
 	device=$(dirname $f);
+	# shellcheck disable=SC2199
 	if [[ " ${VERITY_DEVICES[@]} " =~ " ${device} " ]]; then
 		echo "Device: $device";
 		sha1=$(cat $f | openssl dgst -sha1 -c | sed 's/SHA1(stdin)= //' | tr [a-z] [A-Z]);
@@ -48,6 +49,7 @@ echo "==========================================================================
 for f in */avb_pkmd.bin
 do
 	device=$(dirname $f);
+	# shellcheck disable=SC2199
 	if [[ " ${AVB_DEVICES[@]} " =~ " ${device} " ]]; then
 		echo "Device: $device";
 		sha256=$(cat $f | openssl dgst -sha256 | sed 's/SHA2-256(stdin)= //' | tr [a-z] [A-Z]);

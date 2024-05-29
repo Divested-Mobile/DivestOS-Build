@@ -1,0 +1,7 @@
+shell check:
+  image: koalaman/shellcheck-alpine:stable
+  stage: test
+  before_script:
+    - shellcheck --version
+  script:
+    - shellcheck --severity=error Scripts/*.sh Scripts/*/*.sh Scripts/*/*/*.sh

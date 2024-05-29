@@ -123,6 +123,7 @@ gpgVerifyDirectory() {
 export -f gpgVerifyDirectory;
 
 scanForMalware() {
+	# shellcheck disable=SC2144
 	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.c*d ]; then
 		echo -e "\e[0;32mStarting a malware scan...\e[0m";
 		local excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
@@ -402,6 +403,7 @@ processRelease() {
 	#grep update_engine Build/*/device/*/*/*.mk -l
 	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'akatsuki' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'barbet' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'felix' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'kirin' 'lemonade' 'lemonadep' 'lemonades' 'lynx' 'marlin' 'mata' 'mermaid' 'oriole' 'panther' 'pioneer' 'pro1' 'pro1x' 'raven' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'vayu' 'voyager' 'walleye' 'xz2c'); #TODO: check lmi/alioth/apollon
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
+		# shellcheck disable=SC2199
 		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 			for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
 				if [[ -f "$LAST_TARGET_FILES.id" ]]; then
@@ -457,6 +459,7 @@ processRelease() {
 		if [ "$hasRecoveryImg" == "1" ] || [ "$hasDtboImg" == "0" ]; then cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true; fi;
 		if [ "$hasRecoveryImg" == "0" ] && [ "$hasDtboImg" == "1" ]; then cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true; fi;
 		if [ "$DOS_GENERATE_DELTAS" = true ]; then
+			# shellcheck disable=SC2199
 			if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 				cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/ || true;
 				cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;

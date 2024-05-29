@@ -746,6 +746,7 @@ deblobDevice() {
 			sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
 		fi;
 	fi;
+	# shellcheck disable=SC2144
 	if [ -f init/init_*.cpp ]; then
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
