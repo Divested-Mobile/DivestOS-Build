@@ -753,6 +753,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35944/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35947/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35954/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35982/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36919/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36929/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36941/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36946/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36950/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5853/3.18/0002.patch
@@ -765,7 +770,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p765"
+editKernelLocalversion "-dos.p770"
 else echo "kernel_google_marlin is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
