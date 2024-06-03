@@ -1,0 +1,101 @@
+From 9a28c009d937e060bb5c10034cb5370129b8ce81 Mon Sep 17 00:00:00 2001
+From: Jan Tomljanovic <jtomljanovic@google.com>
+Date: Fri, 6 Nov 2020 11:28:09 +0000
+Subject: [PATCH] Don't try to show the current toast again while it's showing.
+
+By doing this we avoid a few bad things:
+ - mechanism that hides the current toast by trying to show it again
+ - delaying the call to hide and remove the current toast from the queue
+   when it's duration expires (which in the case of repeated calls can
+   delay this indefinitely)
+
+Test: atest NotificationManagerServiceTest
+Test: atest android.widget.cts.ToastTest
+Bug: 167672740
+Change-Id: Ie4953109314113efae49fa0c5e0c236e6e0dbb23
+---
+ .../NotificationManagerService.java           | 13 ++++++++++
+ .../NotificationManagerServiceTest.java       | 26 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index d769ff8e75055..7b1c0ac27ab30 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -437,6 +437,10 @@ public class NotificationManagerService extends SystemService {
+ 
+     private KeyguardManager mKeyguardManager;
+ 
++    // True if the toast that's on top of the queue is being shown at the moment.
++    @GuardedBy("mToastQueue")
++    private boolean mIsCurrentToastShown = false;
++
+     // The last key in this list owns the hardware.
+     ArrayList<String> mLights = new ArrayList<>();
+ 
+@@ -6482,12 +6486,17 @@ public void run() {
+ 
+     @GuardedBy("mToastQueue")
+     void showNextToastLocked() {
++        if (mIsCurrentToastShown) {
++            return; // Don't show the same toast twice.
++        }
++
+         ToastRecord record = mToastQueue.get(0);
+         while (record != null) {
+             if (DBG) Slog.d(TAG, "Show pkg=" + record.pkg + " callback=" + record.callback);
+             try {
+                 record.callback.show(record.token);
+                 scheduleDurationReachedLocked(record);
++                mIsCurrentToastShown = true;
+                 return;
+             } catch (RemoteException e) {
+                 Slog.w(TAG, "Object died trying to show notification " + record.callback
+@@ -6519,6 +6528,10 @@ void cancelToastLocked(int index) {
+             // the list anyway
+         }
+ 
++        if (index == 0) {
++            mIsCurrentToastShown = false;
++        }
++
+         ToastRecord lastToast = mToastQueue.remove(index);
+ 
+         mWindowManagerInternal.removeWindowToken(lastToast.token, false /* removeWindows */,
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index 4a0aa7c9e8e74..0e8cea43063b9 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -4415,6 +4415,32 @@ public void testAllowForegroundToasts() throws Exception {
+     }
+ 
+     @Test
++    public void testDontCallShowToastAgainOnTheSameTextToast() throws Exception {
++        final String testPackage = "testPackageName";
++        assertEquals(0, mService.mToastQueue.size());
++        mService.isSystemUid = false;
++
++        // package is not suspended
++        when(mPackageManager.isPackageSuspendedForUser(testPackage, UserHandle.getUserId(mUid)))
++                .thenReturn(false);
++
++        setAppInForegroundForToasts(mUid, true);
++
++        Binder token = new Binder();
++        INotificationManager nmService = (INotificationManager) mService.mService;
++
++        // first time trying to show the toast, showToast gets called
++        nmService.enqueueTextToast(testPackage, token, "Text", 2000, 0, null);
++        verify(mStatusBar, times(1))
++                .showToast(anyInt(), any(), any(), any(), any(), anyInt(), any());
++
++        // second time trying to show the same toast, showToast isn't called again (total number of
++        // invocations stays at one)
++        nmService.enqueueTextToast(testPackage, token, "Text", 2000, 0, null);
++        verify(mStatusBar, times(1))
++                .showToast(anyInt(), any(), any(), any(), any(), anyInt(), any());
++    }
++
+     public void testDisallowToastsFromSuspendedPackages() throws Exception {
+         final String testPackage = "testPackageName";
+         assertEquals(0, mService.mToastQueue.size());

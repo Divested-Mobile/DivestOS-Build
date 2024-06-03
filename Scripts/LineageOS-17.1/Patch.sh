@@ -292,6 +292,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/391912.patch"; #Q_asb_2024-03 D
 applyPatch "$DOS_PATCHES/android_frameworks_base/391913.patch"; #Q_asb_2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/392204.patch"; #Q_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
 applyPatch "$DOS_PATCHES/android_frameworks_base/392205.patch"; #Q_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+applyPatch "$DOS_PATCHES/android_frameworks_base/393587.patch"; #Q_asb_2024-05 Prioritize system toasts
+applyPatch "$DOS_PATCHES/android_frameworks_base/393588.patch"; #Q_asb_2024-05 Don't try to show the current toast again while it's showing.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
