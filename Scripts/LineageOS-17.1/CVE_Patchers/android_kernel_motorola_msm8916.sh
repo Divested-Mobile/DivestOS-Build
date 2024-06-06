@@ -660,6 +660,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35944/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35947/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36919/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36946/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36964/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/3.18/0003.patch
@@ -669,7 +670,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p669"
+editKernelLocalversion "-dos.p670"
 else echo "kernel_motorola_msm8916 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

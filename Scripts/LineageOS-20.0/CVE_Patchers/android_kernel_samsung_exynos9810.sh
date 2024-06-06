@@ -906,6 +906,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36934/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36941/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36946/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36950/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36960/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36964/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/4.9/0008.patch
@@ -913,7 +915,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
-editKernelLocalversion "-dos.p913"
+editKernelLocalversion "-dos.p915"
 else echo "kernel_samsung_exynos9810 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

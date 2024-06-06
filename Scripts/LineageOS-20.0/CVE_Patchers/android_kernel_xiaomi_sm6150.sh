@@ -310,11 +310,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36946/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36950/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36954/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36959/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36960/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36964/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
-editKernelLocalversion "-dos.p314"
+editKernelLocalversion "-dos.p316"
 else echo "kernel_xiaomi_sm6150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
