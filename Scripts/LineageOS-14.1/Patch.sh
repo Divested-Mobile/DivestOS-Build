@@ -82,7 +82,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-05 #XXX
+sed -i 's/2021-06-05/2024-06-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-06 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -282,6 +282,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/378956.patch"; #n-asb-2024-01 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/385241.patch"; #n-asb-2024-03 Resolve custom printer icon boundary exploit.
 applyPatch "$DOS_PATCHES/android_frameworks_base/385242.patch"; #n-asb-2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/388831.patch"; #n-asb-2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+applyPatch "$DOS_PATCHES/android_frameworks_base/393646.patch"; #n-asb-2024-05 Add more checkKeyIntent checks to AccountManagerService.
+applyPatch "$DOS_PATCHES/android_frameworks_base/393647.patch"; #n-asb-2024-05 Adds additional sanitization for Zygote command arguments.
+applyPatch "$DOS_PATCHES/android_frameworks_base/393648.patch"; #n-asb-2024-05 Check hidden API exemptions
+applyPatch "$DOS_PATCHES/android_frameworks_base/393649.patch"; #n-asb-2024-05 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

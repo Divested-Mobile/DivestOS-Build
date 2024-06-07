@@ -1,0 +1,61 @@
+From 53abf79f26084d26d2887d716137fa9cd4eeefc9 Mon Sep 17 00:00:00 2001
+From: Ameer Armaly <aarmaly@google.com>
+Date: Fri, 8 Mar 2024 19:41:06 +0000
+Subject: [PATCH] [RESTRICT AUTOMERGE] AccessibilityManagerService: remove
+ uninstalled services from enabled list after service update.
+
+Bug: 326485767
+Test: atest AccessibilityEndToEndTest#testUpdateServiceWithoutIntent_disablesService
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:f6192d3a77520d40b6a93de8f45400e19f5ba29f)
+Merged-In: Ia86857d58ebab925ec6e55f9e5fa64e265326ec0
+Change-Id: Ia86857d58ebab925ec6e55f9e5fa64e265326ec0
+
+Change-Id: I898044b388399bded66acb22dba55c5df26ccc9f
+---
+ .../AccessibilityManagerService.java          | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 34ccb7b82c87c..38cf47a5d87b9 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -1294,10 +1294,13 @@ private void updateServicesLocked(UserState userState) {
+         boolean isUnlockingOrUnlocked = mContext.getSystemService(UserManager.class)
+                 .isUserUnlockingOrUnlocked(userState.mUserId);
+ 
++        // Store the list of installed services.
++        mTempComponentNameSet.clear();
+         for (int i = 0, count = userState.mInstalledServices.size(); i < count; i++) {
+             AccessibilityServiceInfo installedService = userState.mInstalledServices.get(i);
+             ComponentName componentName = ComponentName.unflattenFromString(
+                     installedService.getId());
++            mTempComponentNameSet.add(componentName);
+ 
+             Service service = componentNameToServiceMap.get(componentName);
+ 
+@@ -1325,6 +1328,25 @@ private void updateServicesLocked(UserState userState) {
+             }
+         }
+ 
++        // If any services have been removed, remove them from the enabled list and the touch
++        // exploration granted list.
++        boolean anyServiceRemoved =
++                userState.mEnabledServices.removeIf((comp) -> !mTempComponentNameSet.contains(comp))
++                        || userState.mTouchExplorationGrantedServices.removeIf(
++                                (comp) -> !mTempComponentNameSet.contains(comp));
++        if (anyServiceRemoved) {
++            // Update the enabled services setting.
++            persistComponentNamesToSettingLocked(
++                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
++                    userState.mEnabledServices,
++                    userState.mUserId);
++            // Update the touch exploration granted services setting.
++            persistComponentNamesToSettingLocked(
++                    Settings.Secure.TOUCH_EXPLORATION_GRANTED_ACCESSIBILITY_SERVICES,
++                    userState.mTouchExplorationGrantedServices,
++                    userState.mUserId);
++        }
++        mTempComponentNameSet.clear();
+         updateAccessibilityEnabledSetting(userState);
+     }
+ 

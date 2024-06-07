@@ -1,0 +1,54 @@
+From 1595b95840ad55128edacd32996afb954480aefd Mon Sep 17 00:00:00 2001
+From: Chris Wailes <chriswailes@google.com>
+Date: Thu, 18 Apr 2019 18:25:57 -0700
+Subject: [PATCH] [BACKPORT] Adds additional sanitization for Zygote command
+ arguments.
+
+Previously we were only insuring that the arguments provided to the
+Zygote didn't contain any newlines.  This adds additional checks for
+carriage returns and standalone integer arguments to protect against
+malicious argument and packet injection respectively.
+
+Bug: 130164289
+Test: m & flash & boot & check logs
+Change-Id: I4055c50d52db0047c02c11096710fd07b429660c
+Merged-In: I4055c50d52db0047c02c11096710fd07b429660c
+(cherry picked from commit c99198249f8bb79487d4f9f0f45b5b2fefaba41a)
+---
+ core/java/android/os/Process.java | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/os/Process.java b/core/java/android/os/Process.java
+index e1b7fdad25e7d..1e084529de6e5 100644
+--- a/core/java/android/os/Process.java
++++ b/core/java/android/os/Process.java
+@@ -16,6 +16,7 @@
+ 
+ package android.os;
+ 
++import android.annotation.NonNull;
+ import android.annotation.TestApi;
+ import android.net.LocalSocket;
+ import android.net.LocalSocketAddress;
+@@ -564,15 +565,19 @@ private static String getAbiList(BufferedWriter writer, DataInputStream inputStr
+      * @throws ZygoteStartFailedEx if process start failed for any reason
+      */
+     private static ProcessStartResult zygoteSendArgsAndGetResult(
+-            ZygoteState zygoteState, ArrayList<String> args)
++            ZygoteState zygoteState, @NonNull ArrayList<String> args)
+             throws ZygoteStartFailedEx {
+         try {
+             // Throw early if any of the arguments are malformed. This means we can
+             // avoid writing a partial response to the zygote.
+             int sz = args.size();
+             for (int i = 0; i < sz; i++) {
++                // Making two indexOf calls here is faster than running a manually fused loop due
++                // to the fact that indexOf is a optimized intrinsic.
+                 if (args.get(i).indexOf('\n') >= 0) {
+-                    throw new ZygoteStartFailedEx("embedded newlines not allowed");
++                    throw new ZygoteStartFailedEx("Embedded newlines not allowed");
++                } else if (args.get(i).indexOf('\r') >= 0) {
++                    throw new ZygoteStartFailedEx("Embedded carriage returns not allowed");
+                 }
+             }
+ 
