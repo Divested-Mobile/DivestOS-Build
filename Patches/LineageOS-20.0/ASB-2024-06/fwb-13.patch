@@ -1,0 +1,274 @@
+From 56ef52af608d4c74da25da50023b63fb3680159f Mon Sep 17 00:00:00 2001
+From: Beth Thibodeau <ethibodeau@google.com>
+Date: Tue, 19 Mar 2024 16:49:51 -0500
+Subject: [PATCH] Update media_controls_lock_screen setting behavior
+
+When the setting is disabled, hide the media carousel everywhere when
+the device is on lockscreen, not just in the keyguard layout
+
+Bug: 314333719
+Test: manual
+Test: atest MediaHierarchyManagerTest
+Flag: NONE
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a441f4acd62cce1059818ce8e9b7ab93b0079e50)
+Merged-In: I4f618e4013db894291e6fca9d49bceb1cb7e4bd9
+Change-Id: I4f618e4013db894291e6fca9d49bceb1cb7e4bd9
+---
+ .../controls/ui/KeyguardMediaController.kt    | 40 -------------------
+ .../controls/ui/MediaHierarchyManager.kt      | 27 +++++++++----
+ .../systemui/media/controls/ui/MediaHost.kt   |  4 +-
+ .../ui/KeyguardMediaControllerTest.kt         | 28 -------------
+ 4 files changed, 22 insertions(+), 77 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/ui/KeyguardMediaController.kt b/packages/SystemUI/src/com/android/systemui/media/controls/ui/KeyguardMediaController.kt
+index 30ee147e302a..2a2882cf7108 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/ui/KeyguardMediaController.kt
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/ui/KeyguardMediaController.kt
+@@ -18,16 +18,10 @@ package com.android.systemui.media.controls.ui
+ 
+ import android.content.Context
+ import android.content.res.Configuration
+-import android.database.ContentObserver
+-import android.net.Uri
+-import android.os.Handler
+-import android.os.UserHandle
+-import android.provider.Settings
+ import android.view.View
+ import android.view.ViewGroup
+ import androidx.annotation.VisibleForTesting
+ import com.android.systemui.dagger.SysUISingleton
+-import com.android.systemui.dagger.qualifiers.Main
+ import com.android.systemui.media.dagger.MediaModule.KEYGUARD
+ import com.android.systemui.plugins.statusbar.StatusBarStateController
+ import com.android.systemui.statusbar.StatusBarState
+@@ -36,7 +30,6 @@ import com.android.systemui.statusbar.notification.stack.MediaContainerView
+ import com.android.systemui.statusbar.phone.KeyguardBypassController
+ import com.android.systemui.statusbar.policy.ConfigurationController
+ import com.android.systemui.util.LargeScreenUtils
+-import com.android.systemui.util.settings.SecureSettings
+ import javax.inject.Inject
+ import javax.inject.Named
+ 
+@@ -52,8 +45,6 @@ constructor(
+     private val bypassController: KeyguardBypassController,
+     private val statusBarStateController: SysuiStatusBarStateController,
+     private val context: Context,
+-    private val secureSettings: SecureSettings,
+-    @Main private val handler: Handler,
+     configurationController: ConfigurationController,
+ ) {
+ 
+@@ -77,26 +68,6 @@ constructor(
+             }
+         )
+ 
+-        val settingsObserver: ContentObserver =
+-            object : ContentObserver(handler) {
+-                override fun onChange(selfChange: Boolean, uri: Uri?) {
+-                    if (uri == lockScreenMediaPlayerUri) {
+-                        allowMediaPlayerOnLockScreen =
+-                            secureSettings.getBoolForUser(
+-                                Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN,
+-                                true,
+-                                UserHandle.USER_CURRENT
+-                            )
+-                        refreshMediaPosition()
+-                    }
+-                }
+-            }
+-        secureSettings.registerContentObserverForUser(
+-            Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN,
+-            settingsObserver,
+-            UserHandle.USER_ALL
+-        )
+-
+         // First let's set the desired state that we want for this host
+         mediaHost.expansion = MediaHostState.EXPANDED
+         mediaHost.showsOnlyActiveMedia = true
+@@ -133,16 +104,6 @@ constructor(
+         private set
+     private var splitShadeContainer: ViewGroup? = null
+ 
+-    /** Track the media player setting status on lock screen. */
+-    private var allowMediaPlayerOnLockScreen: Boolean =
+-        secureSettings.getBoolForUser(
+-            Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN,
+-            true,
+-            UserHandle.USER_CURRENT
+-        )
+-    private val lockScreenMediaPlayerUri =
+-        secureSettings.getUriFor(Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN)
+-
+     /**
+      * Attaches media container in single pane mode, situated at the top of the notifications list
+      */
+@@ -202,7 +163,6 @@ constructor(
+             mediaHost.visible &&
+                 !bypassController.bypassEnabled &&
+                 keyguardOrUserSwitcher &&
+-                allowMediaPlayerOnLockScreen &&
+                 shouldBeVisibleForSplitShade()
+         if (visible) {
+             showMediaPlayer()
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHierarchyManager.kt b/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHierarchyManager.kt
+index 54237ce7cf25..f0ff1292311d 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHierarchyManager.kt
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHierarchyManager.kt
+@@ -104,7 +104,7 @@ constructor(
+ ) {
+ 
+     /** Track the media player setting status on lock screen. */
+-    private var allowMediaPlayerOnLockScreen: Boolean = true
++    private var allowMediaPlayerOnLockScreen: Boolean = getMediaLockScreenSetting()
+     private val lockScreenMediaPlayerUri =
+         secureSettings.getUriFor(Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN)
+ 
+@@ -462,6 +462,7 @@ constructor(
+                     }
+                     mediaCarouselController.mediaCarouselScrollHandler.visibleToUser =
+                         isVisibleToUser()
++                    mediaCarouselController.updateHostVisibility()
+                 }
+ 
+                 override fun onDozeAmountChanged(linear: Float, eased: Float) {
+@@ -538,7 +539,6 @@ constructor(
+         mediaCarouselController.updateHostVisibility = {
+             mediaHosts.forEach { it?.updateViewVisibility() }
+         }
+-
+         panelEventsEvents.addShadeStateEventsListener(
+             object : ShadeStateEventsListener {
+                 override fun onExpandImmediateChanged(isExpandImmediateEnabled: Boolean) {
+@@ -552,12 +552,8 @@ constructor(
+             object : ContentObserver(handler) {
+                 override fun onChange(selfChange: Boolean, uri: Uri?) {
+                     if (uri == lockScreenMediaPlayerUri) {
+-                        allowMediaPlayerOnLockScreen =
+-                            secureSettings.getBoolForUser(
+-                                Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN,
+-                                true,
+-                                UserHandle.USER_CURRENT
+-                            )
++                        allowMediaPlayerOnLockScreen = getMediaLockScreenSetting()
++                        mediaCarouselController.updateHostVisibility()
+                     }
+                 }
+             }
+@@ -568,6 +564,14 @@ constructor(
+         )
+     }
+ 
++    private fun getMediaLockScreenSetting(): Boolean {
++        return secureSettings.getBoolForUser(
++            Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN,
++            true,
++            UserHandle.USER_CURRENT
++        )
++    }
++
+     private fun updateConfiguration() {
+         distanceForFullShadeTransition =
+             context.resources.getDimensionPixelSize(
+@@ -607,6 +611,13 @@ constructor(
+         mediaCarouselController.closeGuts()
+     }
+ 
++    /** Return true if the carousel should be hidden because lockscreen is currently visible */
++    fun isLockedAndHidden(): Boolean {
++        return !allowMediaPlayerOnLockScreen &&
++            (statusbarState == StatusBarState.SHADE_LOCKED ||
++                statusbarState == StatusBarState.KEYGUARD)
++    }
++
+     private fun createUniqueObjectHost(): UniqueObjectHostView {
+         val viewHost = UniqueObjectHostView(context)
+         viewHost.addOnAttachStateChangeListener(
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHost.kt b/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHost.kt
+index be570b4a1119..26580e54cd62 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHost.kt
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/ui/MediaHost.kt
+@@ -199,7 +199,9 @@ constructor(
+      */
+     fun updateViewVisibility() {
+         state.visible =
+-            if (showsOnlyActiveMedia) {
++            if (mediaHierarchyManager.isLockedAndHidden()) {
++                false
++            } else if (showsOnlyActiveMedia) {
+                 mediaDataManager.hasActiveMediaOrRecommendation()
+             } else {
+                 mediaDataManager.hasAnyMediaOrRecommendation()
+diff --git a/packages/SystemUI/tests/src/com/android/systemui/media/controls/ui/KeyguardMediaControllerTest.kt b/packages/SystemUI/tests/src/com/android/systemui/media/controls/ui/KeyguardMediaControllerTest.kt
+index b40ebc9bb156..41b3fe65599f 100644
+--- a/packages/SystemUI/tests/src/com/android/systemui/media/controls/ui/KeyguardMediaControllerTest.kt
++++ b/packages/SystemUI/tests/src/com/android/systemui/media/controls/ui/KeyguardMediaControllerTest.kt
+@@ -16,7 +16,6 @@
+ 
+ package com.android.systemui.media.controls.ui
+ 
+-import android.provider.Settings
+ import android.test.suitebuilder.annotation.SmallTest
+ import android.testing.AndroidTestingRunner
+ import android.testing.TestableLooper
+@@ -32,8 +31,6 @@ import com.android.systemui.statusbar.phone.KeyguardBypassController
+ import com.android.systemui.statusbar.policy.ConfigurationController
+ import com.android.systemui.util.animation.UniqueObjectHostView
+ import com.android.systemui.util.mockito.whenever
+-import com.android.systemui.util.settings.FakeSettings
+-import com.android.systemui.utils.os.FakeHandler
+ import com.google.common.truth.Truth.assertThat
+ import junit.framework.Assert.assertTrue
+ import org.junit.Before
+@@ -60,10 +57,7 @@ class KeyguardMediaControllerTest : SysuiTestCase() {
+ 
+     private val mediaContainerView: MediaContainerView = MediaContainerView(context, null)
+     private val hostView = UniqueObjectHostView(context)
+-    private val settings = FakeSettings()
+     private lateinit var keyguardMediaController: KeyguardMediaController
+-    private lateinit var testableLooper: TestableLooper
+-    private lateinit var fakeHandler: FakeHandler
+     private lateinit var statusBarStateListener: StatusBarStateController.StateListener
+ 
+     @Before
+@@ -79,16 +73,12 @@ class KeyguardMediaControllerTest : SysuiTestCase() {
+         whenever(statusBarStateController.state).thenReturn(StatusBarState.KEYGUARD)
+         whenever(mediaHost.hostView).thenReturn(hostView)
+         hostView.layoutParams = FrameLayout.LayoutParams(100, 100)
+-        testableLooper = TestableLooper.get(this)
+-        fakeHandler = FakeHandler(testableLooper.looper)
+         keyguardMediaController =
+             KeyguardMediaController(
+                 mediaHost,
+                 bypassController,
+                 statusBarStateController,
+                 context,
+-                settings,
+-                fakeHandler,
+                 configurationController,
+             )
+         keyguardMediaController.attachSinglePaneContainer(mediaContainerView)
+@@ -117,24 +107,6 @@ class KeyguardMediaControllerTest : SysuiTestCase() {
+         assertThat(mediaContainerView.visibility).isEqualTo(visibility)
+     }
+ 
+-    @Test
+-    fun testHiddenOnKeyguard_whenMediaOnLockScreenDisabled() {
+-        settings.putInt(Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN, 0)
+-
+-        keyguardMediaController.refreshMediaPosition()
+-
+-        assertThat(mediaContainerView.visibility).isEqualTo(GONE)
+-    }
+-
+-    @Test
+-    fun testAvailableOnKeyguard_whenMediaOnLockScreenEnabled() {
+-        settings.putInt(Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN, 1)
+-
+-        keyguardMediaController.refreshMediaPosition()
+-
+-        assertThat(mediaContainerView.visibility).isEqualTo(VISIBLE)
+-    }
+-
+     @Test
+     fun testActivatesSplitShadeContainerInSplitShadeMode() {
+         val splitShadeContainer = FrameLayout(context)

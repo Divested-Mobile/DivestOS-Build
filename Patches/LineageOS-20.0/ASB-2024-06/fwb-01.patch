@@ -1,0 +1,225 @@
+From 42c9c06f9c0f8d7212284c6555e3ffd25bd4ddbf Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Thu, 30 Nov 2023 23:12:39 +0000
+Subject: [PATCH] Added throttle when reporting shortcut usage
+
+Bug: 304290201
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:bd88f35c6797b1795d1150af92760531ff73f14f)
+Merged-In: I96370cbd4f6a55f894c1a93307e5f82dfd394652
+Change-Id: I96370cbd4f6a55f894c1a93307e5f82dfd394652
+---
+ .../android/server/pm/ShortcutPackage.java    | 32 +++++++++++
+ .../android/server/pm/ShortcutService.java    | 18 ++----
+ .../server/pm/ShortcutManagerTest1.java       | 55 ++++++++++++++++++-
+ .../server/pm/ShortcutManagerTest2.java       |  2 +
+ 4 files changed, 92 insertions(+), 15 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/ShortcutPackage.java b/services/core/java/com/android/server/pm/ShortcutPackage.java
+index 5a662d9f3139..3b3c11e1209d 100644
+--- a/services/core/java/com/android/server/pm/ShortcutPackage.java
++++ b/services/core/java/com/android/server/pm/ShortcutPackage.java
+@@ -33,6 +33,7 @@
+ import android.app.appsearch.SearchResults;
+ import android.app.appsearch.SearchSpec;
+ import android.app.appsearch.SetSchemaRequest;
++import android.app.usage.UsageStatsManagerInternal;
+ import android.content.ComponentName;
+ import android.content.Intent;
+ import android.content.IntentFilter;
+@@ -47,6 +48,7 @@
+ import android.os.Binder;
+ import android.os.PersistableBundle;
+ import android.os.StrictMode;
++import android.os.SystemClock;
+ import android.text.format.Formatter;
+ import android.util.ArrayMap;
+ import android.util.ArraySet;
+@@ -160,6 +162,9 @@ class ShortcutPackage extends ShortcutPackageItem {
+     private static final String KEY_BITMAPS = "bitmaps";
+     private static final String KEY_BITMAP_BYTES = "bitmapBytes";
+ 
++    @VisibleForTesting
++    public static final int REPORT_USAGE_BUFFER_SIZE = 3;
++
+     private final Executor mExecutor;
+ 
+     /**
+@@ -195,6 +200,9 @@ class ShortcutPackage extends ShortcutPackageItem {
+ 
+     private long mLastKnownForegroundElapsedTime;
+ 
++    @GuardedBy("mLock")
++    private List<Long> mLastReportedTime = new ArrayList<>();
++
+     @GuardedBy("mLock")
+     private boolean mIsAppSearchSchemaUpToDate;
+ 
+@@ -1677,6 +1685,30 @@ public boolean hasNonManifestShortcuts() {
+         return condition[0];
+     }
+ 
++    void reportShortcutUsed(@NonNull final UsageStatsManagerInternal usageStatsManagerInternal,
++            @NonNull final String shortcutId) {
++        synchronized (mLock) {
++            final long currentTS = SystemClock.elapsedRealtime();
++            final ShortcutService s = mShortcutUser.mService;
++            if (mLastReportedTime.isEmpty()
++                    || mLastReportedTime.size() < REPORT_USAGE_BUFFER_SIZE) {
++                mLastReportedTime.add(currentTS);
++            } else if (currentTS - mLastReportedTime.get(0) > s.mSaveDelayMillis) {
++                mLastReportedTime.remove(0);
++                mLastReportedTime.add(currentTS);
++            } else {
++                return;
++            }
++            final long token = s.injectClearCallingIdentity();
++            try {
++                usageStatsManagerInternal.reportShortcutUsage(getPackageName(), shortcutId,
++                        getUser().getUserId());
++            } finally {
++                s.injectRestoreCallingIdentity(token);
++            }
++        }
++    }
++
+     public void dump(@NonNull PrintWriter pw, @NonNull String prefix, DumpFilter filter) {
+         pw.println();
+ 
+diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
+index 7fd32d2a6b1b..84eb799e31ff 100644
+--- a/services/core/java/com/android/server/pm/ShortcutService.java
++++ b/services/core/java/com/android/server/pm/ShortcutService.java
+@@ -365,7 +365,7 @@ public boolean test(PackageInfo pi) {
+     private CompressFormat mIconPersistFormat;
+     private int mIconPersistQuality;
+ 
+-    private int mSaveDelayMillis;
++    int mSaveDelayMillis;
+ 
+     private final IPackageManager mIPackageManager;
+     private final PackageManagerInternal mPackageManagerInternal;
+@@ -2269,7 +2269,7 @@ public void pushDynamicShortcut(String packageName, ShortcutInfo shortcut,
+ 
+         packageShortcutsChanged(ps, changedShortcuts, removedShortcuts);
+ 
+-        reportShortcutUsedInternal(packageName, shortcut.getId(), userId);
++        ps.reportShortcutUsed(mUsageStatsManagerInternal, shortcut.getId());
+ 
+         verifyStates();
+     }
+@@ -2676,25 +2676,17 @@ public void reportShortcutUsed(String packageName, String shortcutId, int userId
+             Slog.d(TAG, String.format("reportShortcutUsed: Shortcut %s package %s used on user %d",
+                     shortcutId, packageName, userId));
+         }
++        final ShortcutPackage ps;
+         synchronized (mLock) {
+             throwIfUserLockedL(userId);
+-            final ShortcutPackage ps = getPackageShortcutsForPublisherLocked(packageName, userId);
++            ps = getPackageShortcutsForPublisherLocked(packageName, userId);
+             if (ps.findShortcutById(shortcutId) == null) {
+                 Log.w(TAG, String.format("reportShortcutUsed: package %s doesn't have shortcut %s",
+                         packageName, shortcutId));
+                 return;
+             }
+         }
+-        reportShortcutUsedInternal(packageName, shortcutId, userId);
+-    }
+-
+-    private void reportShortcutUsedInternal(String packageName, String shortcutId, int userId) {
+-        final long token = injectClearCallingIdentity();
+-        try {
+-            mUsageStatsManagerInternal.reportShortcutUsage(packageName, shortcutId, userId);
+-        } finally {
+-            injectRestoreCallingIdentity(token);
+-        }
++        ps.reportShortcutUsed(mUsageStatsManagerInternal, shortcutId);
+     }
+ 
+     @Override
+diff --git a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest1.java b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest1.java
+index 867890f938ba..0f00fb877afe 100644
+--- a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest1.java
++++ b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest1.java
+@@ -402,8 +402,8 @@ public void testAddDynamicShortcuts() {
+ 
+     public void testPushDynamicShortcut() {
+         // Change the max number of shortcuts.
+-        mService.updateConfigurationLocked(ConfigConstants.KEY_MAX_SHORTCUTS + "=5");
+-
++        mService.updateConfigurationLocked(ConfigConstants.KEY_MAX_SHORTCUTS + "=5,"
++                + ShortcutService.ConfigConstants.KEY_SAVE_DELAY_MILLIS + "=1");
+         setCaller(CALLING_PACKAGE_1, USER_0);
+ 
+         final ShortcutInfo s1 = makeShortcut("s1");
+@@ -541,6 +541,57 @@ public void testPushDynamicShortcut() {
+                 eq(CALLING_PACKAGE_1), eq("s9"), eq(USER_0));
+     }
+ 
++    public void testPushDynamicShortcut_CallsToUsageStatsManagerAreThrottled()
++            throws InterruptedException {
++        mService.updateConfigurationLocked(
++                ShortcutService.ConfigConstants.KEY_SAVE_DELAY_MILLIS + "=500");
++
++        // Verify calls to UsageStatsManagerInternal#reportShortcutUsage are throttled.
++        setCaller(CALLING_PACKAGE_1, USER_0);
++        for (int i = 0; i < ShortcutPackage.REPORT_USAGE_BUFFER_SIZE; i++) {
++            final ShortcutInfo si = makeShortcut("s" + i);
++            mManager.pushDynamicShortcut(si);
++        }
++        verify(mMockUsageStatsManagerInternal, times(1)).reportShortcutUsage(
++                eq(CALLING_PACKAGE_1), eq("s1"), eq(USER_0));
++        Mockito.reset(mMockUsageStatsManagerInternal);
++        for (int i = ShortcutPackage.REPORT_USAGE_BUFFER_SIZE; i <= 10; i++) {
++            final ShortcutInfo si = makeShortcut("s" + i);
++            mManager.pushDynamicShortcut(si);
++        }
++        verify(mMockUsageStatsManagerInternal, times(0)).reportShortcutUsage(
++                any(), any(), anyInt());
++
++        // Verify pkg2 isn't blocked by pkg1, but consecutive calls from pkg2 are throttled as well.
++        setCaller(CALLING_PACKAGE_2, USER_0);
++        for (int i = 0; i < ShortcutPackage.REPORT_USAGE_BUFFER_SIZE; i++) {
++            final ShortcutInfo si = makeShortcut("s" + i);
++            mManager.pushDynamicShortcut(si);
++        }
++        verify(mMockUsageStatsManagerInternal, times(1)).reportShortcutUsage(
++                eq(CALLING_PACKAGE_2), eq("s1"), eq(USER_0));
++        Mockito.reset(mMockUsageStatsManagerInternal);
++        for (int i = ShortcutPackage.REPORT_USAGE_BUFFER_SIZE; i <= 10; i++) {
++            final ShortcutInfo si = makeShortcut("s" + i);
++            mManager.pushDynamicShortcut(si);
++        }
++        verify(mMockUsageStatsManagerInternal, times(0)).reportShortcutUsage(
++                any(), any(), anyInt());
++
++        Mockito.reset(mMockUsageStatsManagerInternal);
++        // Let time passes which resets the throttle
++        Thread.sleep(505);
++        // Verify UsageStatsManagerInternal#reportShortcutUsed can be called again
++        setCaller(CALLING_PACKAGE_1, USER_0);
++        mManager.pushDynamicShortcut(makeShortcut("s10"));
++        setCaller(CALLING_PACKAGE_2, USER_0);
++        mManager.pushDynamicShortcut(makeShortcut("s10"));
++        verify(mMockUsageStatsManagerInternal, times(1)).reportShortcutUsage(
++                eq(CALLING_PACKAGE_1), any(), eq(USER_0));
++        verify(mMockUsageStatsManagerInternal, times(1)).reportShortcutUsage(
++                eq(CALLING_PACKAGE_2), any(), eq(USER_0));
++    }
++
+     public void testUnlimitedCalls() {
+         setCaller(CALLING_PACKAGE_1, USER_0);
+ 
+diff --git a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
+index 86d4655e9d3a..ea134dc66e3f 100644
+--- a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
++++ b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
+@@ -2175,6 +2175,8 @@ public void testThrottling_resetByInternalCall() throws Exception {
+ 
+     public void testReportShortcutUsed() {
+         mRunningUsers.put(USER_10, true);
++        mService.updateConfigurationLocked(
++                ShortcutService.ConfigConstants.KEY_SAVE_DELAY_MILLIS + "=1");
+ 
+         runWithCaller(CALLING_PACKAGE_1, USER_10, () -> {
+             reset(mMockUsageStatsManagerInternal);

@@ -1,0 +1,43 @@
+From ac134a1b6a0ace6bf43e83d414f6433f3cf40e53 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 26 Mar 2024 10:31:44 -0700
+Subject: [PATCH] Add more checkKeyIntent checks to AccountManagerService.
+
+Another verification is needed after Bundle modification.
+Bug: 321941232
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:36db8a1d61a881f89fdd3911886adcda6e1f0d7f)
+Merged-In: I9e45d758a2320328da5664b6341eafe6f285f297
+Change-Id: I9e45d758a2320328da5664b6341eafe6f285f297
+---
+ .../android/server/accounts/AccountManagerService.java | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 1c3564bfdba2..bc13f106ce6e 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -3561,6 +3561,11 @@ public void onResult(Bundle result) {
+ 
+             // Strip auth token from result.
+             result.remove(AccountManager.KEY_AUTHTOKEN);
++            if (!checkKeyIntent(Binder.getCallingUid(), result)) {
++                onError(AccountManager.ERROR_CODE_INVALID_RESPONSE,
++                        "invalid intent in bundle returned");
++                return;
++            }
+ 
+             if (Log.isLoggable(TAG, Log.VERBOSE)) {
+                 Log.v(TAG,
+@@ -5146,6 +5151,11 @@ public void onResult(Bundle result) {
+                     } else {
+                         if (mStripAuthTokenFromResult) {
+                             result.remove(AccountManager.KEY_AUTHTOKEN);
++                            if (!checkKeyIntent(Binder.getCallingUid(), result)) {
++                                onError(AccountManager.ERROR_CODE_INVALID_RESPONSE,
++                                        "invalid intent in bundle returned");
++                                return;
++                            }
+                         }
+                         if (Log.isLoggable(TAG, Log.VERBOSE)) {
+                             Log.v(TAG, getClass().getSimpleName()

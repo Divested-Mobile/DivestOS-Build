@@ -1,0 +1,87 @@
+From 7c36c8764f78a135a4d273e8ff7200beef767e18 Mon Sep 17 00:00:00 2001
+From: Vova Sharaienko <sharaienko@google.com>
+Date: Wed, 27 Mar 2024 23:21:03 +0000
+Subject: [PATCH] [libstatssocket] Added validation for adding new data into
+ StatsEvent
+
+Bug: 330054251
+Test: atest StatsEventTest#TestHeapBufferOverflowError
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4f6c56889356a5a422b59c71e9142875d00e43bf)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e440696c4fd6d44d21451467294b3e31c6867e08)
+Merged-In: I27c69d9875b494f98a2a961cdd4fe139cd809387
+Change-Id: I27c69d9875b494f98a2a961cdd4fe139cd809387
+---
+ lib/libstatssocket/stats_event.c              |  3 ++
+ lib/libstatssocket/tests/stats_event_test.cpp | 44 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+
+diff --git a/lib/libstatssocket/stats_event.c b/lib/libstatssocket/stats_event.c
+index 9bb4c52c4..828ff3e4f 100644
+--- a/lib/libstatssocket/stats_event.c
++++ b/lib/libstatssocket/stats_event.c
+@@ -330,6 +330,9 @@ void AStatsEvent_writeStringArray(AStatsEvent* event, const char* const* element
+ 
+ // Side-effect: modifies event->errors if field has too many annotations
+ static void increment_annotation_count(AStatsEvent* event) {
++    if (event->lastFieldPos >= event->bufSize) {
++        return;
++    }
+     uint8_t fieldType = event->buf[event->lastFieldPos] & 0x0F;
+     uint32_t oldAnnotationCount = (event->buf[event->lastFieldPos] & 0xF0) >> 4;
+     uint32_t newAnnotationCount = oldAnnotationCount + 1;
+diff --git a/lib/libstatssocket/tests/stats_event_test.cpp b/lib/libstatssocket/tests/stats_event_test.cpp
+index 93a99f1bf..dea81c256 100644
+--- a/lib/libstatssocket/tests/stats_event_test.cpp
++++ b/lib/libstatssocket/tests/stats_event_test.cpp
+@@ -536,6 +536,50 @@ TEST(StatsEventTest, TestPushOverflowError) {
+     AStatsEvent_release(event);
+ }
+ 
++TEST(StatsEventTest, TestHeapBufferOverflowError) {
++    const std::string testString(4039, 'A');
++    const std::string testString2(47135, 'B');
++
++    AStatsEvent* event = AStatsEvent_obtain();
++    AStatsEvent_setAtomId(event, 100);
++
++    AStatsEvent_writeString(event, testString.c_str());
++    size_t bufferSize = 0;
++    AStatsEvent_getBuffer(event, &bufferSize);
++    EXPECT_EQ(bufferSize, 4060);
++    uint32_t errors = AStatsEvent_getErrors(event);
++    EXPECT_EQ(errors, 0);
++
++    // expand the buffer and fill with data up to the very last byte
++    AStatsEvent_writeString(event, testString2.c_str());
++    bufferSize = 0;
++    AStatsEvent_getBuffer(event, &bufferSize);
++    EXPECT_EQ(bufferSize, 50 * 1024);
++
++    errors = AStatsEvent_getErrors(event);
++    EXPECT_EQ(errors, 0);
++
++    // this write is no-op due to buffer reached its max capacity
++    // should set the overflow flag
++    AStatsEvent_writeString(event, testString2.c_str());
++    bufferSize = 0;
++    AStatsEvent_getBuffer(event, &bufferSize);
++    EXPECT_EQ(bufferSize, 50 * 1024);
++
++    errors = AStatsEvent_getErrors(event);
++    EXPECT_EQ(errors & ERROR_OVERFLOW, ERROR_OVERFLOW);
++
++    // here should be crash
++    AStatsEvent_addBoolAnnotation(event, 1, false);
++
++    AStatsEvent_write(event);
++
++    errors = AStatsEvent_getErrors(event);
++    EXPECT_EQ(errors & ERROR_OVERFLOW, ERROR_OVERFLOW);
++
++    AStatsEvent_release(event);
++}
++
+ TEST(StatsEventTest, TestPullOverflowError) {
+     const uint32_t atomId = 10100;
+     const vector<uint8_t> bytes(430 /* number of elements */, 1 /* value of each element */);
