@@ -1,7 +1,7 @@
-From 556cc034e359fd1bb64a1b16ebe7a61f06810bcb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hans Boehm <hboehm@google.com>
 Date: Tue, 2 Jan 2024 16:53:13 -0800
-Subject: [PATCH] [BACKPORT] Check hidden API exemptions
+Subject: [PATCH] Check hidden API exemptions
 
 Refuse to deal with newlines and null characters in
 HiddenApiSettings.update(). Also disallow nulls in process start
@@ -18,10 +18,10 @@ Change-Id: I83cd60e46407a4a082f9f3c80e937dbd522dbac4
  1 file changed, 2 insertions(+)
 
 diff --git a/core/java/android/os/Process.java b/core/java/android/os/Process.java
-index 1e084529de6e5..de8287baa828b 100644
+index 1e084529de6e..de8287baa828 100644
 --- a/core/java/android/os/Process.java
 +++ b/core/java/android/os/Process.java
-@@ -578,6 +578,8 @@ private static ProcessStartResult zygoteSendArgsAndGetResult(
+@@ -578,6 +578,8 @@ public class Process {
                      throw new ZygoteStartFailedEx("Embedded newlines not allowed");
                  } else if (args.get(i).indexOf('\r') >= 0) {
                      throw new ZygoteStartFailedEx("Embedded carriage returns not allowed");

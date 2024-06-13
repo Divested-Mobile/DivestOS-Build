@@ -1,8 +1,7 @@
-From 1595b95840ad55128edacd32996afb954480aefd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Wailes <chriswailes@google.com>
 Date: Thu, 18 Apr 2019 18:25:57 -0700
-Subject: [PATCH] [BACKPORT] Adds additional sanitization for Zygote command
- arguments.
+Subject: [PATCH] Adds additional sanitization for Zygote command arguments.
 
 Previously we were only insuring that the arguments provided to the
 Zygote didn't contain any newlines.  This adds additional checks for
@@ -19,7 +18,7 @@ Merged-In: I4055c50d52db0047c02c11096710fd07b429660c
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/os/Process.java b/core/java/android/os/Process.java
-index e1b7fdad25e7d..1e084529de6e5 100644
+index e1b7fdad25e7..1e084529de6e 100644
 --- a/core/java/android/os/Process.java
 +++ b/core/java/android/os/Process.java
 @@ -16,6 +16,7 @@
@@ -30,7 +29,7 @@ index e1b7fdad25e7d..1e084529de6e5 100644
  import android.annotation.TestApi;
  import android.net.LocalSocket;
  import android.net.LocalSocketAddress;
-@@ -564,15 +565,19 @@ private static String getAbiList(BufferedWriter writer, DataInputStream inputStr
+@@ -564,15 +565,19 @@ public class Process {
       * @throws ZygoteStartFailedEx if process start failed for any reason
       */
      private static ProcessStartResult zygoteSendArgsAndGetResult(

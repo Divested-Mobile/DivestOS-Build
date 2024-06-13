@@ -176,10 +176,10 @@ index cc90a3f..2940af9 100644
 +    </string-array>
  </resources>
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 6b78e39..0bec867 100644
+index 46bb291..d1e634f 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
-@@ -59,6 +59,11 @@
+@@ -68,6 +68,11 @@
      <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
      <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
      <string name="menu_auto_updates_check_interval_never">Never</string>

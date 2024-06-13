@@ -159,7 +159,7 @@ index a9b624653b92..9cac3e75a698 100644
                              ATTR_ENABLED_CALLER);
                      final String harmfulAppWarning =
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 5d2bb41c4b4d..fae8dc90371a 100644
+index 556443b40c3d..ac5aadd45467 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -127,6 +127,7 @@ import com.android.server.LocalServices;
@@ -170,7 +170,7 @@ index 5d2bb41c4b4d..fae8dc90371a 100644
  import com.android.server.pm.ApexManager;
  import com.android.server.pm.KnownPackages;
  import com.android.server.pm.UserManagerInternal;
-@@ -1363,6 +1364,13 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -1364,6 +1365,13 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
              isRolePermission = permission.isRole();
              isSoftRestrictedPermission = permission.isSoftRestricted();
          }
@@ -184,7 +184,7 @@ index 5d2bb41c4b4d..fae8dc90371a 100644
          final boolean mayGrantRolePermission = isRolePermission
                  && mayManageRolePermission(callingUid);
          final boolean mayGrantSoftRestrictedPermission = isSoftRestrictedPermission
-@@ -2982,6 +2990,11 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2983,6 +2991,11 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
                          Slog.wtf(LOG_TAG, "Unknown permission protection " + bp.getProtection()
                                  + " for permission " + bp.getName());
                      }
