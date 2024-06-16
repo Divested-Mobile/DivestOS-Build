@@ -1,0 +1,270 @@
+From 1ac8480b3163815253b07d5e2ffa5ae3d5065a07 Mon Sep 17 00:00:00 2001
+From: Valentin Iftime <valiiftime@google.com>
+Date: Thu, 22 Feb 2024 10:51:58 +0100
+Subject: [PATCH] Check for NLS bind permission when rebinding services
+
+ Also, after updating packages with NLS components, check
+ the approved services and remove from approved list if missing permissions.
+
+Test: atest ManagedServicesTest
+Bug: 321707289
+
+(cherry picked from commit 24b13a64f9f5e5aa7f45a2132806d6c74e2c62dc)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0c15cdfdd4720efb72c3244a044bb27e2c286c4b)
+Merged-In: I11901755ec430c6e3145def9d67e4e63cda00806
+Change-Id: I11901755ec430c6e3145def9d67e4e63cda00806
+---
+ .../server/notification/ManagedServices.java  | 108 ++++++++++++++----
+ .../notification/ManagedServicesTest.java     |  54 +++++++++
+ 2 files changed, 139 insertions(+), 23 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/ManagedServices.java b/services/core/java/com/android/server/notification/ManagedServices.java
+index a604625460a77..e5686dc3f0759 100644
+--- a/services/core/java/com/android/server/notification/ManagedServices.java
++++ b/services/core/java/com/android/server/notification/ManagedServices.java
+@@ -150,7 +150,9 @@ abstract public class ManagedServices {
+     // List of approved packages or components (by user, then by primary/secondary) that are
+     // allowed to be bound as managed services. A package or component appearing in this list does
+     // not mean that we are currently bound to said package/component.
+-    private ArrayMap<Integer, ArrayMap<Boolean, ArraySet<String>>> mApproved = new ArrayMap<>();
++
++    @GuardedBy("mApproved")
++    private final ArrayMap<Integer, ArrayMap<Boolean, ArraySet<String>>> mApproved = new ArrayMap<>();
+ 
+     // True if approved services are stored in xml, not settings.
+     private boolean mUseXml;
+@@ -761,6 +763,23 @@ protected boolean isPackageOrComponentAllowed(String pkgOrComponent, int userId)
+         return false;
+     }
+ 
++    protected boolean isPackageOrComponentAllowedWithPermission(ComponentName component,
++            int userId) {
++        if (!(isPackageOrComponentAllowed(component.flattenToString(), userId)
++                || isPackageOrComponentAllowed(component.getPackageName(), userId))) {
++            return false;
++        }
++        return componentHasBindPermission(component, userId);
++    }
++
++    private boolean componentHasBindPermission(ComponentName component, int userId) {
++        ServiceInfo info = getServiceInfo(component, userId);
++        if (info == null) {
++            return false;
++        }
++        return mConfig.bindPermission.equals(info.permission);
++    }
++
+     protected boolean isPackageAllowed(String pkg, int userId) {
+         if (pkg == null) {
+             return false;
+@@ -811,6 +830,7 @@ public void onPackagesChanged(boolean removingPackage, String[] pkgList, int[] u
+                     for (int uid : uidList) {
+                         if (isPackageAllowed(pkgName, UserHandle.getUserId(uid))) {
+                             anyServicesInvolved = true;
++                            trimApprovedListsForInvalidServices(pkgName, UserHandle.getUserId(uid));
+                         }
+                     }
+                 }
+@@ -938,8 +958,7 @@ protected void setComponentState(ComponentName component, boolean enabled) {
+             for (int i = 0; i < userIds.size(); i++) {
+                 final int userId = userIds.get(i);
+                 if (enabled) {
+-                    if (isPackageOrComponentAllowed(component.flattenToString(), userId)
+-                            || isPackageOrComponentAllowed(component.getPackageName(), userId)) {
++                    if (isPackageOrComponentAllowedWithPermission(component, userId)) {
+                         registerServiceLocked(component, userId);
+                     } else {
+                         Slog.d(TAG, component + " no longer has permission to be bound");
+@@ -1078,6 +1097,33 @@ private boolean removeUninstalledItemsFromApprovedLists(int uninstalledUserId, S
+         return removed;
+     }
+ 
++    private void trimApprovedListsForInvalidServices(String packageName, int userId) {
++        synchronized (mApproved) {
++            final ArrayMap<Boolean, ArraySet<String>> approvedByType = mApproved.get(userId);
++            if (approvedByType == null) {
++                return;
++            }
++            for (int i = 0; i < approvedByType.size(); i++) {
++                final ArraySet<String> approved = approvedByType.valueAt(i);
++                for (int j = approved.size() - 1; j >= 0; j--) {
++                    final String approvedPackageOrComponent = approved.valueAt(j);
++                    if (TextUtils.equals(getPackageName(approvedPackageOrComponent), packageName)) {
++                        final ComponentName component = ComponentName.unflattenFromString(
++                                approvedPackageOrComponent);
++                        if (component != null && !componentHasBindPermission(component, userId)) {
++                            approved.removeAt(j);
++                            if (DEBUG) {
++                                Slog.v(TAG, "Removing " + approvedPackageOrComponent
++                                        + " from approved list; no bind permission found "
++                                        + mConfig.bindPermission);
++                            }
++                        }
++                    }
++                }
++            }
++        }
++    }
++
+     protected String getPackageName(String packageOrComponent) {
+         final ComponentName component = ComponentName.unflattenFromString(packageOrComponent);
+         if (component != null) {
+@@ -1237,26 +1283,20 @@ private void bindToServices(SparseArray<Set<ComponentName>> componentsToBind) {
+             final int userId = componentsToBind.keyAt(i);
+             final Set<ComponentName> add = componentsToBind.get(userId);
+             for (ComponentName component : add) {
+-                try {
+-                    ServiceInfo info = mPm.getServiceInfo(component,
+-                            PackageManager.MATCH_DIRECT_BOOT_AWARE
+-                                    | PackageManager.MATCH_DIRECT_BOOT_UNAWARE, userId);
+-                    if (info == null) {
+-                        Slog.w(TAG, "Not binding " + getCaption() + " service " + component
+-                                + ": service not found");
+-                        continue;
+-                    }
+-                    if (!mConfig.bindPermission.equals(info.permission)) {
+-                        Slog.w(TAG, "Not binding " + getCaption() + " service " + component
+-                                + ": it does not require the permission " + mConfig.bindPermission);
+-                        continue;
+-                    }
+-                    Slog.v(TAG,
+-                            "enabling " + getCaption() + " for " + userId + ": " + component);
+-                    registerService(component, userId);
+-                } catch (RemoteException e) {
+-                    e.rethrowFromSystemServer();
++                ServiceInfo info = getServiceInfo(component, userId);
++                if (info == null) {
++                    Slog.w(TAG, "Not binding " + getCaption() + " service " + component
++                            + ": service not found");
++                    continue;
+                 }
++                if (!mConfig.bindPermission.equals(info.permission)) {
++                    Slog.w(TAG, "Not binding " + getCaption() + " service " + component
++                            + ": it does not require the permission " + mConfig.bindPermission);
++                    continue;
++                }
++                Slog.v(TAG,
++                        "enabling " + getCaption() + " for " + userId + ": " + component);
++                registerService(component, userId);
+             }
+         }
+     }
+@@ -1270,6 +1310,15 @@ private void registerService(final ComponentName name, final int userid) {
+         }
+     }
+ 
++    @VisibleForTesting
++    void reregisterService(final ComponentName cn, final int userId) {
++        // If rebinding a package that died, ensure it still has permission
++        // after the rebind delay
++        if (isPackageOrComponentAllowedWithPermission(cn, userId)) {
++            registerService(cn, userId);
++        }
++    }
++
+     /**
+      * Inject a system service into the management list.
+      */
+@@ -1370,7 +1419,7 @@ public void onBindingDied(ComponentName name) {
+                             mHandler.postDelayed(new Runnable() {
+                                     @Override
+                                     public void run() {
+-                                        registerService(name, userid);
++                                        reregisterService(name, userid);
+                                     }
+                                }, ON_BINDING_DIED_REBIND_DELAY_MS);
+                         } else {
+@@ -1502,6 +1551,19 @@ private void unbindService(ServiceConnection connection, ComponentName component
+         }
+     }
+ 
++    private ServiceInfo getServiceInfo(ComponentName component, int userId) {
++        try {
++            return mPm.getServiceInfo(component,
++                    PackageManager.GET_META_DATA
++                            | PackageManager.MATCH_DIRECT_BOOT_AWARE
++                            | PackageManager.MATCH_DIRECT_BOOT_UNAWARE,
++                    userId);
++        } catch (RemoteException e) {
++            e.rethrowFromSystemServer();
++        }
++        return null;
++    }
++
+     public class ManagedServiceInfo implements IBinder.DeathRecipient {
+         public IInterface service;
+         public ComponentName component;
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
+index 99433a6603c91..e7187f393751d 100644
+--- a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
+@@ -27,8 +27,10 @@
+ import static org.mockito.Matchers.any;
+ import static org.mockito.Matchers.anyInt;
+ import static org.mockito.Matchers.eq;
++import static org.mockito.Mockito.doReturn;
+ import static org.mockito.Mockito.mock;
+ import static org.mockito.Mockito.never;
++import static org.mockito.Mockito.spy;
+ import static org.mockito.Mockito.times;
+ import static org.mockito.Mockito.verify;
+ import static org.mockito.Mockito.when;
+@@ -775,6 +777,58 @@ public void testUpgradeAppBindsNewServices() throws Exception {
+         }
+     }
+ 
++    @Test
++    public void testUpgradeAppNoPermissionNoRebind() throws Exception {
++        Context context = spy(getContext());
++        doReturn(true).when(context).bindServiceAsUser(any(), any(), anyInt(), any());
++
++        ManagedServices service = new TestManagedServices(context, mLock, mUserProfiles,
++                mIpm,
++                APPROVAL_BY_COMPONENT);
++
++        List<String> packages = new ArrayList<>();
++        packages.add("package");
++        addExpectedServices(service, packages, 0);
++
++        final ComponentName unapprovedComponent = ComponentName.unflattenFromString("package/C1");
++        final ComponentName approvedComponent = ComponentName.unflattenFromString("package/C2");
++
++        // Both components are approved initially
++        mExpectedPrimaryComponentNames.clear();
++        mExpectedPrimaryPackages.clear();
++        mExpectedPrimaryComponentNames.put(0, "package/C1:package/C2");
++        mExpectedSecondaryComponentNames.clear();
++        mExpectedSecondaryPackages.clear();
++
++        loadXml(service);
++
++        //Component package/C1 loses bind permission
++        when(mIpm.getServiceInfo(any(), anyInt(), anyInt())).thenAnswer(
++                (Answer<ServiceInfo>) invocation -> {
++                    ComponentName invocationCn = invocation.getArgument(0);
++                    if (invocationCn != null) {
++                        ServiceInfo serviceInfo = new ServiceInfo();
++                        serviceInfo.packageName = invocationCn.getPackageName();
++                        serviceInfo.name = invocationCn.getClassName();
++                        if (invocationCn.equals(unapprovedComponent)) {
++                            serviceInfo.permission = "none";
++                        } else {
++                            serviceInfo.permission = service.getConfig().bindPermission;
++                        }
++                        serviceInfo.metaData = null;
++                        return serviceInfo;
++                    }
++                    return null;
++                }
++        );
++
++        // Trigger package update
++        service.onPackagesChanged(false, new String[]{"package"}, new int[]{0});
++
++        assertFalse(service.isComponentEnabledForCurrentProfiles(unapprovedComponent));
++        assertTrue(service.isComponentEnabledForCurrentProfiles(approvedComponent));
++    }
++
+     @Test
+     public void testSetPackageOrComponentEnabled() throws Exception {
+         for (int approvalLevel : new int[] {APPROVAL_BY_COMPONENT, APPROVAL_BY_PACKAGE}) {

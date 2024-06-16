@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-04
+sed -i 's/2024-02-05/2024-06-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-06
 fi;
 
 if enterAndClear "build/soong"; then
@@ -145,6 +145,17 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/389132.patch"; #R_asb_2024-04 i
 applyPatch "$DOS_PATCHES/android_frameworks_base/389133.patch"; #R_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
 applyPatch "$DOS_PATCHES/android_frameworks_base/392206.patch"; #R_asb_2024-05 Don't try to show the current toast again while it's showing.
 applyPatch "$DOS_PATCHES/android_frameworks_base/392207.patch"; #R_asb_2024-05 Prioritize system toasts
+applyPatch "$DOS_PATCHES/android_frameworks_base/394553.patch"; #R_asb_2024-06 ActivityManager#killBackgroundProcesses can kill caller's own app only
+applyPatch "$DOS_PATCHES/android_frameworks_base/394554.patch"; #R_asb_2024-06 Fix ActivityManager#killBackgroundProcesses permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/394555.patch"; #R_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
+applyPatch "$DOS_PATCHES/android_frameworks_base/394556.patch"; #R_asb_2024-06 Check for NLS bind permission when rebinding services
+applyPatch "$DOS_PATCHES/android_frameworks_base/394557.patch"; #R_asb_2024-06 Hide window immediately if itself doesn't run hide animation
+applyPatch "$DOS_PATCHES/android_frameworks_base/394558.patch"; #R_asb_2024-06 Fix error handling for non-dynamic permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/394559.patch"; #R_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394560.patch"; #R_asb_2024-06 Add in check for intent filter when setting/updating service
+applyPatch "$DOS_PATCHES/android_frameworks_base/394561.patch"; #R_asb_2024-06 Check hidden API exemptions
+applyPatch "$DOS_PATCHES/android_frameworks_base/394562.patch"; #R_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394563.patch"; #R_asb_2024-06 Check permissions for CDM shell commands
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)

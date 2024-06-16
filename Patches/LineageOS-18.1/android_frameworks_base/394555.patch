@@ -1,4 +1,4 @@
-From c0c16283997bbca63edc79d820652587cbde15bb Mon Sep 17 00:00:00 2001
+From 179a5a7b48c4ec3ffebbf53b9833f6be6ef4e2b1 Mon Sep 17 00:00:00 2001
 From: Valentin Iftime <valiiftime@google.com>
 Date: Thu, 1 Feb 2024 13:58:49 +0100
 Subject: [PATCH] Verify URI permission for channel sound update from
@@ -10,19 +10,19 @@ Subject: [PATCH] Verify URI permission for channel sound update from
 Test: atest com.android.server.notification.NotificationManagerServiceTest#testUpdateNotificationChannelFromPrivilegedListener_noSoundUriPermission
 Bug: 317357401
 (cherry picked from commit 9b7bbbf5ad542ecf9ecbf8cd819b468791b443c0)
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2f26c0def503d3b8032c99adc8a11be87e35cdeb)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:f090c0538a27d8658d8a860046d5c5e931302341)
 Merged-In: Ic7d2e96e43565e98d2aa29b8f2ba35c142387ba9
 Change-Id: Ic7d2e96e43565e98d2aa29b8f2ba35c142387ba9
 ---
- .../NotificationManagerService.java           | 22 +++++++
- .../NotificationManagerServiceTest.java       | 63 +++++++++++++++++++
- 2 files changed, 85 insertions(+)
+ .../NotificationManagerService.java           | 22 ++++++
+ .../NotificationManagerServiceTest.java       | 67 +++++++++++++++++++
+ 2 files changed, 89 insertions(+)
 
 diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
-index ecd446519c09..4d1abc61aa73 100755
+index dfc9c135c7da7..40f6ed45174e2 100755
 --- a/services/core/java/com/android/server/notification/NotificationManagerService.java
 +++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
-@@ -5705,6 +5705,10 @@ public void updateNotificationChannelFromPrivilegedListener(INotificationListene
+@@ -5151,6 +5151,10 @@ public void updateNotificationChannelFromPrivilegedListener(INotificationListene
              Objects.requireNonNull(user);
  
              verifyPrivilegedListener(token, user, false);
@@ -33,7 +33,7 @@ index ecd446519c09..4d1abc61aa73 100755
              updateNotificationChannelInt(pkg, getUidForPackageAndUser(pkg, user), channel, true);
          }
  
-@@ -5796,6 +5800,24 @@ private void verifyPrivilegedListener(INotificationListener token, UserHandle us
+@@ -5230,6 +5234,24 @@ private void verifyPrivilegedListener(INotificationListener token, UserHandle us
              }
          }
  
@@ -56,13 +56,13 @@ index ecd446519c09..4d1abc61aa73 100755
 +        }
 +
          private int getUidForPackageAndUser(String pkg, UserHandle user) throws RemoteException {
-             int uid = INVALID_UID;
-             final long identity = Binder.clearCallingIdentity();
+             int uid = 0;
+             long identity = Binder.clearCallingIdentity();
 diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-index 4f0a7ca0ad51..755bc1d35cf3 100755
+index 011c408492fa3..a1d6b56ff9cdb 100755
 --- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
 +++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-@@ -3319,6 +3319,69 @@ public void testUpdateNotificationChannelFromPrivilegedListener_badUser() throws
+@@ -2664,6 +2664,73 @@ public void testUpdateNotificationChannelFromPrivilegedListener_badUser() throws
                  eq(NotificationListenerService.NOTIFICATION_CHANNEL_OR_GROUP_UPDATED));
      }
  
@@ -70,8 +70,10 @@ index 4f0a7ca0ad51..755bc1d35cf3 100755
 +    public void testUpdateNotificationChannelFromPrivilegedListener_noSoundUriPermission()
 +            throws Exception {
 +        mService.setPreferencesHelper(mPreferencesHelper);
++        List<String> associations = new ArrayList<>();
++        associations.add("a");
 +        when(mCompanionMgr.getAssociations(PKG, UserHandle.getUserId(mUid)))
-+                .thenReturn(singletonList(mock(AssociationInfo.class)));
++                .thenReturn(associations);
 +        when(mPreferencesHelper.getNotificationChannel(eq(PKG), anyInt(),
 +                eq(mTestNotificationChannel.getId()), anyBoolean()))
 +                .thenReturn(mTestNotificationChannel);
@@ -102,8 +104,10 @@ index 4f0a7ca0ad51..755bc1d35cf3 100755
 +    public void testUpdateNotificationChannelFromPrivilegedListener_noSoundUriPermission_sameSound()
 +            throws Exception {
 +        mService.setPreferencesHelper(mPreferencesHelper);
++        List<String> associations = new ArrayList<>();
++        associations.add("a");
 +        when(mCompanionMgr.getAssociations(PKG, UserHandle.getUserId(mUid)))
-+                .thenReturn(singletonList(mock(AssociationInfo.class)));
++                .thenReturn(associations);
 +        when(mPreferencesHelper.getNotificationChannel(eq(PKG), anyInt(),
 +                eq(mTestNotificationChannel.getId()), anyBoolean()))
 +                .thenReturn(mTestNotificationChannel);

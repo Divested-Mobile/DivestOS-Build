@@ -1,23 +1,23 @@
-From e3979baab5718a69f6d58040ba42f67b4fd73d35 Mon Sep 17 00:00:00 2001
+From 4e6cea9041b540298c7c0a326107532d19a0d997 Mon Sep 17 00:00:00 2001
 From: Ameer Armaly <aarmaly@google.com>
 Date: Fri, 8 Mar 2024 19:41:06 +0000
-Subject: [PATCH] [RESTRICT AUTOMERGE] AccessibilityManagerService: remove
- uninstalled services from enabled list after service update.
+Subject: [PATCH] AccessibilityManagerService: remove uninstalled services from
+ enabled list after service update.
 
 Bug: 326485767
 Test: atest AccessibilityEndToEndTest#testUpdateServiceWithoutIntent_disablesService
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:766911c3312573196b33efd1c3c29ccece806846)
-Merged-In: I958d58953b300c8093335a22e207baac471ae9f9
-Change-Id: I958d58953b300c8093335a22e207baac471ae9f9
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5405514a23edcba0cf30e6ec78189e3f4e7d95cf)
+Merged-In: I5e59296fcad68e62b34c74ee5fd80b6ad6b46fa1
+Change-Id: I5e59296fcad68e62b34c74ee5fd80b6ad6b46fa1
 ---
  .../AccessibilityManagerService.java          | 22 +++++++++++++++++++
  1 file changed, 22 insertions(+)
 
 diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
-index 3818a884c94a..8271aed181c9 100644
+index f9fbda357075d..021ef5567f25a 100644
 --- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
 +++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
-@@ -2161,10 +2161,13 @@ private void updateServicesLocked(AccessibilityUserState userState) {
+@@ -1612,10 +1612,13 @@ private void updateServicesLocked(AccessibilityUserState userState) {
          boolean isUnlockingOrUnlocked = LocalServices.getService(UserManagerInternal.class)
                      .isUserUnlockingOrUnlocked(userState.mUserId);
  
@@ -31,10 +31,10 @@ index 3818a884c94a..8271aed181c9 100644
  
              AccessibilityServiceConnection service = componentNameToServiceMap.get(componentName);
  
-@@ -2215,6 +2218,25 @@ this, getTraceManager(), mWindowManagerService,
+@@ -1664,6 +1667,25 @@ this, mWindowManagerService, getSystemActionPerformer(),
+         if (audioManager != null) {
              audioManager.setAccessibilityServiceUids(mTempIntArray);
          }
-         mActivityTaskManagerService.setAccessibilityServiceUids(mTempIntArray);
 +        // If any services have been removed, remove them from the enabled list and the touch
 +        // exploration granted list.
 +        boolean anyServiceRemoved =

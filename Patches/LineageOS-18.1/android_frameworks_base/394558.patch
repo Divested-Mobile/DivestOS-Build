@@ -1,0 +1,31 @@
+From 80a45f078fcf1b7157535dcbf07d210ac2c7cd82 Mon Sep 17 00:00:00 2001
+From: Yi-an Chen <theianchen@google.com>
+Date: Tue, 20 Feb 2024 04:34:57 +0000
+Subject: [PATCH] Fix error handling for non-dynamic permissions
+
+We only allow removing dynamic permissions. When removePermission() is
+called for a non-dynamic permission, in addition to logging it, we
+should also return early to avoid the removePermission() call.
+
+Test: manual
+Bug: 321555066
+Fixes: 321711213
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2b5d63b64b2b8208ccc4f62eac3d8962f981dbf8)
+Merged-In: I7336f2fc78804f26e4b2a329870ecdea776595d8
+Change-Id: I7336f2fc78804f26e4b2a329870ecdea776595d8
+---
+ .../android/server/pm/permission/PermissionManagerService.java   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index f83c3d5145cc7..eb27a13523baf 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -645,6 +645,7 @@ public void removePermission(String permName) {
+                 // TODO: switch this back to SecurityException
+                 Slog.wtf(TAG, "Not allowed to modify non-dynamic permission "
+                         + permName);
++                return;
+             }
+             mSettings.removePermissionLocked(permName);
+             mPackageManagerInt.writeSettings(false);

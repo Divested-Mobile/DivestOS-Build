@@ -94,7 +94,6 @@ applyPatch "$DOS_PATCHES/android_build/0003-Exec_Based_Spawning.patch"; #Add exe
 applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable APEX on 6th/7th gen Pixel devices (GrapheneOS)
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-05-05/2024-06-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-06
 fi;
 
 if enterAndClear "build/soong"; then
@@ -118,12 +117,7 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 sed -i -e '76,78d;' Android.bp; #fix compile under A13
 fi;
 
-if enterAndClear "frameworks/av"; then
-git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
-fi;
-
 if enterAndClear "frameworks/base"; then
-git am $DOS_PATCHES/ASB-2024-06/fwb-*.patch;
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
 git revert --no-edit 6d2955f0bd55e9938d5d49415182c27b50900b95; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
@@ -406,7 +400,7 @@ applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #
 fi;
 
 if enterAndClear "system/libfmq"; then
-git am $DOS_PATCHES/ASB-2024-06/libfmq-*.patch;
+git fetch https://github.com/LineageOS/android_system_libfmq refs/changes/53/394253/1 && git cherry-pick FETCH_HEAD; #T_asb_2024-06
 fi;
 
 if enterAndClear "system/sepolicy"; then
