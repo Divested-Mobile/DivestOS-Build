@@ -1,4 +1,4 @@
-From a0059406f6fa6fa600bd6d5fc488de1d3aa956af Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Haoran Zhang <haoranzhang@google.com>
 Date: Wed, 13 Mar 2024 17:08:00 +0000
 Subject: [PATCH] Add in check for intent filter when setting/updating service
@@ -20,10 +20,10 @@ Change-Id: I51c2e3788ac29ff4d6b86aa2a735ff2ea1463a77
  1 file changed, 27 insertions(+)
 
 diff --git a/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java b/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
-index 57ffe0498a88e..309f78006d4b6 100644
+index 57ffe0498a88..309f78006d4b 100644
 --- a/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
 +++ b/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
-@@ -32,8 +32,10 @@
+@@ -32,8 +32,10 @@ import android.app.ActivityManagerInternal;
  import android.app.ActivityTaskManager;
  import android.app.IActivityTaskManager;
  import android.content.ComponentName;
@@ -34,7 +34,7 @@ index 57ffe0498a88e..309f78006d4b6 100644
  import android.content.pm.ServiceInfo;
  import android.graphics.Rect;
  import android.metrics.LogMaker;
-@@ -235,6 +237,31 @@ protected boolean updateLocked(boolean disabled) {
+@@ -235,6 +237,31 @@ final class AutofillManagerServiceImpl
      @Override // from PerUserSystemService
      protected ServiceInfo newServiceInfoLocked(@NonNull ComponentName serviceComponent)
              throws NameNotFoundException {

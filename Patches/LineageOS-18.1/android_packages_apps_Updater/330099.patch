@@ -10,10 +10,10 @@ Change-Id: Ida461cab7f0c4953fbdd6ea4928bf14fff386056
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/org/lineageos/updater/misc/Constants.java b/src/org/lineageos/updater/misc/Constants.java
-index 37e81d8..dbdc983 100644
+index d6f22d2..e8a0031 100644
 --- a/src/org/lineageos/updater/misc/Constants.java
 +++ b/src/org/lineageos/updater/misc/Constants.java
-@@ -47,6 +47,7 @@ public final class Constants {
+@@ -58,6 +58,7 @@ public final class Constants {
      public static final String PROP_RELEASE_TYPE = "ro.lineage.releasetype";
      public static final String PROP_UPDATER_ALLOW_DOWNGRADING = "lineage.updater.allow_downgrading";
      public static final String PROP_UPDATER_URI = "lineage.updater.uri";
@@ -22,7 +22,7 @@ index 37e81d8..dbdc983 100644
      public static final String PREF_INSTALL_OLD_TIMESTAMP = "install_old_timestamp";
      public static final String PREF_INSTALL_NEW_TIMESTAMP = "install_new_timestamp";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 2b42726..73985da 100644
+index 1577b3d..b295df0 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
 @@ -114,8 +114,9 @@ public class Utils {

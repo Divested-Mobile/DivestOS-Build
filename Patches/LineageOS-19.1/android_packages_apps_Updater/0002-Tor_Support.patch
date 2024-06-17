@@ -52,10 +52,10 @@ index c586f44..b1536ea 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index bfb2627..916e1e6 100644
+index 1bf6259..81070f8 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -70,6 +70,7 @@
+@@ -79,6 +79,7 @@
      <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
      <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
      <string name="menu_auto_updates_check_interval_never">Never</string>
@@ -63,7 +63,7 @@ index bfb2627..916e1e6 100644
      <string name="menu_auto_delete_updates">Delete updates when installed</string>
      <string name="menu_delete_update">Delete</string>
      <string name="menu_copy_url">Copy URL</string>
-@@ -87,6 +88,7 @@
+@@ -96,6 +97,7 @@
      <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
      <string name="snack_download_verification_failed">The update verification failed.</string>
      <string name="snack_download_verified">Download completed.</string>

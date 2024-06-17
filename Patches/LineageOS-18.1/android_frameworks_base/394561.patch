@@ -1,4 +1,4 @@
-From a0d6c266c99cdcdba0ef4674cf6995619f13efa7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hans Boehm <hboehm@google.com>
 Date: Tue, 2 Jan 2024 16:53:13 -0800
 Subject: [PATCH] Check hidden API exemptions
@@ -18,10 +18,10 @@ Change-Id: I83cd60e46407a4a082f9f3c80e937dbd522dbac4
  1 file changed, 10 insertions(+)
 
 diff --git a/core/java/android/os/ZygoteProcess.java b/core/java/android/os/ZygoteProcess.java
-index 39038f555044e..4d69f217c5e6a 100644
+index 39038f555044..4d69f217c5e6 100644
 --- a/core/java/android/os/ZygoteProcess.java
 +++ b/core/java/android/os/ZygoteProcess.java
-@@ -431,6 +431,8 @@ private Process.ProcessStartResult zygoteSendArgsAndGetResult(
+@@ -431,6 +431,8 @@ public class ZygoteProcess {
                  throw new ZygoteStartFailedEx("Embedded newlines not allowed");
              } else if (arg.indexOf('\r') >= 0) {
                  throw new ZygoteStartFailedEx("Embedded carriage returns not allowed");
@@ -30,7 +30,7 @@ index 39038f555044e..4d69f217c5e6a 100644
              }
          }
  
-@@ -980,6 +982,14 @@ private boolean maybeSetApiBlacklistExemptions(ZygoteState state, boolean sendIf
+@@ -980,6 +982,14 @@ public class ZygoteProcess {
              return true;
          }
  

@@ -1,4 +1,4 @@
-From 1ac8480b3163815253b07d5e2ffa5ae3d5065a07 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Valentin Iftime <valiiftime@google.com>
 Date: Thu, 22 Feb 2024 10:51:58 +0100
 Subject: [PATCH] Check for NLS bind permission when rebinding services
@@ -19,7 +19,7 @@ Change-Id: I11901755ec430c6e3145def9d67e4e63cda00806
  2 files changed, 139 insertions(+), 23 deletions(-)
 
 diff --git a/services/core/java/com/android/server/notification/ManagedServices.java b/services/core/java/com/android/server/notification/ManagedServices.java
-index a604625460a77..e5686dc3f0759 100644
+index a604625460a7..e5686dc3f075 100644
 --- a/services/core/java/com/android/server/notification/ManagedServices.java
 +++ b/services/core/java/com/android/server/notification/ManagedServices.java
 @@ -150,7 +150,9 @@ abstract public class ManagedServices {
@@ -33,7 +33,7 @@ index a604625460a77..e5686dc3f0759 100644
  
      // True if approved services are stored in xml, not settings.
      private boolean mUseXml;
-@@ -761,6 +763,23 @@ protected boolean isPackageOrComponentAllowed(String pkgOrComponent, int userId)
+@@ -761,6 +763,23 @@ abstract public class ManagedServices {
          return false;
      }
  
@@ -57,7 +57,7 @@ index a604625460a77..e5686dc3f0759 100644
      protected boolean isPackageAllowed(String pkg, int userId) {
          if (pkg == null) {
              return false;
-@@ -811,6 +830,7 @@ public void onPackagesChanged(boolean removingPackage, String[] pkgList, int[] u
+@@ -811,6 +830,7 @@ abstract public class ManagedServices {
                      for (int uid : uidList) {
                          if (isPackageAllowed(pkgName, UserHandle.getUserId(uid))) {
                              anyServicesInvolved = true;
@@ -65,7 +65,7 @@ index a604625460a77..e5686dc3f0759 100644
                          }
                      }
                  }
-@@ -938,8 +958,7 @@ protected void setComponentState(ComponentName component, boolean enabled) {
+@@ -938,8 +958,7 @@ abstract public class ManagedServices {
              for (int i = 0; i < userIds.size(); i++) {
                  final int userId = userIds.get(i);
                  if (enabled) {
@@ -75,7 +75,7 @@ index a604625460a77..e5686dc3f0759 100644
                          registerServiceLocked(component, userId);
                      } else {
                          Slog.d(TAG, component + " no longer has permission to be bound");
-@@ -1078,6 +1097,33 @@ private boolean removeUninstalledItemsFromApprovedLists(int uninstalledUserId, S
+@@ -1078,6 +1097,33 @@ abstract public class ManagedServices {
          return removed;
      }
  
@@ -109,7 +109,7 @@ index a604625460a77..e5686dc3f0759 100644
      protected String getPackageName(String packageOrComponent) {
          final ComponentName component = ComponentName.unflattenFromString(packageOrComponent);
          if (component != null) {
-@@ -1237,26 +1283,20 @@ private void bindToServices(SparseArray<Set<ComponentName>> componentsToBind) {
+@@ -1237,26 +1283,20 @@ abstract public class ManagedServices {
              final int userId = componentsToBind.keyAt(i);
              final Set<ComponentName> add = componentsToBind.get(userId);
              for (ComponentName component : add) {
@@ -149,7 +149,7 @@ index a604625460a77..e5686dc3f0759 100644
              }
          }
      }
-@@ -1270,6 +1310,15 @@ private void registerService(final ComponentName name, final int userid) {
+@@ -1270,6 +1310,15 @@ abstract public class ManagedServices {
          }
      }
  
@@ -165,7 +165,7 @@ index a604625460a77..e5686dc3f0759 100644
      /**
       * Inject a system service into the management list.
       */
-@@ -1370,7 +1419,7 @@ public void onBindingDied(ComponentName name) {
+@@ -1370,7 +1419,7 @@ abstract public class ManagedServices {
                              mHandler.postDelayed(new Runnable() {
                                      @Override
                                      public void run() {
@@ -174,7 +174,7 @@ index a604625460a77..e5686dc3f0759 100644
                                      }
                                 }, ON_BINDING_DIED_REBIND_DELAY_MS);
                          } else {
-@@ -1502,6 +1551,19 @@ private void unbindService(ServiceConnection connection, ComponentName component
+@@ -1502,6 +1551,19 @@ abstract public class ManagedServices {
          }
      }
  
@@ -195,10 +195,10 @@ index a604625460a77..e5686dc3f0759 100644
          public IInterface service;
          public ComponentName component;
 diff --git a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
-index 99433a6603c91..e7187f393751d 100644
+index 99433a6603c9..e7187f393751 100644
 --- a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
 +++ b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
-@@ -27,8 +27,10 @@
+@@ -27,8 +27,10 @@ import static org.mockito.ArgumentMatchers.anyString;
  import static org.mockito.Matchers.any;
  import static org.mockito.Matchers.anyInt;
  import static org.mockito.Matchers.eq;
@@ -209,7 +209,7 @@ index 99433a6603c91..e7187f393751d 100644
  import static org.mockito.Mockito.times;
  import static org.mockito.Mockito.verify;
  import static org.mockito.Mockito.when;
-@@ -775,6 +777,58 @@ public void testUpgradeAppBindsNewServices() throws Exception {
+@@ -775,6 +777,58 @@ public class ManagedServicesTest extends UiServiceTestCase {
          }
      }
  

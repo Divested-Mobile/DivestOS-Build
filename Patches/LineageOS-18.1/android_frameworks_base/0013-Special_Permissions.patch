@@ -17,10 +17,10 @@ As a result, PackageManagerService is no longer modified.
  1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index f83c3d5145cc..e827b7616a10 100644
+index eb27a13523ba..0320c4b20c93 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -1461,7 +1461,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -1462,7 +1462,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M
@@ -29,7 +29,7 @@ index f83c3d5145cc..e827b7616a10 100644
              return;
          }
  
-@@ -1513,7 +1513,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -1514,7 +1514,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                      + permName + " for package " + packageName);
          }
  
@@ -39,7 +39,7 @@ index f83c3d5145cc..e827b7616a10 100644
              Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
              return;
          }
-@@ -1623,7 +1624,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -1624,7 +1625,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M
@@ -48,7 +48,7 @@ index f83c3d5145cc..e827b7616a10 100644
              return;
          }
  
-@@ -1847,7 +1848,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -1848,7 +1849,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
  
              // If this permission was granted by default or role, make sure it is.
              if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0
@@ -58,7 +58,7 @@ index f83c3d5145cc..e827b7616a10 100644
                  // PermissionPolicyService will handle the app op for runtime permissions later.
                  grantRuntimePermissionInternal(permName, packageName, false,
                          Process.SYSTEM_UID, userId, delayingPermCallback);
-@@ -2646,6 +2648,10 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2647,6 +2649,10 @@ public class PermissionManagerService extends IPermissionManager.Stub {
          }
      }
  
@@ -69,7 +69,7 @@ index f83c3d5145cc..e827b7616a10 100644
      /**
       * Restore the permission state for a package.
       *
-@@ -2998,6 +3004,14 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2999,6 +3005,14 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                                              }
                                          }
                                      }
@@ -84,7 +84,7 @@ index f83c3d5145cc..e827b7616a10 100644
                                  } else {
                                      if (permState == null) {
                                          // New permission
-@@ -3960,7 +3974,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -3961,7 +3975,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                      && (grantedPermissions == null
                             || ArrayUtils.contains(grantedPermissions, permission))) {
                  final int flags = permissionsState.getPermissionFlags(permission, userId);

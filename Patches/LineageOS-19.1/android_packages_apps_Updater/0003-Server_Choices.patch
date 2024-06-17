@@ -81,10 +81,10 @@ index 287c221..777c8ef 100644
 +    </string-array>
  </resources>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 916e1e6..73f3979 100644
+index 81070f8..fc690f6 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -70,6 +70,11 @@
+@@ -79,6 +79,11 @@
      <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
      <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
      <string name="menu_auto_updates_check_interval_never">Never</string>
@@ -164,7 +164,7 @@ index 37e81d8..d6f22d2 100644
      public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 2b42726..7ba5f48 100644
+index 2b42726..1577b3d 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
 @@ -210,14 +210,33 @@ public class Utils {

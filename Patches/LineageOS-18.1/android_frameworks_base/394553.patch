@@ -1,4 +1,4 @@
-From 00961ad29e26dde5d4f56de90ac333ceb2fc8d34 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jing Ji <jji@google.com>
 Date: Tue, 25 Oct 2022 22:39:52 -0700
 Subject: [PATCH] DO NOT MERGE: ActivityManager#killBackgroundProcesses can
@@ -19,10 +19,10 @@ Change-Id: I41cd6fa1f71e950db18a9fd450355c4e6f80ec7d
  1 file changed, 16 insertions(+)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 234b23a996267..815ddf63e565a 100644
+index 234b23a99626..815ddf63e565 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -4486,6 +4486,22 @@ void killAllBackgroundProcessesExcept(int minTargetSdk, int maxProcState) {
+@@ -4486,6 +4486,22 @@ public class ActivityManagerService extends IActivityManager.Stub
              throw new SecurityException(msg);
          }
  

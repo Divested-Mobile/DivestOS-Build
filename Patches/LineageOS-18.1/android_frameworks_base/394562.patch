@@ -1,4 +1,4 @@
-From 4e6cea9041b540298c7c0a326107532d19a0d997 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ameer Armaly <aarmaly@google.com>
 Date: Fri, 8 Mar 2024 19:41:06 +0000
 Subject: [PATCH] AccessibilityManagerService: remove uninstalled services from
@@ -14,10 +14,10 @@ Change-Id: I5e59296fcad68e62b34c74ee5fd80b6ad6b46fa1
  1 file changed, 22 insertions(+)
 
 diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
-index f9fbda357075d..021ef5567f25a 100644
+index f9fbda357075..021ef5567f25 100644
 --- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
 +++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
-@@ -1612,10 +1612,13 @@ private void updateServicesLocked(AccessibilityUserState userState) {
+@@ -1612,10 +1612,13 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
          boolean isUnlockingOrUnlocked = LocalServices.getService(UserManagerInternal.class)
                      .isUserUnlockingOrUnlocked(userState.mUserId);
  
@@ -31,7 +31,7 @@ index f9fbda357075d..021ef5567f25a 100644
  
              AccessibilityServiceConnection service = componentNameToServiceMap.get(componentName);
  
-@@ -1664,6 +1667,25 @@ this, mWindowManagerService, getSystemActionPerformer(),
+@@ -1664,6 +1667,25 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
          if (audioManager != null) {
              audioManager.setAccessibilityServiceUids(mTempIntArray);
          }

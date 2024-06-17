@@ -1,4 +1,4 @@
-From 42515cb6e3148d89efab6fd39537b874a3f29853 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Guojing Yuan <guojing@google.com>
 Date: Thu, 14 Dec 2023 19:30:04 +0000
 Subject: [PATCH] Check permissions for CDM shell commands
@@ -18,10 +18,10 @@ Change-Id: I5539b3594feb5544c458c0fd1061b51a0a808900
  1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
-index 91c2abc024304..275f31f1b6eb0 100644
+index 91c2abc02430..275f31f1b6eb 100644
 --- a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
 +++ b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
-@@ -28,6 +28,7 @@
+@@ -28,6 +28,7 @@ import static com.android.internal.util.function.pooled.PooledLambda.obtainRunna
  import static java.util.concurrent.TimeUnit.MINUTES;
  
  import android.annotation.CheckResult;
@@ -29,7 +29,7 @@ index 91c2abc024304..275f31f1b6eb0 100644
  import android.annotation.Nullable;
  import android.app.AppOpsManager;
  import android.app.PendingIntent;
-@@ -52,11 +53,10 @@
+@@ -52,11 +53,10 @@ import android.os.IBinder;
  import android.os.IDeviceIdleController;
  import android.os.IInterface;
  import android.os.Parcel;
@@ -42,7 +42,7 @@ index 91c2abc024304..275f31f1b6eb0 100644
  import android.os.ShellCommand;
  import android.os.UserHandle;
  import android.os.UserManagerInternal;
-@@ -455,10 +455,12 @@ private void checkUsesFeature(String pkg, int userId) {
+@@ -455,10 +455,12 @@ public class CompanionDeviceManagerService extends SystemService implements Bind
          }
  
          @Override
