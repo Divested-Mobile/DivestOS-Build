@@ -368,10 +368,6 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Loc
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 fi;
 
-if enterAndClear "packages/modules/StatsD"; then
-git am $DOS_PATCHES/ASB-2024-06/statsd-*.patch;
-fi;
-
 if enterAndClear "packages/modules/Wifi"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/344228.patch"; #wifi: resurrect mWifiLinkLayerStatsSupported counter (sassmann)
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
