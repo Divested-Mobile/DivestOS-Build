@@ -25,10 +25,10 @@ index d27b5ad0d646..32b022455451 100644
                          Process.SYSTEM_UID, userId, delayingPermCallback);
                  // Allow app op later as we are holding mPackages
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 2fcdec7c92d6..65646aef6c9e 100644
+index ed551795aad5..f247610fa8a3 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -1023,6 +1023,10 @@ public class PermissionManagerService {
+@@ -1024,6 +1024,10 @@ public class PermissionManagerService {
          }
      }
  
@@ -39,7 +39,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
      /**
       * Restore the permission state for a package.
       *
-@@ -1322,6 +1326,14 @@ public class PermissionManagerService {
+@@ -1323,6 +1327,14 @@ public class PermissionManagerService {
                                              }
                                          }
                                      }
@@ -54,7 +54,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
                                  } else {
                                      if (permState == null) {
                                          // New permission
-@@ -1455,7 +1467,7 @@ public class PermissionManagerService {
+@@ -1456,7 +1468,7 @@ public class PermissionManagerService {
                                               wasChanged = true;
                                          }
                                      }
@@ -63,7 +63,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
                                      if (!permissionsState.hasRuntimePermission(bp.name, userId)
                                              && permissionsState.grantRuntimePermission(bp,
                                                      userId) != PERMISSION_OPERATION_FAILURE) {
-@@ -2233,7 +2245,7 @@ public class PermissionManagerService {
+@@ -2234,7 +2246,7 @@ public class PermissionManagerService {
                      && (grantedPermissions == null
                             || ArrayUtils.contains(grantedPermissions, permission))) {
                  final int flags = permissionsState.getPermissionFlags(permission, userId);
@@ -72,7 +72,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
                      // Installer cannot change immutable permissions.
                      if ((flags & immutableFlags) == 0) {
                          grantRuntimePermission(permission, pkg.packageName, false, callingUid,
-@@ -2292,7 +2304,7 @@ public class PermissionManagerService {
+@@ -2293,7 +2305,7 @@ public class PermissionManagerService {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
@@ -81,7 +81,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
              return;
          }
  
-@@ -2344,7 +2356,8 @@ public class PermissionManagerService {
+@@ -2345,7 +2357,8 @@ public class PermissionManagerService {
                      + permName + " for package " + packageName);
          }
  
@@ -91,7 +91,7 @@ index 2fcdec7c92d6..65646aef6c9e 100644
              Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
              return;
          }
-@@ -2431,7 +2444,7 @@ public class PermissionManagerService {
+@@ -2432,7 +2445,7 @@ public class PermissionManagerService {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
