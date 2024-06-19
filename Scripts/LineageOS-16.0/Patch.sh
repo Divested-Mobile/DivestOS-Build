@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-04 #XXX
+sed -i 's/2022-01-05/2024-06-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-06 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -320,6 +320,12 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/385673.patch"; #P_asb_2024-03 D
 applyPatch "$DOS_PATCHES/android_frameworks_base/385674.patch"; #P_asb_2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/389269.patch"; #P_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
 applyPatch "$DOS_PATCHES/android_frameworks_base/389270.patch"; #P_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394877.patch"; #P_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
+applyPatch "$DOS_PATCHES/android_frameworks_base/394878.patch"; #P_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394879.patch"; #P_asb_2024-06 Adds additional sanitization for Zygote command arguments.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394880.patch"; #P_asb_2024-06 Check hidden API exemptions
+applyPatch "$DOS_PATCHES/android_frameworks_base/394881.patch"; #P_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
+applyPatch "$DOS_PATCHES/android_frameworks_base/394882.patch"; #P_asb_2024-06 Check permissions for CDM shell commands
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
