@@ -1,0 +1,46 @@
+From 14804676d97278009b746073e8339374b0cce927 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Thu, 19 Oct 2023 14:22:58 -0700
+Subject: [PATCH] DO NOT MERGE: Fix ActivityManager#killBackgroundProcesses
+ permissions
+
+In the pevious CL, we incorrectly added the permission check in the
+killBackgroundProcessesExcept. Now fix this issue.
+
+Bug: 239423414
+Bug: 223376078
+Test: atest CtsAppTestCases:ActivityManagerTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:140fce861944419a375c669010c6c47cd7ff5b37)
+Merged-In: I9471a77188ee63ec32cd0c81569193e4ccad885b
+Change-Id: I9471a77188ee63ec32cd0c81569193e4ccad885b
+---
+ .../server/am/ActivityManagerService.java        | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 815ddf63e565a..234b23a996267 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -4486,22 +4486,6 @@ void killAllBackgroundProcessesExcept(int minTargetSdk, int maxProcState) {
+             throw new SecurityException(msg);
+         }
+ 
+-        final int callingUid = Binder.getCallingUid();
+-        final int callingPid = Binder.getCallingPid();
+-
+-        ProcessRecord proc;
+-        synchronized (mPidsSelfLocked) {
+-            proc = mPidsSelfLocked.get(callingPid);
+-        }
+-        if (callingUid >= FIRST_APPLICATION_UID
+-                && (proc == null || !proc.info.isSystemApp())) {
+-            final String msg = "Permission Denial: killAllBackgroundProcesses() from pid="
+-                    + callingPid + ", uid=" + callingUid + " is not allowed";
+-            Slog.w(TAG, msg);
+-            // Silently return to avoid existing apps from crashing.
+-            return;
+-        }
+-
+         final long callingId = Binder.clearCallingIdentity();
+         try {
+             synchronized (this) {

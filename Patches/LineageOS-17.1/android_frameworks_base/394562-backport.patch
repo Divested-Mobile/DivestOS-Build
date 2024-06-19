@@ -1,0 +1,59 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ameer Armaly <aarmaly@google.com>
+Date: Fri, 8 Mar 2024 19:41:06 +0000
+Subject: [PATCH] AccessibilityManagerService: remove uninstalled services from
+ enabled list after service update.
+
+Bug: 326485767
+Test: atest AccessibilityEndToEndTest#testUpdateServiceWithoutIntent_disablesService
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5405514a23edcba0cf30e6ec78189e3f4e7d95cf)
+Merged-In: I5e59296fcad68e62b34c74ee5fd80b6ad6b46fa1
+Change-Id: I5e59296fcad68e62b34c74ee5fd80b6ad6b46fa1
+---
+ .../AccessibilityManagerService.java          | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 194c90e125f9..dbc9d42a4adc 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -1623,10 +1623,13 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+         boolean isUnlockingOrUnlocked = LocalServices.getService(UserManagerInternal.class)
+                     .isUserUnlockingOrUnlocked(userState.mUserId);
+ 
++        // Store the list of installed services.
++        mTempComponentNameSet.clear();
+         for (int i = 0, count = userState.mInstalledServices.size(); i < count; i++) {
+             AccessibilityServiceInfo installedService = userState.mInstalledServices.get(i);
+             ComponentName componentName = ComponentName.unflattenFromString(
+                     installedService.getId());
++            mTempComponentNameSet.add(componentName);
+ 
+             AccessibilityServiceConnection service = componentNameToServiceMap.get(componentName);
+ 
+@@ -1673,6 +1676,25 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+         if (audioManager != null) {
+             audioManager.setAccessibilityServiceUids(mTempIntArray);
+         }
++        // If any services have been removed, remove them from the enabled list and the touch
++        // exploration granted list.
++        boolean anyServiceRemoved =
++                userState.mEnabledServices.removeIf((comp) -> !mTempComponentNameSet.contains(comp))
++                        || userState.mTouchExplorationGrantedServices.removeIf(
++                                (comp) -> !mTempComponentNameSet.contains(comp));
++        if (anyServiceRemoved) {
++            // Update the enabled services setting.
++            persistComponentNamesToSettingLocked(
++                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
++                    userState.mEnabledServices,
++                    userState.mUserId);
++            // Update the touch exploration granted services setting.
++            persistComponentNamesToSettingLocked(
++                    Settings.Secure.TOUCH_EXPLORATION_GRANTED_ACCESSIBILITY_SERVICES,
++                    userState.mTouchExplorationGrantedServices,
++                    userState.mUserId);
++        }
++        mTempComponentNameSet.clear();
+         updateAccessibilityEnabledSetting(userState);
+     }
+ 

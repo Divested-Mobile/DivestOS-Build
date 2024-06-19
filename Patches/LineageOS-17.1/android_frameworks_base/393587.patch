@@ -1,7 +1,7 @@
-From 27549d452e6524778c69c1e7a5e0ab6cae04750e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Valentin Iftime <valiiftime@google.com>
 Date: Mon, 16 Oct 2023 09:29:17 +0200
-Subject: [PATCH] [BACKPORT] Prioritize system toasts
+Subject: [PATCH] Prioritize system toasts
 
  Insert toasts from system packages at the front of the queue
   to ensure that apps can't spam with toast to delay system toasts from showing.
@@ -17,10 +17,10 @@ Change-Id: I13547f853476bc88d12026c545aba9f857ce8724
  2 files changed, 104 insertions(+), 4 deletions(-)
 
 diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
-index e09491867f91a..d769ff8e75055 100755
+index e09491867f91..d769ff8e7505 100755
 --- a/services/core/java/com/android/server/notification/NotificationManagerService.java
 +++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
-@@ -744,17 +744,21 @@ private void writePolicyXml(OutputStream stream, boolean forBackup, int userId)
+@@ -744,17 +744,21 @@ public class NotificationManagerService extends SystemService {
  
      private static final class ToastRecord
      {
@@ -43,7 +43,7 @@ index e09491867f91a..d769ff8e75055 100755
              this.callback = callback;
              this.duration = duration;
              this.token = token;
-@@ -2481,10 +2485,21 @@ record = mToastQueue.get(index);
+@@ -2481,10 +2485,21 @@ public class NotificationManagerService extends SystemService {
  
                          Binder token = new Binder();
                          mWindowManagerInternal.addWindowToken(token, TYPE_TOAST, displayId);
@@ -68,7 +68,7 @@ index e09491867f91a..d769ff8e75055 100755
                          keepProcessAliveIfNeededLocked(callingPid);
                      }
                      // If it's at index 0, it's the current toast.  It doesn't matter if it's
-@@ -2500,6 +2515,23 @@ record = new ToastRecord(callingPid, pkg, callback, duration, token,
+@@ -2500,6 +2515,23 @@ public class NotificationManagerService extends SystemService {
              }
          }
  
@@ -93,10 +93,10 @@ index e09491867f91a..d769ff8e75055 100755
          public void cancelToast(String pkg, ITransientNotification callback) {
              Slog.i(TAG, "cancelToast pkg=" + pkg + " callback=" + callback);
 diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-index bcb4c49336cf5..4a0aa7c9e8e74 100755
+index bcb4c49336cf..4a0aa7c9e8e7 100755
 --- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
 +++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-@@ -4480,6 +4480,74 @@ public void testAlwaysAllowSystemToasts() throws Exception {
+@@ -4480,6 +4480,74 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
          assertEquals(1, mService.mToastQueue.size());
      }
  

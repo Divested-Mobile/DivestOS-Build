@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Guojing Yuan <guojing@google.com>
+Date: Thu, 14 Dec 2023 19:30:04 +0000
+Subject: [PATCH] Check permissions for CDM shell commands
+
+Override handleShellCommand instead of onShellCommand because
+Binder.onShellCommand checks the necessary permissions of the caller.
+
+Bug: 313428840
+
+Test: manually tested CDM shell commands
+(cherry picked from commit 1761a0fee9c2cd9787bbb7fbdbe30b4c2b03396e)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8d008c61451dba86aa9f14c6bcd661db2cea4856)
+Merged-In: I5539b3594feb5544c458c0fd1061b51a0a808900
+Change-Id: I5539b3594feb5544c458c0fd1061b51a0a808900
+---
+ .../companion/CompanionDeviceManagerService.java   | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
+index 73b8ff7067ef..e78ddaad3e88 100644
+--- a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
++++ b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
+@@ -24,6 +24,7 @@ import static com.android.internal.util.Preconditions.checkState;
+ import static com.android.internal.util.function.pooled.PooledLambda.obtainRunnable;
+ 
+ import android.annotation.CheckResult;
++import android.annotation.NonNull;
+ import android.annotation.Nullable;
+ import android.app.AppOpsManager;
+ import android.app.PendingIntent;
+@@ -48,11 +49,10 @@ import android.os.IBinder;
+ import android.os.IDeviceIdleController;
+ import android.os.IInterface;
+ import android.os.Parcel;
++import android.os.ParcelFileDescriptor;
+ import android.os.Process;
+ import android.os.RemoteException;
+-import android.os.ResultReceiver;
+ import android.os.ServiceManager;
+-import android.os.ShellCallback;
+ import android.os.ShellCommand;
+ import android.os.UserHandle;
+ import android.provider.Settings;
+@@ -363,10 +363,12 @@ public class CompanionDeviceManagerService extends SystemService implements Bind
+         }
+ 
+         @Override
+-        public void onShellCommand(FileDescriptor in, FileDescriptor out, FileDescriptor err,
+-                String[] args, ShellCallback callback, ResultReceiver resultReceiver)
+-                throws RemoteException {
+-            new ShellCmd().exec(this, in, out, err, args, callback, resultReceiver);
++        public int handleShellCommand(@NonNull ParcelFileDescriptor in,
++                @NonNull ParcelFileDescriptor out, @NonNull ParcelFileDescriptor err,
++                @NonNull String[] args) {
++            return new ShellCmd()
++                    .exec(this, in.getFileDescriptor(), out.getFileDescriptor(),
++                            err.getFileDescriptor(), args);
+         }
+     }
+ 

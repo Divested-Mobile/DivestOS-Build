@@ -1,0 +1,47 @@
+From 00961ad29e26dde5d4f56de90ac333ceb2fc8d34 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Tue, 25 Oct 2022 22:39:52 -0700
+Subject: [PATCH] DO NOT MERGE: ActivityManager#killBackgroundProcesses can
+ kill caller's own app only
+
+unless it's a system app.
+
+Bug: 239423414
+Bug: 223376078
+Test: atest CtsAppTestCases:ActivityManagerTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d1c95670b248df945784b0f2830acf83b5682de3)
+Merged-In: Iac6baa889965b8ffecd9a43179a4c96632ad1d02
+AOSP-Change-Id: Iac6baa889965b8ffecd9a43179a4c96632ad1d02
+
+Change-Id: I41cd6fa1f71e950db18a9fd450355c4e6f80ec7d
+---
+ .../server/am/ActivityManagerService.java        | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 234b23a996267..815ddf63e565a 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -4486,6 +4486,22 @@ void killAllBackgroundProcessesExcept(int minTargetSdk, int maxProcState) {
+             throw new SecurityException(msg);
+         }
+ 
++        final int callingUid = Binder.getCallingUid();
++        final int callingPid = Binder.getCallingPid();
++
++        ProcessRecord proc;
++        synchronized (mPidsSelfLocked) {
++            proc = mPidsSelfLocked.get(callingPid);
++        }
++        if (callingUid >= FIRST_APPLICATION_UID
++                && (proc == null || !proc.info.isSystemApp())) {
++            final String msg = "Permission Denial: killAllBackgroundProcesses() from pid="
++                    + callingPid + ", uid=" + callingUid + " is not allowed";
++            Slog.w(TAG, msg);
++            // Silently return to avoid existing apps from crashing.
++            return;
++        }
++
+         final long callingId = Binder.clearCallingIdentity();
+         try {
+             synchronized (this) {

@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Riddle Hsu <riddlehsu@google.com>
+Date: Tue, 6 Feb 2024 17:19:37 +0800
+Subject: [PATCH] Hide window immediately if itself doesn't run hide animation
+
+The condition was overextended in commit 9bca6b4 which checks if the
+parent container of the window is animating. That causes the window to
+wait for animation finish to update visibility, but the animation
+finish callback won't happen because itself is not animating. Then the
+window that should be hidden remains on screen.
+
+Bug: 302431573
+Test: atest WindowStateTests#testIsOnScreen_hiddenByPolicy
+(cherry picked from commit 9add9281ffc120c81a7d125892803f1beb5ddcb3)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:10a7f0914c87f4af521b5cbb13e84a83dacebf82)
+Merged-In: Iafc2b2c2a24d8fc8d147354ef2f0b4afeeb510c5
+Change-Id: Iafc2b2c2a24d8fc8d147354ef2f0b4afeeb510c5
+---
+ .../com/android/server/wm/WindowState.java    |  6 ++++--
+ .../android/server/wm/WindowStateTests.java   | 20 +++++++++++++++++++
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/wm/WindowState.java b/services/core/java/com/android/server/wm/WindowState.java
+index 18cdc943b8c8..cca14d884cdd 100644
+--- a/services/core/java/com/android/server/wm/WindowState.java
++++ b/services/core/java/com/android/server/wm/WindowState.java
+@@ -2698,8 +2698,10 @@ class WindowState extends WindowContainer<WindowState> implements WindowManagerP
+             return false;
+         }
+         if (doAnimation) {
+-            mWinAnimator.applyAnimationLocked(TRANSIT_EXIT, false);
+-            if (!isAnimating()) {
++            // If a hide animation is applied, then let onAnimationFinished
++            // -> checkPolicyVisibilityChange hide the window. Otherwise make doAnimation false
++            // to commit invisible immediately.
++            if (!mWinAnimator.applyAnimationLocked(TRANSIT_EXIT, false /* isEntrance */)) {
+                 doAnimation = false;
+             }
+         }
+diff --git a/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java b/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
+index 3a8d3b74c08f..15d0fd90ef77 100644
+--- a/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
++++ b/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
+@@ -213,6 +213,26 @@ public class WindowStateTests extends WindowTestsBase {
+         assertTrue(window.isOnScreen());
+         window.hideLw(false /* doAnimation */);
+         assertFalse(window.isOnScreen());
++
++        // Verifies that a window without animation can be hidden even if its parent is animating.
++        window.show(false /* doAnimation */, false /* requestAnim */);
++        assertTrue(window.isVisibleByPolicy());
++        window.getParent().startAnimation(mTransaction, mock(AnimationAdapter.class),
++                false /* hidden */, SurfaceAnimator.ANIMATION_TYPE_WINDOW_ANIMATION);
++        window.mAttrs.windowAnimations = 0;
++        window.hide(true /* doAnimation */, true /* requestAnim */);
++        assertFalse(window.isSelfAnimating(0, SurfaceAnimator.ANIMATION_TYPE_WINDOW_ANIMATION));
++        assertFalse(window.isVisibleByPolicy());
++        assertFalse(window.isOnScreen());
++
++        // Verifies that a window with animation can be hidden after the hide animation is finished.
++        window.show(false /* doAnimation */, false /* requestAnim */);
++        window.mAttrs.windowAnimations = android.R.style.Animation_Dialog;
++        window.hide(true /* doAnimation */, true /* requestAnim */);
++        assertTrue(window.isSelfAnimating(0, SurfaceAnimator.ANIMATION_TYPE_WINDOW_ANIMATION));
++        assertTrue(window.isVisibleByPolicy());
++        window.cancelAnimation();
++        assertFalse(window.isVisibleByPolicy());
+     }
+ 
+     @Test
