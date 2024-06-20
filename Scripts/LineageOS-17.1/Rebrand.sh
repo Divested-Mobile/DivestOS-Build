@@ -37,7 +37,7 @@ sed -i 's|0xfd, 0xd8,0x35|0x8b, 0xc3, 0x4a|' recovery_ui/*ui.cpp; #Recolor accen
 sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' recovery_ui/*ui.cpp; #Recolor text
 sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' recovery_ui/*ui.cpp;
 sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' recovery_ui/*ui.cpp;
-sed -i 's|Lineage |'"$DOS_BRANDING_NAME"' |' recovery.cpp;
+sed -i 's|"Version "|"'$DOS_BRANDING_NAME' "|' recovery.cpp
 fi;
 
 if enter "build/make"; then
