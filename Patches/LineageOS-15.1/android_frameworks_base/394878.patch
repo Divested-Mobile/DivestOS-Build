@@ -1,4 +1,4 @@
-From 2d2a31353a07daf096aa9e2ca09e18ad2773b1ba Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Dementyev <dementyev@google.com>
 Date: Tue, 26 Mar 2024 10:31:44 -0700
 Subject: [PATCH] Add more checkKeyIntent checks to AccountManagerService.
@@ -14,10 +14,10 @@ Change-Id: I9e45d758a2320328da5664b6341eafe6f285f297
  1 file changed, 10 insertions(+)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index 4e4c261d0cc46..19e1a4c55120a 100644
+index b06fce9128e6..45c56e41d7fb 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -3453,6 +3453,11 @@ public void onResult(Bundle result) {
+@@ -3441,6 +3441,11 @@ public class AccountManagerService
  
              // Strip auth token from result.
              result.remove(AccountManager.KEY_AUTHTOKEN);
@@ -29,7 +29,7 @@ index 4e4c261d0cc46..19e1a4c55120a 100644
  
              if (Log.isLoggable(TAG, Log.VERBOSE)) {
                  Log.v(TAG,
-@@ -5039,6 +5044,11 @@ public void onResult(Bundle result) {
+@@ -5017,6 +5022,11 @@ public class AccountManagerService
                      } else {
                          if (mStripAuthTokenFromResult) {
                              result.remove(AccountManager.KEY_AUTHTOKEN);

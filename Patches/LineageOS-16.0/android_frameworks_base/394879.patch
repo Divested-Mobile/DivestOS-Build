@@ -1,4 +1,4 @@
-From a568a9144f1a804e4ac136522dfcd1f8aaae81a3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Wailes <chriswailes@google.com>
 Date: Thu, 18 Apr 2019 18:25:57 -0700
 Subject: [PATCH] Adds additional sanitization for Zygote command arguments.
@@ -18,7 +18,7 @@ Merged-In: I4055c50d52db0047c02c11096710fd07b429660c
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/os/ZygoteProcess.java b/core/java/android/os/ZygoteProcess.java
-index 6994033a963a8..904ec46859fa4 100644
+index 6994033a963a..904ec46859fa 100644
 --- a/core/java/android/os/ZygoteProcess.java
 +++ b/core/java/android/os/ZygoteProcess.java
 @@ -16,6 +16,7 @@
@@ -29,7 +29,7 @@ index 6994033a963a8..904ec46859fa4 100644
  import android.net.LocalSocket;
  import android.net.LocalSocketAddress;
  import android.util.Log;
-@@ -278,15 +279,19 @@ private static String getAbiList(BufferedWriter writer, DataInputStream inputStr
+@@ -278,15 +279,19 @@ public class ZygoteProcess {
       */
      @GuardedBy("mLock")
      private static Process.ProcessStartResult zygoteSendArgsAndGetResult(

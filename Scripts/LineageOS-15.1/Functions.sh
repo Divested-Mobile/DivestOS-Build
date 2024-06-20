@@ -62,9 +62,10 @@ buildAll() {
 	#Intel
 	buildDevice fugu;
 	#Tegra
+	buildDevice dragon verity;
+	cd "$DOS_BUILD_BASE/bionic" && git apply --reverse "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch" && cd "$DOS_BUILD_BASE";
 	buildDevice flounder verity;
 	buildDevice flounder_lte verity;
-	buildDevice dragon verity;
 }
 export -f buildAll;
 
