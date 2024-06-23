@@ -395,10 +395,6 @@ if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
 fi;
 
-if enterAndClear "system/libfmq"; then
-git fetch https://github.com/LineageOS/android_system_libfmq refs/changes/53/394253/1 && git cherry-pick FETCH_HEAD; #T_asb_2024-06
-fi;
-
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #Label protected_{fifos,regular} as proc_security (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)

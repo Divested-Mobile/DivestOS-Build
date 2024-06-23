@@ -95,7 +95,6 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-05-05/2024-06-05/' core/version_defaults.mk; #Bump Security String #S_asb_2024-06
 fi;
 
 if enterAndClear "build/soong"; then
@@ -393,10 +392,6 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
-fi;
-
-if enterAndClear "system/libfmq"; then
-git fetch https://github.com/LineageOS/android_system_libfmq refs/changes/43/394543/1 && git cherry-pick FETCH_HEAD; #S_asb_2024-06
 fi;
 
 if enterAndClear "system/netd"; then
