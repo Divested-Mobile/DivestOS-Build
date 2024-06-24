@@ -263,6 +263,12 @@ if enterAndClear "packages/apps/Aperture"; then
 git revert --no-edit 09577521a65e1cef0560a84085fca46b1cf53803; #Fix invisible buttons
 fi;
 
+if enterAndClear "packages/apps/CarrierConfig2"; then
+sed -i -e '31,35d;' AndroidManifest.xml; #Fixups
+rm src/app/grapheneos/carrierconfig2/TestActivity.java src/app/grapheneos/carrierconfig2/loader/CmpTest.java;
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then sed -i 's|etc/CarrierSettings|etc/CarrierSettings2|' src/app/grapheneos/carrierconfig2/loader/CSettingsDir.java; fi; #Alter the search path
+fi;
+
 if enterAndClear "packages/apps/CellBroadcastReceiver"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_CellBroadcastReceiver/0001-presidential_alert_toggle.patch"; #Allow toggling presidential alerts (GrapheneOS)
 fi;
@@ -377,6 +383,11 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
+if enterAndClear "packages/services/Telephony"; then
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then sed -i 's|com.android.carrierconfig|app.grapheneos.carrierconfig2|' res/values/config.xml; fi; #Alter the provider
+fi;
+
+
 if enterAndClear "system/ca-certificates"; then
 rm -rf files; #Remove old certs
 cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
@@ -444,6 +455,13 @@ sed -i 's/OpenCamera/Aperture/' packages.mk; #Use the LineageOS camera app
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 sed -i 's/wifi,cell/internet/' overlay/common/frameworks/base/packages/SystemUI/res/values/config.xml; #Use the modern quick tile
 sed -i 's|system/etc|$(TARGET_COPY_OUT_PRODUCT)/etc|' divestos.mk;
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then
+echo "Including CarrierConfig2 & CarrierSettings2";
+echo "ifneq ($(BOARD_WITHOUT_RADIO),true)" >> divestos.mk;
+echo "PRODUCT_PACKAGES += CarrierConfig2"  >> divestos.mk;
+echo "include vendor/divested-carriersettings/CarrierSettings2.mk" >> divestos.mk;
+echo "endif" >> divestos.mk;
+fi
 fi;
 #
 #END OF ROM CHANGES
