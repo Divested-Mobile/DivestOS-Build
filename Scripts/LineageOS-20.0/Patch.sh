@@ -389,7 +389,6 @@ if enterAndClear "packages/services/Telephony"; then
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-CC2.patch"; fi; #Runtime control of platform carrier config package (DivestOS)
 fi;
 
-
 if enterAndClear "system/ca-certificates"; then
 rm -rf files; #Remove old certs
 cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
@@ -463,7 +462,7 @@ echo 'ifneq ($(BOARD_WITHOUT_RADIO),true)' >> divestos.mk;
 echo "PRODUCT_PACKAGES += CarrierConfig2"  >> divestos.mk;
 echo "include vendor/divested-carriersettings/CarrierSettings2.mk" >> divestos.mk;
 echo "endif" >> divestos.mk;
-fi
+fi;
 fi;
 #
 #END OF ROM CHANGES

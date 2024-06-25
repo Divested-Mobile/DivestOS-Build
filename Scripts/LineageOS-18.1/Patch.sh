@@ -304,6 +304,14 @@ if enterAndClear "packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/CarrierConfig2"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_CarrierConfig2/0001-Legacy-compat.patch"; #Fixup (DivestOS)
+awk -i inplace '!/overrides/' Android.bp; #Don't replace CarrierConfig
+sed -i -e '31,35d;' AndroidManifest.xml; #Fixups
+rm src/app/grapheneos/carrierconfig2/TestActivity.java src/app/grapheneos/carrierconfig2/loader/CmpTest.java;
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then sed -i 's|etc/CarrierSettings|etc/CarrierSettings2|' src/app/grapheneos/carrierconfig2/loader/CSettingsDir.java; fi; #Alter the search path
+fi;
+
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0002-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
@@ -361,6 +369,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-2.pat
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-3.patch"; #Add LTE only entry when carrier enables world mode (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-microG_Toggle.patch"; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-CC2_Toggle.patch"; fi; #Add a toggle for CarrierConfig2 enablement (heavily based off of a GrapheneOS patch)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Settings/0001-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
@@ -402,6 +411,10 @@ fi;
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix (Sony)
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.patch"; #mnc fix (Sony)
+fi;
+
+if enterAndClear "packages/services/Telephony"; then
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-CC2.patch"; fi; #Runtime control of platform carrier config package (DivestOS)
 fi;
 
 if enterAndClear "system/bt"; then
@@ -490,6 +503,13 @@ awk -i inplace '!/_lookup/' overlay/common/lineage-sdk/packages/LineageSettingsP
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then
+echo "Including CarrierConfig2 & CarrierSettings2";
+echo 'ifneq ($(BOARD_WITHOUT_RADIO),true)' >> divestos.mk;
+echo "PRODUCT_PACKAGES += CarrierConfig2"  >> divestos.mk;
+echo "include vendor/divested-carriersettings/CarrierSettings2.mk" >> divestos.mk;
+echo "endif" >> divestos.mk;
+fi;
 fi;
 #
 #END OF ROM CHANGES

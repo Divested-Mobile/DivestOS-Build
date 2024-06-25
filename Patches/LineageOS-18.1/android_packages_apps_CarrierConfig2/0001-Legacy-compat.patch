@@ -1,0 +1,211 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tavi <tavi@divested.dev>
+Date: Tue, 25 Jun 2024 07:48:24 -0400
+Subject: [PATCH] Legacy compat
+
+Change-Id: Ic564f35a7d694cc99fc810b776bb6389efbfe3f1
+Signed-off-by: Tavi <tavi@divested.dev>
+---
+ .../grapheneos/carrierconfig2/ApnServiceImpl.java    |  2 +-
+ .../carrierconfig2/CarrierServiceImpl.java           | 12 +++---------
+ src/app/grapheneos/carrierconfig2/Utils.java         |  6 +++---
+ src/app/grapheneos/carrierconfig2/loader/Apns.java   |  9 +++------
+ .../carrierconfig2/loader/CarrierConfigLoader.java   |  8 ++++----
+ .../grapheneos/carrierconfig2/loader/Filters.java    |  7 ++-----
+ 6 files changed, 16 insertions(+), 28 deletions(-)
+
+diff --git a/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java b/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java
+index 1fc2339..1ac28fc 100644
+--- a/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java
++++ b/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java
+@@ -21,7 +21,7 @@ public class ApnServiceImpl extends ApnService {
+     public List<ContentValues> onRestoreApns(int subId) {
+         Log.d(TAG, "onRestoreApns: subId " + subId);
+ 
+-        var csd = CSettingsDir.getDefault();
++        CSettingsDir csd = CSettingsDir.getDefault();
+         if (csd == null) {
+             Log.e(TAG, "CSettingsDir is missing");
+             return emptyList();
+diff --git a/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java b/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
+index 166272f..37b430c 100644
+--- a/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
++++ b/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
+@@ -14,10 +14,10 @@ public class CarrierServiceImpl extends CarrierService {
+ 
+     @Nullable
+     @Override
+-    public PersistableBundle onLoadConfig(int subId, @Nullable CarrierIdentifier carrierId) {
+-        Log.d(TAG, "subId " + subId + "; carrierId " + carrierId);
++    public PersistableBundle onLoadConfig(@Nullable CarrierIdentifier carrierId) {
++        Log.d(TAG, "carrierId " + carrierId);
+ 
+-        var csd = CSettingsDir.getDefault();
++        CSettingsDir csd = CSettingsDir.getDefault();
+         if (csd == null) {
+             Log.e(TAG, "missing CSettingsDir");
+             return null;
+@@ -25,10 +25,4 @@ public class CarrierServiceImpl extends CarrierService {
+ 
+         return new CarrierConfigLoader(getApplicationContext(), csd).load(carrierId);
+     }
+-
+-    @Override
+-    public PersistableBundle onLoadConfig(CarrierIdentifier id) {
+-        // this method is deprecated and should never be called by the OS
+-        throw new IllegalStateException(String.valueOf(id));
+-    }
+ }
+diff --git a/src/app/grapheneos/carrierconfig2/Utils.java b/src/app/grapheneos/carrierconfig2/Utils.java
+index 7300925..06abf09 100644
+--- a/src/app/grapheneos/carrierconfig2/Utils.java
++++ b/src/app/grapheneos/carrierconfig2/Utils.java
+@@ -22,7 +22,7 @@ public class Utils {
+             return null;
+         }
+ 
+-        var tm = ctx.getSystemService(TelephonyManager.class).createForSubscriptionId(subId);
++        TelephonyManager tm = ctx.getSystemService(TelephonyManager.class).createForSubscriptionId(subId);
+         String simOperator = tm.getSimOperator();
+ 
+         if (simOperator == null) {
+@@ -46,13 +46,13 @@ public class Utils {
+         String imsi = tm.getSubscriberId();
+         String gid1 = tm.getGroupIdLevel1();
+ 
+-        var res = new CarrierIdentifier(mcc, mnc, spn, imsi, gid1, null);
++        CarrierIdentifier res = new CarrierIdentifier(mcc, mnc, spn, imsi, gid1, null);
+         Log.d(TAG, "subId " + subId + "; " + res);
+         return res;
+     }
+ 
+     public static String printStackTraceToString(Throwable t) {
+-        var baos = new ByteArrayOutputStream(1000);
++        ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
+         t.printStackTrace(new PrintStream(baos));
+         return baos.toString();
+     }
+diff --git a/src/app/grapheneos/carrierconfig2/loader/Apns.java b/src/app/grapheneos/carrierconfig2/loader/Apns.java
+index ff0082f..357e6ea 100644
+--- a/src/app/grapheneos/carrierconfig2/loader/Apns.java
++++ b/src/app/grapheneos/carrierconfig2/loader/Apns.java
+@@ -39,7 +39,7 @@ public class Apns {
+     }
+ 
+     private static ContentValues apnItemToContentValues(ApnItem i, CarrierId protoCarrierId) {
+-        var cv = new ContentValues();
++        ContentValues cv = new ContentValues();
+         cv.put(Telephony.Carriers.APN, i.getValue());
+         cv.put(Telephony.Carriers.NAME, i.getName());
+ 
+@@ -114,9 +114,6 @@ public class Apns {
+ 
+         int lntBitmask = i.hasLingeringNetworkTypeBitmask() ?
+                 parseBitmaskString(i.getLingeringNetworkTypeBitmask()) : 0;
+-        cv.put(Telephony.Carriers.LINGERING_NETWORK_TYPE_BITMASK, lntBitmask);
+-        cv.put(Telephony.Carriers.ALWAYS_ON, i.getAlwaysOn());
+-        cv.put(Telephony.Carriers.MTU_V6, i.getMtuV6());
+ 
+         return cv;
+     }
+@@ -164,7 +161,7 @@ public class Apns {
+     private static List<ContentValues> getApnContentValues(CSettings cs) {
+         List<ApnItem> list = cs.protoCSettings.getApns().getApnList();
+ 
+-        var result = new ArrayList<ContentValues>(list.size());
++        ArrayList result = new ArrayList<ContentValues>(list.size());
+ 
+         for (ApnItem apnItem : list) {
+             result.add(apnItemToContentValues(apnItem, cs.carrierId2.protoCarrierId));
+@@ -185,7 +182,7 @@ public class Apns {
+     }
+ 
+     private static String typesListToString(List<ApnItem.ApnType> list) {
+-        var b = new StringBuilder(list.size() * 5);
++        StringBuilder b = new StringBuilder(list.size() * 5);
+         boolean skipComma = true;
+ 
+         for (ApnItem.ApnType apnType : list) {
+diff --git a/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java b/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
+index 1d77aac..97a07be 100644
+--- a/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
++++ b/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
+@@ -65,7 +65,7 @@ public class CarrierConfigLoader {
+ 
+         CSettings defaults = CSettings.get(csd, DEFAULT_CARRIER_ID);
+ 
+-        var bundle = new PersistableBundle();
++        PersistableBundle bundle = new PersistableBundle();
+         if (defaults != null) {
+             // settings for default carrier ID are used as a base, carrier-specific settings are
+             // applied on top
+@@ -89,7 +89,7 @@ public class CarrierConfigLoader {
+ 
+     private PersistableBundle carrierConfigToBundle(CarrierConfig cc) {
+         List<CarrierConfig.Config> configs = cc.getConfigList();
+-        var bundle = new PersistableBundle(configs.size());
++        PersistableBundle bundle = new PersistableBundle(configs.size());
+ 
+         String TAG = "carrierConfigToBundle";
+ 
+@@ -174,7 +174,7 @@ public class CarrierConfigLoader {
+     private void storeApnCSettingsVersion(CSettings cs) {
+         String k = cs.carrierId2.canonicalName;
+         SharedPreferences p = Prefs.get(context, Prefs.Namespace.APN_CSETTINGS_VERSIONS);
+-        var ed = p.edit();
++        SharedPreferences.Editor ed = p.edit();
+         if (p.getAll().size() > 100) {
+             // remove old values
+             ed.clear();
+@@ -186,7 +186,7 @@ public class CarrierConfigLoader {
+     private void addVersionString(CSettings cSettings, boolean isDefault, PersistableBundle dest) {
+         CarrierSettings cs = cSettings.protoCSettings;
+ 
+-        var b = new StringBuilder();
++        StringBuilder b = new StringBuilder();
+         b.append(cs.getCanonicalName());
+         b.append('-');
+         b.append(cs.getVersion());
+diff --git a/src/app/grapheneos/carrierconfig2/loader/Filters.java b/src/app/grapheneos/carrierconfig2/loader/Filters.java
+index 75764db..02b92a9 100644
+--- a/src/app/grapheneos/carrierconfig2/loader/Filters.java
++++ b/src/app/grapheneos/carrierconfig2/loader/Filters.java
+@@ -23,12 +23,10 @@ class Filters {
+             case CarrierConfigManager.KEY_EDITABLE_ENHANCED_4G_LTE_BOOL:
+             case CarrierConfigManager.KEY_EDITABLE_WFC_MODE_BOOL:
+             case CarrierConfigManager.KEY_EDITABLE_WFC_ROAMING_MODE_BOOL:
+-            case CarrierConfigManager.KEY_HIDE_ENABLE_2G:
+             case CarrierConfigManager.KEY_HIDE_ENHANCED_4G_LTE_BOOL:
+             case CarrierConfigManager.KEY_HIDE_IMS_APN_BOOL:
+             case CarrierConfigManager.KEY_HIDE_PRESET_APN_DETAILS_BOOL:
+             case CarrierConfigManager.KEY_SHOW_APN_SETTING_CDMA_BOOL:
+-            case CarrierConfigManager.KEY_VONR_SETTING_VISIBILITY_BOOL:
+             case "com.google.android.dialer.display_wifi_calling_button_bool":
+                 return null;
+         }
+@@ -52,7 +50,6 @@ class Filters {
+                     return null;
+                 }
+                 break;
+-            case CarrierConfigManager.KEY_CARRIER_PROVISIONING_APP_STRING:
+             case CarrierConfigManager.KEY_CARRIER_SETTINGS_ACTIVITY_COMPONENT_NAME_STRING:
+             case CarrierConfigManager.KEY_CARRIER_SETUP_APP_STRING:
+             case CarrierConfigManager.KEY_SMART_FORWARDING_CONFIG_COMPONENT_NAME_STRING:
+@@ -107,7 +104,7 @@ class Filters {
+     }
+ 
+     private static boolean isSystemComponentName(Context ctx, String name) {
+-        var cn = ComponentName.unflattenFromString(name);
++        ComponentName cn = ComponentName.unflattenFromString(name);
+         if (cn == null) {
+             Log.w(TAG, "malformed ComponentName " + name);
+             return false;
+@@ -117,7 +114,7 @@ class Filters {
+ 
+     private static boolean isSystemApp(Context ctx, String packageName) {
+         ApplicationInfo ai;
+-        var pm = ctx.getPackageManager();
++        PackageManager pm = ctx.getPackageManager();
+         try {
+             ai = pm.getApplicationInfo(packageName, 0);
+         } catch (PackageManager.NameNotFoundException e) {
