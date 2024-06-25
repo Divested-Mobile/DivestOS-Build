@@ -264,6 +264,7 @@ git revert --no-edit 09577521a65e1cef0560a84085fca46b1cf53803; #Fix invisible bu
 fi;
 
 if enterAndClear "packages/apps/CarrierConfig2"; then
+awk -i inplace '!/overrides/' Android.bp; #Don't replace CarrierConfig
 sed -i -e '31,35d;' AndroidManifest.xml; #Fixups
 rm src/app/grapheneos/carrierconfig2/TestActivity.java src/app/grapheneos/carrierconfig2/loader/CmpTest.java;
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then sed -i 's|etc/CarrierSettings|etc/CarrierSettings2|' src/app/grapheneos/carrierconfig2/loader/CSettingsDir.java; fi; #Alter the search path
@@ -320,6 +321,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode-2.pat
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-microG_Toggle.patch"; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
 if [ "$DOS_DEBLOBBER_REMOVE_EUICC_FULL" = false ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0017-OpenEUICC_Toggle.patch"; fi; #Add a toggle for OpenEUICC enablement (heavily based off of a GrapheneOS patch)
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0018-CC2_Toggle.patch"; fi; #Add a toggle for CarrierConfig2 enablement (heavily based off of a GrapheneOS patch)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Settings/0001-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 fi;
 
@@ -384,7 +386,7 @@ applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Networ
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
-if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then sed -i 's|com.android.carrierconfig|app.grapheneos.carrierconfig2|' res/values/config.xml; fi; #Alter the provider
+if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-CC2.patch"; fi; #Runtime control of platform carrier config package (DivestOS)
 fi;
 
 
@@ -457,7 +459,7 @@ sed -i 's/wifi,cell/internet/' overlay/common/frameworks/base/packages/SystemUI/
 sed -i 's|system/etc|$(TARGET_COPY_OUT_PRODUCT)/etc|' divestos.mk;
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then
 echo "Including CarrierConfig2 & CarrierSettings2";
-echo "ifneq ($(BOARD_WITHOUT_RADIO),true)" >> divestos.mk;
+echo 'ifneq ($(BOARD_WITHOUT_RADIO),true)' >> divestos.mk;
 echo "PRODUCT_PACKAGES += CarrierConfig2"  >> divestos.mk;
 echo "include vendor/divested-carriersettings/CarrierSettings2.mk" >> divestos.mk;
 echo "endif" >> divestos.mk;

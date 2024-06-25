@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tavi <tavi@divested.dev>
+Date: Tue, 25 Jun 2024 02:39:28 -0400
+Subject: [PATCH] Runtime control of platform carrier config package
+
+Change-Id: I8cc8f2bda264bd42fe83d5c96fa6382e63a88410
+Signed-off-by: Tavi <tavi@divested.dev>
+---
+ src/com/android/phone/CarrierConfigLoader.java | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/phone/CarrierConfigLoader.java b/src/com/android/phone/CarrierConfigLoader.java
+index 9a0da4bee..749df35f7 100644
+--- a/src/com/android/phone/CarrierConfigLoader.java
++++ b/src/com/android/phone/CarrierConfigLoader.java
+@@ -43,6 +43,7 @@ import android.os.PersistableBundle;
+ import android.os.Process;
+ import android.os.RemoteException;
+ import android.os.ResultReceiver;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.preference.PreferenceManager;
+ import android.service.carrier.CarrierIdentifier;
+@@ -688,8 +689,14 @@ public class CarrierConfigLoader extends ICarrierConfigLoader.Stub {
+     /* package */ CarrierConfigLoader(@NonNull Context context,
+             @NonNull SubscriptionInfoUpdater subscriptionInfoUpdater, @NonNull Looper looper) {
+         mContext = context;
+-        mPlatformCarrierConfigPackage =
+-                mContext.getString(R.string.platform_carrier_config_package);
++        if (SystemProperties.getBoolean("persist.security.carrierconfig2", false)) {
++            mPlatformCarrierConfigPackage = "app.grapheneos.carrierconfig2";
++        } else {
++            //mPlatformCarrierConfigPackage = "com.android.carrierconfig";
++            mPlatformCarrierConfigPackage =
++                    mContext.getString(R.string.platform_carrier_config_package);
++        }
++        Log.d("CarrierConfigPackageOverride", "Provider: " + mPlatformCarrierConfigPackage);
+         mHandler = new ConfigHandler(looper);
+ 
+         IntentFilter systemEventsFilter = new IntentFilter();
