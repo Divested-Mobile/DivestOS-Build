@@ -390,6 +390,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48627/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48701/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48702/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48710/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48757/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.4/0007.patch
@@ -514,6 +515,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38601/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38607/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38613/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38619/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38621/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38659/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39292/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
@@ -527,7 +531,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p528"
+editKernelLocalversion "-dos.p531"
 else echo "kernel_moto_shamu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

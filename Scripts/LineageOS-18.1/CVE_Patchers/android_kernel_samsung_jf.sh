@@ -569,6 +569,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38587/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38589/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38599/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38607/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38659/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
