@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pranav Vashi <neobuddy89@gmail.com>
+Date: Sun, 7 Jul 2019 11:56:32 +0530
+Subject: [PATCH] Fix long click intent for Smart Pixels tile [2/2]
+
+Change-Id: Id6b5fffd814f035be1bb75d1434456e0c02aa97f
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+Signed-off-by: Anushek Prasal <anushekprasal@gmail.com>
+---
+ AndroidManifest.xml                                 | 13 +++++++++++++
+ src/com/android/settings/Settings.java              |  5 +++++
+ .../settings/core/gateway/SettingsGateway.java      |  5 ++++-
+ 3 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 86e73085a0..68787a7609 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -4573,6 +4573,19 @@
+             </intent-filter>
+         </activity>
+ 
++        <activity android:name=".Settings$SmartPixelsActivity"
++            android:label="@string/smart_pixels_title"
++            android:taskAffinity="com.android.settings"
++            android:exported="true"
++            android:parentActivityName="Settings">
++            <intent-filter android:priority="1">
++                <action android:name="android.settings.SMART_PIXELS_SETTINGS" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
++                android:value="com.android.settings.fuelgauge.batteryusage.SmartPixelsSettings" />
++        </activity>
++
+         <!-- This is the longest AndroidManifest.xml ever. -->
+     </application>
+ </manifest>
+diff --git a/src/com/android/settings/Settings.java b/src/com/android/settings/Settings.java
+index 50ffdc720e..ae3cf86c29 100644
+--- a/src/com/android/settings/Settings.java
++++ b/src/com/android/settings/Settings.java
+@@ -448,4 +448,9 @@ public class Settings extends SettingsActivity {
+      * Activity for OneHandedSettings
+      */
+     public static class OneHandedSettingsActivity extends SettingsActivity { /* empty */ }
++
++    /**
++     * Activity for SmartPixelsSettings
++     */
++    public static class SmartPixelsActivity extends SettingsActivity { /* empty */ }
+ }
+diff --git a/src/com/android/settings/core/gateway/SettingsGateway.java b/src/com/android/settings/core/gateway/SettingsGateway.java
+index dc746ce8e6..68952172d5 100644
+--- a/src/com/android/settings/core/gateway/SettingsGateway.java
++++ b/src/com/android/settings/core/gateway/SettingsGateway.java
+@@ -101,6 +101,7 @@ import com.android.settings.enterprise.EnterprisePrivacySettings;
+ import com.android.settings.fuelgauge.AdvancedPowerUsageDetail;
+ import com.android.settings.fuelgauge.batterysaver.BatterySaverScheduleSettings;
+ import com.android.settings.fuelgauge.batterysaver.BatterySaverSettings;
++import com.android.settings.fuelgauge.batterysaver.SmartPixelsSettings;
+ import com.android.settings.fuelgauge.batteryusage.PowerUsageSummary;
+ import com.android.settings.gestures.AssistGestureSettings;
+ import com.android.settings.gestures.ButtonNavigationSettingsFragment;
+@@ -345,7 +346,8 @@ public class SettingsGateway {
+             MobileNetworkSettings.class.getName(),
+             AppLocaleDetails.class.getName(),
+             TurnScreenOnSettings.class.getName(),
+-            TurnScreenOnDetails.class.getName()
++            TurnScreenOnDetails.class.getName(),
++            SmartPixelsSettings.class.getName()
+     };
+ 
+     public static final String[] SETTINGS_FOR_RESTRICTED = {
+@@ -388,5 +390,6 @@ public class SettingsGateway {
+             Settings.MyDeviceInfoActivity.class.getName(),
+             Settings.ModuleLicensesActivity.class.getName(),
+             UserBackupSettingsActivity.class.getName(),
++            Settings.SmartPixelsActivity.class.getName()
+     };
+ }

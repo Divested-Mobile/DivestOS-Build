@@ -182,6 +182,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0039-package_hooks.patch"; #Add
 applyPatch "$DOS_PATCHES/android_frameworks_base/0040-euicc-restrictions.patch"; #Integrate Google's EuiccSupportPixel package (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0041-tile_restrictions.patch"; #SystemUI: Require unlocking to use sensitive QS tiles (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0042-minimal_screenshot_exif.patch"; #Put bare minimum metadata in screenshots (CalyxOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0043-Smart_Pixels.patch"; #Smart Pixels (various)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0008-No_Crash_GSF.patch"; #Don't crash apps that depend on missing Gservices provider (GrapheneOS)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
@@ -322,6 +323,8 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch";
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-microG_Toggle.patch"; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
 if [ "$DOS_DEBLOBBER_REMOVE_EUICC_FULL" = false ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0017-OpenEUICC_Toggle.patch"; fi; #Add a toggle for OpenEUICC enablement (heavily based off of a GrapheneOS patch)
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0018-CC2_Toggle.patch"; fi; #Add a toggle for CarrierConfig2 enablement (heavily based off of a GrapheneOS patch)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0019-Smart_Pixels.patch"; #Smart Pixels (CarbonROM/various)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0019-Smart_Pixels-a1.patch"; #Fix long click intent for Smart Pixels tile (crDroid/various)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Settings/0001-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 fi;
 

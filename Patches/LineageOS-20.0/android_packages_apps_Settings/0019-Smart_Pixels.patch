@@ -1,0 +1,246 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Adin Kwok <adin.kwok@carbonrom.org>
+Date: Mon, 1 May 2023 13:44:31 +0800
+Subject: [PATCH] Settings: Smart Pixels [2/2]
+
+Change-Id: If67dec0722412ba12f13673dfc007673bef965b9
+Signed-off-by: Anushek Prasal <anushekprasal@gmail.com>
+---
+ res/values/arrays.xml                         | 45 ++++++++++++++
+ res/values/strings.xml                        | 21 +++++++
+ res/xml/battery_saver_settings.xml            |  7 +++
+ res/xml/smart_pixels_settings.xml             | 54 +++++++++++++++++
+ .../batterysaver/SmartPixelsSettings.java     | 59 +++++++++++++++++++
+ 5 files changed, 186 insertions(+)
+ create mode 100644 res/xml/smart_pixels_settings.xml
+ create mode 100644 src/com/android/settings/fuelgauge/batterysaver/SmartPixelsSettings.java
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index bf3b7eb343..7725c5306e 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1291,6 +1291,51 @@
+         <item>100</item>
+     </integer-array>
+ 
++    <!-- Smart Pixels -->
++    <string-array name="smart_pixels_percent_strings" translatable="false">
++        <item>12</item>
++        <item>25</item>
++        <item>38</item>
++        <item>50</item>
++        <item>62</item>
++        <item>75</item>
++        <item>88</item>
++    </string-array>
++
++    <string-array name="smart_pixels_percent_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++        <item>6</item>
++    </string-array>
++
++    <string-array name="smart_pixels_shift_times" translatable="false">
++        <item>@string/smart_pixels_shift_timeout_summary_15secs</item>
++        <item>@string/smart_pixels_shift_timeout_summary_30secs</item>
++        <item>@string/smart_pixels_shift_timeout_summary_1min</item>
++        <item>@string/smart_pixels_shift_timeout_summary_2mins</item>
++        <item>@string/smart_pixels_shift_timeout_summary_5mins</item>
++        <item>@string/smart_pixels_shift_timeout_summary_10mins</item>
++        <item>@string/smart_pixels_shift_timeout_summary_20mins</item>
++        <item>@string/smart_pixels_shift_timeout_summary_30mins</item>
++        <item>@string/smart_pixels_shift_timeout_summary_1hour</item>
++    </string-array>
++
++    <string-array name="smart_pixels_shift_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++        <item>6</item>
++        <item>7</item>
++        <item>8</item>
++    </string-array>
++
+     <!-- Process stats memory use details: labels for memory states -->
+     <string-array name="proc_stats_memory_states" >
+         <item>Normal</item>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 2543ef0677..55937bafe2 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -14617,4 +14617,25 @@
+ 
+     <string name="force_disable_supl_title">Force disable Secure User Plane Location (SUPL)</string>
+     <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration or emergency call status (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
++
++    <!-- Smart Pixels -->
++    <string name="smart_pixels_warning_text">Smart Pixels is a power saving feature. It turns off pixels to reduce power consumption. Depending on how many pixels you decide to turn off, you could see improvement in battery life. Note that in some cases it can result in unresponsive areas on touch screen.</string>
++    <string name="smart_pixels_title">Smart Pixels</string>
++    <string name="smart_pixels_summary">Save battery by shutting off extra pixels</string>
++    <string name="smart_pixels_enable_title">Enable Smart Pixels</string>
++    <string name="smart_pixels_on_power_save_title">Auto-enable on battery saver</string>
++    <string name="smart_pixels_on_power_save_summary">Enable automatically when battery saver is turned on</string>
++    <string name="smart_pixels_percent">Percent of pixels to disable</string>
++    <string name="smart_pixels_shift_title">Burn-in protection</string>
++    <string name="smart_pixels_shift_summary">Prevents burn-in on OLED devices by shifting pixels every so often</string>
++
++    <string name="smart_pixels_shift_timeout_summary_15secs">15 seconds</string>
++    <string name="smart_pixels_shift_timeout_summary_30secs">30 seconds</string>
++    <string name="smart_pixels_shift_timeout_summary_1min">1 minute</string>
++    <string name="smart_pixels_shift_timeout_summary_2mins">2 minutes</string>
++    <string name="smart_pixels_shift_timeout_summary_5mins">5 minutes</string>
++    <string name="smart_pixels_shift_timeout_summary_10mins">10 minutes</string>
++    <string name="smart_pixels_shift_timeout_summary_20mins">20 minutes</string>
++    <string name="smart_pixels_shift_timeout_summary_30mins">30 minutes</string>
++    <string name="smart_pixels_shift_timeout_summary_1hour">1 hour</string>
+ </resources>
+diff --git a/res/xml/battery_saver_settings.xml b/res/xml/battery_saver_settings.xml
+index 52b8b1acb9..df6fc998e4 100644
+--- a/res/xml/battery_saver_settings.xml
++++ b/res/xml/battery_saver_settings.xml
+@@ -42,6 +42,13 @@
+         settings:keywords="@string/keywords_battery_saver_sticky"
+         settings:controller="com.android.settings.fuelgauge.batterysaver.BatterySaverStickyPreferenceController"/>
+ 
++    <Preference
++        android:key="smart_pixels"
++        android:order="99"
++        android:title="@string/smart_pixels_title"
++        android:summary="@string/smart_pixels_summary"
++        android:fragment="com.android.settings.fuelgauge.batterysaver.SmartPixelsSettings" />
++
+     <com.android.settingslib.widget.FooterPreference
+         android:order="100"
+         android:key="battery_saver_footer_preference"
+diff --git a/res/xml/smart_pixels_settings.xml b/res/xml/smart_pixels_settings.xml
+new file mode 100644
+index 0000000000..90e71b171a
+--- /dev/null
++++ b/res/xml/smart_pixels_settings.xml
+@@ -0,0 +1,54 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     Copyright (C) 2023 Havoc-OS
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<PreferenceScreen
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
++    android:title="@string/smart_pixels_title" >
++
++    <com.android.settingslib.widget.MainSwitchPreference
++        android:key="smart_pixels_enable"
++        android:title="@string/smart_pixels_enable_title"
++        android:defaultValue="false" />
++
++    <ListPreference
++        android:key="smart_pixels_pattern"
++        android:entries="@array/smart_pixels_percent_strings"
++        android:entryValues="@array/smart_pixels_percent_values"
++        android:defaultValue="5"
++        android:dependency="smart_pixels_enable"
++        android:title="@string/smart_pixels_percent"
++        android:dialogTitle="@string/smart_pixels_percent" />
++
++    <SwitchPreference
++        android:key="smart_pixels_on_power_save"
++        android:title="@string/smart_pixels_on_power_save_title"
++        android:summary="@string/smart_pixels_on_power_save_summary" />
++
++    <ListPreference
++        android:key="smart_pixels_shift_timeout"
++        android:entries="@array/smart_pixels_shift_times"
++        android:entryValues="@array/smart_pixels_shift_values"
++        android:defaultValue="4"
++        android:title="@string/smart_pixels_shift_title"
++        android:summary="@string/smart_pixels_shift_summary"
++        android:dialogTitle="@string/smart_pixels_shift_title" />
++
++    <com.android.settingslib.widget.FooterPreference
++        android:key="smart_pixels_footer"
++        android:selectable="false"
++        settings:searchable="false" />
++</PreferenceScreen>
+diff --git a/src/com/android/settings/fuelgauge/batterysaver/SmartPixelsSettings.java b/src/com/android/settings/fuelgauge/batterysaver/SmartPixelsSettings.java
+new file mode 100644
+index 0000000000..e34ec3c049
+--- /dev/null
++++ b/src/com/android/settings/fuelgauge/batterysaver/SmartPixelsSettings.java
+@@ -0,0 +1,59 @@
++/*
++ * Copyright (C) 2023 Havoc-OS
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.fuelgauge.batterysaver;
++
++import android.app.settings.SettingsEnums;
++import android.content.Context;
++import android.content.ContentResolver;
++import android.content.res.Resources;
++import android.net.Uri;
++import android.os.Bundle;
++import android.os.Handler;
++import android.os.UserHandle;
++import android.provider.Settings;
++
++import androidx.preference.ListPreference;
++import androidx.preference.Preference;
++import androidx.preference.PreferenceScreen;
++import androidx.preference.Preference.OnPreferenceChangeListener;
++import androidx.preference.SwitchPreference;
++
++import com.android.internal.logging.nano.MetricsProto;
++import com.android.settings.R;
++import com.android.settings.SettingsPreferenceFragment;
++
++public class SmartPixelsSettings extends SettingsPreferenceFragment {
++
++    private static final String TAG = "SmartPixels";
++
++    private static final String SMART_PIXELS_FOOTER = "smart_pixels_footer";
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++
++        addPreferencesFromResource(R.xml.smart_pixels_settings);
++
++        findPreference(SMART_PIXELS_FOOTER).setTitle(R.string.smart_pixels_warning_text);
++    }
++
++    @Override
++    public int getMetricsCategory() {
++        return SettingsEnums.OPEN_BATTERY_SAVER;
++    }
++}
++

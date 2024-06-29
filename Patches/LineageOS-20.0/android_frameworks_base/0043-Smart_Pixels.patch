@@ -1,0 +1,1057 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sergii Pylypenko <x.pelya.x@gmail.com>
+Date: Sun, 8 Apr 2018 17:55:02 -0700
+Subject: [PATCH] SystemUI: Smart Pixels [1/2]
+
+SystemUI: screen-dimmer-pixel-filter
+
+Major credits to Sergii Pylypenko
+
+Change-Id: Ib2d7e18ad8fe2313dbf7593bf55a2cfec03ce567
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+SystemUI: Smart Pixels [1/2]
+
+Disables a percentage of pixels on screen to reduce power consumption.
+If enabled with battery saver, don't scale brightness at 0.5f for UX.
+
+Includes:
+ - Option to enable on battery saver
+ - User chosen grid
+ - Burn-in protection
+
+Configurable via overlay and disabled by defualt:
+  "config_supportSmartPixels"
+
+Change-Id: Id3c78548cb090ab2da11f543da31c5a408fb9fe9
+Signed-off-by: Adin Kwok <adin.kwok@carbonrom.org>
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+Signed-off-by: minaripenguin <minaripenguin@users.noreply.github.com>
+
+Smart Pixels: Switch to registered receiver
+
+Switching to a registered receiver allows to properly handle updates
+on enabling of battery saver mode and switching of users.
+
+Also only update screen filter with burn-in protection when the
+device is in an interactive state.
+
+Test: Service starts after rebooting with it enabled
+      Service starts on battery saver mode (user toggle)
+      Service starts on battery saver mode (auto-enabled)
+      Service re-adjusts on user switch to current user settings
+      Filter updates after selected timeout
+
+Change-Id: Iced17fd5cc49e0163754bf75782f8465b54e859b
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+Smart Pixels: Dynamically register receiver
+
+Don't keep the receiver registered if it isn't enabled.
+
+Change-Id: If6975df536598ee19d0ee17ec4150ae1b055e18c
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+SmartPixels: Use CoreStartable interface for receiver
+
+* Also clean up and add check whether smart pixels is supported.
+
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+SystemUI: Add Smart Pixels tile
+
+Single tap enables/disables.
+Long press opens Smart Pixels settings.
+
+User is not allowed to enable or disable when
+Smart Pixels has been auto-enabled on battery saver.
+
+Change-Id: I535c84a0ca6360e1db351391e9d0fb9095896ee3
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+Signed-off-by: minaripenguin <minaripenguin@users.noreply.github.com>
+
+Smart Pixels: Update default grid pattern
+
+Change-Id: I826a5a2fdc3aaa9c64f59fbe8b28c8757ca31c58
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+SystemUI: mark smartpixels as a trusted overlay
+
+Change-Id: I1b5e17f5b4397e61350746b161d58366a19a1fc9
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+
+Fix long click intent for Smart Pixels tile [1/2]
+
+Co-authored-by: Joe Maples <joe@frap129.org>
+Co-authored-by: Pranav Vashi <neobuddy89@gmail.com>
+Co-authored-by: Adin Kwok <adin.kwok@carbonrom.org>
+Co-authored-by: Anay Wadhera <anay1018@gmail.com>
+Change-Id: Idf80bd3b54ddfde50ed0993c99076cbdf6b838f1
+Signed-off-by: minaripenguin <minaripenguin@users.noreply.github.com>
+Signed-off-by: Anushek Prasal <anushekprasal@gmail.com>
+---
+ core/java/android/provider/Settings.java      |  24 ++
+ core/res/res/values/config.xml                |   3 +
+ core/res/res/values/symbols.xml               |   3 +
+ packages/SystemUI/AndroidManifest.xml         |   4 +
+ .../res/drawable/ic_qs_smart_pixels.xml       |   8 +
+ packages/SystemUI/res/values/strings.xml      |   4 +
+ .../dagger/SystemUICoreStartableModule.kt     |   7 +
+ .../android/systemui/lineage/LineageModule.kt |   7 +
+ .../systemui/qs/tiles/SmartPixelsTile.java    | 176 +++++++++++++
+ .../android/systemui/smartpixels/Grids.java   | 148 +++++++++++
+ .../smartpixels/SmartPixelsReceiver.java      | 168 ++++++++++++
+ .../smartpixels/SmartPixelsService.java       | 244 ++++++++++++++++++
+ .../display/DisplayPowerController.java       |  17 +-
+ 13 files changed, 810 insertions(+), 3 deletions(-)
+ create mode 100644 packages/SystemUI/res/drawable/ic_qs_smart_pixels.xml
+ create mode 100644 packages/SystemUI/src/com/android/systemui/qs/tiles/SmartPixelsTile.java
+ create mode 100644 packages/SystemUI/src/com/android/systemui/smartpixels/Grids.java
+ create mode 100644 packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsReceiver.java
+ create mode 100644 packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsService.java
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 3241e6e3f0cb..cb5826aff17a 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -5530,6 +5530,30 @@ public final class Settings {
+         @Readable
+         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
+ 
++        /**
++         * Whether to enable Smart Pixels
++         * @hide
++         */
++        public static final String SMART_PIXELS_ENABLE = "smart_pixels_enable";
++
++        /**
++         * Smart Pixels pattern
++         * @hide
++         */
++        public static final String SMART_PIXELS_PATTERN = "smart_pixels_pattern";
++
++        /**
++         * Smart Pixels Shift Timeout
++         * @hide
++         */
++        public static final String SMART_PIXELS_SHIFT_TIMEOUT = "smart_pixels_shift_timeout";
++
++        /**
++         * Whether Smart Pixels should enable on power saver mode
++         * @hide
++         */
++        public static final String SMART_PIXELS_ON_POWER_SAVE = "smart_pixels_on_power_save";
++
+         /**
+          * IMPORTANT: If you add a new public settings you also have to add it to
+          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index dbd475b52f02..fd0f91dd26e5 100644
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -6142,4 +6142,7 @@
+     <!-- Whether we should persist the brightness value in nits for the default display even if
+          the underlying display device changes. -->
+     <bool name="config_persistBrightnessNitsForDefaultDisplay">false</bool>
++
++    <!-- Whether the device supports Smart Pixels -->
++    <bool name="config_supportSmartPixels">true</bool>
+ </resources>
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index 7d8e2f818ce9..a2efd0e8a12f 100644
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -4916,4 +4916,7 @@
+ 
+   <!-- Whether to show weather on the lockscreen by default. -->
+   <java-symbol type="bool" name="config_lockscreenWeatherEnabledByDefault" />
++
++  <!-- Whether the device supports Smart Pixels -->
++  <java-symbol type="bool" name="config_supportSmartPixels" />
+ </resources>
+diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
+index 286155953bed..d7580661df40 100644
+--- a/packages/SystemUI/AndroidManifest.xml
++++ b/packages/SystemUI/AndroidManifest.xml
+@@ -427,6 +427,10 @@
+             </intent-filter>
+         </receiver>
+ 
++        <!-- Smart Pixels -->
++        <service android:name=".smartpixels.SmartPixelsService"
++            android:enabled="true" />
++
+         <service android:name=".wallpapers.ImageWallpaper"
+                 android:singleUser="true"
+                 android:permission="android.permission.BIND_WALLPAPER"
+diff --git a/packages/SystemUI/res/drawable/ic_qs_smart_pixels.xml b/packages/SystemUI/res/drawable/ic_qs_smart_pixels.xml
+new file mode 100644
+index 000000000000..525321baff96
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_qs_smart_pixels.xml
+@@ -0,0 +1,8 @@
++<!-- drawable/grid.xml -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:height="24dp"
++    android:width="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path android:fillColor="#ffffff" android:pathData="M10,4V8H14V4H10M16,4V8H20V4H16M16,10V14H20V10H16M16,16V20H20V16H16M14,20V16H10V20H14M8,20V16H4V20H8M8,14V10H4V14H8M8,8V4H4V8H8M10,14H14V10H10V14M4,2H20A2,2 0 0,1 22,4V20A2,2 0 0,1 20,22H4C2.92,22 2,21.1 2,20V4A2,2 0 0,1 4,2Z" />
++</vector>
+diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
+index ba806e591c1c..7932b8a4cadc 100644
+--- a/packages/SystemUI/res/values/strings.xml
++++ b/packages/SystemUI/res/values/strings.xml
+@@ -2867,4 +2867,8 @@
+ 
+     <!-- Content description for priority mode icon on dream [CHAR LIMIT=NONE] -->
+     <string name="priority_mode_dream_overlay_content_description">Priority mode on</string>
++
++    <!-- Smart Pixels QS Tile -->
++    <string name="quick_settings_smart_pixels">Smart Pixels</string>
++    <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled Smart Pixels</string>
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt b/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
+index 947888bfb187..6f9c0480cfea 100644
+--- a/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
++++ b/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
+@@ -45,6 +45,7 @@ import com.android.systemui.reardisplay.RearDisplayDialogController
+ import com.android.systemui.recents.Recents
+ import com.android.systemui.settings.dagger.MultiUserUtilsModule
+ import com.android.systemui.shortcut.ShortcutKeyDispatcher
++import com.android.systemui.smartpixels.SmartPixelsReceiver
+ import com.android.systemui.statusbar.notification.fsi.FsiChromeRepo
+ import com.android.systemui.statusbar.notification.InstantAppNotifier
+ import com.android.systemui.statusbar.notification.fsi.FsiChromeViewModelFactory
+@@ -305,4 +306,10 @@ abstract class SystemUICoreStartableModule {
+     @IntoMap
+     @ClassKey(DreamMonitor::class)
+     abstract fun bindDreamMonitor(sysui: DreamMonitor): CoreStartable
++
++    /** Inject into SmartPixelsReceiver.  */
++    @Binds
++    @IntoMap
++    @ClassKey(SmartPixelsReceiver::class)
++    abstract fun bindSmartPixelsReceiver(sysui: SmartPixelsReceiver): CoreStartable
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt b/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
+index f301530733a0..b9bb328fc5e0 100644
+--- a/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
++++ b/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
+@@ -25,6 +25,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile
+ import com.android.systemui.qs.tiles.PowerShareTile
+ import com.android.systemui.qs.tiles.ProfilesTile
+ import com.android.systemui.qs.tiles.ReadingModeTile
++import com.android.systemui.qs.tiles.SmartPixelsTile
+ import com.android.systemui.qs.tiles.SyncTile
+ import com.android.systemui.qs.tiles.UsbTetherTile
+ import com.android.systemui.qs.tiles.VpnTile
+@@ -85,6 +86,12 @@ interface LineageModule {
+     @StringKey(ReadingModeTile.TILE_SPEC)
+     fun bindReadingModeTile(readingModeTile: ReadingModeTile): QSTileImpl<*>
+ 
++    /** Inject SmartPixelsTile into tileMap in QSModule */
++    @Binds
++    @IntoMap
++    @StringKey(SmartPixelsTile.TILE_SPEC)
++    fun bindSmartPixelsTile(smartPixelsTile: SmartPixelsTile): QSTileImpl<*>
++
+     /** Inject SyncTile into tileMap in QSModule */
+     @Binds
+     @IntoMap
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/SmartPixelsTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/SmartPixelsTile.java
+new file mode 100644
+index 000000000000..041d83b6a1e3
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/SmartPixelsTile.java
+@@ -0,0 +1,176 @@
++/*
++ * Copyright (C) 2018 CarbonROM
++ * Copyright (C) 2018 Adin Kwok (adinkwok)
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.systemui.qs.tiles;
++
++import android.content.ComponentName;
++import android.content.Context;
++import android.content.Intent;
++import android.os.Handler;
++import android.os.Looper;
++import android.os.PowerManager;
++import android.os.UserHandle;
++import android.provider.Settings;
++import android.service.quicksettings.Tile;
++import android.view.View;
++
++import com.android.internal.logging.MetricsLogger;
++import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
++import com.android.systemui.dagger.qualifiers.Background;
++import com.android.systemui.dagger.qualifiers.Main;
++import com.android.systemui.plugins.ActivityStarter;
++import com.android.systemui.plugins.FalsingManager;
++import com.android.systemui.plugins.qs.QSTile.BooleanState;
++import com.android.systemui.plugins.statusbar.StatusBarStateController;
++import com.android.systemui.qs.QSHost;
++import com.android.systemui.qs.logging.QSLogger;
++import com.android.systemui.qs.tileimpl.QSTileImpl;
++import com.android.systemui.R;
++import com.android.systemui.statusbar.policy.BatteryController;
++
++import javax.inject.Inject;
++
++public class SmartPixelsTile extends QSTileImpl<BooleanState> implements
++        BatteryController.BatteryStateChangeCallback {
++
++    public static final String TILE_SPEC = "smartpixels";
++
++
++    private static final Intent SMART_PIXELS_SETTINGS = new Intent("android.settings.SMART_PIXELS_SETTINGS");
++
++    private final BatteryController mBatteryController;
++
++    private boolean mSmartPixelsEnable;
++    private boolean mSmartPixelsOnPowerSave;
++    private boolean mLowPowerMode;
++    private boolean mListening;
++
++    @Inject
++    public SmartPixelsTile(QSHost host,
++            @Background Looper backgroundLooper,
++            @Main Handler mainHandler,
++            FalsingManager falsingManager,
++            MetricsLogger metricsLogger,
++            StatusBarStateController statusBarStateController,
++            ActivityStarter activityStarter,
++            QSLogger qsLogger,
++            BatteryController batteryController) {
++        super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
++                statusBarStateController, activityStarter, qsLogger);
++        mBatteryController = batteryController;
++    }
++
++    @Override
++    public BooleanState newTileState() {
++        return new BooleanState();
++    }
++
++    @Override
++    public void handleSetListening(boolean listening) {
++        if (listening) {
++            mBatteryController.addCallback(this);
++        } else {
++            mBatteryController.removeCallback(this);
++        }
++    }
++
++    @Override
++    public boolean isAvailable() {
++        return mContext.getResources().
++                getBoolean(com.android.internal.R.bool.config_supportSmartPixels);
++    }
++
++    @Override
++    public void handleClick(View v) {
++        mSmartPixelsEnable = (Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ENABLE,
++                0, UserHandle.USER_CURRENT) == 1);
++        mSmartPixelsOnPowerSave = (Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ON_POWER_SAVE,
++                0, UserHandle.USER_CURRENT) == 1);
++        if (mLowPowerMode && mSmartPixelsOnPowerSave) {
++            Settings.System.putIntForUser(mContext.getContentResolver(),
++                    Settings.System.SMART_PIXELS_ON_POWER_SAVE,
++                    0, UserHandle.USER_CURRENT);
++            Settings.System.putIntForUser(mContext.getContentResolver(),
++                    Settings.System.SMART_PIXELS_ENABLE,
++                    0, UserHandle.USER_CURRENT);
++        } else if (!mSmartPixelsEnable) {
++            Settings.System.putIntForUser(mContext.getContentResolver(),
++                    Settings.System.SMART_PIXELS_ENABLE,
++                    1, UserHandle.USER_CURRENT);
++        } else {
++            Settings.System.putIntForUser(mContext.getContentResolver(),
++                    Settings.System.SMART_PIXELS_ENABLE,
++                    0, UserHandle.USER_CURRENT);
++        }
++        refreshState();
++    }
++
++    @Override
++    public Intent getLongClickIntent() {
++        return SMART_PIXELS_SETTINGS;
++    }
++
++    @Override
++    protected void handleUpdateState(BooleanState state, Object arg) {
++        mSmartPixelsEnable = (Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ENABLE,
++                0, UserHandle.USER_CURRENT) == 1);
++        mSmartPixelsOnPowerSave = (Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ON_POWER_SAVE,
++                0, UserHandle.USER_CURRENT) == 1);
++        state.icon  = ResourceIcon.get(R.drawable.ic_qs_smart_pixels);
++        if (state.slash == null) {
++            state.slash = new SlashState();
++        }
++        if (mLowPowerMode && mSmartPixelsOnPowerSave) {
++            state.label = mContext.getString(R.string.quick_settings_smart_pixels_on_power_save);
++            state.value = true;
++        } else if (mSmartPixelsEnable) {
++            state.label = mContext.getString(R.string.quick_settings_smart_pixels);
++            state.value = true;
++        } else {
++            state.label = mContext.getString(R.string.quick_settings_smart_pixels);
++            state.value = false;
++        }
++        state.slash.isSlashed = !state.value;
++        state.state = state.value ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
++    }
++
++    @Override
++    public CharSequence getTileLabel() {
++        return mContext.getString(R.string.quick_settings_smart_pixels);
++    }
++
++    @Override
++    public int getMetricsCategory() {
++        return MetricsEvent.QS_BATTERY_TILE;
++    }
++
++    @Override
++    public void onBatteryLevelChanged(int level, boolean plugged, boolean charging) {
++        // yurt
++    }
++
++    @Override
++    public void onPowerSaveChanged(boolean active) {
++        mLowPowerMode = active;
++        refreshState();
++    }
++}
++
+diff --git a/packages/SystemUI/src/com/android/systemui/smartpixels/Grids.java b/packages/SystemUI/src/com/android/systemui/smartpixels/Grids.java
+new file mode 100644
+index 000000000000..e29381c38485
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/smartpixels/Grids.java
+@@ -0,0 +1,148 @@
++/*
++ * Copyright (c) 2015, Sergii Pylypenko
++ *           (c) 2018, Joe Maples
++ *           (c) 2018, CarbonROM
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * * Redistributions of source code must retain the above copyright notice, this
++ *   list of conditions and the following disclaimer.
++ *
++ * * Redistributions in binary form must reproduce the above copyright notice,
++ *   this list of conditions and the following disclaimer in the documentation
++ *   and/or other materials provided with the distribution.
++ *
++ * * Neither the name of screen-dimmer-pixel-filter nor the names of its
++ *   contributors may be used to endorse or promote products derived from
++ *   this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
++ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
++ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
++ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
++ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ *
++ */
++
++package com.android.systemui.smartpixels;
++
++public class Grids {
++
++    public static final int GridSize = 64;
++    public static final int GridSideSize = 8;
++
++    public static String[] PatternNames = new String[] {
++            "12%",
++            "25%",
++            "38%",
++            "50%",
++            "62%",
++            "75%",
++            "88%",
++    };
++
++    public static byte[][] Patterns = new byte[][] {
++            {
++                    1, 0, 0, 0, 0, 0, 0, 0,
++                    0, 0, 0, 1, 0, 0, 0, 0,
++                    0, 0, 0, 0, 0, 0, 1, 0,
++                    0, 1, 0, 0, 0, 0, 0, 0,
++                    0, 0, 0, 0, 0, 1, 0, 0,
++                    0, 0, 1, 0, 0, 0, 0, 0,
++                    0, 0, 0, 0, 0, 0, 0, 1,
++                    0, 0, 0, 0, 1, 0, 0, 0,
++            },
++            {
++                    1, 0, 0, 0, 1, 0, 0, 0,
++                    0, 0, 1, 0, 0, 0, 1, 0,
++                    0, 1, 0, 0, 0, 1, 0, 0,
++                    0, 0, 0, 1, 0, 0, 0, 1,
++                    1, 0, 0, 0, 1, 0, 0, 0,
++                    0, 0, 1, 0, 0, 0, 1, 0,
++                    0, 1, 0, 0, 0, 1, 0, 0,
++                    0, 0, 0, 1, 0, 0, 0, 1,
++            },
++            {
++                    1, 0, 0, 0, 1, 0, 0, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    0, 0, 1, 0, 0, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    1, 0, 0, 0, 1, 0, 0, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    0, 0, 1, 0, 0, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++            },
++            {
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    0, 1, 0, 1, 0, 1, 0, 1,
++            },
++            {
++                    0, 1, 1, 1, 0, 1, 1, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    1, 1, 0, 1, 1, 1, 0, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    0, 1, 1, 1, 0, 1, 1, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++                    1, 1, 0, 1, 1, 1, 0, 1,
++                    1, 0, 1, 0, 1, 0, 1, 0,
++            },
++            {
++                    0, 1, 1, 1, 0, 1, 1, 1,
++                    1, 1, 0, 1, 1, 1, 0, 1,
++                    1, 0, 1, 1, 1, 0, 1, 1,
++                    1, 1, 1, 0, 1, 1, 1, 0,
++                    0, 1, 1, 1, 0, 1, 1, 1,
++                    1, 1, 0, 1, 1, 1, 0, 1,
++                    1, 0, 1, 1, 1, 0, 1, 1,
++                    1, 1, 1, 0, 1, 1, 1, 0,
++            },
++            {
++                    0, 1, 1, 1, 1, 1, 1, 1,
++                    1, 1, 1, 0, 1, 1, 1, 1,
++                    1, 1, 1, 1, 1, 1, 0, 1,
++                    1, 0, 1, 1, 1, 1, 1, 1,
++                    1, 1, 1, 1, 1, 0, 1, 1,
++                    1, 1, 0, 1, 1, 1, 1, 1,
++                    1, 1, 1, 1, 1, 1, 1, 0,
++                    1, 1, 1, 1, 0, 1, 1, 1,
++            },
++    };
++
++    // Indexes to shift screen pattern in both vertical and horizontal directions
++    public static byte[] GridShift = new byte[] {
++             0,  1,  8,  9,  2,  3, 10, 11,
++             4,  5, 12, 13,  6,  7, 14, 15,
++            16, 17, 24, 25, 18, 19, 26, 27,
++            20, 21, 28, 29, 22, 23, 30, 31,
++            32, 33, 40, 41, 34, 35, 42, 43,
++            36, 37, 44, 45, 38, 39, 46, 47,
++            48, 49, 56, 57, 50, 51, 58, 59,
++            52, 53, 60, 61, 54, 55, 62, 63,
++    };
++
++    public static int[] ShiftTimeouts = new int[] { // In milliseconds
++            15 * 1000,
++            30 * 1000,
++            60 * 1000,
++            2 * 60 * 1000,
++            5 * 60 * 1000,
++            10 * 60 * 1000,
++            20 * 60 * 1000,
++            30 * 60 * 1000,
++            60 * 60 * 1000,
++    };
++
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsReceiver.java b/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsReceiver.java
+new file mode 100644
+index 000000000000..5b6b8ee89e50
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsReceiver.java
+@@ -0,0 +1,168 @@
++/*
++ * Copyright (C) 2018 CarbonROM
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.systemui.smartpixels;
++
++import android.content.BroadcastReceiver;
++import android.content.ContentResolver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.database.ContentObserver;
++import android.os.Handler;
++import android.os.PowerManager;
++import android.os.UserHandle;
++import android.provider.Settings;
++import android.util.Log;
++
++import com.android.systemui.CoreStartable;
++import com.android.systemui.dagger.SysUISingleton;
++
++import javax.inject.Inject;
++
++@SysUISingleton
++public class SmartPixelsReceiver extends BroadcastReceiver implements CoreStartable {
++   private static final String TAG = "SmartPixelsReceiver";
++
++   private Context mContext;
++   private Handler mHandler = new Handler();
++   private ContentResolver mResolver;
++   private PowerManager mPowerManager;
++   private SettingsObserver mSettingsObserver;
++   private Intent mSmartPixelsService;
++   private IntentFilter mFilter;
++
++   private boolean mEnabled;
++   private boolean mOnPowerSave;
++   private boolean mPowerSave;
++   private boolean mServiceRunning = false;
++   private boolean mRegisteredReceiver = false;
++
++   @Inject
++   public SmartPixelsReceiver(Context context) {
++       mContext = context;
++   }
++
++    @Override
++    public void start() {
++        if (!mContext.getResources().
++                getBoolean(com.android.internal.R.bool.config_supportSmartPixels))
++            return;
++
++       mSmartPixelsService = new Intent(mContext,
++               com.android.systemui.smartpixels.SmartPixelsService.class);
++
++       mFilter = new IntentFilter();
++       mFilter.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED);
++       mFilter.addAction(Intent.ACTION_USER_FOREGROUND);
++
++       initiateSettingsObserver();
++   }
++
++   private void registerReceiver() {
++       mContext.registerReceiver(this, mFilter);
++       mRegisteredReceiver = true;
++   }
++
++   private void unregisterReceiver() {
++       mContext.unregisterReceiver(this);
++       mRegisteredReceiver = false;
++   }
++
++   private void initiateSettingsObserver() {
++       mResolver = mContext.getContentResolver();
++       mSettingsObserver = new SettingsObserver(mHandler);
++       mSettingsObserver.observe();
++       mSettingsObserver.update();
++   }
++
++   private class SettingsObserver extends ContentObserver {
++       SettingsObserver(Handler handler) {
++           super(handler);
++           mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
++       }
++
++       void observe() {
++           mResolver.registerContentObserver(Settings.System.getUriFor(
++                   Settings.System.SMART_PIXELS_ENABLE),
++                   false, this, UserHandle.USER_ALL);
++           mResolver.registerContentObserver(Settings.System.getUriFor(
++                   Settings.System.SMART_PIXELS_ON_POWER_SAVE),
++                   false, this, UserHandle.USER_ALL);
++           mResolver.registerContentObserver(Settings.System.getUriFor(
++                   Settings.System.SMART_PIXELS_PATTERN),
++                   false, this, UserHandle.USER_ALL);
++           mResolver.registerContentObserver(Settings.System.getUriFor(
++                   Settings.System.SMART_PIXELS_SHIFT_TIMEOUT),
++                   false, this, UserHandle.USER_ALL);
++       }
++
++       @Override
++       public void onChange(boolean selfChange) {
++           update();
++       }
++
++       public void update() {
++           mEnabled = (Settings.System.getIntForUser(
++                   mResolver, Settings.System.SMART_PIXELS_ENABLE,
++                   0, UserHandle.USER_CURRENT) == 1);
++           mOnPowerSave = (Settings.System.getIntForUser(
++                   mResolver, Settings.System.SMART_PIXELS_ON_POWER_SAVE,
++                   0, UserHandle.USER_CURRENT) == 1);
++           mPowerSave = mPowerManager.isPowerSaveMode();
++
++           if (mEnabled || mOnPowerSave) {
++               if (!mRegisteredReceiver)
++                   registerReceiver();
++           } else if (mRegisteredReceiver) {
++               unregisterReceiver();
++           }
++
++           if (!mEnabled && mOnPowerSave) {
++               if (mPowerSave && !mServiceRunning) {
++                   mContext.startService(mSmartPixelsService);
++                   mServiceRunning = true;
++                   Log.d(TAG, "Started Smart Pixels Service by Power Save enable");
++               } else if (!mPowerSave && mServiceRunning) {
++                   mContext.stopService(mSmartPixelsService);
++                   mServiceRunning = false;
++                   Log.d(TAG, "Stopped Smart Pixels Service by Power Save disable");
++               } else if (mPowerSave && mServiceRunning) {
++                   mContext.stopService(mSmartPixelsService);
++                   mContext.startService(mSmartPixelsService);
++                   Log.d(TAG, "Restarted Smart Pixels Service by Power Save enable");
++               }
++           } else if (mEnabled && !mServiceRunning) {
++               mContext.startService(mSmartPixelsService);
++               mServiceRunning = true;
++               Log.d(TAG, "Started Smart Pixels Service by enable");
++           } else if (!mEnabled && mServiceRunning) {
++               mContext.stopService(mSmartPixelsService);
++               mServiceRunning = false;
++               Log.d(TAG, "Stopped Smart Pixels Service by disable");
++           } else if (mEnabled && mServiceRunning) {
++               mContext.stopService(mSmartPixelsService);
++               mContext.startService(mSmartPixelsService);
++               Log.d(TAG, "Restarted Smart Pixels Service");
++           }
++       }
++   }
++
++   @Override
++   public void onReceive(final Context context, Intent intent) {
++       mSettingsObserver.update();
++   }
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsService.java b/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsService.java
+new file mode 100644
+index 000000000000..77ec1c4ba235
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/smartpixels/SmartPixelsService.java
+@@ -0,0 +1,244 @@
++/*
++ * Copyright (c) 2015, Sergii Pylypenko
++ *           (c) 2018, Joe Maples
++ *           (c) 2018, Adin Kwok
++ *           (c) 2018, CarbonROM
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * * Redistributions of source code must retain the above copyright notice, this
++ *   list of conditions and the following disclaimer.
++ *
++ * * Redistributions in binary form must reproduce the above copyright notice,
++ *   this list of conditions and the following disclaimer in the documentation
++ *   and/or other materials provided with the distribution.
++ *
++ * * Neither the name of screen-dimmer-pixel-filter nor the names of its
++ *   contributors may be used to endorse or promote products derived from
++ *   this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
++ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
++ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
++ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
++ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ *
++ */
++
++package com.android.systemui.smartpixels;
++
++import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY;
++
++import android.Manifest;
++import android.app.Service;
++import android.content.ContentResolver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.content.res.Configuration;
++import android.content.res.Resources;
++import android.database.ContentObserver;
++import android.graphics.Bitmap;
++import android.graphics.Color;
++import android.graphics.PixelFormat;
++import android.graphics.Point;
++import android.graphics.Shader;
++import android.graphics.drawable.BitmapDrawable;
++import android.os.Handler;
++import android.os.IBinder;
++import android.os.PowerManager;
++import android.os.UserHandle;
++import android.os.UserManager;
++import android.provider.Settings;
++import android.util.DisplayMetrics;
++import android.util.Log;
++import android.view.View;
++import android.view.WindowManager;
++import android.widget.ImageView;
++
++import com.android.systemui.R;
++
++public class SmartPixelsService extends Service {
++    public static final String LOG = "SmartPixelsService";
++
++    private WindowManager windowManager;
++    private ImageView view = null;
++    private Bitmap bmp;
++
++    private boolean destroyed = false;
++    public static boolean running = false;
++
++    private int startCounter = 0;
++    private Context mContext;
++
++    // Pixel Filter Settings
++    private int mPattern = 3;
++    private int mShiftTimeout = 4;
++
++    @Override
++    public IBinder onBind(Intent intent) {
++        return null;
++    }
++
++    @Override
++    public void onCreate() {
++        super.onCreate();
++        running = true;
++        mContext = this;
++        updateSettings();
++        Log.d(LOG, "Service started");
++        startFilter();
++    }
++
++    public void startFilter() {
++        if (view != null) {
++            return;
++        }
++
++        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
++
++        view = new ImageView(this);
++        DisplayMetrics metrics = new DisplayMetrics();
++        windowManager.getDefaultDisplay().getRealMetrics(metrics);
++        bmp = Bitmap.createBitmap(Grids.GridSideSize, Grids.GridSideSize, Bitmap.Config.ARGB_4444);
++
++        updatePattern();
++        BitmapDrawable draw = new BitmapDrawable(bmp);
++        draw.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
++        draw.setFilterBitmap(false);
++        draw.setAntiAlias(false);
++        draw.setTargetDensity(metrics.densityDpi);
++
++        view.setBackground(draw);
++
++        WindowManager.LayoutParams params = getLayoutParams();
++        params.privateFlags |= PRIVATE_FLAG_TRUSTED_OVERLAY;
++        try {
++            windowManager.addView(view, params);
++        } catch (Exception e) {
++            running = false;
++            view = null;
++            return;
++        }
++
++        startCounter++;
++        final int handlerStartCounter = startCounter;
++        final Handler handler = new Handler();
++        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
++        handler.postDelayed(new Runnable() {
++            @Override
++            public void run() {
++                if (view == null || destroyed || handlerStartCounter != startCounter) {
++                    return;
++                } else if (pm.isInteractive()) {
++                    updatePattern();
++                    view.invalidate();
++                }
++                if (!destroyed) {
++                    handler.postDelayed(this, Grids.ShiftTimeouts[mShiftTimeout]);
++                }
++            }
++        }, Grids.ShiftTimeouts[mShiftTimeout]);
++    }
++
++    public void stopFilter() {
++        if (view == null) {
++            return;
++        }
++
++        startCounter++;
++
++        windowManager.removeView(view);
++        view = null;
++    }
++
++    @Override
++    public int onStartCommand(Intent intent, int flags, int startId) {
++        return START_STICKY;
++    }
++
++    @Override
++    public void onDestroy() {
++        super.onDestroy();
++        destroyed = true;
++        stopFilter();
++        Log.d(LOG, "Service stopped");
++        running = false;
++    }
++
++    @Override
++    public void onConfigurationChanged(Configuration newConfig) {
++        super.onConfigurationChanged(newConfig);
++        Log.d(LOG, "Screen orientation changed, updating window layout");
++        WindowManager.LayoutParams params = getLayoutParams();
++        windowManager.updateViewLayout(view, params);
++    }
++
++    private WindowManager.LayoutParams getLayoutParams()
++    {
++        Point displaySize = new Point();
++        windowManager.getDefaultDisplay().getRealSize(displaySize);
++        Point windowSize = new Point();
++        windowManager.getDefaultDisplay().getRealSize(windowSize);
++        Resources res = getResources();
++        int mStatusBarHeight = res.getDimensionPixelOffset(R.dimen.status_bar_height);
++        displaySize.x += displaySize.x - windowSize.x + (mStatusBarHeight * 2);
++        displaySize.y += displaySize.y - windowSize.y + (mStatusBarHeight * 2);
++
++        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
++                displaySize.x,
++                displaySize.y,
++                0,
++                0,
++                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
++                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
++                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
++                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
++                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
++                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN |
++                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS |
++                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
++                PixelFormat.TRANSPARENT
++        );
++
++        // Use the rounded corners overlay to hide it from screenshots. See 132c9f514.
++        params.privateFlags |= WindowManager.LayoutParams.PRIVATE_FLAG_IS_ROUNDED_CORNERS_OVERLAY;
++
++        params.dimAmount = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
++        params.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;
++        return params;
++    }
++
++    private int getShift() {
++        long shift = (System.currentTimeMillis() / Grids.ShiftTimeouts[mShiftTimeout]) % Grids.GridSize;
++        return Grids.GridShift[(int)shift];
++    }
++
++    private void updatePattern() {
++        int shift = getShift();
++        int shiftX = shift % Grids.GridSideSize;
++        int shiftY = shift / Grids.GridSideSize;
++        for (int i = 0; i < Grids.GridSize; i++) {
++            int x = (i + shiftX) % Grids.GridSideSize;
++            int y = ((i / Grids.GridSideSize) + shiftY) % Grids.GridSideSize;
++            int color = (Grids.Patterns[mPattern][i] == 0) ? Color.TRANSPARENT : Color.BLACK;
++            bmp.setPixel(x, y, color);
++        }
++    }
++
++    private void updateSettings() {
++        mPattern = Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_PATTERN,
++                5, UserHandle.USER_CURRENT);
++        mShiftTimeout = Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_SHIFT_TIMEOUT,
++                4, UserHandle.USER_CURRENT);
++    }
++}
+diff --git a/services/core/java/com/android/server/display/DisplayPowerController.java b/services/core/java/com/android/server/display/DisplayPowerController.java
+index 864ea43c8b01..99f778fed20d 100644
+--- a/services/core/java/com/android/server/display/DisplayPowerController.java
++++ b/services/core/java/com/android/server/display/DisplayPowerController.java
+@@ -21,6 +21,7 @@ import android.animation.ObjectAnimator;
+ import android.annotation.Nullable;
+ import android.annotation.UserIdInt;
+ import android.app.ActivityManager;
++import android.content.ContentResolver;
+ import android.content.Context;
+ import android.content.pm.ParceledListSlice;
+ import android.content.res.Resources;
+@@ -1657,10 +1658,20 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
+             slowChange = false;
+             mAppliedDimming = false;
+         }
+-        // If low power mode is enabled, scale brightness by screenLowPowerBrightnessFactor
+-        // as long as it is above the minimum threshold.
++
++        // If low power mode is enabled and Smart Pixels Service is stopped,
++        // scale brightness by screenLowPowerBrightnessFactor
++        // as long as it is above the minimum threshold
++        final int mSmartPixelsEnable = Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ENABLE,
++                0, UserHandle.USER_CURRENT);
++        final int mSmartPixelsOnPowerSave = Settings.System.getIntForUser(
++                mContext.getContentResolver(), Settings.System.SMART_PIXELS_ON_POWER_SAVE,
++                0, UserHandle.USER_CURRENT);
++
+         if (mPowerRequest.lowPowerMode) {
+-            if (brightnessState > PowerManager.BRIGHTNESS_MIN) {
++            if ((brightnessState > PowerManager.BRIGHTNESS_MIN) &&
++                  ((mSmartPixelsEnable == 0) || (mSmartPixelsOnPowerSave == 0))) {
+                 final float brightnessFactor =
+                         Math.min(mPowerRequest.screenLowPowerBrightnessFactor, 1);
+                 final float lowPowerBrightnessFloat = (brightnessState * brightnessFactor);
