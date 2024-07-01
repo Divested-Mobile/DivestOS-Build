@@ -75,6 +75,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10142/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10234/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10318/^4.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-20022/3.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-partial-SMAP-bypass/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.10/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.13/0001.patch
@@ -501,7 +502,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p501"
+editKernelLocalversion "-dos.p502"
 else echo "kernel_oppo_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

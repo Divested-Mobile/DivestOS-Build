@@ -89,6 +89,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10153/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10235/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10906/4.4/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-20022/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/^4.10/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/^4.10/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/^4.10/0009.patch
@@ -795,7 +796,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p795"
+editKernelLocalversion "-dos.p796"
 else echo "kernel_google_marlin is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
