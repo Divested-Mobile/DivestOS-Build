@@ -690,6 +690,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-1086-alt/4.9/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-21468/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23373/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24857/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24861/4.19/0003.patch
@@ -821,7 +822,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
-editKernelLocalversion "-dos.p821"
+editKernelLocalversion "-dos.p822"
 else echo "kernel_sony_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
