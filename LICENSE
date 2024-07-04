@@ -22,6 +22,7 @@ Patches/
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
 		android_external_hardened_malloc/ - MIT
+		android_packages_apps_CarrierConfig2/ - MIT
 		android_kernel_*/ - GPL-2.0-only
 		[Everything Else] - Apache-2.0
 	Linux/ - See COPYING included (GPL-2.0-only)
