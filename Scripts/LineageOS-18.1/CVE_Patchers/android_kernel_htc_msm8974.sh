@@ -643,6 +643,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38589/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38599/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38607/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38659/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0001/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0002/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.4/0001.patch
@@ -653,7 +654,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p653"
+editKernelLocalversion "-dos.p654"
 else echo "kernel_htc_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

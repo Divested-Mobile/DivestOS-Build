@@ -389,6 +389,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39292/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39296/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39301/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39471/5.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39475/5.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47472/5.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47490/5.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/5.4/0005.patch
@@ -397,7 +399,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26812/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.4/0006.patch
-editKernelLocalversion "-dos.p397"
+editKernelLocalversion "-dos.p399"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

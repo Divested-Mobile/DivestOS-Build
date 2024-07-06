@@ -817,6 +817,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38780/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39292/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39296/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39467/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39475/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
@@ -827,7 +829,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
-editKernelLocalversion "-dos.p827"
+editKernelLocalversion "-dos.p829"
 else echo "kernel_sony_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

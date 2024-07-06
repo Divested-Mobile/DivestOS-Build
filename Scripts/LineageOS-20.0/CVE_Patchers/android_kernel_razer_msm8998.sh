@@ -408,11 +408,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38659/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39292/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39296/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39467/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39475/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p412"
+editKernelLocalversion "-dos.p414"
 else echo "kernel_razer_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
