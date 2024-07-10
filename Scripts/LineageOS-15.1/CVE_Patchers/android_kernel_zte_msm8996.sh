@@ -972,6 +972,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39296/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39301/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39475/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39487/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15951/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
@@ -982,7 +983,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p982"
+editKernelLocalversion "-dos.p983"
 else echo "kernel_zte_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
