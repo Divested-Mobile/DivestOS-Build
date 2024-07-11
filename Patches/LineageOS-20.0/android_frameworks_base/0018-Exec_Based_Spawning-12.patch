@@ -78,10 +78,10 @@ index b1e7d15cbf4a..96b56f7bd1d6 100644
 +    public static native void nativeHandleRuntimeFlags(int runtimeFlags);
  }
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 4573cb2c0b59..9cc90f3ac142 100644
+index d4844be2b381..f58d6102257a 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -539,7 +539,7 @@ class ZygoteConnection {
+@@ -542,7 +542,7 @@ class ZygoteConnection {
                  if (SystemProperties.getBoolean("sys.spawn.exec", false) &&
                          (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                      ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,

@@ -159,7 +159,7 @@ index a9b624653b92..9cac3e75a698 100644
                              ATTR_ENABLED_CALLER);
                      final String harmfulAppWarning =
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 556443b40c3d..ac5aadd45467 100644
+index 7b4d310c0923..dd2bce0c14a2 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -127,6 +127,7 @@ import com.android.server.LocalServices;

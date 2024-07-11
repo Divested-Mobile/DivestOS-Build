@@ -145,7 +145,7 @@ index 6860759eea8a..a2eef62f80be 100644
                  OsConstants._LINUX_CAPABILITY_VERSION_3, 0);
          StructCapUserData[] data;
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 993e4e7b4b3d..c3e6e0453b50 100644
+index 765901a043a0..199ab0093f55 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -29,6 +29,7 @@ import android.net.Credentials;
@@ -156,7 +156,7 @@ index 993e4e7b4b3d..c3e6e0453b50 100644
  import android.os.Trace;
  import android.system.ErrnoException;
  import android.system.Os;
-@@ -247,7 +248,7 @@ class ZygoteConnection {
+@@ -250,7 +251,7 @@ class ZygoteConnection {
                      fdsToClose[1] = zygoteFd.getInt$();
                  }
  
@@ -165,7 +165,7 @@ index 993e4e7b4b3d..c3e6e0453b50 100644
                          || !multipleOK || peer.getUid() != Process.SYSTEM_UID) {
                      // Continue using old code for now. TODO: Handle these cases in the other path.
                      pid = Zygote.forkAndSpecialize(parsedArgs.mUid, parsedArgs.mGid,
-@@ -535,6 +536,13 @@ class ZygoteConnection {
+@@ -538,6 +539,13 @@ class ZygoteConnection {
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {

@@ -1,0 +1,51 @@
+From a0afe17e817eb39f3de3251f7b040a5f6eebc577 Mon Sep 17 00:00:00 2001
+From: Ivan Chiang <chiangi@google.com>
+Date: Mon, 18 Mar 2024 02:46:56 +0000
+Subject: [PATCH] [PM] Send ACTION_PACKAGE_CHANGED when mimeGroups are changed
+
+Test: atest CtsPackageManagerTestCases:PackageManagerShellCommandMultiUserTest
+Test: atest CtsPackageManagerTestCases:PackageManagerTest
+Bug: 297517712
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:81eb9f8294645684ce1fad39d5d4a00ef11736e4)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c160424ef22bffd25a9cc9bc7b901ae1b9721a72)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:6d9520bb9be2e31fd43bb08f0017838bbd389883)
+Merged-In: I271a3526ea4555249e3a2797605269257330e0e9
+Change-Id: I271a3526ea4555249e3a2797605269257330e0e9
+---
+ .../server/pm/PackageManagerService.java      | 23 ++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index f41b9fc540f6..a34693b7cb12 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -5869,9 +5869,26 @@ public void setMimeGroup(String packageName, String mimeGroup, List<String> mime
+                 packageStateWrite.setMimeGroup(mimeGroup, mimeTypesSet);
+             });
+             if (mComponentResolver.updateMimeGroup(snapshotComputer(), packageName, mimeGroup)) {
+-                Binder.withCleanCallingIdentity(() ->
+-                        mPreferredActivityHelper.clearPackagePreferredActivities(packageName,
+-                                UserHandle.USER_ALL));
++                Binder.withCleanCallingIdentity(() -> {
++                    mPreferredActivityHelper.clearPackagePreferredActivities(packageName,
++                            UserHandle.USER_ALL);
++                    // Send the ACTION_PACKAGE_CHANGED when the mimeGroup has changes
++                    final Computer snapShot = snapshotComputer();
++                    final ArrayList<String> components = new ArrayList<>(
++                            Collections.singletonList(packageName));
++                    final int appId = packageState.getAppId();
++                    final int[] userIds = resolveUserIds(UserHandle.USER_ALL);
++                    final String reason = "The mimeGroup is changed";
++                    for (int i = 0; i < userIds.length; i++) {
++                        final PackageUserStateInternal pkgUserState =
++                                packageState.getUserStates().get(userIds[i]);
++                        if (pkgUserState != null && pkgUserState.isInstalled()) {
++                            final int packageUid = UserHandle.getUid(userIds[i], appId);
++                            sendPackageChangedBroadcast(snapShot, packageName,
++                                    true /* dontKillApp */, components, packageUid, reason);
++                        }
++                    }
++                });
+             }
+ 
+             scheduleWriteSettings();

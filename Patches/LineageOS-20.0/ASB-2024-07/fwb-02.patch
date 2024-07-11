@@ -1,0 +1,82 @@
+From cb2db1244c4668fe8b3d6cf36d0078190fa8f0af Mon Sep 17 00:00:00 2001
+From: Bishoy Gendy <bishoygendy@google.com>
+Date: Thu, 11 Apr 2024 16:37:10 +0000
+Subject: [PATCH] Fix security vulnerability allowing apps to start from
+ background
+
+Bug: 317048338
+Test: Using the steps in b/317048338#comment12
+(cherry picked from commit c5fc8ea92c0aabbb2fdccc23b743c18a8bf62e64)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:df3584bb93ab89d7e174f7d39e42d4b22cb92fe0)
+Merged-In: Ia91199fdb23beed27bde687fdca8fe5d3a5a4759
+Change-Id: Ia91199fdb23beed27bde687fdca8fe5d3a5a4759
+---
+ .../media/session/ParcelableListBinder.java        | 13 +++++++++++--
+ .../android/server/media/MediaSessionRecord.java   | 14 ++++++++------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/media/java/android/media/session/ParcelableListBinder.java b/media/java/android/media/session/ParcelableListBinder.java
+index bbf1e0889b68..d78828462b1e 100644
+--- a/media/java/android/media/session/ParcelableListBinder.java
++++ b/media/java/android/media/session/ParcelableListBinder.java
+@@ -45,6 +45,7 @@ public class ParcelableListBinder<T extends Parcelable> extends Binder {
+     private static final int END_OF_PARCEL = 0;
+     private static final int ITEM_CONTINUED = 1;
+ 
++    private final Class<T> mListElementsClass;
+     private final Consumer<List<T>> mConsumer;
+ 
+     private final Object mLock = new Object();
+@@ -61,9 +62,11 @@ public class ParcelableListBinder<T extends Parcelable> extends Binder {
+     /**
+      * Creates an instance.
+      *
++     * @param listElementsClass the class of the list elements.
+      * @param consumer a consumer that consumes the list received
+      */
+-    public ParcelableListBinder(@NonNull Consumer<List<T>> consumer) {
++    public ParcelableListBinder(Class<T> listElementsClass, @NonNull Consumer<List<T>> consumer) {
++        mListElementsClass = listElementsClass;
+         mConsumer = consumer;
+     }
+ 
+@@ -83,7 +86,13 @@ protected boolean onTransact(int code, Parcel data, Parcel reply, int flags)
+                 mCount = data.readInt();
+             }
+             while (i < mCount && data.readInt() != END_OF_PARCEL) {
+-                mList.add(data.readParcelable(null));
++                Object object = data.readParcelable(null);
++                if (mListElementsClass.isAssignableFrom(object.getClass())) {
++                    // Checking list items are of compaitible types to validate against malicious
++                    // apps calling it directly via reflection with non compilable items.
++                    // See b/317048338 for more details
++                    mList.add((T) object);
++                }
+                 i++;
+             }
+             if (i >= mCount) {
+diff --git a/services/core/java/com/android/server/media/MediaSessionRecord.java b/services/core/java/com/android/server/media/MediaSessionRecord.java
+index b459cfe6b44e..8f07b3924da0 100644
+--- a/services/core/java/com/android/server/media/MediaSessionRecord.java
++++ b/services/core/java/com/android/server/media/MediaSessionRecord.java
+@@ -1100,12 +1100,14 @@ public void resetQueue() throws RemoteException {
+ 
+         @Override
+         public IBinder getBinderForSetQueue() throws RemoteException {
+-            return new ParcelableListBinder<QueueItem>((list) -> {
+-                synchronized (mLock) {
+-                    mQueue = list;
+-                }
+-                mHandler.post(MessageHandler.MSG_UPDATE_QUEUE);
+-            });
++            return new ParcelableListBinder<QueueItem>(
++                    QueueItem.class,
++                    (list) -> {
++                        synchronized (mLock) {
++                            mQueue = list;
++                        }
++                        mHandler.post(MessageHandler.MSG_UPDATE_QUEUE);
++                    });
+         }
+ 
+         @Override
