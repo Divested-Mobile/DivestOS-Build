@@ -17,12 +17,12 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/CarrierConfig2PreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 27c7f9abc7..2543ef0677 100644
+index 7dcc89b560..cd6ee50ad7 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -762,6 +762,9 @@
      <string name="openeuicc_title">Enable eUICC management</string>
-     <string name="openeuicc_summary">Enables the OpenEUICC app to allow management of virtual (eSIM) and physical eUICC cards. Reboot required after toggling. Requires reboot.</string>
+     <string name="openeuicc_summary">Enables the OpenEUICC app to allow management of virtual (eSIM) and physical eUICC cards. Requires reboot.</string>
  
 +    <string name="carrierconfig2_title">Enable CarrierConfig2</string>
 +    <string name="carrierconfig2_summary">Use a larger Google database instead of the AOSP database for carrier specific configurations. May improve cellular network compatibility &amp; functionality. Requires reboot.</string>

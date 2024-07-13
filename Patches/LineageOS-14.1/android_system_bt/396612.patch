@@ -1,7 +1,7 @@
-From 9dabeb4f8d2ab8936c84823786fab90d0e929ce3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 21:14:56 +0000
-Subject: [PATCH] [BACKPORT] Fix an authentication bypass bug in SMP
+Subject: [PATCH] Fix an authentication bypass bug in SMP
 
 When pairing with BLE legacy pairing initiated
 from remote, authentication can be bypassed.
@@ -20,7 +20,7 @@ Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
  2 files changed, 12 insertions(+)
 
 diff --git a/stack/smp/smp_act.c b/stack/smp/smp_act.c
-index 8702e109578..a9bcd4c87c2 100644
+index 7491d0972..925bcd832 100644
 --- a/stack/smp/smp_act.c
 +++ b/stack/smp/smp_act.c
 @@ -331,6 +331,7 @@ void smp_send_confirm(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
@@ -31,7 +31,7 @@ index 8702e109578..a9bcd4c87c2 100644
  }
  
  /*******************************************************************************
-@@ -704,6 +705,16 @@ void smp_proc_init(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+@@ -720,6 +721,16 @@ void smp_proc_init(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
          return;
      }
  
@@ -49,7 +49,7 @@ index 8702e109578..a9bcd4c87c2 100644
      STREAM_TO_ARRAY(p_cb->rrand, p, BT_OCTET16_LEN);
  }
 diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
-index aea85380edd..aac64ea2ef1 100644
+index bfac772b9..ab7676861 100644
 --- a/stack/smp/smp_int.h
 +++ b/stack/smp/smp_int.h
 @@ -251,6 +251,7 @@ typedef union

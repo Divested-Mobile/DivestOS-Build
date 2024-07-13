@@ -1,7 +1,7 @@
-From e4ea22f79e2995c16f19b45925d4dd66f9813646 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Martijn Coenen <maco@google.com>
 Date: Thu, 29 Feb 2024 12:03:05 +0000
-Subject: [PATCH] [BACKPORT] Verify UID of incoming Zygote connections.
+Subject: [PATCH] Verify UID of incoming Zygote connections.
 
 Only the system UID should be allowed to connect to the Zygote. While
 for generic Zygotes this is also covered by SELinux policy, this is not
@@ -31,7 +31,7 @@ Change-Id: I3f85a17107849e2cd3e82d6ef15c90b9e2f26532
  1 file changed, 4 insertions(+)
 
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 85d84bb3f9867..40ab4839195bc 100644
+index 85d84bb3f986..40ab4839195b 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -104,6 +104,10 @@ class ZygoteConnection {
