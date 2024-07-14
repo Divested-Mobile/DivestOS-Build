@@ -94,7 +94,6 @@ applyPatch "$DOS_PATCHES/android_build/0003-Exec_Based_Spawning.patch"; #Add exe
 applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable APEX on 6th/7th gen Pixel devices (GrapheneOS)
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-06-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #X_asb_2024-07
 fi;
 
 if enterAndClear "build/soong"; then
@@ -119,7 +118,6 @@ sed -i -e '76,78d;' Android.bp; #fix compile under A13
 fi;
 
 if enterAndClear "frameworks/base"; then
-git am $DOS_PATCHES/ASB-2024-07/fwb-*.patch;
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
 git revert --no-edit 6d2955f0bd55e9938d5d49415182c27b50900b95; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
@@ -307,7 +305,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-git am $DOS_PATCHES/ASB-2024-07/settings-*.patch;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-20.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 git revert --no-edit 41b4ed345a91da1dd46c00ee11a151c2b5ff4f43;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
@@ -357,10 +354,6 @@ applyPatch "$DOS_PATCHES/android_packages_inputmethods_LatinIME/0001-Voice.patch
 applyPatch "$DOS_PATCHES/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
-if enterAndClear "packages/modules/Bluetooth"; then
-git am $DOS_PATCHES/ASB-2024-07/bluetooth-*.patch;
-fi;
-
 if enterAndClear "packages/modules/Connectivity"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-1.patch"; #Skip reportNetworkConnectivity() when permission is revoked (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Enforce INTERNET permission per-uid instead of per-appId (GrapheneOS)
@@ -386,10 +379,6 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Loc
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 fi;
 
-if enterAndClear "packages/modules/StatsD"; then
-git am $DOS_PATCHES/ASB-2024-07/statsd-*.patch;
-fi;
-
 if enterAndClear "packages/modules/Wifi"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/344228.patch"; #wifi: resurrect mWifiLinkLayerStatsSupported counter (sassmann)
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
@@ -397,10 +386,6 @@ fi;
 
 if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
-fi;
-
-if enterAndClear "packages/providers/MediaProvider"; then
-git am $DOS_PATCHES/ASB-2024-07/mediaprovider-*.patch;
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
