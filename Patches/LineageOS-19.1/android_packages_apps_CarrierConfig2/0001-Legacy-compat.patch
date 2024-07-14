@@ -11,8 +11,8 @@ Signed-off-by: Tavi <tavi@divested.dev>
  src/app/grapheneos/carrierconfig2/Utils.java         |  6 +++---
  src/app/grapheneos/carrierconfig2/loader/Apns.java   |  9 +++------
  .../carrierconfig2/loader/CarrierConfigLoader.java   |  8 ++++----
- .../grapheneos/carrierconfig2/loader/Filters.java    |  7 ++-----
- 6 files changed, 16 insertions(+), 28 deletions(-)
+ .../grapheneos/carrierconfig2/loader/Filters.java    |  4 ++--
+ 6 files changed, 16 insertions(+), 25 deletions(-)
 
 diff --git a/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java b/src/app/grapheneos/carrierconfig2/ApnServiceImpl.java
 index 1fc2339..1ac28fc 100644
@@ -28,6 +28,7 @@ index 1fc2339..1ac28fc 100644
              Log.e(TAG, "CSettingsDir is missing");
              return emptyList();
 diff --git a/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java b/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
+index 166272f..37b430c 100644
 --- a/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
 +++ b/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java
 @@ -14,10 +14,10 @@ public class CarrierServiceImpl extends CarrierService {
@@ -56,6 +57,7 @@ diff --git a/src/app/grapheneos/carrierconfig2/CarrierServiceImpl.java b/src/app
 -    }
  }
 diff --git a/src/app/grapheneos/carrierconfig2/Utils.java b/src/app/grapheneos/carrierconfig2/Utils.java
+index 7300925..06abf09 100644
 --- a/src/app/grapheneos/carrierconfig2/Utils.java
 +++ b/src/app/grapheneos/carrierconfig2/Utils.java
 @@ -22,7 +22,7 @@ public class Utils {
@@ -84,6 +86,7 @@ diff --git a/src/app/grapheneos/carrierconfig2/Utils.java b/src/app/grapheneos/c
          return baos.toString();
      }
 diff --git a/src/app/grapheneos/carrierconfig2/loader/Apns.java b/src/app/grapheneos/carrierconfig2/loader/Apns.java
+index ff0082f..357e6ea 100644
 --- a/src/app/grapheneos/carrierconfig2/loader/Apns.java
 +++ b/src/app/grapheneos/carrierconfig2/loader/Apns.java
 @@ -39,7 +39,7 @@ public class Apns {
@@ -124,6 +127,7 @@ diff --git a/src/app/grapheneos/carrierconfig2/loader/Apns.java b/src/app/graphe
  
          for (ApnItem.ApnType apnType : list) {
 diff --git a/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java b/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
+index 1d77aac..97a07be 100644
 --- a/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
 +++ b/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java
 @@ -65,7 +65,7 @@ public class CarrierConfigLoader {
@@ -163,6 +167,7 @@ diff --git a/src/app/grapheneos/carrierconfig2/loader/CarrierConfigLoader.java b
          b.append('-');
          b.append(cs.getVersion());
 diff --git a/src/app/grapheneos/carrierconfig2/loader/Filters.java b/src/app/grapheneos/carrierconfig2/loader/Filters.java
+index 75764db..56081b9 100644
 --- a/src/app/grapheneos/carrierconfig2/loader/Filters.java
 +++ b/src/app/grapheneos/carrierconfig2/loader/Filters.java
 @@ -107,7 +107,7 @@ class Filters {

@@ -95,6 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
+sed -i 's/2024-06-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #X_asb_2024-07
 fi;
 
 if enterAndClear "build/soong"; then
@@ -125,6 +126,10 @@ sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCame
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/329230490-1.patch"; #X_asb_2024-07 [CDM] Fix setSkipPrompt on Android S
+applyPatch "$DOS_PATCHES/android_frameworks_base/397375.patch"; #T_asb_2024-07 Fix security vulnerability allowing apps to start from background
+applyPatch "$DOS_PATCHES/android_frameworks_base/397376-backport.patch"; #T_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
+applyPatch "$DOS_PATCHES/android_frameworks_base/397377-backport.patch"; #T_asb_2024-07 Verify UID of incoming Zygote connections.
 git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
@@ -299,6 +304,7 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-19.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/397378-backport.patch"; #T_asb_2024-07 Restrict WifiDppConfiguratorActivity
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (CalyxOS)
@@ -372,6 +378,10 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Loc
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 fi;
 
+if enterAndClear "packages/modules/StatsD"; then
+applyPatch "$DOS_PATCHES/android_packages_modules_StatsD/397380-backport.patch"; #T_asb_2024-07 Make executor thread a class member of MultiConditionTrigger
+fi;
+
 if enterAndClear "packages/modules/Wifi"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC-a1.patch"; #Fix MAC address leak after SSR (AOSP)
@@ -382,11 +392,16 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
+if enterAndClear "packages/providers/MediaProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/397381.patch"; #T_asb_2024-07 Prevent insertion in other users storage volumes
+fi
+
 if enterAndClear "packages/services/Telephony"; then
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-CC2.patch"; fi; #Runtime control of platform carrier config package (DivestOS)
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/397379-backport.patch"; #T_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 

@@ -1,0 +1,13 @@
+diff --git a/core/java/android/companion/AssociationRequest.java b/core/java/android/companion/AssociationRequest.java
+index bb8fa9e..6b836ad 100644
+--- a/core/java/android/companion/AssociationRequest.java
++++ b/core/java/android/companion/AssociationRequest.java
+@@ -148,7 +148,7 @@
+ 
+     /** @hide */
+     public void setSkipPrompt(boolean value) {
+-        mSkipPrompt = true;
++        mSkipPrompt = value;
+     }
+ 
+     /** @hide */

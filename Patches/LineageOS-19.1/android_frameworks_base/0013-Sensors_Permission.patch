@@ -99,7 +99,7 @@ index 27c9026c863a..4a8624222ae8 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 1aa703adee58..b4240a3a944e 100644
+index e098943661b0..534377d269b9 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -2633,7 +2633,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {

@@ -20,7 +20,7 @@ Signed-off-by: Danny Lin <danny@kdrag0n.dev>
  1 file changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 31babe0418b8..917a32193409 100644
+index 93f9e1c2295c..ab4f7821eba9 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1526,7 +1526,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
