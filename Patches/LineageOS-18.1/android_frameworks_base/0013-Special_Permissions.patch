@@ -17,7 +17,7 @@ As a result, PackageManagerService is no longer modified.
  1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index eb27a13523ba..0320c4b20c93 100644
+index 53164c7424d5..64a1b5b6bb6a 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1462,7 +1462,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {

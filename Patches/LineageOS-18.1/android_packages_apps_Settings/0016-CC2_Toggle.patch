@@ -17,7 +17,7 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/CarrierConfig2PreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 3d2b61cc580..e07fd234aa0 100644
+index 3d2b61cc580..5a51dd12f10 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11981,6 +11981,9 @@

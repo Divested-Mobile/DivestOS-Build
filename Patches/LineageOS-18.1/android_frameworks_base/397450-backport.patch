@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Martijn Coenen <maco@google.com>
+Date: Thu, 29 Feb 2024 12:03:05 +0000
+Subject: [PATCH] Verify UID of incoming Zygote connections.
+
+Only the system UID should be allowed to connect to the Zygote. While
+for generic Zygotes this is also covered by SELinux policy, this is not
+true for App Zygotes: the preload code running in an app zygote could
+connect to another app zygote socket, if it had access to its (random)
+socket address.
+
+On the Java layer, simply check the UID when the connection is made. In
+the native layer, this check was already present, but it actually didn't
+work in the case where we receive a new incoming connection on the
+socket, and receive a 'non-fork' command: in that case, we will simply
+exit the native loop, and let the Java layer handle the command, without
+any further UID checking.
+
+Modified the native logic to drop new connections with a mismatching
+UID, and to keep serving the existing connection (if it was still
+there).
+
+Bug: 319081336
+Test: manual
+(cherry picked from commit 2ffc7cb220e4220b7e108c4043a3f0f2a85b6508)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e397fd3d20c3f409311e411387ec1524ccecf085)
+Merged-In: I3f85a17107849e2cd3e82d6ef15c90b9e2f26532
+Change-Id: I3f85a17107849e2cd3e82d6ef15c90b9e2f26532
+---
+ core/java/com/android/internal/os/ZygoteConnection.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
+index e6a3029c5b2b..b2c0a6b98273 100644
+--- a/core/java/com/android/internal/os/ZygoteConnection.java
++++ b/core/java/com/android/internal/os/ZygoteConnection.java
+@@ -98,6 +98,9 @@ class ZygoteConnection {
+             throw ex;
+         }
+ 
++        if (peer.getUid() != Process.SYSTEM_UID) {
++            throw new ZygoteSecurityException("Only system UID is allowed to connect to Zygote.");
++        }
+         isEof = false;
+     }
+ 

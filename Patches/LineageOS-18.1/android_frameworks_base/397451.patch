@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yi-an Chen <theianchen@google.com>
+Date: Tue, 23 Apr 2024 21:53:02 +0000
+Subject: [PATCH] Fix security vulnerability of non-dynamic permission removal
+
+The original removePermission() code in PermissionManagerService
+missed a logical negation operator when handling non-dynamic
+permissions, causing both
+testPermissionPermission_nonDynamicPermission_permissionUnchanged and
+testRemovePermission_dynamicPermission_permissionRemoved tests in
+DynamicPermissionsTest to fail.
+
+The corresponding test DynamicPermissionsTest is also updated in the
+other CL: ag/27073864
+
+Bug: 321711213
+Test: DynamicPermissionsTest on sc-dev and tm-dev locally
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:35d77a77feef62dc108f6478cb9228cc6044f70d)
+Merged-In: Id573b75cdcfce3a1df5731ffb00c4228c513e686
+Change-Id: Id573b75cdcfce3a1df5731ffb00c4228c513e686
+---
+ .../android/server/pm/permission/PermissionManagerService.java  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index eb27a13523ba..53164c7424d5 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -641,7 +641,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+             if (bp == null) {
+                 return;
+             }
+-            if (bp.isDynamic()) {
++            if (!bp.isDynamic()) {
+                 // TODO: switch this back to SecurityException
+                 Slog.wtf(TAG, "Not allowed to modify non-dynamic permission "
+                         + permName);
