@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #X_asb_2024-07
+sed -i 's/2024-02-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-07
 fi;
 
 if enterAndClear "build/soong"; then
@@ -156,8 +156,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/394560.patch"; #R_asb_2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/394561.patch"; #R_asb_2024-06 Check hidden API exemptions
 applyPatch "$DOS_PATCHES/android_frameworks_base/394562.patch"; #R_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394563.patch"; #R_asb_2024-06 Check permissions for CDM shell commands
-applyPatch "$DOS_PATCHES/android_frameworks_base/397450-backport.patch"; #S_asb_2024-07 Verify UID of incoming Zygote connections.
-applyPatch "$DOS_PATCHES/android_frameworks_base/397451.patch"; #S_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
+applyPatch "$DOS_PATCHES/android_frameworks_base/397541.patch"; #R_asb_2024-07 [PM] Send ACTION_PACKAGE_CHANGED when mimeGroups are changed
+applyPatch "$DOS_PATCHES/android_frameworks_base/397542.patch"; #R_asb_2024-07 Verify UID of incoming Zygote connections.
+applyPatch "$DOS_PATCHES/android_frameworks_base/397543.patch"; #R_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -410,9 +411,9 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-#if enterAndClear "packages/providers/MediaProvider"; then
-#applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/397453-backport.patch"; #S_asb_2024-07 Prevent insertion in other users storage volumes #XXX
-#fi;
+if enterAndClear "packages/providers/MediaProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/397544.patch"; #R_asb_2024-07 Prevent insertion in other users storage volumes
+fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix (Sony)
@@ -427,7 +428,7 @@ if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES/android_system_bt/385557.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_system_bt/385558.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/385559.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
-applyPatch "$DOS_PATCHES/android_system_bt/397454-backport.patch"; #S_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/397545.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
 git am "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic (AOSP)
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
@@ -480,7 +481,7 @@ if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385591.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385592.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385593.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/397455.patch"; #S_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/397546.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
 fi;
 
 if enterAndClear "vendor/lineage"; then

@@ -22,14 +22,14 @@ Change-Id: Ie219bbdbe28819421040e4c083b65ab47d8ebde6
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
-index 5b3a8c41e..3b040f9d1 100644
+index 5b3a8c41e..a01ba34c6 100644
 --- a/src/com/android/providers/media/MediaProvider.java
 +++ b/src/com/android/providers/media/MediaProvider.java
 @@ -2652,6 +2652,7 @@ public class MediaProvider extends ContentProvider {
  
              FileUtils.sanitizeValues(values, /*rewriteHiddenFileName*/ !isFuseThread());
              FileUtils.computeDataFromValues(values, volumePath, isFuseThread());
-+            assertFileColumnsConsistent(match, uri, values);
++            assertFileColumnsSane(match, uri, values);
  
              // Create result file
              File res = new File(values.getAsString(MediaColumns.DATA));

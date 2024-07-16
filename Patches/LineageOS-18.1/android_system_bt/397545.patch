@@ -20,7 +20,7 @@ Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
  2 files changed, 13 insertions(+)
 
 diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
-index c1f143e92..7edd7bd60 100644
+index c1f143e92..199c5abb3 100644
 --- a/stack/smp/smp_act.cc
 +++ b/stack/smp/smp_act.cc
 @@ -284,6 +284,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
@@ -31,7 +31,7 @@ index c1f143e92..7edd7bd60 100644
  }
  
  /*******************************************************************************
-@@ -665,6 +666,17 @@ void smp_proc_rand(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+@@ -645,6 +646,17 @@ void smp_proc_init(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
      return;
    }
  

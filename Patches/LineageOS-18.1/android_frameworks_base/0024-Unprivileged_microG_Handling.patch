@@ -133,7 +133,7 @@ index 10f77144e022..eaa6bbb58679 100644
                          || newPkg.isForceQueryable()
                          || ArrayUtils.contains(mForceQueryableByDevicePackageNames,
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index f284d58713e5..a0992aa25b12 100644
+index a218bd7fe369..dc4f9f4d8298 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -4465,8 +4465,20 @@ public class PackageManagerService extends IPackageManager.Stub

@@ -20,6 +20,8 @@ Modified the native logic to drop new connections with a mismatching
 UID, and to keep serving the existing connection (if it was still
 there).
 
+ [Backport: No native layer for ZygoteCommandBuffer present]
+
 Bug: 319081336
 Test: manual
 (cherry picked from commit 2ffc7cb220e4220b7e108c4043a3f0f2a85b6508)
