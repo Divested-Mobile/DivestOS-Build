@@ -95,7 +95,7 @@ commentPatches android_kernel_samsung_manta.sh "CVE-2021-Misc2/3.4/0055.patch" "
 commentPatches android_kernel_samsung_msm8930-common.sh "CVE-2017-11015/prima" "CVE-2019-11599" "CVE-2021-Misc2/ANY/0031.patch";
 commentPatches android_kernel_samsung_smdk4412.sh "CVE-2012-2127" "CVE-2016-8463/ANY/0001.patch";
 commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
-commentPatches android_kernel_samsung_universal8890.sh "0008-Graphene-Kernel_Hardening-ro" "CVE-2016-7917" "CVE-2016-20022" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2022-42896/4.9";
+commentPatches android_kernel_samsung_universal8890.sh "0008-Graphene-Kernel_Hardening-ro" "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2022-42896/4.9";
 commentPatches android_kernel_samsung_exynos9810.sh "CVE-2020-1749" "CVE-2019-ctnl-addr-leak" "CVE-2019-18282" "CVE-2019-11599" "CVE-2022-20566" "CVE-2019-16746" "CVE-2021-45469" "CVE-2020-0305" "CVE-2021-3506/4.19" "CVE-2024-26934/4.19";
 commentPatches android_kernel_samsung_universal9810.sh "CVE-2020-1749";
 commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
@@ -136,7 +136,7 @@ done
 declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
-	commentPatches $script "0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2021-47277" "CVE-2021-47320" "CVE-2022-1184/4.4/0014.patch" "CVE-2022-1184/4.9/0007.patch" "CVE-2022-40768/4.9/0007.patch" "CVE-2022-40768/4.4/0008.patch" "CVE-2022-47929/4.4" "CVE-2023-0458" "CVE-2024-26889" "CVE-2024-35954/^6.9" "CVE-2021-47495/4.4";
+	commentPatches $script "0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch" "CVE-2016-20022/3.18" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2021-47277" "CVE-2021-47320" "CVE-2022-1184/4.4/0014.patch" "CVE-2022-1184/4.9/0007.patch" "CVE-2022-40768/4.9/0007.patch" "CVE-2022-40768/4.4/0008.patch" "CVE-2022-47929/4.4" "CVE-2023-0458" "CVE-2024-26889" "CVE-2024-35954/^6.9" "CVE-2021-47495/4.4";
 done
 
 #4.4
