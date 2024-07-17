@@ -15,12 +15,12 @@ Ignore-AOSP-First: security
 Merged-In: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
 Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
 ---
- stack/smp/smp_act.cc | 12 ++++++++++++
+ stack/smp/smp_act.cc | 10 ++++++++++
  stack/smp/smp_int.h  |  1 +
- 2 files changed, 13 insertions(+)
+ 2 files changed, 11 insertions(+)
 
 diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
-index 7b6ae6f2c..db0617904 100644
+index 7b6ae6f2c..a157b1faf 100644
 --- a/stack/smp/smp_act.cc
 +++ b/stack/smp/smp_act.cc
 @@ -275,6 +275,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
@@ -31,7 +31,7 @@ index 7b6ae6f2c..db0617904 100644
  }
  
  /*******************************************************************************
-@@ -631,6 +632,17 @@ void smp_proc_rand(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+@@ -612,6 +613,15 @@ void smp_proc_init(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
      return;
    }
  
@@ -40,9 +40,7 @@ index 7b6ae6f2c..db0617904 100644
 +      !(p_cb->flags & SMP_PAIR_FLAGS_CMD_CONFIRM_SENT)) {
 +    // in legacy pairing, the peer should send its rand after
 +    // we send our confirm
-+    tSMP_INT_DATA smp_int_data{};
-+    smp_int_data.status = SMP_INVALID_PARAMETERS;
-+    smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &smp_int_data);
++    smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &reason);
 +    return;
 +  }
 +
