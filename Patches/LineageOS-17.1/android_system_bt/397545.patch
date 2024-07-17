@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Mon, 22 Apr 2024 21:14:56 +0000
+Subject: [PATCH] Fix an authentication bypass bug in SMP
+
+When pairing with BLE legacy pairing initiated
+from remote, authentication can be bypassed.
+This change fixes it.
+
+Bug: 251514170
+Test: m com.android.btservices
+Test: manual run against PoC
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8a3dbadc71428a30b172a74343be08498c656747)
+Merged-In: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
+Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
+---
+ stack/smp/smp_act.cc | 12 ++++++++++++
+ stack/smp/smp_int.h  |  1 +
+ 2 files changed, 13 insertions(+)
+
+diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
+index c1f143e92..199c5abb3 100644
+--- a/stack/smp/smp_act.cc
++++ b/stack/smp/smp_act.cc
+@@ -284,6 +284,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+ void smp_send_confirm(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+   SMP_TRACE_DEBUG("%s", __func__);
+   smp_send_cmd(SMP_OPCODE_CONFIRM, p_cb);
++  p_cb->flags |= SMP_PAIR_FLAGS_CMD_CONFIRM_SENT;
+ }
+ 
+ /*******************************************************************************
+@@ -645,6 +646,17 @@ void smp_proc_init(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+     return;
+   }
+ 
++  if (!((p_cb->loc_auth_req & SMP_SC_SUPPORT_BIT) &&
++        (p_cb->peer_auth_req & SMP_SC_SUPPORT_BIT)) &&
++      !(p_cb->flags & SMP_PAIR_FLAGS_CMD_CONFIRM_SENT)) {
++    // in legacy pairing, the peer should send its rand after
++    // we send our confirm
++    tSMP_INT_DATA smp_int_data{};
++    smp_int_data.status = SMP_INVALID_PARAMETERS;
++    smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &smp_int_data);
++    return;
++  }
++
+   /* save the SRand for comparison */
+   STREAM_TO_ARRAY(p_cb->rrand.data(), p, OCTET16_LEN);
+ }
+diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
+index 72fdf55a9..e3063c57d 100644
+--- a/stack/smp/smp_int.h
++++ b/stack/smp/smp_int.h
+@@ -241,6 +241,7 @@ typedef union {
+   (1 << 7) /* used to resolve race condition */
+ #define SMP_PAIR_FLAG_HAVE_LOCAL_PUBL_KEY \
+   (1 << 8) /* used on slave to resolve race condition */
++#define SMP_PAIR_FLAGS_CMD_CONFIRM_SENT (1 << 9)
+ 
+ /* check if authentication requirement need MITM protection */
+ #define SMP_NO_MITM_REQUIRED(x) (((x)&SMP_AUTH_YN_BIT) == 0)

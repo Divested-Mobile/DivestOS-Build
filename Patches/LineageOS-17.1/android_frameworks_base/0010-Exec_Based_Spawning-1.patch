@@ -145,7 +145,7 @@ index f0e779694c90..9f41a4136db9 100644
                  OsConstants._LINUX_CAPABILITY_VERSION_3, 0);
          StructCapUserData[] data;
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 52d0adba0a05..478ccfb2f568 100644
+index fe2ff54194fb..6a46a0b7b8ec 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -33,6 +33,7 @@ import android.net.Credentials;
@@ -156,7 +156,7 @@ index 52d0adba0a05..478ccfb2f568 100644
  import android.os.Trace;
  import android.system.ErrnoException;
  import android.system.Os;
-@@ -595,6 +596,13 @@ class ZygoteConnection {
+@@ -598,6 +599,13 @@ class ZygoteConnection {
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {

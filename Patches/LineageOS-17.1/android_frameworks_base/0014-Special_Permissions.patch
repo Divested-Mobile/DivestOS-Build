@@ -25,7 +25,7 @@ index d27b5ad0d646..32b022455451 100644
                          Process.SYSTEM_UID, userId, delayingPermCallback);
                  // Allow app op later as we are holding mPackages
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index ed551795aad5..f247610fa8a3 100644
+index b342f443d9ac..7784e4a9717c 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1024,6 +1024,10 @@ public class PermissionManagerService {
