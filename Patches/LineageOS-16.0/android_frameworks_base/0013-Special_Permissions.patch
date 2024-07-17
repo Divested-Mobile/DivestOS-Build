@@ -25,7 +25,7 @@ index 893268da7f36..f91fa76b53ce 100644
                          != PERMISSION_OPERATION_FAILURE) {
                      writeRuntimePermissions = true;
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index b902001cd359..e9267683ba19 100644
+index 91f24d7295a9..ed1d3102b140 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -770,6 +770,10 @@ public class PermissionManagerService {
