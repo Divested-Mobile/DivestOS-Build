@@ -326,8 +326,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/394879.patch"; #P_asb_2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/394880.patch"; #P_asb_2024-06 Check hidden API exemptions
 applyPatch "$DOS_PATCHES/android_frameworks_base/394881.patch"; #P_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394882.patch"; #P_asb_2024-06 Check permissions for CDM shell commands
-applyPatch "$DOS_PATCHES/android_frameworks_base/397542.patch"; #R_asb_2024-07 Verify UID of incoming Zygote connections.
-applyPatch "$DOS_PATCHES/android_frameworks_base/397543.patch"; #R_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
+applyPatch "$DOS_PATCHES/android_frameworks_base/397594.patch"; #P_asb_2024-07 Verify UID of incoming Zygote connections.
+applyPatch "$DOS_PATCHES/android_frameworks_base/397595.patch"; #P_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -661,7 +661,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/385675.patch"; #P_asb_2024-03 Fix OOB
 applyPatch "$DOS_PATCHES/android_system_bt/385676.patch"; #P_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_system_bt/385677.patch"; #P_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/385678.patch"; #P_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
-applyPatch "$DOS_PATCHES/android_system_bt/397545-backport.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an authentication bypass bug in SMP
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
