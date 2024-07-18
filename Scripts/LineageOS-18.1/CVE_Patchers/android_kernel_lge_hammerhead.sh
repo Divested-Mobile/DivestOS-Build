@@ -418,6 +418,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48619/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48701/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48702/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48710/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48781/^5.17/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48795/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0005.patch
@@ -510,6 +512,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38633/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38634/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38659/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-39480/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40902/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40917/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40954/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40968/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40981/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
@@ -518,7 +525,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p518"
+editKernelLocalversion "-dos.p525"
 else echo "kernel_lge_hammerhead is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

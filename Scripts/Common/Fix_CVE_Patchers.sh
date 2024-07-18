@@ -138,6 +138,8 @@ declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_univers
 for script in "${threeDotEighteen[@]}"
 do
 	commentPatches $script "0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch" "CVE-2016-20022/3.18" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2021-47277" "CVE-2021-47320" "CVE-2022-1184/4.4/0014.patch" "CVE-2022-1184/4.9/0007.patch" "CVE-2022-40768/4.9/0007.patch" "CVE-2022-40768/4.4/0008.patch" "CVE-2022-47929/4.4" "CVE-2023-0458" "CVE-2024-26889" "CVE-2024-35954/^6.9" "CVE-2021-47495/4.4";
+	#TODO: missing USB_SPEED_SUPER_PLUS
+	#sed -i 's|CVE-2016-20022/3.18|CVE-2016-20022/3.10|' $script;
 done
 
 #4.4
