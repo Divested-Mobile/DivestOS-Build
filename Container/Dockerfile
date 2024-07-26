@@ -28,6 +28,8 @@ RUN mkdir -p /home/$username/android \
  && mkdir -p /home/$username/.ccache \
  && chown $userid:$groupid /home/$username/.gitconfig /home/$username/android /home/$username/.ccache
 
+COPY phase-*.sh /home/$username/
+
 ENV HOME=/home/$username
 ENV USER=$username
 ENV USE_CCACHE=1
