@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # from https://android.googlesource.com/platform/build/+/master/tools/docker
 # Copy your host gitconfig, or create a stripped down version
