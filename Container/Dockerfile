@@ -18,7 +18,7 @@ RUN git clone https://github.com/rfjakob/gocryptfs.git \
  && ./build-without-openssl.bash
 RUN cp $(go env GOPATH | cut -f1 -d:)/bin/gocryptfs /usr/local/bin/
 
-RUN groupadd -g $groupid $username \
+RUN groupadd --non-unique --gid $groupid $username \
  && useradd --create-home --shell /bin/bash --uid $userid --gid $groupid $username \
  && echo $username >/root/username \
  && echo "export USER="$username >>/home/$username/.gitconfig
