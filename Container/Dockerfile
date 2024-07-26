@@ -30,5 +30,9 @@ RUN mkdir -p /home/$username/android \
 
 ENV HOME=/home/$username
 ENV USER=$username
+ENV USE_CCACHE=1
+ENV CCACHE_COMPRESS=1
+ENV CCACHE_COMPRESSLEVEL=1
+ENV CCACHE_EXEC=/usr/bin/ccache
+ENV CCACHE_DIR=/home/$username/.ccache
 ENTRYPOINT chroot --userspec=$(cat /root/username):$(cat /root/username) --skip-chdir / /bin/bash -i
-
