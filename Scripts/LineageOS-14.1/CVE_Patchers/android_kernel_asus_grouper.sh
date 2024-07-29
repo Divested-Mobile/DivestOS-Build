@@ -586,6 +586,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40917/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40954/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40968/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40981/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41016/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41017/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
@@ -594,7 +596,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p594"
+editKernelLocalversion "-dos.p596"
 else echo "kernel_asus_grouper is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
