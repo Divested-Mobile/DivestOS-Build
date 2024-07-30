@@ -73,7 +73,9 @@ export DOS_GPG_SIGNING=true;
 export DOS_GPG_SIGNING_KEY="B8744D67F9F1E14E145DFD8E7F627E920F316994";
 
 #Branding
+export DOS_BRANDING_ORG="Divested Computing Group";
 export DOS_BRANDING_NAME="DivestOS";
+export DOS_BRANDING_EMAIL="support@divestos.org";
 export DOS_BRANDING_ZIP_PREFIX="divested";
 export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Heavy"; #Options: $ convert -list font
 export DOS_BRANDING_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
