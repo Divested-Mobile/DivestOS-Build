@@ -24,10 +24,12 @@ Either proceed manually (https://divestos.org/pages/build#init) or use the scrip
     ./phase-1.sh "20.0" |& tee phase-1.log
     ```
 
-  b. Choose your options (optional)
+  b. Set options (optional)
+
+    See Scripts/init.sh for available options. For example:
 
     ```sh
-    nano DivestOS/Scripts/init.sh
+    export DOS_BRANDING_ORG="My Company"
     ```
 
   c. Add vendor blobs

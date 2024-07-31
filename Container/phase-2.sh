@@ -10,6 +10,11 @@ if [ "$2" = "" ]; then
   exit 1
 fi
 
+# Update paths
+DOS_WORKSPACE_ROOT="$(pwd)/DivestOS"
+export DOS_WORKSPACE_ROOT
+export DOS_BUILDS="$DOS_WORKSPACE_ROOT/Builds"
+
 cd "DivestOS/Build/LineageOS-$version"
 
 # Download
