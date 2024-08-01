@@ -459,6 +459,17 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40996/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41014/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41016/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41017/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41041/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41059/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41072/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41089/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41095/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42090/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42101/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42115/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42154/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42223/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
@@ -466,7 +477,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p466"
+editKernelLocalversion "-dos.p477"
 else echo "kernel_google_wahoo is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

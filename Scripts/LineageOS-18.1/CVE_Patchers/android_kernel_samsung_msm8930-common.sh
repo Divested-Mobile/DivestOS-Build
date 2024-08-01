@@ -665,6 +665,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40968/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40981/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41016/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41017/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42101/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42115/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0002/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.4/0001.patch
@@ -677,7 +680,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p677"
+editKernelLocalversion "-dos.p680"
 else echo "kernel_samsung_msm8930-common is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -1000,6 +1000,16 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-40988/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41014/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41016/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41017/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41059/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41072/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41089/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41095/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42090/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42101/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42115/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42154/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42223/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003-alt.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -1013,7 +1023,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p1013"
+editKernelLocalversion "-dos.p1023"
 else echo "kernel_google_dragon is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
