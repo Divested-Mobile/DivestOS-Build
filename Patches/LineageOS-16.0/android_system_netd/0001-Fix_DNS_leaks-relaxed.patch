@@ -27,7 +27,7 @@ index e2467709..fbf136ce 100644
          *netId = mDefaultNetId;
          fwmark.netId = *netId;
          fwmark.explicitlySelected = true;
-+         fwmark.protectedFromVpn = canProtectLocked(uid);
++        fwmark.protectedFromVpn = canProtectLocked(uid);
          return fwmark.intValue;
      }
  
