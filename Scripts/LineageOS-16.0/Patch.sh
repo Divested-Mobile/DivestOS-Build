@@ -686,6 +686,8 @@ fi;
 
 if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/378480.patch"; #P_asb_2023-12 Fix Heap-use-after-free in MDnsSdListener::Monitor::run
+applyPatch "$DOS_PATCHES/android_system_netd/0001-Fix_DNS_leaks.patch"; #Fix DNS leak in VPN lockdown mode when VPN is down (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_netd/0001-Fix_DNS_leaks-relaxed.patch"; #Relax VPN DNS leak prevention for incompatible apps (GrapheneOS)
 fi;
 
 if enterAndClear "system/nfc"; then

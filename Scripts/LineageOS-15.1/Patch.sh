@@ -558,6 +558,7 @@ fi;
 
 if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/377024-backport.patch"; #R_asb_2023-12 Fix Heap-use-after-free in MDnsSdListener::Monitor::run #XXX
+#applyPatch "$DOS_PATCHES/android_system_netd/0001-Fix_DNS_leaks.patch"; #Fix DNS leak in VPN lockdown mode when VPN is down (GrapheneOS) #XXX can break apps without relaxed variant backport
 fi;
 
 if enterAndClear "system/nfc"; then

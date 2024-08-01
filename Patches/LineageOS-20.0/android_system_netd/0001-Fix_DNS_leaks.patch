@@ -1,0 +1,24 @@
+From ab1a83dc36e17c4ec61def8cc7386f908e054add Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 9 May 2024 23:02:17 +0300
+Subject: [PATCH] fix DNS leak in VPN lockdown mode when VPN is down
+
+---
+ server/NetworkController.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/server/NetworkController.cpp b/server/NetworkController.cpp
+index 0b0e061a8..a45d8556a 100644
+--- a/server/NetworkController.cpp
++++ b/server/NetworkController.cpp
+@@ -209,8 +209,8 @@ int NetworkController::setDefaultNetwork(unsigned netId) {
+ 
+ uint32_t NetworkController::getNetworkForDnsLocked(unsigned* netId, uid_t uid) const {
+     Fwmark fwmark;
+-    fwmark.protectedFromVpn = true;
+-    fwmark.permission = PERMISSION_SYSTEM;
++    fwmark.protectedFromVpn = canProtectLocked(uid);
++    fwmark.permission = getPermissionForUserLocked(uid);
+ 
+     Network* appDefaultNetwork = getPhysicalOrUnreachableNetworkForUserLocked(uid);
+     unsigned defaultNetId = appDefaultNetwork ? appDefaultNetwork->getNetId() : mDefaultNetId;

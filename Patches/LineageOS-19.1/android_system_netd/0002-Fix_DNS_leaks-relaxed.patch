@@ -1,0 +1,42 @@
+From a1e9fbcf977b0c8598c618aa3677913b19407cda Mon Sep 17 00:00:00 2001
+From: Daniel Micay <daniel.micay@grapheneos.org>
+Date: Wed, 31 Jul 2024 02:44:05 -0400
+Subject: [PATCH] relax VPN DNS leak prevention for incompatible apps
+
+This avoids attempting to fix the leaks for VPN apps causing leaks
+through not configuring DNS. This can be reliably fixed from the VPN
+app's side.
+---
+ server/NetworkController.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/server/NetworkController.cpp b/server/NetworkController.cpp
+index a45d8556a..be4f7c19d 100644
+--- a/server/NetworkController.cpp
++++ b/server/NetworkController.cpp
+@@ -209,7 +209,7 @@ int NetworkController::setDefaultNetwork(unsigned netId) {
+ 
+ uint32_t NetworkController::getNetworkForDnsLocked(unsigned* netId, uid_t uid) const {
+     Fwmark fwmark;
+-    fwmark.protectedFromVpn = canProtectLocked(uid);
++    fwmark.protectedFromVpn = true;
+     fwmark.permission = getPermissionForUserLocked(uid);
+ 
+     Network* appDefaultNetwork = getPhysicalOrUnreachableNetworkForUserLocked(uid);
+@@ -224,6 +224,7 @@ uint32_t NetworkController::getNetworkForDnsLocked(unsigned* netId, uid_t uid) c
+         *netId = defaultNetId;
+         fwmark.netId = *netId;
+         fwmark.explicitlySelected = true;
++        fwmark.protectedFromVpn = canProtectLocked(uid);
+         return fwmark.intValue;
+     }
+ 
+@@ -239,6 +240,8 @@ uint32_t NetworkController::getNetworkForDnsLocked(unsigned* netId, uid_t uid) c
+         Network *network = getNetworkLocked(*netId);
+         if (network && network->isVirtual() && !resolv_has_nameservers(*netId)) {
+             *netId = defaultNetId;
++        } else {
++            fwmark.protectedFromVpn = canProtectLocked(uid);
+         }
+     } else {
+         // If the user is subject to a VPN and the VPN provides DNS servers, use those servers
