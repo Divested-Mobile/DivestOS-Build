@@ -176,7 +176,7 @@ index cc90a3f..2940af9 100644
 +    </string-array>
  </resources>
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 46bb291..d1e634f 100644
+index 5252a8d..cf05cd9 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -68,6 +68,11 @@

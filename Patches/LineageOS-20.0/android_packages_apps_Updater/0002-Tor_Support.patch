@@ -376,7 +376,7 @@ index 774d1be..8a01e3d 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 0303481..46bb291 100644
+index 4427949..5252a8d 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -68,6 +68,7 @@
