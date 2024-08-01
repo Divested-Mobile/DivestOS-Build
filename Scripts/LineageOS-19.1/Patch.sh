@@ -409,8 +409,8 @@ fi;
 
 if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_system_netd/0002-Fix_DNS_leaks.patch"; #Fix DNS leak in VPN lockdown mode when VPN is down (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_system_netd/0002-Fix_DNS_leaks-relaxed.patch"; #Relax VPN DNS leak prevention for incompatible apps (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_system_netd/0002-Fix_DNS_leaks.patch"; #Fix DNS leak in VPN lockdown mode when VPN is down (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_system_netd/0002-Fix_DNS_leaks-relaxed.patch"; #Relax VPN DNS leak prevention for incompatible apps (GrapheneOS)
 fi;
 
 if enterAndClear "system/sepolicy"; then
