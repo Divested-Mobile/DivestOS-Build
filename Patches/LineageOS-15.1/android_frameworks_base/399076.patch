@@ -1,0 +1,53 @@
+From a8d8d9bb68570d395ddb20449ee466e2b468840c Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Tue, 20 Jul 2021 00:01:29 +0000
+Subject: [PATCH] Prevend user spoofing in isRequestPinItemSupported
+
+This CL ensure the caller process is from the same user when calling
+ShortcutService#isRequestPinItemSupported.
+
+Bug: 191772737
+Test: atest ShortcutManagerTest1 ShortcutManagerTest2
+    ShortcutManagerTest3 ShortcutManagerTest4 ShortcutManagerTest5
+    ShortcutManagerTest6 ShortcutManagerTest7 ShortcutManagerTest8
+    ShortcutManagerTest9 ShortcutManagerTest10 ShortcutManagerTest11
+    ShortcutManagerTest12
+Test: atest CtsShortcutManagerTestCases
+Change-Id: Icab7cdf25b870b88ecfde9b99e107bbeda0eb485
+---
+ .../com/android/server/pm/ShortcutService.java    | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
+index c18cdcb891409..f4c8127439181 100644
+--- a/services/core/java/com/android/server/pm/ShortcutService.java
++++ b/services/core/java/com/android/server/pm/ShortcutService.java
+@@ -1566,6 +1566,19 @@ void injectEnforceCallingPermission(
+         mContext.enforceCallingPermission(permission, message);
+     }
+ 
++    private void verifyCallerUserId(@UserIdInt int userId) {
++        if (isCallerSystem()) {
++            return; // no check
++        }
++
++        final int callingUid = injectBinderCallingUid();
++
++        // Otherwise, make sure the arguments are valid.
++        if (UserHandle.getUserId(callingUid) != userId) {
++            throw new SecurityException("Invalid user-ID");
++        }
++    }
++
+     private void verifyCaller(@NonNull String packageName, @UserIdInt int userId) {
+         Preconditions.checkStringNotEmpty(packageName, "packageName");
+ 
+@@ -2303,6 +2316,8 @@ public void reportShortcutUsed(String packageName, String shortcutId, int userId
+ 
+     @Override
+     public boolean isRequestPinItemSupported(int callingUserId, int requestType) {
++        verifyCallerUserId(callingUserId);
++
+         final long token = injectClearCallingIdentity();
+         try {
+             return mShortcutRequestPinProcessor

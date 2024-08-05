@@ -321,6 +321,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/385674.patch"; #P_asb_2024-03 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/389269.patch"; #P_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
 applyPatch "$DOS_PATCHES/android_frameworks_base/389270.patch"; #P_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394877.patch"; #P_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
+applyPatch "$DOS_PATCHES/android_frameworks_base/399075-backport.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
+applyPatch "$DOS_PATCHES/android_frameworks_base/399076.patch"; #Q_asb_2024-06 Prevend user spoofing in isRequestPinItemSupported
 applyPatch "$DOS_PATCHES/android_frameworks_base/394878.patch"; #P_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394879.patch"; #P_asb_2024-06 Adds additional sanitization for Zygote command arguments.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394880.patch"; #P_asb_2024-06 Check hidden API exemptions
@@ -682,6 +684,10 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
+
+if enterAndClear "system/libfmq"; then
+applyPatch "$DOS_PATCHES_COMMON/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
 fi;
 
 if enterAndClear "system/netd"; then

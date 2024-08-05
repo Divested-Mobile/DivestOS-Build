@@ -258,6 +258,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/385672.patch"; #P_asb_2024-03 R
 applyPatch "$DOS_PATCHES/android_frameworks_base/385673.patch"; #P_asb_2024-03 Disallow system apps to be installed/updated as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/385674.patch"; #P_asb_2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/389014-backport.patch"; #S_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399075-backport.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
+applyPatch "$DOS_PATCHES/android_frameworks_base/399076.patch"; #Q_asb_2024-06 Prevend user spoofing in isRequestPinItemSupported
 applyPatch "$DOS_PATCHES/android_frameworks_base/394878.patch"; #P_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394879.patch"; #P_asb_2024-06 Adds additional sanitization for Zygote command arguments.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394880.patch"; #P_asb_2024-06 Check hidden API exemptions
@@ -554,6 +556,10 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; #(GrapheneOS)
+fi;
+
+if enterAndClear "system/libfmq"; then
+applyPatch "$DOS_PATCHES_COMMON/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
 fi;
 
 if enterAndClear "system/netd"; then

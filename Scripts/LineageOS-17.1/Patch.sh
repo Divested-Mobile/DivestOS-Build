@@ -664,7 +664,7 @@ applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #
 fi;
 
 if enterAndClear "system/libfmq"; then
-applyPatch "$DOS_PATCHES/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
+applyPatch "$DOS_PATCHES_COMMON/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
 fi;
 
 if enterAndClear "system/netd"; then

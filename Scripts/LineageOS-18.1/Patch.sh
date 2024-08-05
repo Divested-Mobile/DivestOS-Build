@@ -148,6 +148,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/392207.patch"; #R_asb_2024-05 P
 applyPatch "$DOS_PATCHES/android_frameworks_base/394553.patch"; #R_asb_2024-06 ActivityManager#killBackgroundProcesses can kill caller's own app only
 applyPatch "$DOS_PATCHES/android_frameworks_base/394554.patch"; #R_asb_2024-06 Fix ActivityManager#killBackgroundProcesses permissions
 applyPatch "$DOS_PATCHES/android_frameworks_base/394555.patch"; #R_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
+applyPatch "$DOS_PATCHES/android_frameworks_base/399075-backport.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
+applyPatch "$DOS_PATCHES/android_frameworks_base/399076.patch"; #Q_asb_2024-06 Prevend user spoofing in isRequestPinItemSupported
 applyPatch "$DOS_PATCHES/android_frameworks_base/394556.patch"; #R_asb_2024-06 Check for NLS bind permission when rebinding services
 applyPatch "$DOS_PATCHES/android_frameworks_base/394557.patch"; #R_asb_2024-06 Hide window immediately if itself doesn't run hide animation
 applyPatch "$DOS_PATCHES/android_frameworks_base/394558.patch"; #R_asb_2024-06 Fix error handling for non-dynamic permissions
@@ -449,6 +451,10 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
+
+if enterAndClear "system/libfmq"; then
+applyPatch "$DOS_PATCHES_COMMON/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
 fi;
 
 if enterAndClear "system/netd"; then
