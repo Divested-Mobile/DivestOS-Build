@@ -693,6 +693,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36957/5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36959/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36960/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36964/5.10/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-0pre/5.10/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-0pre/5.10/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-aosp/5.10/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-aosp/5.10/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36974/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36978/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37078/5.10/0005.patch
@@ -860,7 +864,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.10/0003.patch
-editKernelLocalversion "-dos.p860"
+editKernelLocalversion "-dos.p864"
 else echo "kernel_google_gs101_private_gs-google is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
