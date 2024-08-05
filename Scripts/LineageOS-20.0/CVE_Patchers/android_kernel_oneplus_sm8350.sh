@@ -276,6 +276,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27436/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27437/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-31076/5.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33011/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33012/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33023/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-34027/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35789/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35805/5.4/0004.patch
@@ -354,7 +358,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36954/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36959/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36960/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36964/5.4/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971/5.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-aosp/5.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36971-aosp/5.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36974/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-36978/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37078/5.4/0007.patch
@@ -501,7 +506,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.4/0005.patch
-editKernelLocalversion "-dos.p502"
+editKernelLocalversion "-dos.p506"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
