@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-07
+sed -i 's/2023-02-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2024-07
 fi;
 
 if enterAndClear "build/soong"; then
@@ -294,19 +294,25 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/392204.patch"; #Q_asb_2024-04 i
 applyPatch "$DOS_PATCHES/android_frameworks_base/392205.patch"; #Q_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
 applyPatch "$DOS_PATCHES/android_frameworks_base/393587.patch"; #Q_asb_2024-05 Prioritize system toasts
 applyPatch "$DOS_PATCHES/android_frameworks_base/393588.patch"; #Q_asb_2024-05 Don't try to show the current toast again while it's showing.
-applyPatch "$DOS_PATCHES/android_frameworks_base/394553.patch"; #R_asb_2024-06 ActivityManager#killBackgroundProcesses can kill caller's own app only
-applyPatch "$DOS_PATCHES/android_frameworks_base/394554.patch"; #R_asb_2024-06 Fix ActivityManager#killBackgroundProcesses permissions
-applyPatch "$DOS_PATCHES/android_frameworks_base/394555-backport.patch"; #R_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
-applyPatch "$DOS_PATCHES/android_frameworks_base/394556-backport.patch"; #R_asb_2024-06 Check for NLS bind permission when rebinding services
+applyPatch "$DOS_PATCHES/android_frameworks_base/399072.patch"; #Q_asb_2024-06 ActivityManager#killBackgroundProcesses can kill caller's own app only
+applyPatch "$DOS_PATCHES/android_frameworks_base/399073.patch"; #Q_asb_2024-06 Fix ActivityManager#killBackgroundProcesses permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/399074.patch"; #Q_asb_2024-06 Verify URI permission for channel sound update from NotificationListenerService
+applyPatch "$DOS_PATCHES/android_frameworks_base/399075.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
+applyPatch "$DOS_PATCHES/android_frameworks_base/399076.patch"; #Q_asb_2024-06 Prevend user spoofing in isRequestPinItemSupported
+applyPatch "$DOS_PATCHES/android_frameworks_base/399077.patch"; #Q_asb_2024-06 Check for NLS bind permission when rebinding services
 applyPatch "$DOS_PATCHES/android_frameworks_base/394557-backport.patch"; #R_asb_2024-06 Hide window immediately if itself doesn't run hide animation
-applyPatch "$DOS_PATCHES/android_frameworks_base/394558-backport.patch"; #R_asb_2024-06 Fix error handling for non-dynamic permissions
-applyPatch "$DOS_PATCHES/android_frameworks_base/394559.patch"; #R_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
-applyPatch "$DOS_PATCHES/android_frameworks_base/394560.patch"; #R_asb_2024-06 Add in check for intent filter when setting/updating service
-applyPatch "$DOS_PATCHES/android_frameworks_base/394561.patch"; #R_asb_2024-06 Check hidden API exemptions
-applyPatch "$DOS_PATCHES/android_frameworks_base/397542.patch"; #R_asb_2024-07 Verify UID of incoming Zygote connections.
-applyPatch "$DOS_PATCHES/android_frameworks_base/397543.patch"; #R_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
-applyPatch "$DOS_PATCHES/android_frameworks_base/394562-backport.patch"; #R_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399078.patch"; #Q_asb_2024-06 Fix error handling for non-dynamic permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/399079.patch"; #Q_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399080.patch"; #Q_asb_2024-06 [Autofill Framework] Add in check for intent filter when setting/updating service
+applyPatch "$DOS_PATCHES/android_frameworks_base/399081.patch"; #Q_asb_2024-06 Check hidden API exemptions
+applyPatch "$DOS_PATCHES/android_frameworks_base/399082.patch"; #Q_asb_2024-06 Add StatusBarNotification::getNormalizedUserId
+applyPatch "$DOS_PATCHES/android_frameworks_base/399083.patch"; #Q_asb_2024-06 Add Context.createContextAsUser()
+applyPatch "$DOS_PATCHES/android_frameworks_base/399084.patch"; #Q_asb_2024-06 Explicitly take flags in createContextAsUser()
+applyPatch "$DOS_PATCHES/android_frameworks_base/399085.patch"; #Q_asb_2024-06 Resolve message/conversation image Uris with the correct user id
+applyPatch "$DOS_PATCHES/android_frameworks_base/399086.patch"; #Q_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394882.patch"; #P_asb_2024-06 Check permissions for CDM shell commands
+applyPatch "$DOS_PATCHES/android_frameworks_base/399088.patch"; #Q_asb_2024-07 Verify UID of incoming Zygote connections.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399089.patch"; #Q_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -570,6 +576,7 @@ if enterAndClear "packages/providers/MediaProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/355362.patch"; #Q_asb_2023-04 Canonicalise path before extracting relative path
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378137.patch"; #Q_asb_2023-09 Canonicalize file path for insertion by legacy apps
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378138.patch"; #Q_asb_2023-10 Fix path traversal vulnerabilities in MediaProvider
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/399090.patch"; #Q_asb_2024-07 Prevent insertion in other users storage volumes
 fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then
@@ -629,7 +636,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/383261.patch"; #Q_asb_2024-02 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/391914.patch"; #Q_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_system_bt/391915.patch"; #Q_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/391916.patch"; #Q_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
-applyPatch "$DOS_PATCHES/android_system_bt/397545.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/399092.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -654,6 +661,10 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
+
+if enterAndClear "system/libfmq"; then
+applyPatch "$DOS_PATCHES/android_system_libfmq/399071.patch"; #Q_asb_2024-06 Use the values of the ptrs that we check
 fi;
 
 if enterAndClear "system/netd"; then
@@ -737,7 +748,7 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/383264.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391917.patch"; #Q_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391918.patch"; #Q_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391919.patch"; #Q_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/397546.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399091.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
 fi;
 
 if enterAndClear "vendor/lineage"; then

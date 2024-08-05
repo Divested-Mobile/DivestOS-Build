@@ -1,0 +1,142 @@
+From 74184eec063b205f9131a5a8335c7e2335fcabf8 Mon Sep 17 00:00:00 2001
+From: Makoto Onuki <omakoto@google.com>
+Date: Wed, 9 Oct 2019 15:33:11 -0700
+Subject: [PATCH] Add Context.createContextAsUser()
+
+Without it, apps (mainline modules) will need to use createPackageContext...,
+which is a bit painful.
+
+Bug: 142472686
+Test: atest android.content.cts.ContextTest#testCreateContextAsUser
+Change-Id: Id640e03862462724df1a4a3101f0b08faafba22f
+---
+ api/system-current.txt                        |  3 ++-
+ api/test-current.txt                          |  3 ++-
+ core/java/android/app/ContextImpl.java        |  9 +++++++++
+ core/java/android/content/Context.java        | 20 ++++++++++++++++++-
+ core/java/android/content/ContextWrapper.java |  6 ++++++
+ .../src/android/test/mock/MockContext.java    |  6 ++++++
+ 6 files changed, 44 insertions(+), 3 deletions(-)
+
+diff --git a/api/system-current.txt b/api/system-current.txt
+index 07689adc67cc3..02e348309fff1 100644
+--- a/api/system-current.txt
++++ b/api/system-current.txt
+@@ -1346,8 +1346,9 @@ package android.content {
+ 
+   public abstract class Context {
+     method @RequiresPermission(android.Manifest.permission.INTERACT_ACROSS_USERS) public boolean bindServiceAsUser(@RequiresPermission android.content.Intent, android.content.ServiceConnection, int, android.os.UserHandle);
++    method @NonNull public android.content.Context createContextAsUser(@NonNull android.os.UserHandle);
+     method public abstract android.content.Context createCredentialProtectedStorageContext();
+-    method public android.content.Context createPackageContextAsUser(String, int, android.os.UserHandle) throws android.content.pm.PackageManager.NameNotFoundException;
++    method @NonNull public android.content.Context createPackageContextAsUser(@NonNull String, int, @NonNull android.os.UserHandle) throws android.content.pm.PackageManager.NameNotFoundException;
+     method @Nullable public abstract java.io.File getPreloadsFileCache();
+     method public abstract boolean isCredentialProtectedStorage();
+     method public abstract void sendBroadcast(android.content.Intent, @Nullable String, @Nullable android.os.Bundle);
+diff --git a/api/test-current.txt b/api/test-current.txt
+index d3bea18fb9447..5f53b2a40a49e 100644
+--- a/api/test-current.txt
++++ b/api/test-current.txt
+@@ -638,7 +638,8 @@ package android.content {
+   }
+ 
+   public abstract class Context {
+-    method public android.content.Context createPackageContextAsUser(String, int, android.os.UserHandle) throws android.content.pm.PackageManager.NameNotFoundException;
++    method @NonNull public android.content.Context createContextAsUser(@NonNull android.os.UserHandle);
++    method @NonNull public android.content.Context createPackageContextAsUser(@NonNull String, int, @NonNull android.os.UserHandle) throws android.content.pm.PackageManager.NameNotFoundException;
+     method public abstract android.view.Display getDisplay();
+     method public abstract int getDisplayId();
+     method public android.os.UserHandle getUser();
+diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
+index 41a4fba0434cd..1f3c3a46792a6 100644
+--- a/core/java/android/app/ContextImpl.java
++++ b/core/java/android/app/ContextImpl.java
+@@ -2200,6 +2200,15 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+                 "Application package " + packageName + " not found");
+     }
+ 
++    @Override
++    public Context createContextAsUser(UserHandle user) {
++        try {
++            return createPackageContextAsUser(getPackageName(), mFlags, user);
++        } catch (NameNotFoundException e) {
++            throw new IllegalStateException("Own package not found: package=" + getPackageName());
++        }
++    }
++
+     @Override
+     public Context createContextForSplit(String splitName) throws NameNotFoundException {
+         if (!mPackageInfo.getApplicationInfo().requestsIsolatedSplitLoading()) {
+diff --git a/core/java/android/content/Context.java b/core/java/android/content/Context.java
+index 6fb10c1c277cb..713287d26f80c 100644
+--- a/core/java/android/content/Context.java
++++ b/core/java/android/content/Context.java
+@@ -5196,8 +5196,9 @@ public abstract Context createPackageContext(String packageName,
+      */
+     @SystemApi
+     @TestApi
++    @NonNull
+     public Context createPackageContextAsUser(
+-            String packageName, @CreatePackageOptions int flags, UserHandle user)
++            @NonNull String packageName, @CreatePackageOptions int flags, @NonNull UserHandle user)
+             throws PackageManager.NameNotFoundException {
+         if (Build.IS_ENG) {
+             throw new IllegalStateException("createPackageContextAsUser not overridden!");
+@@ -5205,6 +5206,23 @@ public Context createPackageContextAsUser(
+         return this;
+     }
+ 
++    /**
++     * Similar to {@link #createPackageContext(String, int)}, but for the own package with a
++     * different {@link UserHandle}. For example, {@link #getContentResolver()}
++     * will open any {@link Uri} as the given user.
++     *
++     * @hide
++     */
++    @SystemApi
++    @TestApi
++    @NonNull
++    public Context createContextAsUser(@NonNull UserHandle user) {
++        if (Build.IS_ENG) {
++            throw new IllegalStateException("createContextAsUser not overridden!");
++        }
++        return this;
++    }
++
+     /**
+      * Creates a context given an {@link android.content.pm.ApplicationInfo}.
+      *
+diff --git a/core/java/android/content/ContextWrapper.java b/core/java/android/content/ContextWrapper.java
+index 0859f97e81a10..f7cd51e7ffbca 100644
+--- a/core/java/android/content/ContextWrapper.java
++++ b/core/java/android/content/ContextWrapper.java
+@@ -883,6 +883,12 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+         return mBase.createPackageContextAsUser(packageName, flags, user);
+     }
+ 
++    /** @hide */
++    @Override
++    public Context createContextAsUser(UserHandle user) {
++        return mBase.createContextAsUser(user);
++    }
++
+     /** @hide */
+     @Override
+     @UnsupportedAppUsage
+diff --git a/test-mock/src/android/test/mock/MockContext.java b/test-mock/src/android/test/mock/MockContext.java
+index a95b6f11e98a5..fcd4701c76307 100644
+--- a/test-mock/src/android/test/mock/MockContext.java
++++ b/test-mock/src/android/test/mock/MockContext.java
+@@ -756,6 +756,12 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+         throw new UnsupportedOperationException();
+     }
+ 
++    /** {@hide} */
++    @Override
++    public Context createContextAsUser(UserHandle user) {
++        throw new UnsupportedOperationException();
++    }
++
+     /** {@hide} */
+     @Override
+     public int getUserId() {

@@ -1,0 +1,65 @@
+From 5c77ea08c49728abbd5cbadd0b4f473d2fe6fa1b Mon Sep 17 00:00:00 2001
+From: Devin Moore <devinmoore@google.com>
+Date: Mon, 22 Jan 2024 17:52:16 +0000
+Subject: [PATCH] Use the values of the ptrs that we check
+
+Test: fmq_fuzzer
+Bug: 321326147
+Bug: 321341508
+Bug: 321383085
+(cherry picked from https://android-review.googlesource.com/q/commit:38963310ad5789b625ca0bca9f9c2c8e24666651)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:af19e0ef034174afd794563552f91303fd9f1529)
+Merged-In: I56fe4fe72180e39ecef066353969c1ae9fbcd44e
+Change-Id: I56fe4fe72180e39ecef066353969c1ae9fbcd44e
+---
+ include/fmq/MessageQueue.h | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
+
+diff --git a/include/fmq/MessageQueue.h b/include/fmq/MessageQueue.h
+index 7be7151..6cf8f3f 100644
+--- a/include/fmq/MessageQueue.h
++++ b/include/fmq/MessageQueue.h
+@@ -968,8 +968,16 @@ bool MessageQueue<T, flavor>::readBlocking(T* data, size_t count, int64_t timeOu
+ }
+ 
+ template <typename T, MQFlavor flavor>
+-size_t MessageQueue<T, flavor>::availableToWriteBytes() const {
+-    return mDesc->getSize() - availableToReadBytes();
++inline size_t MessageQueue<T, flavor>::availableToWriteBytes() const {
++    size_t queueSizeBytes = mDesc->getSize();
++    size_t availableBytes = availableToReadBytes();
++    if (queueSizeBytes < availableBytes) {
++        hardware::details::logError(
++                "The write or read pointer has become corrupted. Reading from the queue is no "
++                "longer possible.");
++        return 0;
++    }
++    return queueSizeBytes - availableBytes;
+ }
+ 
+ template <typename T, MQFlavor flavor>
+@@ -1050,14 +1058,21 @@ bool MessageQueue<T, flavor>::commitWrite(size_t nMessages) {
+ }
+ 
+ template <typename T, MQFlavor flavor>
+-size_t MessageQueue<T, flavor>::availableToReadBytes() const {
++inline size_t MessageQueue<T, flavor>::availableToReadBytes() const {
+     /*
+      * This method is invoked by implementations of both read() and write() and
+      * hence requries a memory_order_acquired load for both mReadPtr and
+      * mWritePtr.
+      */
+-    return mWritePtr->load(std::memory_order_acquire) -
+-            mReadPtr->load(std::memory_order_acquire);
++    uint64_t writePtr = mWritePtr->load(std::memory_order_acquire);
++    uint64_t readPtr = mReadPtr->load(std::memory_order_acquire);
++    if (writePtr < readPtr) {
++        hardware::details::logError(
++                "The write or read pointer has become corrupted. Reading from the queue is no "
++                "longer possible.");
++        return 0;
++    }
++    return writePtr - readPtr;
+ }
+ 
+ template <typename T, MQFlavor flavor>

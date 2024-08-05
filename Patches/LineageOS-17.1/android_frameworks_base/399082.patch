@@ -1,0 +1,37 @@
+From a76b0a0c26bc16a98840757e9c999a10101c565a Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Mon, 13 Apr 2020 11:03:44 -0400
+Subject: [PATCH] Add StatusBarNotification::getNormalizedUserId
+
+Required for ASB 2024-06
+
+Cherry-picked from I9b2ae1ecd1cc8b42ab715ee033879f295949a9ba
+
+Change-Id: Ife602cee53c303dd3f841004d8ffc84b38c7677b
+---
+ .../service/notification/StatusBarNotification.java  | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/core/java/android/service/notification/StatusBarNotification.java b/core/java/android/service/notification/StatusBarNotification.java
+index 905c7811e4573..39395074b9165 100644
+--- a/core/java/android/service/notification/StatusBarNotification.java
++++ b/core/java/android/service/notification/StatusBarNotification.java
+@@ -273,6 +273,18 @@ public int getUserId() {
+         return this.user.getIdentifier();
+     }
+ 
++    /**
++     * Like {@link #getUserId()} but handles special users.
++     * @hide
++     */
++    public int getNormalizedUserId() {
++        int userId = getUserId();
++        if (userId == UserHandle.USER_ALL) {
++            userId = UserHandle.USER_SYSTEM;
++        }
++        return userId;
++    }
++
+     /** The package that the notification belongs to. */
+     public String getPackageName() {
+         return pkg;

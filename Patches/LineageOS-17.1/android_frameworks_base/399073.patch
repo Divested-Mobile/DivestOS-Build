@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From a948eaf29141a1f176a9345fb9ec72502c2a8953 Mon Sep 17 00:00:00 2001
 From: Jing Ji <jji@google.com>
 Date: Thu, 19 Oct 2023 14:22:58 -0700
 Subject: [PATCH] DO NOT MERGE: Fix ActivityManager#killBackgroundProcesses
@@ -12,16 +12,18 @@ Bug: 223376078
 Test: atest CtsAppTestCases:ActivityManagerTest
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:140fce861944419a375c669010c6c47cd7ff5b37)
 Merged-In: I9471a77188ee63ec32cd0c81569193e4ccad885b
-Change-Id: I9471a77188ee63ec32cd0c81569193e4ccad885b
+AOSP-Change-Id: I9471a77188ee63ec32cd0c81569193e4ccad885b
+
+Change-Id: I1b1e683b6a92b0fa2a844a99bedcccac8c980e58
 ---
  .../server/am/ActivityManagerService.java        | 16 ----------------
  1 file changed, 16 deletions(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index bcb7276b4014..41b1ddaf887b 100644
+index bcb7276b4014e..41b1ddaf887bb 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -4268,22 +4268,6 @@ public class ActivityManagerService extends IActivityManager.Stub
+@@ -4268,22 +4268,6 @@ void killAllBackgroundProcessesExcept(int minTargetSdk, int maxProcState) {
              throw new SecurityException(msg);
          }
  

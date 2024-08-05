@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From c2cf66ca1d5a676a8b29049c54c5117f1e2a5c72 Mon Sep 17 00:00:00 2001
 From: Valentin Iftime <valiiftime@google.com>
 Date: Thu, 22 Feb 2024 10:51:58 +0100
 Subject: [PATCH] Check for NLS bind permission when rebinding services
@@ -19,7 +19,7 @@ Change-Id: I11901755ec430c6e3145def9d67e4e63cda00806
  2 files changed, 139 insertions(+), 23 deletions(-)
 
 diff --git a/services/core/java/com/android/server/notification/ManagedServices.java b/services/core/java/com/android/server/notification/ManagedServices.java
-index 4828bbfff676..f57cddafdc2a 100644
+index 4828bbfff6762..2d9cfcb3ebb52 100644
 --- a/services/core/java/com/android/server/notification/ManagedServices.java
 +++ b/services/core/java/com/android/server/notification/ManagedServices.java
 @@ -141,7 +141,9 @@ abstract public class ManagedServices {
@@ -27,13 +27,13 @@ index 4828bbfff676..f57cddafdc2a 100644
      // allowed to be bound as managed services. A package or component appearing in this list does
      // not mean that we are currently bound to said package/component.
 -    private ArrayMap<Integer, ArrayMap<Boolean, ArraySet<String>>> mApproved = new ArrayMap<>();
-+
 +    @GuardedBy("mApproved")
-+    private final ArrayMap<Integer, ArrayMap<Boolean, ArraySet<String>>> mApproved = new ArrayMap<>();
++    protected final ArrayMap<Integer, ArrayMap<Boolean, ArraySet<String>>> mApproved =
++            new ArrayMap<>();
  
      // True if approved services are stored in xml, not settings.
      private boolean mUseXml;
-@@ -573,6 +575,23 @@ abstract public class ManagedServices {
+@@ -573,6 +575,23 @@ protected boolean isPackageOrComponentAllowed(String pkgOrComponent, int userId)
          return false;
      }
  
@@ -57,7 +57,7 @@ index 4828bbfff676..f57cddafdc2a 100644
      protected boolean isPackageAllowed(String pkg, int userId) {
          if (pkg == null) {
              return false;
-@@ -623,6 +642,7 @@ abstract public class ManagedServices {
+@@ -623,6 +642,7 @@ public void onPackagesChanged(boolean removingPackage, String[] pkgList, int[] u
                      for (int uid : uidList) {
                          if (isPackageAllowed(pkgName, UserHandle.getUserId(uid))) {
                              anyServicesInvolved = true;
@@ -65,7 +65,7 @@ index 4828bbfff676..f57cddafdc2a 100644
                          }
                      }
                  }
-@@ -749,8 +769,7 @@ abstract public class ManagedServices {
+@@ -749,8 +769,7 @@ protected void setComponentState(ComponentName component, boolean enabled) {
              for (int i = 0; i < userIds.size(); i++) {
                  final int userId = userIds.get(i);
                  if (enabled) {
@@ -75,7 +75,7 @@ index 4828bbfff676..f57cddafdc2a 100644
                          registerServiceLocked(component, userId);
                      } else {
                          Slog.d(TAG, component + " no longer has permission to be bound");
-@@ -889,6 +908,33 @@ abstract public class ManagedServices {
+@@ -889,6 +908,33 @@ private boolean removeUninstalledItemsFromApprovedLists(int uninstalledUserId, S
          return removed;
      }
  
@@ -109,7 +109,7 @@ index 4828bbfff676..f57cddafdc2a 100644
      protected String getPackageName(String packageOrComponent) {
          final ComponentName component = ComponentName.unflattenFromString(packageOrComponent);
          if (component != null) {
-@@ -1048,26 +1094,20 @@ abstract public class ManagedServices {
+@@ -1048,26 +1094,20 @@ private void bindToServices(SparseArray<Set<ComponentName>> componentsToBind) {
              final int userId = componentsToBind.keyAt(i);
              final Set<ComponentName> add = componentsToBind.get(userId);
              for (ComponentName component : add) {
@@ -149,7 +149,7 @@ index 4828bbfff676..f57cddafdc2a 100644
              }
          }
      }
-@@ -1081,6 +1121,15 @@ abstract public class ManagedServices {
+@@ -1081,6 +1121,15 @@ private void registerService(final ComponentName name, final int userid) {
          }
      }
  
@@ -165,7 +165,7 @@ index 4828bbfff676..f57cddafdc2a 100644
      /**
       * Inject a system service into the management list.
       */
-@@ -1181,7 +1230,7 @@ abstract public class ManagedServices {
+@@ -1181,7 +1230,7 @@ public void onBindingDied(ComponentName name) {
                              mHandler.postDelayed(new Runnable() {
                                      @Override
                                      public void run() {
@@ -174,7 +174,7 @@ index 4828bbfff676..f57cddafdc2a 100644
                                      }
                                 }, ON_BINDING_DIED_REBIND_DELAY_MS);
                          } else {
-@@ -1313,6 +1362,19 @@ abstract public class ManagedServices {
+@@ -1313,6 +1362,19 @@ private void unbindService(ServiceConnection connection, ComponentName component
          }
      }
  
@@ -195,10 +195,10 @@ index 4828bbfff676..f57cddafdc2a 100644
          public IInterface service;
          public ComponentName component;
 diff --git a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
-index 8aaf29a11033..cac620f409f3 100644
+index 8aaf29a110332..cac620f409f32 100644
 --- a/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
 +++ b/services/tests/uiservicestests/src/com/android/server/notification/ManagedServicesTest.java
-@@ -28,8 +28,10 @@ import static org.mockito.Matchers.any;
+@@ -28,8 +28,10 @@
  import static org.mockito.Matchers.anyInt;
  import static org.mockito.Matchers.eq;
  import static org.mockito.Mockito.doAnswer;
@@ -209,7 +209,7 @@ index 8aaf29a11033..cac620f409f3 100644
  import static org.mockito.Mockito.times;
  import static org.mockito.Mockito.verify;
  import static org.mockito.Mockito.when;
-@@ -624,6 +626,58 @@ public class ManagedServicesTest extends UiServiceTestCase {
+@@ -624,6 +626,58 @@ public void testUpgradeAppBindsNewServices() throws Exception {
          }
      }
  

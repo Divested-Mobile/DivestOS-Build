@@ -1,0 +1,201 @@
+From f0d3e98bb01f4caf292539e98cdf174dacb92444 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mat=C3=ADas=20Hern=C3=A1ndez?= <matiashe@google.com>
+Date: Fri, 22 Mar 2024 14:26:23 +0100
+Subject: [PATCH] Resolve message/conversation image Uris with the correct user
+ id
+
+Bug: 317503801
+Test: atest ExpandableNotificationRowTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:3b913c4237993525d2435a2d1082c6af8997168d)
+Merged-In: I11c5b39f2d9d8f0788acab43640a6d4abcd5a179
+Change-Id: I11c5b39f2d9d8f0788acab43640a6d4abcd5a179
+---
+ .../row/ExpandableNotificationRow.java        | 13 +++++++--
+ .../row/NotificationInlineImageResolver.java  |  8 +++++-
+ .../systemui/SysuiTestableContext.java        | 23 ++++++++++++++++
+ .../row/ExpandableNotificationRowTest.java    | 27 +++++++++++++++++++
+ 4 files changed, 68 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+index 37f7802909357..2004db5005a63 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+@@ -44,6 +44,7 @@
+ import android.os.Build;
+ import android.os.Bundle;
+ import android.os.SystemClock;
++import android.os.UserHandle;
+ import android.service.notification.StatusBarNotification;
+ import android.util.ArraySet;
+ import android.util.AttributeSet;
+@@ -446,6 +447,8 @@ private void setIconRunning(ImageView imageView, boolean running) {
+     public void setEntry(@NonNull NotificationEntry entry) {
+         mEntry = entry;
+         mStatusBarNotification = entry.notification;
++        mImageResolver = new NotificationInlineImageResolver(userContextForEntry(mContext, entry),
++                new NotificationInlineImageCache());
+         cacheIsSystemNotification();
+     }
+ 
+@@ -1640,8 +1643,6 @@ public ExpandableNotificationRow(Context context, AttributeSet attrs) {
+         mFalsingManager = Dependency.get(FalsingManager.class);  // TODO: inject into a controller.
+         mNotificationInflater = new NotificationContentInflater(this);
+         mMenuRow = new NotificationMenuRow(mContext);
+-        mImageResolver = new NotificationInlineImageResolver(context,
+-                new NotificationInlineImageCache());
+         mMediaManager = Dependency.get(NotificationMediaManager.class);
+         initDimens();
+     }
+@@ -1654,6 +1655,14 @@ public void setStatusBarStateController(StatusBarStateController statusBarStateC
+         mStatusbarStateController = statusBarStateController;
+     }
+ 
++    private static Context userContextForEntry(Context base, NotificationEntry entry) {
++        if (base.getUserId() == entry.notification.getNormalizedUserId()) {
++            return base;
++        }
++        return base.createContextAsUser(
++                UserHandle.of(entry.notification.getNormalizedUserId()), /* flags= */ 0);
++    }
++
+     private void initDimens() {
+         mNotificationMinHeightBeforeN = NotificationUtils.getFontScaledHeight(mContext,
+                 R.dimen.notification_min_height_legacy);
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
+index 466be072afdb3..885b28aebc897 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
+@@ -26,6 +26,7 @@
+ import android.os.SystemClock;
+ import android.util.Log;
+ 
++import com.android.internal.annotations.VisibleForTesting;
+ import com.android.internal.widget.ImageResolver;
+ import com.android.internal.widget.LocalImageResolver;
+ import com.android.internal.widget.MessagingMessage;
+@@ -54,7 +55,7 @@ public class NotificationInlineImageResolver implements ImageResolver {
+      * @param imageCache The implementation of internal cache.
+      */
+     public NotificationInlineImageResolver(Context context, ImageCache imageCache) {
+-        mContext = context.getApplicationContext();
++        mContext = context;
+         mImageCache = imageCache;
+ 
+         if (mImageCache != null) {
+@@ -62,6 +63,11 @@ public NotificationInlineImageResolver(Context context, ImageCache imageCache) {
+         }
+     }
+ 
++    @VisibleForTesting
++    public Context getContext() {
++        return mContext;
++    }
++
+     /**
+      * Check if this resolver has its internal cache implementation.
+      * @return True if has its internal cache, false otherwise.
+diff --git a/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java b/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
+index f792d7d11e157..6324569411ed3 100644
+--- a/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
++++ b/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
+@@ -14,15 +14,20 @@
+ 
+ package com.android.systemui;
+ 
++import android.annotation.NonNull;
+ import android.content.Context;
+ import android.testing.LeakCheck;
+ import android.testing.TestableContext;
+ import android.util.ArrayMap;
+ import android.view.Display;
+ 
++import java.util.HashMap;
++import java.util.Map;
++
+ public class SysuiTestableContext extends TestableContext implements SysUiServiceProvider {
+ 
+     private ArrayMap<Class<?>, Object> mComponents;
++    private final Map<UserHandle, Context> mContextForUser = new HashMap<>();
+ 
+     public SysuiTestableContext(Context base) {
+         super(base);
+@@ -59,4 +64,22 @@ public Context createDisplayContext(Display display) {
+                 new SysuiTestableContext(getBaseContext().createDisplayContext(display));
+         return context;
+     }
++
++    /**
++     * Sets a Context object that will be returned as the result of {@link #createContextAsUser}
++     * for a specific {@code user}.
++     */
++    public void prepareCreateContextAsUser(UserHandle user, Context context) {
++        mContextForUser.put(user, context);
++    }
++
++    @Override
++    @NonNull
++    public Context createContextAsUser(UserHandle user, int flags) {
++        Context userContext = mContextForUser.get(user);
++        if (userContext != null) {
++            return userContext;
++        }
++        return super.createContextAsUser(user, flags);
++    }
+ }
+diff --git a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
+index d526d104630eb..c9b29fe7e4903 100644
+--- a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
++++ b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
+@@ -21,6 +21,10 @@
+ import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_ALL;
+ import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_HEADS_UP;
+ import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_PUBLIC;
++import static com.android.systemui.statusbar.notification.row.NotificationTestHelper.PKG;
++import static com.android.systemui.statusbar.notification.row.NotificationTestHelper.USER_HANDLE;
++
++import static com.google.common.truth.Truth.assertThat;
+ 
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertFalse;
+@@ -38,6 +42,8 @@
+ 
+ import android.app.AppOpsManager;
+ import android.app.NotificationChannel;
++import android.content.Context;
++import android.os.UserHandle;
+ import android.testing.AndroidTestingRunner;
+ import android.testing.TestableLooper;
+ import android.testing.TestableLooper.RunWithLooper;
+@@ -48,6 +54,7 @@
+ import androidx.test.filters.SmallTest;
+ 
+ import com.android.systemui.SysuiTestCase;
++import com.android.systemui.SysuiTestableContext;
+ import com.android.systemui.plugins.statusbar.NotificationMenuRowPlugin;
+ import com.android.systemui.plugins.statusbar.StatusBarStateController;
+ import com.android.systemui.statusbar.NotificationTestHelper;
+@@ -377,4 +384,24 @@ public void testGetIsNonblockable_criticalDeviceFunction() throws Exception {
+ 
+         assertTrue(row.getIsNonblockable());
+     }
++
++    @Test
++    public void imageResolver_sameNotificationUser_usesContext() throws Exception {
++        ExpandableNotificationRow row = mNotificationTestHelper.createRow(PKG,
++                USER_HANDLE.getUid(1234), USER_HANDLE);
++
++        assertThat(row.getImageResolver().getContext()).isSameInstanceAs(mContext);
++    }
++
++    @Test
++    public void imageResolver_differentNotificationUser_createsUserContext() throws Exception {
++        UserHandle user = new UserHandle(33);
++        Context userContext = new SysuiTestableContext(mContext);
++        mContext.prepareCreateContextAsUser(user, userContext);
++
++        ExpandableNotificationRow row = mNotificationTestHelper.createRow(PKG,
++                user.getUid(1234), user);
++
++        assertThat(row.getImageResolver().getContext()).isSameInstanceAs(userContext);
++    }
+ }

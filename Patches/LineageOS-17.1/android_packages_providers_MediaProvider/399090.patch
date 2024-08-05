@@ -1,0 +1,34 @@
+From 3ebb06797359a6b2497e843c1e65bf6b4be4bb37 Mon Sep 17 00:00:00 2001
+From: Omar Eissa <oeissa@google.com>
+Date: Mon, 15 Apr 2024 12:04:56 +0000
+Subject: [PATCH] Prevent insertion in other users storage volumes
+
+Don't allow file insertion in other users storage volumes.
+This was already handled if DATA was explicitly set in content values,
+but was allowed if DATA was generated based on other values like RELATIVE_PATH and DISPLAY_NAME.
+
+Insertion of files in other users storage volumes can be used by malicious apps
+to get access to other users files, since the same file would exist in both users MP databases
+which would lead to MP falsely assuming that the user has access to this file.
+
+Bug: 294406604
+Test: atest MediaProviderTests
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:df39f8486b25473d0bdbeed896ad917e3c793bf9)
+Merged-In: Ie219bbdbe28819421040e4c083b65ab47d8ebde6
+Change-Id: Ie219bbdbe28819421040e4c083b65ab47d8ebde6
+---
+ src/com/android/providers/media/MediaProvider.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index 0887bd6ae..4cd4452d0 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -2120,6 +2120,7 @@ private static void ensureFileColumns(int match, Uri uri, ContentValues values,
+             } catch (FileNotFoundException e) {
+                 throw new IllegalArgumentException(e);
+             }
++            assertFileColumnsSane(match, uri, values);
+             res = Environment.buildPath(res, relativePath);
+             try {
+                 if (makeUnique) {

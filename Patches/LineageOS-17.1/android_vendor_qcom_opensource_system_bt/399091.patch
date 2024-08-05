@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 1c72baf0b3f59b8e43e96202e90cb19e2c0a635b Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 21:14:56 +0000
 Subject: [PATCH] Fix an authentication bypass bug in SMP
@@ -20,10 +20,10 @@ Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
  2 files changed, 13 insertions(+)
 
 diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
-index c1f143e92..199c5abb3 100644
+index a18d8389b..ab9e9aa69 100755
 --- a/stack/smp/smp_act.cc
 +++ b/stack/smp/smp_act.cc
-@@ -284,6 +284,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+@@ -290,6 +290,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
  void smp_send_confirm(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
    SMP_TRACE_DEBUG("%s", __func__);
    smp_send_cmd(SMP_OPCODE_CONFIRM, p_cb);
@@ -31,7 +31,7 @@ index c1f143e92..199c5abb3 100644
  }
  
  /*******************************************************************************
-@@ -645,6 +646,17 @@ void smp_proc_init(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+@@ -651,6 +652,17 @@ void smp_proc_init(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
      return;
    }
  
@@ -50,10 +50,10 @@ index c1f143e92..199c5abb3 100644
    STREAM_TO_ARRAY(p_cb->rrand.data(), p, OCTET16_LEN);
  }
 diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
-index 72fdf55a9..e3063c57d 100644
+index a9b4471fc..4aab2408a 100644
 --- a/stack/smp/smp_int.h
 +++ b/stack/smp/smp_int.h
-@@ -241,6 +241,7 @@ typedef union {
+@@ -248,6 +248,7 @@ enum {
    (1 << 7) /* used to resolve race condition */
  #define SMP_PAIR_FLAG_HAVE_LOCAL_PUBL_KEY \
    (1 << 8) /* used on slave to resolve race condition */
