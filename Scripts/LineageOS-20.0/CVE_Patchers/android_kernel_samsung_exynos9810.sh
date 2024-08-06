@@ -993,6 +993,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41014/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41015/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41016/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41017/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41020/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41041/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41059/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-41063/4.19/0002.patch
@@ -1023,7 +1024,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p1023"
+editKernelLocalversion "-dos.p1024"
 else echo "kernel_samsung_exynos9810 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
