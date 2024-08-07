@@ -54,6 +54,7 @@ device/google/gs-common 85e4450447b782ce7f430c8eefb5820ba40516d4
 device/google/gs101 97f25ec1e450cfe5f9d3deee55aa9464646f6413
 device/google/gs201 c9d43d890d9ef948f01154c8974d67897b5e7f1a
 device/google/lynx 39ae50385d275d8e73ed6b5e4a11f35356ed07cb
+device/google/marlin 54b84f7786b3135eef8e7d241e6aa524c452532e
 device/google/muskie 6911cfdd20d646b740673d9710f6f09d622cc66f
 device/google/oriole 4fc1b8acd2e4e388cb959d41a07e11af5034afb2
 device/google/pantah 17c9b0a820679fddd87dc5da4a3196db28b227ba
@@ -62,6 +63,7 @@ device/google/raven d2ee4333052087d012c3c6ed0f3ff169d8746bc4
 device/google/raviole 6e2a58d6d6546ce828a6d80e7e1e02a191f0c7b3
 device/google/redbull 11d02056c8b67ddd52e2e4ec0c7e74a80ce8afe7
 device/google/redfin 5fb5eacf643f06e27b48c98223d1e1fe258df1c7
+device/google/sailfish 2e571c40d5c4e480e56fe90501e792c4f5d81db3
 device/google/sargo 778f11fc241e4f78c64b3a19e82f109a6d8528be
 device/google/sunfish 4803ed4cce50dbb4b54186109300ed9a5a5846dc
 device/google/taimen 322c3d9d5476e4cd5be49776d9eeffea802583f3
@@ -985,6 +987,7 @@ kernel/google/gs201/private/google-modules/wlan/wcn6740/cnss2 0db3417088da75711d
 kernel/google/gs201/private/google-modules/wlan/wcn6740/wlan 2ae17194848e5dd02ac854ec88590e61040c3616
 kernel/google/gs201/private/google-modules/wlan/wlan_ptracker f68ee4b90bef2ab3b6d796a037081f26d1d97255
 kernel/google/gs201/private/gs-google d6584346874f95ab7121f90dc2c0edb6db5662a1
+kernel/google/marlin c20ba6f0940d8c5cec3497aef489b75e86dc448a
 kernel/google/msm-4.14 fe61ffb52659964bfcf6784a38c2b876505aab60
 kernel/google/msm-4.9 39b19c29956db9606bc5cebb770f5784bc76d5a8
 kernel/google/redbull db4810fe97f0993946a71aa80f976ac2958dd970
@@ -1354,10 +1357,12 @@ vendor/google/crosshatch 8d7cb743ccf5d77033013ac8843e19819bd5ec21
 vendor/google/felix ef5bae46f021da83f1335431ef3e84221c71a7b7
 vendor/google/flame 0e8f0e55fcef2757618d046a13ad7f449b435945
 vendor/google/lynx d72be9cbf391a539949bfa3a6b694fed5f1ca627
+vendor/google/marlin 230a432c75141715924f43f40d7f0cd7c4a5f27c
 vendor/google/oriole 049c7c04350794a58a63e3a34274dfc274460cf4
 vendor/google/panther d84d399099233f91ddcbea766767e65a1d2d9bb2
 vendor/google/raven 325dc846d1f0428e8f943451ce0f835190f4b28e
 vendor/google/redfin 3d7f7230cdb052e791dfc6c7e905acc4da85f795
+vendor/google/sailfish 6e543aee512ab8fb0bd296360291fe1738cdb3b8
 vendor/google/sargo 66546fd15f6e385f0370f02ee524cfd9d722d1cc
 vendor/google/sunfish 3a3a2aaf0cfcfbaa4c2b6486ca1bbfdcbd350d20
 vendor/google/taimen cde337f053e9c563372bcffb4a4e4cf0940f0882

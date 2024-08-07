@@ -57,7 +57,8 @@ commentPatches android_kernel_google_dragon.sh "0006-AndroidHardening-Kernel_Har
 commentPatches android_kernel_google_crosshatch.sh "CVE-2020-0067";
 commentPatches android_kernel_google_gs101_private_gs-google.sh "CVE-2021-29648/^5.11/0001.patch" "CVE-2023-6817/5.10/0002.patch" "CVE-2023-52462/5.10/0002.patch" "CVE-2023-52672" "CVE-2024-26733/5.10/0002.patch" "CVE-2023-52656/5.10" "CVE-2024-26882" "CVE-2024-38564" "CVE-2022-48862";
 commentPatches android_kernel_google_gs201_private_gs-google.sh "CVE-2021-29648/^5.11/0001.patch" "CVE-2023-6817/5.10/0002.patch" "CVE-2023-52462/5.10/0002.patch" "CVE-2023-52672" "CVE-2024-26733/5.10/0002.patch" "CVE-2023-52656/5.10" "CVE-2024-26882" "CVE-2024-38564" "CVE-2022-48862";
-commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0048.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0049.patch" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-14883" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
+#commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0048.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0049.patch" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-14883" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
+commentPatches android_kernel_google_marlin.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch";
 commentPatches android_kernel_google_msm.sh "CVE-2017-11015/prima" "CVE-2021-Misc2/ANY/0031.patch";
 commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-30324" "CVE-2021-45469";
 commentPatches android_kernel_google_redbull.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2021-3600";
@@ -134,7 +135,7 @@ do
 done
 
 #3.18
-declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
+declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
 	commentPatches $script "0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch" "CVE-2016-20022/3.18" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2021-47277" "CVE-2021-47320" "CVE-2022-1184/4.4/0014.patch" "CVE-2022-1184/4.9/0007.patch" "CVE-2022-40768/4.9/0007.patch" "CVE-2022-40768/4.4/0008.patch" "CVE-2022-47929/4.4" "CVE-2023-0458" "CVE-2024-26889" "CVE-2024-35954/^6.9" "CVE-2021-47495/4.4";
@@ -143,7 +144,7 @@ do
 done
 
 #4.4
-declare -a fourDotFour=("${threeDotEighteen[@]}" "android_kernel_essential_msm8998.sh" "android_kernel_fxtec_msm8998.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zuk_msm8996.sh" "android_kernel_xiaomi_sdm660.sh" "android_kernel_sony_sdm660.sh" "android_kernel_razer_msm8998.sh" "android_kernel_oneplus_msm8998.sh" "android_kernel_google_wahoo.sh" "android_kernel_yandex_sdm660.sh" "android_kernel_zuk_msm8996.sh");
+declare -a fourDotFour=("${threeDotEighteen[@]}" "android_kernel_essential_msm8998.sh" "android_kernel_fxtec_msm8998.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zuk_msm8996.sh" "android_kernel_xiaomi_sdm660.sh" "android_kernel_sony_sdm660.sh" "android_kernel_razer_msm8998.sh" "android_kernel_oneplus_msm8998.sh" "android_kernel_google_marlin.sh" "android_kernel_google_wahoo.sh" "android_kernel_yandex_sdm660.sh" "android_kernel_zuk_msm8996.sh");
 for script in "${fourDotFour[@]}"
 do
 	commentPatches $script "CVE-2021-47006" "CVE-2021-47267" "CVE-2021-47455" "CVE-2023-2513" "CVE-2023-4132";

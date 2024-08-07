@@ -83,6 +83,11 @@
 	<project path="device/fairphone/FP4" name="LineageOS/android_device_fairphone_FP4" remote="github" revision="lineage-20" />
 	<project path="kernel/fairphone/sm7225" name="LineageOS/android_kernel_fairphone_sm7225" remote="github" revision="lineage-20" />
 
+	<!-- Google Pixel (marlin/sailfish) -->
+	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" revision="lineage-20" />
+	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" revision="lineage-20" />
+	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" revision="lineage-20" />
+
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" revision="lineage-20" />
 	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" revision="lineage-20" />
@@ -366,6 +371,8 @@
 	<project path="vendor/google/tangorpro" name="[COLOUR IN THE LINES]/proprietary_vendor_google_tangorpro" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/taimen" name="[COLOUR IN THE LINES]/proprietary_vendor_google_taimen" remote="github" revision="lineage-20" />
 	<project path="vendor/google/walleye" name="[COLOUR IN THE LINES]/proprietary_vendor_google_walleye" remote="github" revision="lineage-20" />
+	<project path="vendor/google/marlin" name="[COLOUR IN THE LINES]/proprietary_vendor_google_marlin" remote="github" revision="lineage-20" />
+	<project path="vendor/google/sailfish" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sailfish" remote="github" revision="lineage-20" />
 	<project path="vendor/lge/g5-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_g5-common" remote="github" revision="lineage-20" />
 	<project path="vendor/lge/g6-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_g6-common" remote="github" revision="lineage-20" />
 	<project path="vendor/lge/h830" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h830" remote="github" revision="lineage-20" />

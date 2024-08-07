@@ -547,10 +547,6 @@ if enterAndClear "device/asus/debx"; then
 compressRamdisks;
 fi;
 
-if enterAndClear "device/google/marlin"; then
-sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
-fi;
-
 if enterAndClear "device/htc/m8-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
@@ -712,8 +708,6 @@ enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 #enableLowRam "device/nextbit/ether" "ether";
 #enableLowRam "device/oneplus/bacon" "bacon";
 #Tweaks for 4GB RAM devices
-#enableLowRam "device/google/marlin" "marlin";
-#enableLowRam "device/google/marlin" "sailfish";
 #enableLowRam "device/motorola/griffin" "griffin";
 #Tweaks for 3GB/4GB/6GB RAM devices
 #enableLowRam "device/xiaomi/lavender" "lavender";

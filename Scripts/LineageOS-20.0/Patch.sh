@@ -502,6 +502,10 @@ if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;
 
+if enterAndClear "device/google/marlin"; then
+git revert --no-edit 153fbe4a8572dbb79496d7d272bf5f1d584f64d4; #don't repartition
+fi;
+
 if enterAndClear "device/google/muskie"; then
 git revert --no-edit 19c8b61e1ae4b6598f5b6a4d328f4f6b7cd11244; #compile fix: out of space
 fi;
@@ -583,6 +587,8 @@ enableLowRam "device/xiaomi/Mi8937" "Mi8937";
 #Tweaks for 4GB RAM devices
 #enableLowRam "device/essential/mata" "mata";
 #enableLowRam "device/fairphone/FP3" "FP3";
+#enableLowRam "device/google/marlin" "marlin";
+#enableLowRam "device/google/marlin" "sailfish";
 #enableLowRam "device/google/bonito" "bonito";
 #enableLowRam "device/google/bonito" "sargo";
 #enableLowRam "device/google/crosshatch" "blueline";
