@@ -409,6 +409,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42143/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42154/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42223/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42232/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42247/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
@@ -418,7 +420,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p418"
+editKernelLocalversion "-dos.p420"
 else echo "kernel_xiaomi_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
