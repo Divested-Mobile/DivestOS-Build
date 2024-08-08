@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660";
 }
 export -f patchAllKernels;
 
@@ -96,6 +96,8 @@ buildAll() {
 	buildDevice griffin;
 	buildDevice oneplus3 verity;
 	#SD821
+	buildDevice marlin verity;
+	buildDevice sailfish verity;
 	buildDevice lavender avb;
 	buildDevice jasmine_sprout avb;
 	buildDevice platina avb;
@@ -131,6 +133,11 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
+
+	#Deblobbing fixes
+	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
+	[[ -d device/google/marlin/marlin ]] && cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
+	[[ -d device/google/marlin/sailfish ]] && cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspaceReal;
 

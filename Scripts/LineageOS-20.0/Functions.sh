@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-10-15
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_fxtec_sm6115 kernel_google_gs101_private_gs-google kernel_google_gs201_private_gs-google kernel_google_marlin kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_lge_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_exynos9810 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_msm8937 kernel_xiaomi_sdm845 kernel_xiaomi_sm6150 kernel_xiaomi_vayu kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_fxtec_sm6115 kernel_google_gs101_private_gs-google kernel_google_gs201_private_gs-google kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_lge_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_exynos9810 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_msm8937 kernel_xiaomi_sdm845 kernel_xiaomi_sm6150 kernel_xiaomi_vayu kernel_xiaomi_sm8250 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -68,9 +68,6 @@ buildAll() {
 	buildDevice us996d;
 	buildDevice vs995;
 	buildDevice z2_plus verity;
-	#SD821
-	buildDevice marlin verity;
-	buildDevice sailfish verity;
 	#SD835
 	buildDevice walleye avb;
 	buildDevice cheeseburger verity;
@@ -152,11 +149,6 @@ buildAll() {
 	buildDevice starlte;
 	buildDevice star2lte;
 	buildDevice crownlte;
-
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	[[ -d device/google/marlin/marlin ]] && cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
-	[[ -d device/google/marlin/sailfish ]] && cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f buildAll;
 
