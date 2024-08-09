@@ -82,7 +82,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-07 #XXX
+sed -i 's/2021-06-05/2024-08-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-08 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -200,6 +200,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/373035.patch"; #n-asb-2023-11 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/381852.patch"; #n-asb-2024-02 Update mtp packet buffer
 applyPatch "$DOS_PATCHES/android_frameworks_av/385240.patch"; #n-asb-2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
 applyPatch "$DOS_PATCHES/android_frameworks_av/385243.patch"; #n-asb-2024-03 Validate OMX Params for VPx encoders
+applyPatch "$DOS_PATCHES/android_frameworks_av/399268.patch"; #n-asb-2024-08 StagefrightRecoder: Disabling B-frame support
 #if [ "$DOS_GRAPHENE_MALLOC_STAGING" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
 
@@ -288,6 +289,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/393647.patch"; #n-asb-2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/393648.patch"; #n-asb-2024-06 Check hidden API exemptions
 applyPatch "$DOS_PATCHES/android_frameworks_base/393649.patch"; #n-asb-2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/396611.patch"; #n-asb-2024-07 Verify UID of incoming Zygote connections.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399269.patch"; #n-asb-2024-08 Restrict USB poups while setup is in progress
+applyPatch "$DOS_PATCHES/android_frameworks_base/399270.patch"; #n-asb-2024-08 Added throttle when reporting shortcut usage
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -588,6 +591,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/385237.patch"; #n-asb-2024-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/385238.patch"; #n-asb-2024-03 Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/385239.patch"; #n-asb-2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/396612.patch"; #n-asb-2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/399271.patch"; #n-asb-2024-08 Fix heap-buffer overflow in sdp_utils.cc
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

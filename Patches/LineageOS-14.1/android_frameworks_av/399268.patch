@@ -1,0 +1,38 @@
+From 14461bfefeef4f00cab8c6335eec7a701915ef5b Mon Sep 17 00:00:00 2001
+From: Rakesh Kumar <rakesh.kumar@ittiam.com>
+Date: Thu, 30 May 2024 11:17:48 +0000
+Subject: [PATCH] StagefrightRecoder: Disabling B-frame support
+
+Disabling b-frame support from stagefright recorder in case of
+audio source as mic and video source is surface use case only
+because screen recorder with microphone doesn't play in sync
+if b-frame is enabled.
+If the audio source selected is INTERNAL (i.e. device) or
+MIC_AND_INTERNAL with screen recorder then b frame is supported.
+
+Bug: 288549440
+Test: manually check screen recording with audio from mic has audio/video in synch
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:af685c66bab17b71fe1624f76b5d55628f79e6fa)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:da3407f7688f35eb2dce79f1405feeb182241a3c)
+Merged-In: I4098655eb9687fb633085333bc140634441566e6
+Change-Id: I4098655eb9687fb633085333bc140634441566e6
+---
+ media/libmediaplayerservice/StagefrightRecorder.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
+index a6558ab3d44..0d8e9952527 100644
+--- a/media/libmediaplayerservice/StagefrightRecorder.cpp
++++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
+@@ -1646,6 +1646,11 @@ status_t StagefrightRecorder::setupVideoEncoder(
+ 
+     if (tsLayers > 1) {
+         uint32_t bLayers = std::min(2u, tsLayers - 1); // use up-to 2 B-layers
++        // TODO(b/341121900): Remove this once B frames are handled correctly in screen recorder
++        // use case in case of mic only
++        if (mAudioSource == AUDIO_SOURCE_MIC && mVideoSource == VIDEO_SOURCE_SURFACE) {
++            bLayers = 0;
++        }
+         uint32_t pLayers = tsLayers - bLayers;
+         format->setString(
+                 "ts-schema", AStringPrintf("android.generic.%u+%u", pLayers, bLayers));

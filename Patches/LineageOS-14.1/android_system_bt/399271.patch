@@ -1,0 +1,51 @@
+From 31562d59f523d73b8c92d0327370cac98904992a Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Mon, 22 Apr 2024 16:43:29 +0000
+Subject: [PATCH] [BACKPORT] Fix heap-buffer overflow in sdp_utils.cc
+
+Fuzzer identifies a case where sdpu_compare_uuid_with_attr crashes with
+an out of bounds comparison.  Although the bug claims this is due to a
+comparison of a uuid with a smaller data field thana the discovery
+attribute, my research suggests that this instead stems from a
+comparison of a 128 bit UUID with a discovery attribute of some other,
+invalid size.
+
+Add checks for discovery attribute size.
+
+Bug: 287184435
+Test: atest bluetooth_test_gd_unit, net_test_stack_sdp
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:99210e2f251e2189c1eede15942c832e017404c2)
+Merged-In: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
+Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
+---
+ stack/sdp/sdp_utils.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/stack/sdp/sdp_utils.c b/stack/sdp/sdp_utils.c
+index e9df4606893..d1dd94e138c 100644
+--- a/stack/sdp/sdp_utils.c
++++ b/stack/sdp/sdp_utils.c
+@@ -850,13 +850,20 @@ BOOLEAN sdpu_compare_uuid_with_attr (tBT_UUID *p_btuuid, tSDP_DISC_ATTR *p_attr)
+     UINT16      attr_len = SDP_DISC_ATTR_LEN (p_attr->attr_len_type);
+ 
+     /* Since both UUIDs are compressed, lengths must match  */
+-    if (p_btuuid->len != attr_len)
++    if (p_btuuid->len != attr_len) {
++        SDP_TRACE_ERROR("invalid length for discovery attribute");
+         return (FALSE);
++    }
+ 
+     if (p_btuuid->len == 2)
+         return (BOOLEAN)(p_btuuid->uu.uuid16 == p_attr->attr_value.v.u16);
+     else if (p_btuuid->len == 4)
+         return (BOOLEAN)(p_btuuid->uu.uuid32 == p_attr->attr_value.v.u32);
++    else if (attr_len != MAX_UUID_SIZE) {
++        SDP_TRACE_ERROR("invalid length for discovery attribute");
++        return (FALSE);
++    }
++
+     /* coverity[overrun-buffer-arg] */
+     /*
+        Event overrun-buffer-arg: Overrun of static array "&p_attr->attr_value.v.array" of size 4 bytes by passing it to a function which indexes it with argument "16U" at byte position 15

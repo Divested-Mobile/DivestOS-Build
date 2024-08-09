@@ -1,0 +1,65 @@
+From 4f7911704b5e53dd50ef736de84205f17827b975 Mon Sep 17 00:00:00 2001
+From: Kiran S <krns@google.com>
+Date: Mon, 13 May 2024 05:49:06 +0000
+Subject: [PATCH] Restrict USB poups while setup is in progress
+
+Test: Cherry pick of http://ag/27094197
+Bug: 294105066
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2ce2e54a040342373e401f9c2e70035ede4e63ad)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ec96cc3e3a81d21f2249db381c10638bb307cf39)
+Merged-In: I7d54534696fd73f3b94c5b4250142eed9341c5d8
+Change-Id: I7d54534696fd73f3b94c5b4250142eed9341c5d8
+---
+ .../server/usb/UsbSettingsManager.java        | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/services/usb/java/com/android/server/usb/UsbSettingsManager.java b/services/usb/java/com/android/server/usb/UsbSettingsManager.java
+index de9ede397c130..195360df7dbfb 100644
+--- a/services/usb/java/com/android/server/usb/UsbSettingsManager.java
++++ b/services/usb/java/com/android/server/usb/UsbSettingsManager.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.server.usb;
+ 
++import static android.provider.Settings.Secure.USER_SETUP_COMPLETE;
++
+ import android.app.PendingIntent;
+ import android.content.ActivityNotFoundException;
+ import android.content.ComponentName;
+@@ -36,6 +38,7 @@
+ import android.os.Environment;
+ import android.os.Process;
+ import android.os.UserHandle;
++import android.provider.Settings;
+ import android.util.AtomicFile;
+ import android.util.Log;
+ import android.util.Slog;
+@@ -756,10 +759,28 @@ private void resolveActivity(Intent intent, UsbDevice device) {
+             defaultPackage = mDevicePreferenceMap.get(new DeviceFilter(device));
+         }
+ 
++        if (shouldRestrictOverlayActivities()) {
++            return;
++        }
++
+         // Start activity with registered intent
+         resolveActivity(intent, matches, defaultPackage, device, null);
+     }
+ 
++    private boolean shouldRestrictOverlayActivities() {
++        if (Settings.Secure.getIntForUser(
++                mContext.getContentResolver(),
++                USER_SETUP_COMPLETE,
++                /* defaultValue= */ 1,
++                UserHandle.CURRENT.getIdentifier())
++                == 0) {
++            Slog.d(TAG, "restricting usb overlay activities as setup is not complete");
++            return true;
++        }
++
++        return false;
++    }
++
+     public void deviceDetached(UsbDevice device) {
+         // clear temporary permissions for the device
+         mDevicePermissionMap.remove(device.getDeviceName());

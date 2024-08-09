@@ -300,7 +300,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399074.patch"; #Q_asb_2024-06 V
 applyPatch "$DOS_PATCHES/android_frameworks_base/399075.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
 applyPatch "$DOS_PATCHES/android_frameworks_base/399076.patch"; #Q_asb_2024-06 Prevend user spoofing in isRequestPinItemSupported
 applyPatch "$DOS_PATCHES/android_frameworks_base/399077.patch"; #Q_asb_2024-06 Check for NLS bind permission when rebinding services
-applyPatch "$DOS_PATCHES/android_frameworks_base/394557-backport.patch"; #R_asb_2024-06 Hide window immediately if itself doesn't run hide animation
+applyPatch "$DOS_PATCHES/android_frameworks_base/399414.patch"; #Q_asb_2024-06 Hide window immediately if itself doesn't run hide animation
 applyPatch "$DOS_PATCHES/android_frameworks_base/399078.patch"; #Q_asb_2024-06 Fix error handling for non-dynamic permissions
 applyPatch "$DOS_PATCHES/android_frameworks_base/399079.patch"; #Q_asb_2024-06 Add more checkKeyIntent checks to AccountManagerService.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399080.patch"; #Q_asb_2024-06 [Autofill Framework] Add in check for intent filter when setting/updating service
@@ -310,7 +310,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399083.patch"; #Q_asb_2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/399084.patch"; #Q_asb_2024-06 Explicitly take flags in createContextAsUser()
 applyPatch "$DOS_PATCHES/android_frameworks_base/399085.patch"; #Q_asb_2024-06 Resolve message/conversation image Uris with the correct user id
 applyPatch "$DOS_PATCHES/android_frameworks_base/399086.patch"; #Q_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
-applyPatch "$DOS_PATCHES/android_frameworks_base/394882.patch"; #P_asb_2024-06 Check permissions for CDM shell commands
+applyPatch "$DOS_PATCHES/android_frameworks_base/399413.patch"; #Q_asb_2024-06 Check permissions for CDM shell commands
 applyPatch "$DOS_PATCHES/android_frameworks_base/399088.patch"; #Q_asb_2024-07 Verify UID of incoming Zygote connections.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399089.patch"; #Q_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
