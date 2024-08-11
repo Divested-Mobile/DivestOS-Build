@@ -1,4 +1,4 @@
-From 4f7911704b5e53dd50ef736de84205f17827b975 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Kiran S <krns@google.com>
 Date: Mon, 13 May 2024 05:49:06 +0000
 Subject: [PATCH] Restrict USB poups while setup is in progress
@@ -14,7 +14,7 @@ Change-Id: I7d54534696fd73f3b94c5b4250142eed9341c5d8
  1 file changed, 21 insertions(+)
 
 diff --git a/services/usb/java/com/android/server/usb/UsbSettingsManager.java b/services/usb/java/com/android/server/usb/UsbSettingsManager.java
-index de9ede397c130..195360df7dbfb 100644
+index de9ede397c13..195360df7dbf 100644
 --- a/services/usb/java/com/android/server/usb/UsbSettingsManager.java
 +++ b/services/usb/java/com/android/server/usb/UsbSettingsManager.java
 @@ -16,6 +16,8 @@
@@ -26,7 +26,7 @@ index de9ede397c130..195360df7dbfb 100644
  import android.app.PendingIntent;
  import android.content.ActivityNotFoundException;
  import android.content.ComponentName;
-@@ -36,6 +38,7 @@
+@@ -36,6 +38,7 @@ import android.os.Binder;
  import android.os.Environment;
  import android.os.Process;
  import android.os.UserHandle;
@@ -34,7 +34,7 @@ index de9ede397c130..195360df7dbfb 100644
  import android.util.AtomicFile;
  import android.util.Log;
  import android.util.Slog;
-@@ -756,10 +759,28 @@ private void resolveActivity(Intent intent, UsbDevice device) {
+@@ -756,10 +759,28 @@ class UsbSettingsManager {
              defaultPackage = mDevicePreferenceMap.get(new DeviceFilter(device));
          }
  

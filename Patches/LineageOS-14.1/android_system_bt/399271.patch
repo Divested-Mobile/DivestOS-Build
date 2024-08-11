@@ -1,7 +1,7 @@
-From 31562d59f523d73b8c92d0327370cac98904992a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 16:43:29 +0000
-Subject: [PATCH] [BACKPORT] Fix heap-buffer overflow in sdp_utils.cc
+Subject: [PATCH] Fix heap-buffer overflow in sdp_utils.cc
 
 Fuzzer identifies a case where sdpu_compare_uuid_with_attr crashes with
 an out of bounds comparison.  Although the bug claims this is due to a
@@ -24,7 +24,7 @@ Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/stack/sdp/sdp_utils.c b/stack/sdp/sdp_utils.c
-index e9df4606893..d1dd94e138c 100644
+index e9df46068..d1dd94e13 100644
 --- a/stack/sdp/sdp_utils.c
 +++ b/stack/sdp/sdp_utils.c
 @@ -850,13 +850,20 @@ BOOLEAN sdpu_compare_uuid_with_attr (tBT_UUID *p_btuuid, tSDP_DISC_ATTR *p_attr)

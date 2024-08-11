@@ -40,7 +40,7 @@ commentPatches() {
 
 commentPatches android_kernel_amazon_hdx-common.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_asus_fugu.sh "CVE-2014-2568" "CVE-2014-8559" "CVE-2015-8746" "CVE-2017-5551" "LVT-2017-0003/3.10/0001.patch";
-commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
+commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch" "CVE-2024-40904";
 commentPatches android_kernel_asus_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
 commentPatches android_kernel_asus_msm8953.sh "CVE-2017-13162/3.18/0001.patch";
 commentPatches android_kernel_cyanogen_msm8916.sh "CVE-2018-13913/ANY/0001.patch" "CVE-2018-5897" "CVE-2018-9514" "CVE-2018-11266";
@@ -130,7 +130,7 @@ done
 declare -a threeDotTen=("${threeDotFour[@]}" "android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh" "android_kernel_asus_fugu.sh" "android_kernel_asus_msm8916.sh" "android_kernel_htc_flounder.sh" "android_kernel_htc_msm8994.sh" "android_kernel_huawei_angler.sh" "android_kernel_lge_bullhead.sh" "android_kernel_moto_shamu.sh" "android_kernel_motorola_msm8952.sh" "android_kernel_nextbit_msm8992.sh" "android_kernel_oneplus_msm8994.sh" "android_kernel_cyanogen_msm8916.sh" "android_kernel_google_yellowstone.sh" "android_kernel_samsung_apq8084.sh" "android_kernel_motorola_msm8916.sh");
 for script in "${threeDotTen[@]}"
 do
-	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2019-2214/3.18" "CVE-2020-0427/3.18" "CVE-2021-21781/3.18" "CVE-2021-46939/3.18" "CVE-2022-40768/4.4" "CVE-2024-26773";
+	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2019-2214/3.18" "CVE-2020-0427/3.18" "CVE-2021-21781/3.18" "CVE-2021-46939/3.18" "CVE-2022-40768/4.4" "CVE-2024-26773" "CVE-2024-42154";
 done
 
 #3.18

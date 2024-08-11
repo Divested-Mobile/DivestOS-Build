@@ -15,10 +15,10 @@ crashes.
  1 file changed, 3 insertions(+)
 
 diff --git a/services/core/java/com/android/server/appop/AppOpsService.java b/services/core/java/com/android/server/appop/AppOpsService.java
-index 2d26cc53832f..425b36da5ed9 100644
+index 662794c7b4c2..b27769fdd03f 100644
 --- a/services/core/java/com/android/server/appop/AppOpsService.java
 +++ b/services/core/java/com/android/server/appop/AppOpsService.java
-@@ -5231,6 +5231,9 @@ public class AppOpsService extends IAppOpsService.Stub {
+@@ -5252,6 +5252,9 @@ public class AppOpsService extends IAppOpsService.Stub {
                      String lastPkg = null;
                      for (int i=0; i<allOps.size(); i++) {
                          AppOpsManager.PackageOps pkg = allOps.get(i);

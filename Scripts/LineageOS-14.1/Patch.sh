@@ -283,14 +283,13 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/378956.patch"; #n-asb-2024-01 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/385241.patch"; #n-asb-2024-03 Resolve custom printer icon boundary exploit.
 applyPatch "$DOS_PATCHES/android_frameworks_base/385242.patch"; #n-asb-2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/388831.patch"; #n-asb-2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
-applyPatch "$DOS_PATCHES/android_frameworks_base/399075-backport.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
+applyPatch "$DOS_PATCHES/android_frameworks_base/399270.patch"; #Q_asb_2024-06 Added throttle when reporting shortcut usage
 applyPatch "$DOS_PATCHES/android_frameworks_base/393646.patch"; #n-asb-2024-06 Add more checkKeyIntent checks to AccountManagerService.
 applyPatch "$DOS_PATCHES/android_frameworks_base/393647.patch"; #n-asb-2024-06 Adds additional sanitization for Zygote command arguments.
 applyPatch "$DOS_PATCHES/android_frameworks_base/393648.patch"; #n-asb-2024-06 Check hidden API exemptions
 applyPatch "$DOS_PATCHES/android_frameworks_base/393649.patch"; #n-asb-2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/396611.patch"; #n-asb-2024-07 Verify UID of incoming Zygote connections.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399269.patch"; #n-asb-2024-08 Restrict USB poups while setup is in progress
-applyPatch "$DOS_PATCHES/android_frameworks_base/399270.patch"; #n-asb-2024-08 Added throttle when reporting shortcut usage
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
