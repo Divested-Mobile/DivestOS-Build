@@ -1,4 +1,4 @@
-From fdc2deb5be6920d00e8c3fbc84fc0f158a0d3c55 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Makoto Onuki <omakoto@google.com>
 Date: Fri, 11 Oct 2019 20:19:58 -0700
 Subject: [PATCH] Explicitly take flags in createContextAsUser()
@@ -16,7 +16,7 @@ Change-Id: Id2e3d5ffe5887a4916e0872a7e85d62cbb439744
  6 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/api/system-current.txt b/api/system-current.txt
-index 02e348309fff1..c08667a02b4b1 100644
+index 02e348309fff..c08667a02b4b 100644
 --- a/api/system-current.txt
 +++ b/api/system-current.txt
 @@ -1346,7 +1346,7 @@ package android.content {
@@ -29,7 +29,7 @@ index 02e348309fff1..c08667a02b4b1 100644
      method @NonNull public android.content.Context createPackageContextAsUser(@NonNull String, int, @NonNull android.os.UserHandle) throws android.content.pm.PackageManager.NameNotFoundException;
      method @Nullable public abstract java.io.File getPreloadsFileCache();
 diff --git a/api/test-current.txt b/api/test-current.txt
-index 5f53b2a40a49e..29c580da327f0 100644
+index 5f53b2a40a49..29c580da327f 100644
 --- a/api/test-current.txt
 +++ b/api/test-current.txt
 @@ -638,7 +638,7 @@ package android.content {
@@ -42,10 +42,10 @@ index 5f53b2a40a49e..29c580da327f0 100644
      method public abstract android.view.Display getDisplay();
      method public abstract int getDisplayId();
 diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
-index 1f3c3a46792a6..9c46b23d8df87 100644
+index 1f3c3a46792a..9c46b23d8df8 100644
 --- a/core/java/android/app/ContextImpl.java
 +++ b/core/java/android/app/ContextImpl.java
-@@ -2201,9 +2201,9 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+@@ -2201,9 +2201,9 @@ class ContextImpl extends Context {
      }
  
      @Override
@@ -58,10 +58,10 @@ index 1f3c3a46792a6..9c46b23d8df87 100644
              throw new IllegalStateException("Own package not found: package=" + getPackageName());
          }
 diff --git a/core/java/android/content/Context.java b/core/java/android/content/Context.java
-index 713287d26f80c..c161f81835844 100644
+index 713287d26f80..c161f8183584 100644
 --- a/core/java/android/content/Context.java
 +++ b/core/java/android/content/Context.java
-@@ -5216,7 +5216,7 @@ public Context createPackageContextAsUser(
+@@ -5216,7 +5216,7 @@ public abstract class Context {
      @SystemApi
      @TestApi
      @NonNull
@@ -71,10 +71,10 @@ index 713287d26f80c..c161f81835844 100644
              throw new IllegalStateException("createContextAsUser not overridden!");
          }
 diff --git a/core/java/android/content/ContextWrapper.java b/core/java/android/content/ContextWrapper.java
-index f7cd51e7ffbca..7993ea192424b 100644
+index f7cd51e7ffbc..7993ea192424 100644
 --- a/core/java/android/content/ContextWrapper.java
 +++ b/core/java/android/content/ContextWrapper.java
-@@ -885,8 +885,8 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+@@ -885,8 +885,8 @@ public class ContextWrapper extends Context {
  
      /** @hide */
      @Override
@@ -86,10 +86,10 @@ index f7cd51e7ffbca..7993ea192424b 100644
  
      /** @hide */
 diff --git a/test-mock/src/android/test/mock/MockContext.java b/test-mock/src/android/test/mock/MockContext.java
-index fcd4701c76307..5053ceedc7031 100644
+index fcd4701c7630..5053ceedc703 100644
 --- a/test-mock/src/android/test/mock/MockContext.java
 +++ b/test-mock/src/android/test/mock/MockContext.java
-@@ -758,7 +758,7 @@ public Context createPackageContextAsUser(String packageName, int flags, UserHan
+@@ -758,7 +758,7 @@ public class MockContext extends Context {
  
      /** {@hide} */
      @Override

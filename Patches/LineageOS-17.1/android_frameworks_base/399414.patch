@@ -1,4 +1,4 @@
-From db3da396bd7fc0c1a6abc288b3098840742f8d16 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Riddle Hsu <riddlehsu@google.com>
 Date: Tue, 6 Feb 2024 17:19:37 +0800
 Subject: [PATCH] Hide window immediately if itself doesn't run hide animation
@@ -21,10 +21,10 @@ Change-Id: Iafc2b2c2a24d8fc8d147354ef2f0b4afeeb510c5
  2 files changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/wm/WindowState.java b/services/core/java/com/android/server/wm/WindowState.java
-index 18cdc943b8c85..cca14d884cdd8 100644
+index 18cdc943b8c8..cca14d884cdd 100644
 --- a/services/core/java/com/android/server/wm/WindowState.java
 +++ b/services/core/java/com/android/server/wm/WindowState.java
-@@ -2698,8 +2698,10 @@ boolean hideLw(boolean doAnimation, boolean requestAnim) {
+@@ -2698,8 +2698,10 @@ class WindowState extends WindowContainer<WindowState> implements WindowManagerP
              return false;
          }
          if (doAnimation) {
@@ -38,10 +38,10 @@ index 18cdc943b8c85..cca14d884cdd8 100644
              }
          }
 diff --git a/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java b/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
-index 3a8d3b74c08f8..15d0fd90ef774 100644
+index 3a8d3b74c08f..15d0fd90ef77 100644
 --- a/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
 +++ b/services/tests/wmtests/src/com/android/server/wm/WindowStateTests.java
-@@ -213,6 +213,26 @@ public void testIsOnScreen_hiddenByPolicy() {
+@@ -213,6 +213,26 @@ public class WindowStateTests extends WindowTestsBase {
          assertTrue(window.isOnScreen());
          window.hideLw(false /* doAnimation */);
          assertFalse(window.isOnScreen());

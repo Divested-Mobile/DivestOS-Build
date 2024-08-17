@@ -1,4 +1,4 @@
-From 4b0cceb626252107c4e532afee62533e166523e5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yi-an Chen <theianchen@google.com>
 Date: Tue, 20 Feb 2024 04:34:57 +0000
 Subject: [PATCH] Fix error handling for non-dynamic permissions
@@ -18,10 +18,10 @@ Change-Id: I7336f2fc78804f26e4b2a329870ecdea776595d8
  1 file changed, 1 insertion(+)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 2fcdec7c92d67..ed551795aad58 100644
+index 2fcdec7c92d6..ed551795aad5 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -1015,6 +1015,7 @@ private void removeDynamicPermission(
+@@ -1015,6 +1015,7 @@ public class PermissionManagerService {
                  // TODO: switch this back to SecurityException
                  Slog.wtf(TAG, "Not allowed to modify non-dynamic permission "
                          + permName);

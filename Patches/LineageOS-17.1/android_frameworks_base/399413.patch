@@ -1,7 +1,7 @@
-From 5c4218a6ed99e78a1c1b34fbecda7a9b4457f655 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Guojing Yuan <guojing@google.com>
 Date: Thu, 14 Dec 2023 19:30:04 +0000
-Subject: [PATCH] [BACKPORT] Check permissions for CDM shell commands
+Subject: [PATCH] Check permissions for CDM shell commands
 
 Override handleShellCommand instead of onShellCommand because
 Binder.onShellCommand checks the necessary permissions of the caller.
@@ -23,10 +23,10 @@ Change-Id: I5539b3594feb5544c458c0fd1061b51a0a808900
  1 file changed, 5 insertions(+)
 
 diff --git a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
-index 73b8ff7067ef9..4377ee6145d8f 100644
+index 73b8ff7067ef..4377ee6145d8 100644
 --- a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
 +++ b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
-@@ -366,6 +366,11 @@ private void checkUsesFeature(String pkg, int userId) {
+@@ -366,6 +366,11 @@ public class CompanionDeviceManagerService extends SystemService implements Bind
          public void onShellCommand(FileDescriptor in, FileDescriptor out, FileDescriptor err,
                  String[] args, ShellCallback callback, ResultReceiver resultReceiver)
                  throws RemoteException {

@@ -1,4 +1,4 @@
-From a76b0a0c26bc16a98840757e9c999a10101c565a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Julia Reynolds <juliacr@google.com>
 Date: Mon, 13 Apr 2020 11:03:44 -0400
 Subject: [PATCH] Add StatusBarNotification::getNormalizedUserId
@@ -13,10 +13,10 @@ Change-Id: Ife602cee53c303dd3f841004d8ffc84b38c7677b
  1 file changed, 12 insertions(+)
 
 diff --git a/core/java/android/service/notification/StatusBarNotification.java b/core/java/android/service/notification/StatusBarNotification.java
-index 905c7811e4573..39395074b9165 100644
+index 905c7811e457..39395074b916 100644
 --- a/core/java/android/service/notification/StatusBarNotification.java
 +++ b/core/java/android/service/notification/StatusBarNotification.java
-@@ -273,6 +273,18 @@ public int getUserId() {
+@@ -273,6 +273,18 @@ public class StatusBarNotification implements Parcelable {
          return this.user.getIdentifier();
      }
  

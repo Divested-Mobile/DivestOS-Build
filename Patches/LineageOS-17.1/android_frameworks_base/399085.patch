@@ -1,4 +1,4 @@
-From f0d3e98bb01f4caf292539e98cdf174dacb92444 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Mat=C3=ADas=20Hern=C3=A1ndez?= <matiashe@google.com>
 Date: Fri, 22 Mar 2024 14:26:23 +0100
 Subject: [PATCH] Resolve message/conversation image Uris with the correct user
@@ -17,10 +17,10 @@ Change-Id: I11c5b39f2d9d8f0788acab43640a6d4abcd5a179
  4 files changed, 68 insertions(+), 3 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
-index 37f7802909357..2004db5005a63 100644
+index 37f780290935..2004db5005a6 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
-@@ -44,6 +44,7 @@
+@@ -44,6 +44,7 @@ import android.os.AsyncTask;
  import android.os.Build;
  import android.os.Bundle;
  import android.os.SystemClock;
@@ -28,7 +28,7 @@ index 37f7802909357..2004db5005a63 100644
  import android.service.notification.StatusBarNotification;
  import android.util.ArraySet;
  import android.util.AttributeSet;
-@@ -446,6 +447,8 @@ private void setIconRunning(ImageView imageView, boolean running) {
+@@ -446,6 +447,8 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
      public void setEntry(@NonNull NotificationEntry entry) {
          mEntry = entry;
          mStatusBarNotification = entry.notification;
@@ -37,7 +37,7 @@ index 37f7802909357..2004db5005a63 100644
          cacheIsSystemNotification();
      }
  
-@@ -1640,8 +1643,6 @@ public ExpandableNotificationRow(Context context, AttributeSet attrs) {
+@@ -1640,8 +1643,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
          mFalsingManager = Dependency.get(FalsingManager.class);  // TODO: inject into a controller.
          mNotificationInflater = new NotificationContentInflater(this);
          mMenuRow = new NotificationMenuRow(mContext);
@@ -46,7 +46,7 @@ index 37f7802909357..2004db5005a63 100644
          mMediaManager = Dependency.get(NotificationMediaManager.class);
          initDimens();
      }
-@@ -1654,6 +1655,14 @@ public void setStatusBarStateController(StatusBarStateController statusBarStateC
+@@ -1654,6 +1655,14 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
          mStatusbarStateController = statusBarStateController;
      }
  
@@ -62,10 +62,10 @@ index 37f7802909357..2004db5005a63 100644
          mNotificationMinHeightBeforeN = NotificationUtils.getFontScaledHeight(mContext,
                  R.dimen.notification_min_height_legacy);
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
-index 466be072afdb3..885b28aebc897 100644
+index 466be072afdb..885b28aebc89 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
-@@ -26,6 +26,7 @@
+@@ -26,6 +26,7 @@ import android.os.Parcelable;
  import android.os.SystemClock;
  import android.util.Log;
  
@@ -82,7 +82,7 @@ index 466be072afdb3..885b28aebc897 100644
          mImageCache = imageCache;
  
          if (mImageCache != null) {
-@@ -62,6 +63,11 @@ public NotificationInlineImageResolver(Context context, ImageCache imageCache) {
+@@ -62,6 +63,11 @@ public class NotificationInlineImageResolver implements ImageResolver {
          }
      }
  
@@ -95,7 +95,7 @@ index 466be072afdb3..885b28aebc897 100644
       * Check if this resolver has its internal cache implementation.
       * @return True if has its internal cache, false otherwise.
 diff --git a/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java b/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
-index f792d7d11e157..6324569411ed3 100644
+index f792d7d11e15..6324569411ed 100644
 --- a/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
 +++ b/packages/SystemUI/tests/src/com/android/systemui/SysuiTestableContext.java
 @@ -14,15 +14,20 @@
@@ -119,7 +119,7 @@ index f792d7d11e157..6324569411ed3 100644
  
      public SysuiTestableContext(Context base) {
          super(base);
-@@ -59,4 +64,22 @@ public Context createDisplayContext(Display display) {
+@@ -59,4 +64,22 @@ public class SysuiTestableContext extends TestableContext implements SysUiServic
                  new SysuiTestableContext(getBaseContext().createDisplayContext(display));
          return context;
      }
@@ -143,10 +143,10 @@ index f792d7d11e157..6324569411ed3 100644
 +    }
  }
 diff --git a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
-index d526d104630eb..c9b29fe7e4903 100644
+index d526d104630e..c9b29fe7e490 100644
 --- a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
 +++ b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowTest.java
-@@ -21,6 +21,10 @@
+@@ -21,6 +21,10 @@ import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
  import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_ALL;
  import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_HEADS_UP;
  import static com.android.systemui.statusbar.notification.row.NotificationContentInflater.FLAG_CONTENT_VIEW_PUBLIC;
@@ -157,7 +157,7 @@ index d526d104630eb..c9b29fe7e4903 100644
  
  import static org.junit.Assert.assertEquals;
  import static org.junit.Assert.assertFalse;
-@@ -38,6 +42,8 @@
+@@ -38,6 +42,8 @@ import static org.mockito.Mockito.when;
  
  import android.app.AppOpsManager;
  import android.app.NotificationChannel;
@@ -166,7 +166,7 @@ index d526d104630eb..c9b29fe7e4903 100644
  import android.testing.AndroidTestingRunner;
  import android.testing.TestableLooper;
  import android.testing.TestableLooper.RunWithLooper;
-@@ -48,6 +54,7 @@
+@@ -48,6 +54,7 @@ import android.view.View;
  import androidx.test.filters.SmallTest;
  
  import com.android.systemui.SysuiTestCase;
@@ -174,7 +174,7 @@ index d526d104630eb..c9b29fe7e4903 100644
  import com.android.systemui.plugins.statusbar.NotificationMenuRowPlugin;
  import com.android.systemui.plugins.statusbar.StatusBarStateController;
  import com.android.systemui.statusbar.NotificationTestHelper;
-@@ -377,4 +384,24 @@ public void testGetIsNonblockable_criticalDeviceFunction() throws Exception {
+@@ -377,4 +384,24 @@ public class ExpandableNotificationRowTest extends SysuiTestCase {
  
          assertTrue(row.getIsNonblockable());
      }

@@ -1,4 +1,4 @@
-From a8d8d9bb68570d395ddb20449ee466e2b468840c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Pinyao Ting <pinyaoting@google.com>
 Date: Tue, 20 Jul 2021 00:01:29 +0000
 Subject: [PATCH] Prevend user spoofing in isRequestPinItemSupported
@@ -19,10 +19,10 @@ Change-Id: Icab7cdf25b870b88ecfde9b99e107bbeda0eb485
  1 file changed, 15 insertions(+)
 
 diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
-index c18cdcb891409..f4c8127439181 100644
+index c18cdcb89140..f4c812743918 100644
 --- a/services/core/java/com/android/server/pm/ShortcutService.java
 +++ b/services/core/java/com/android/server/pm/ShortcutService.java
-@@ -1566,6 +1566,19 @@ void injectEnforceCallingPermission(
+@@ -1566,6 +1566,19 @@ public class ShortcutService extends IShortcutService.Stub {
          mContext.enforceCallingPermission(permission, message);
      }
  
@@ -42,7 +42,7 @@ index c18cdcb891409..f4c8127439181 100644
      private void verifyCaller(@NonNull String packageName, @UserIdInt int userId) {
          Preconditions.checkStringNotEmpty(packageName, "packageName");
  
-@@ -2303,6 +2316,8 @@ public void reportShortcutUsed(String packageName, String shortcutId, int userId
+@@ -2303,6 +2316,8 @@ public class ShortcutService extends IShortcutService.Stub {
  
      @Override
      public boolean isRequestPinItemSupported(int callingUserId, int requestType) {

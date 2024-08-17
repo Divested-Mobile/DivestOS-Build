@@ -1,4 +1,4 @@
-From 1c72baf0b3f59b8e43e96202e90cb19e2c0a635b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 21:14:56 +0000
 Subject: [PATCH] Fix an authentication bypass bug in SMP

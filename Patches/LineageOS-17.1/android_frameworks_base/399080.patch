@@ -1,15 +1,13 @@
-From 25baa1489699bb620c2ef8e4d78a265b85132c87 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Haoran Zhang <haoranzhang@google.com>
 Date: Wed, 13 Mar 2024 17:08:00 +0000
-Subject: [PATCH] [DO NOT MERGE][Autofill Framework] Add in check for intent
- filter when setting/updating service
+Subject: [PATCH] Add in check for intent filter when setting/updating service
 
 For test, I registered two tests around on ABTD. CtsAutoFillServiceTestCases module is passing except three known failures:
 
 Test run link:
 - https://android-build.corp.google.com/builds/abtd/run/L33300030002610600
 - https://android-build.corp.google.com/builds/abtd/run/L58100030002616607
-
 
 Bug: b/324874908
 Test: atest CtsAutoFillServiceTestCases
@@ -22,10 +20,10 @@ Change-Id: I51c2e3788ac29ff4d6b86aa2a735ff2ea1463a77
  1 file changed, 27 insertions(+)
 
 diff --git a/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java b/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
-index 1bd5201f5b266..58a1064682d35 100644
+index 1bd5201f5b26..58a1064682d3 100644
 --- a/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
 +++ b/services/autofill/java/com/android/server/autofill/AutofillManagerServiceImpl.java
-@@ -32,8 +32,10 @@
+@@ -32,8 +32,10 @@ import android.app.ActivityManagerInternal;
  import android.app.ActivityTaskManager;
  import android.app.IActivityTaskManager;
  import android.content.ComponentName;
@@ -36,7 +34,7 @@ index 1bd5201f5b266..58a1064682d35 100644
  import android.content.pm.ServiceInfo;
  import android.graphics.Rect;
  import android.metrics.LogMaker;
-@@ -214,6 +216,31 @@ protected boolean updateLocked(boolean disabled) {
+@@ -214,6 +216,31 @@ final class AutofillManagerServiceImpl
      @Override // from PerUserSystemService
      protected ServiceInfo newServiceInfoLocked(@NonNull ComponentName serviceComponent)
              throws NameNotFoundException {

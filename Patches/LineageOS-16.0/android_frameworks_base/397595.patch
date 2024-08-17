@@ -1,4 +1,4 @@
-From 3ddd68bfd55611e77af5024b7c917f068689f34a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yi-an Chen <theianchen@google.com>
 Date: Tue, 23 Apr 2024 21:53:02 +0000
 Subject: [PATCH] Fix security vulnerability of non-dynamic permission removal
@@ -23,10 +23,10 @@ Change-Id: Id573b75cdcfce3a1df5731ffb00c4228c513e686
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index b902001cd359b..91f24d7295a9b 100644
+index b902001cd359..91f24d7295a9 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -758,7 +758,7 @@ private void removeDynamicPermission(
+@@ -758,7 +758,7 @@ public class PermissionManagerService {
              if (bp == null) {
                  return;
              }

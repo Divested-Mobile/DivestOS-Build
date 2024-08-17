@@ -1,4 +1,4 @@
-From 44e273a1121b21cde1d53cd9c86bdd813c9d259f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 21:14:56 +0000
 Subject: [PATCH] Fix an authentication bypass bug in SMP
@@ -20,7 +20,7 @@ Change-Id: I66b1f9a80060f48a604001829db8ea7c96c7b7f8
  2 files changed, 13 insertions(+)
 
 diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
-index c1f143e925e..199c5abb37b 100644
+index c1f143e92..199c5abb3 100644
 --- a/stack/smp/smp_act.cc
 +++ b/stack/smp/smp_act.cc
 @@ -284,6 +284,7 @@ void smp_send_pair_rsp(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
@@ -50,7 +50,7 @@ index c1f143e925e..199c5abb37b 100644
    STREAM_TO_ARRAY(p_cb->rrand.data(), p, OCTET16_LEN);
  }
 diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
-index 72fdf55a963..e3063c57d2f 100644
+index 72fdf55a9..e3063c57d 100644
 --- a/stack/smp/smp_int.h
 +++ b/stack/smp/smp_int.h
 @@ -241,6 +241,7 @@ typedef union {
