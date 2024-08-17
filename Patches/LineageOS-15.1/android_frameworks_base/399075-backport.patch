@@ -15,7 +15,7 @@ Change-Id: I96370cbd4f6a55f894c1a93307e5f82dfd394652
  3 files changed, 41 insertions(+), 8 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/ShortcutPackage.java b/services/core/java/com/android/server/pm/ShortcutPackage.java
-index a0fd43640e61..8dc3005ae81a 100644
+index 0af59c73b6d7..6484ebee8cd8 100644
 --- a/services/core/java/com/android/server/pm/ShortcutPackage.java
 +++ b/services/core/java/com/android/server/pm/ShortcutPackage.java
 @@ -19,17 +19,20 @@ import android.annotation.NonNull;
@@ -93,7 +93,7 @@ index a0fd43640e61..8dc3005ae81a 100644
          pw.println();
  
 diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
-index 83b817559c2a..d9e80fb1d0ad 100644
+index 7acb99c8270a..08aeef2b1b99 100644
 --- a/services/core/java/com/android/server/pm/ShortcutService.java
 +++ b/services/core/java/com/android/server/pm/ShortcutService.java
 @@ -302,7 +302,7 @@ public class ShortcutService extends IShortcutService.Stub {
@@ -105,7 +105,7 @@ index 83b817559c2a..d9e80fb1d0ad 100644
  
      private final IPackageManager mIPackageManager;
      private final PackageManagerInternal mPackageManagerInternal;
-@@ -2130,10 +2130,11 @@ public class ShortcutService extends IShortcutService.Stub {
+@@ -2134,10 +2134,11 @@ public class ShortcutService extends IShortcutService.Stub {
                      shortcutId, packageName, userId));
          }
  
@@ -118,7 +118,7 @@ index 83b817559c2a..d9e80fb1d0ad 100644
  
              if (ps.findShortcutById(shortcutId) == null) {
                  Log.w(TAG, String.format("reportShortcutUsed: package %s doesn't have shortcut %s",
-@@ -2142,12 +2143,7 @@ public class ShortcutService extends IShortcutService.Stub {
+@@ -2146,12 +2147,7 @@ public class ShortcutService extends IShortcutService.Stub {
              }
          }
  
@@ -133,10 +133,10 @@ index 83b817559c2a..d9e80fb1d0ad 100644
  
      @Override
 diff --git a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-index 3220ea960f5d..48493df71dce 100644
+index 30c82350f45c..3372e9c6b664 100644
 --- a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
 +++ b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-@@ -1867,6 +1867,8 @@ public class ShortcutManagerTest2 extends BaseShortcutManagerTest {
+@@ -1877,6 +1877,8 @@ public class ShortcutManagerTest2 extends BaseShortcutManagerTest {
  
      public void testReportShortcutUsed() {
          mRunningUsers.put(USER_10, true);

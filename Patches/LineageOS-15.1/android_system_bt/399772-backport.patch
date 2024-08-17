@@ -36,16 +36,16 @@ index e126e7cdd..58d1065a9 100644
 -  else if (p_btuuid->len == 4)
 -    return (bool)(p_btuuid->uu.uuid32 == p_attr->attr_value.v.u32);
 -  else if (!memcmp(p_btuuid->uu.uuid128, (void*)p_attr->attr_value.v.array,
-+  if (len == 2) {
-+    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == Uuid::kNumBytes16) {
++  if (p_btuuid->len == 2) {
++    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == 2) {
 +      return (bool)(p_btuuid->uu.uuid16 == p_attr->attr_value.v.u16);
 +    } else {
 +      LOG(ERROR) << "invalid length for discovery attribute";
 +      return (false);
 +    }
 +  }
-+  if (len == 4) {
-+    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == Uuid::kNumBytes32) {
++  if (p_btuuid->len == 4) {
++    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == 4) {
 +      return (bool)(p_btuuid->uu.uuid32 == p_attr->attr_value.v.u32);
 +    } else {
 +      LOG(ERROR) << "invalid length for discovery attribute";
@@ -53,7 +53,7 @@ index e126e7cdd..58d1065a9 100644
 +    }
 +  }
 +
-+  if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) != Uuid::kNumBytes128) {
++  if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) != 16) {
 +    LOG(ERROR) << "invalid length for discovery attribute";
 +    return (false);
 +  }

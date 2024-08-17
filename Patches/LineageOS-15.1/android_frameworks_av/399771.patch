@@ -1,4 +1,4 @@
-From 27b0b9e4ea4019f315bdb424a36b3182708de29f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Rakesh Kumar <rakesh.kumar@ittiam.com>
 Date: Thu, 30 May 2024 11:17:48 +0000
 Subject: [PATCH] StagefrightRecoder: Disabling B-frame support
@@ -21,10 +21,10 @@ Change-Id: I4098655eb9687fb633085333bc140634441566e6
  1 file changed, 5 insertions(+)
 
 diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
-index dfc4a2a5a9f..c81643e534d 100644
+index c58dcb9b08..641f98b9b9 100644
 --- a/media/libmediaplayerservice/StagefrightRecorder.cpp
 +++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
-@@ -1759,6 +1759,11 @@ status_t StagefrightRecorder::setupVideoEncoder(
+@@ -1725,6 +1725,11 @@ status_t StagefrightRecorder::setupVideoEncoder(
  
      if (tsLayers > 1) {
          uint32_t bLayers = std::min(2u, tsLayers - 1); // use up-to 2 B-layers
