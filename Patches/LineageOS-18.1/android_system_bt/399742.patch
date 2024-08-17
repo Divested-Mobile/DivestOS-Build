@@ -1,4 +1,4 @@
-From 2c0deba7d780ae11d16fc675fc6aa9abba344fd7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 16:43:29 +0000
 Subject: [PATCH] Fix heap-buffer overflow in sdp_utils.cc
@@ -24,7 +24,7 @@ Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
  1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/stack/sdp/sdp_utils.cc b/stack/sdp/sdp_utils.cc
-index f8cde2c34c5..9581dc72a77 100644
+index f8cde2c34..9581dc72a 100644
 --- a/stack/sdp/sdp_utils.cc
 +++ b/stack/sdp/sdp_utils.cc
 @@ -949,8 +949,28 @@ bool sdpu_compare_uuid_arrays(uint8_t* p_uuid1, uint32_t len1, uint8_t* p_uuid2,

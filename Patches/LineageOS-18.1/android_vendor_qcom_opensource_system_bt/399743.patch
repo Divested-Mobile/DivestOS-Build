@@ -1,4 +1,4 @@
-From f33554bf3b2998d04a78d19c46d9db26f2d27478 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 16:43:29 +0000
 Subject: [PATCH] Fix heap-buffer overflow in sdp_utils.cc

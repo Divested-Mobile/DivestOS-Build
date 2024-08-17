@@ -1,4 +1,4 @@
-From c68f62f62fc3ffe077098e45f26ffa2fb3300d6c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Rakesh Kumar <rakesh.kumar@ittiam.com>
 Date: Thu, 30 May 2024 11:17:48 +0000
 Subject: [PATCH] StagefrightRecoder: Disabling B-frame support
@@ -21,7 +21,7 @@ Change-Id: I4098655eb9687fb633085333bc140634441566e6
  1 file changed, 5 insertions(+)
 
 diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
-index a7344de402b..c66def491b9 100644
+index a7344de402..c66def491b 100644
 --- a/media/libmediaplayerservice/StagefrightRecorder.cpp
 +++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
 @@ -1843,6 +1843,11 @@ status_t StagefrightRecorder::setupVideoEncoder(

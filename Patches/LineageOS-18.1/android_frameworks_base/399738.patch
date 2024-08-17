@@ -1,4 +1,4 @@
-From d532c7c42dbb9298ac64d7f38d56214af754a336 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Nan Wu <wnan@google.com>
 Date: Tue, 30 Apr 2024 17:20:29 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Backport preventing BAL bypass via bound
@@ -20,10 +20,10 @@ Change-Id: Ib113e45aa18296b4475b90d6dcec5dd5664f4c80
  4 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/apex/jobscheduler/service/java/com/android/server/job/JobServiceContext.java b/apex/jobscheduler/service/java/com/android/server/job/JobServiceContext.java
-index 565ed959aeb4d..51ffc7f9379c7 100644
+index 565ed959aeb4..51ffc7f9379c 100644
 --- a/apex/jobscheduler/service/java/com/android/server/job/JobServiceContext.java
 +++ b/apex/jobscheduler/service/java/com/android/server/job/JobServiceContext.java
-@@ -252,7 +252,7 @@ boolean executeRunnableJob(JobStatus job) {
+@@ -252,7 +252,7 @@ public final class JobServiceContext implements ServiceConnection {
              try {
                  binding = mContext.bindServiceAsUser(intent, this,
                          Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND
@@ -33,7 +33,7 @@ index 565ed959aeb4d..51ffc7f9379c7 100644
              } catch (SecurityException e) {
                  // Some permission policy, for example INTERACT_ACROSS_USERS and
 diff --git a/services/core/java/com/android/server/content/SyncManager.java b/services/core/java/com/android/server/content/SyncManager.java
-index ec12a971e445a..7ce6104262373 100644
+index ec12a971e445..7ce610426237 100644
 --- a/services/core/java/com/android/server/content/SyncManager.java
 +++ b/services/core/java/com/android/server/content/SyncManager.java
 @@ -221,7 +221,8 @@ public class SyncManager {
@@ -47,10 +47,10 @@ index ec12a971e445a..7ce6104262373 100644
      /** Singleton instance. */
      @GuardedBy("SyncManager.class")
 diff --git a/services/core/java/com/android/server/media/MediaRoute2ProviderServiceProxy.java b/services/core/java/com/android/server/media/MediaRoute2ProviderServiceProxy.java
-index ab38dca2387d8..66502179ba895 100644
+index ab38dca2387d..66502179ba89 100644
 --- a/services/core/java/com/android/server/media/MediaRoute2ProviderServiceProxy.java
 +++ b/services/core/java/com/android/server/media/MediaRoute2ProviderServiceProxy.java
-@@ -224,7 +224,8 @@ private void bind() {
+@@ -224,7 +224,8 @@ final class MediaRoute2ProviderServiceProxy extends MediaRoute2Provider
              service.setComponent(mComponentName);
              try {
                  mBound = mContext.bindServiceAsUser(service, this,
@@ -61,10 +61,10 @@ index ab38dca2387d8..66502179ba895 100644
                  if (!mBound && DEBUG) {
                      Slog.d(TAG, this + ": Bind failed");
 diff --git a/services/print/java/com/android/server/print/RemotePrintService.java b/services/print/java/com/android/server/print/RemotePrintService.java
-index 502cd2c60f4aa..702ddbb9f912a 100644
+index 502cd2c60f4a..702ddbb9f912 100644
 --- a/services/print/java/com/android/server/print/RemotePrintService.java
 +++ b/services/print/java/com/android/server/print/RemotePrintService.java
-@@ -572,7 +572,8 @@ private void ensureBound() {
+@@ -572,7 +572,8 @@ final class RemotePrintService implements DeathRecipient {
  
          boolean wasBound = mContext.bindServiceAsUser(mIntent, mServiceConnection,
                  Context.BIND_AUTO_CREATE | Context.BIND_FOREGROUND_SERVICE
