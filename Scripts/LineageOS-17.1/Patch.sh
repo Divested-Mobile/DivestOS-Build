@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2024-07
+sed -i 's/2023-02-05/2024-08-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-08
 fi;
 
 if enterAndClear "build/soong"; then
@@ -193,6 +193,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/383255.patch"; #Q_asb_2024-02 Upd
 applyPatch "$DOS_PATCHES/android_frameworks_av/391906.patch"; #Q_asb_2024-03 Validate OMX Params for VPx encoders
 applyPatch "$DOS_PATCHES/android_frameworks_av/391907.patch"; #Q_asb_2024-03 SoftVideoDecodeOMXComponent: validate OMX params for dynamic HDR
 applyPatch "$DOS_PATCHES/android_frameworks_av/391908.patch"; #Q_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
+applyPatch "$DOS_PATCHES/android_frameworks_av/399741.patch"; #R_asb_2024-08 StagefrightRecoder: Disabling B-frame support
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -313,6 +314,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399086.patch"; #Q_asb_2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/399413.patch"; #Q_asb_2024-06 Check permissions for CDM shell commands
 applyPatch "$DOS_PATCHES/android_frameworks_base/399088.patch"; #Q_asb_2024-07 Verify UID of incoming Zygote connections.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399089.patch"; #Q_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
+applyPatch "$DOS_PATCHES/android_frameworks_base/399739.patch"; #R_asb_2024-08 Restrict USB poups while setup is in progress
+applyPatch "$DOS_PATCHES/android_frameworks_base/399740.patch"; #R_asb_2024-08 Hide SAW subwindows
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -637,6 +640,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/391914.patch"; #Q_asb_2024-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/391915.patch"; #Q_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/391916.patch"; #Q_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/399092.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/399742.patch"; #R_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -749,6 +753,7 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391917.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391918.patch"; #Q_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391919.patch"; #Q_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399091.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399743.patch"; #R_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
 fi;
 
 if enterAndClear "vendor/lineage"; then
