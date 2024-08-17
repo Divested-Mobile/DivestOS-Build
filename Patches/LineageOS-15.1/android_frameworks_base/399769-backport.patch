@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kiran S <krns@google.com>
+Date: Mon, 13 May 2024 05:49:06 +0000
+Subject: [PATCH] Restrict USB poups while setup is in progress
+
+Test: Cherry pick of http://ag/27094197
+Bug: 294105066
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2ce2e54a040342373e401f9c2e70035ede4e63ad)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ec96cc3e3a81d21f2249db381c10638bb307cf39)
+Merged-In: I7d54534696fd73f3b94c5b4250142eed9341c5d8
+Change-Id: I7d54534696fd73f3b94c5b4250142eed9341c5d8
+---
+ .../usb/UsbProfileGroupSettingsManager.java   | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java b/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
+index ebb5a62ce7ec..ab4a999df11e 100644
+--- a/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
++++ b/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.server.usb;
+ 
++import static android.provider.Settings.Secure.USER_SETUP_COMPLETE;
++
+ import static com.android.internal.app.IntentForwarderActivity.FORWARD_INTENT_TO_MANAGED_PROFILE;
+ 
+ import android.annotation.NonNull;
+@@ -40,6 +42,7 @@ import android.os.AsyncTask;
+ import android.os.Environment;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.provider.Settings;
+ import android.util.AtomicFile;
+ import android.util.Log;
+ import android.util.Slog;
+@@ -1060,10 +1063,28 @@ class UsbProfileGroupSettingsManager {
+             return;
+         }
+ 
++        if (shouldRestrictOverlayActivities()) {
++            return;
++        }
++
+         // Start activity with registered intent
+         resolveActivity(intent, matches, defaultActivity, device, null);
+     }
+ 
++    private boolean shouldRestrictOverlayActivities() {
++        if (Settings.Secure.getIntForUser(
++                mContext.getContentResolver(),
++                USER_SETUP_COMPLETE,
++                /* defaultValue= */ 1,
++                UserHandle.CURRENT.getIdentifier())
++                == 0) {
++            Slog.d(TAG, "restricting usb overlay activities as setup is not complete");
++            return true;
++        }
++
++        return false;
++    }
++
+     public void deviceAttachedForFixedHandler(UsbDevice device, ComponentName component) {
+         final Intent intent = createDeviceAttachedIntent(device);
+ 

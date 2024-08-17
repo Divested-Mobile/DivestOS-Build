@@ -1,0 +1,33 @@
+From fe760134bfa7c0950b3474a3e5abfa0a3b7e53a7 Mon Sep 17 00:00:00 2001
+From: Linus Tufvesson <lus@google.com>
+Date: Mon, 29 Apr 2024 16:32:15 +0200
+Subject: [PATCH] Hide SAW subwindows
+
+.. when top window is hidden through Window#setHideOverlayWindows
+
+Bug: 318683640
+Test: atest CtsWindowManagerDeviceWindow:HideOverlayWindowsTest
+Flag: EXEMPT securityfix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c37bc9147086f497ac7b1595083836014f524d5f)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:89bc634cb534b8e0ffd798ac9f9f89ac1be0f785)
+Merged-In: If19240f5aec2e048de80d75cbbdc00be47622d7f
+Change-Id: If19240f5aec2e048de80d75cbbdc00be47622d7f
+---
+ services/core/java/com/android/server/wm/WindowState.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/wm/WindowState.java b/services/core/java/com/android/server/wm/WindowState.java
+index 087bd6a80c73d..74b2ef791ade6 100644
+--- a/services/core/java/com/android/server/wm/WindowState.java
++++ b/services/core/java/com/android/server/wm/WindowState.java
+@@ -2635,8 +2635,9 @@ boolean hideLw(boolean doAnimation, boolean requestAnim) {
+     }
+ 
+     void setForceHideNonSystemOverlayWindowIfNeeded(boolean forceHide) {
++        final int baseType = getBaseType();
+         if (mOwnerCanAddInternalSystemWindow
+-                || (!isSystemAlertWindowType(mAttrs.type) && mAttrs.type != TYPE_TOAST)) {
++                || (!isSystemAlertWindowType(baseType) && baseType != TYPE_TOAST)) {
+             return;
+         }
+         if (mForceHideNonSystemOverlayWindow == forceHide) {

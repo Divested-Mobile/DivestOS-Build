@@ -76,7 +76,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-07-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-08-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -171,6 +171,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/381886.patch"; #R_asb_2024-02 Update mtp packet buffer
 applyPatch "$DOS_PATCHES/android_frameworks_av/385670.patch"; #P_asb_2024-03 Validate OMX Params for VPx encoders
 applyPatch "$DOS_PATCHES/android_frameworks_av/385671.patch"; #P_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
+applyPatch "$DOS_PATCHES/android_frameworks_av/399771.patch"; #P_asb_2024-08 StagefrightRecoder: Disabling B-frame support
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -266,6 +267,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/394880.patch"; #P_asb_2024-06 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/394881-backport.patch"; #P_asb_2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/394882.patch"; #P_asb_2024-06 Check permissions for CDM shell commands
 applyPatch "$DOS_PATCHES/android_frameworks_base/397594.patch"; #P_asb_2024-07 Verify UID of incoming Zygote connections.
+applyPatch "$DOS_PATCHES/android_frameworks_base/399769-backport.patch"; #P_asb_2024-08 Restrict USB poups while setup is in progress
+applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -543,6 +546,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/381895.patch"; #R_asb_2024-02 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/385677.patch"; #P_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/385678.patch"; #P_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an authentication bypass bug in SMP
+applyPatch "$DOS_PATCHES/android_system_bt/399772-backport.patch"; #P_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc #XXX
 fi;
 
 if enterAndClear "system/ca-certificates"; then
