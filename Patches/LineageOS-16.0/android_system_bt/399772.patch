@@ -1,0 +1,60 @@
+From fdfd1f7d72871cef5f98eb6df11de7d677db6264 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Mon, 22 Apr 2024 16:43:29 +0000
+Subject: [PATCH] Fix heap-buffer overflow in sdp_utils.cc
+
+Fuzzer identifies a case where sdpu_compare_uuid_with_attr crashes with
+an out of bounds comparison.  Although the bug claims this is due to a
+comparison of a uuid with a smaller data field thana the discovery
+attribute, my research suggests that this instead stems from a
+comparison of a 128 bit UUID with a discovery attribute of some other,
+invalid size.
+
+Add checks for discovery attribute size.
+
+Bug: 287184435
+Test: atest bluetooth_test_gd_unit, net_test_stack_sdp
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:99210e2f251e2189c1eede15942c832e017404c2)
+Merged-In: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
+Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
+---
+ stack/sdp/sdp_utils.cc | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/stack/sdp/sdp_utils.cc b/stack/sdp/sdp_utils.cc
+index c2c6b2763a9..a8ff41cae92 100644
+--- a/stack/sdp/sdp_utils.cc
++++ b/stack/sdp/sdp_utils.cc
+@@ -702,8 +702,28 @@ bool sdpu_compare_uuid_arrays(uint8_t* p_uuid1, uint32_t len1, uint8_t* p_uuid2,
+  ******************************************************************************/
+ bool sdpu_compare_uuid_with_attr(const Uuid& uuid, tSDP_DISC_ATTR* p_attr) {
+   int len = uuid.GetShortestRepresentationSize();
+-  if (len == 2) return uuid.As16Bit() == p_attr->attr_value.v.u16;
+-  if (len == 4) return uuid.As32Bit() == p_attr->attr_value.v.u32;
++  if (len == 2) {
++    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == Uuid::kNumBytes16) {
++      return uuid.As16Bit() == p_attr->attr_value.v.u16;
++    } else {
++      LOG(ERROR) << "invalid length for discovery attribute";
++      return (false);
++    }
++  }
++  if (len == 4) {
++    if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) == Uuid::kNumBytes32) {
++      return uuid.As32Bit() == p_attr->attr_value.v.u32;
++    } else {
++      LOG(ERROR) << "invalid length for discovery attribute";
++      return (false);
++    }
++  }
++
++  if (SDP_DISC_ATTR_LEN(p_attr->attr_len_type) != Uuid::kNumBytes128) {
++    LOG(ERROR) << "invalid length for discovery attribute";
++    return (false);
++  }
++
+   if (memcmp(uuid.To128BitBE().data(), (void*)p_attr->attr_value.v.array,
+              Uuid::kNumBytes128) == 0)
+     return (true);
