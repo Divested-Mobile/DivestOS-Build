@@ -153,14 +153,14 @@ done
 declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_samsung_exynos9810.sh" "android_kernel_samsung_universal9810.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_xiaomi_sdm845.sh");
 for script in "${fourDotNine[@]}"
 do
-	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14" "CVE-2023-0461/4.14" "CVE-2023-31084" "CVE-2023-4623/^6.5" "CVE-2024-0775/4.14" "CVE-2023-52435/^6.7" "CVE-2024-26763/4.19" "CVE-2024-42106";
+	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14" "CVE-2023-0461/4.14" "CVE-2023-31084" "CVE-2023-4623/^6.5" "CVE-2024-0775/4.14" "CVE-2023-52435/^6.7" "CVE-2024-26763" "CVE-2024-42106";
 done
 
 #4.14
 declare -a fourDotFourteen=("${fourDotNine[@]}" "android_kernel_google_msm-4.14.sh" "android_kernel_xiaomi_sm6150.sh" "android_kernel_oneplus_sm8150.sh" "android_kernel_xiaomi_sm8150.sh");
 for script in "${fourDotFourteen[@]}"
 do
-	commentPatches $script "CVE-2019-19252/4.19" "CVE-2021-46921/4.19" "CVE-2023-51043/4.19" "CVE-2024-38618/4.19";
+	commentPatches $script "CVE-2019-19252/4.19" "CVE-2021-46921/4.19" "CVE-2023-51043/4.19" "CVE-2024-38618" "CVE-2023-52486/^6.7";
 done
 
 echo -e "\e[0;32m[SCRIPT COMPLETE] Fixed CVE patchers\e[0m";
