@@ -599,6 +599,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42115/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42145/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42271/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
@@ -609,7 +614,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p609"
+editKernelLocalversion "-dos.p614"
 else echo "kernel_samsung_jf is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

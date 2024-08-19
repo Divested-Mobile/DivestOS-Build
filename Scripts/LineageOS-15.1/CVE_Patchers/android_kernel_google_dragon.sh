@@ -1027,6 +1027,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42145/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42148/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42154/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42223/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42265/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42271/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42280/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003-alt.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -1040,7 +1048,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p1040"
+editKernelLocalversion "-dos.p1048"
 else echo "kernel_google_dragon is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

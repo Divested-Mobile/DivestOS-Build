@@ -534,6 +534,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42154/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42223/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42232/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42236/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42265/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42271/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42280/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
@@ -541,7 +549,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p541"
+editKernelLocalversion "-dos.p549"
 else echo "kernel_essential_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
