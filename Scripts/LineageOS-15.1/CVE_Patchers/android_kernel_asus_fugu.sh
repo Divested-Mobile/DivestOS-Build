@@ -766,6 +766,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52832/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52843/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52847/^6.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52880/^6.5/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52893/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52900/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-25739/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
@@ -887,7 +889,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p887"
+editKernelLocalversion "-dos.p889"
 else echo "kernel_asus_fugu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
