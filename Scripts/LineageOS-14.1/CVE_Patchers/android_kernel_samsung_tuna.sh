@@ -434,6 +434,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48702/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48710/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48781/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48795/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48919/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
@@ -539,7 +540,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p539"
+editKernelLocalversion "-dos.p540"
 else echo "kernel_samsung_tuna is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

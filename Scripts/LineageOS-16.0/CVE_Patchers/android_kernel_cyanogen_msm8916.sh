@@ -508,6 +508,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48757/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48781/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48795/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48877/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48919/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48930/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.4/0007.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
@@ -690,7 +692,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p690"
+editKernelLocalversion "-dos.p692"
 else echo "kernel_cyanogen_msm8916 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
