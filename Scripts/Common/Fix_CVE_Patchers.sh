@@ -83,7 +83,7 @@ commentPatches android_kernel_oneplus_msm8994.sh "CVE-2018-3585/3.10/0001.patch"
 commentPatches android_kernel_oneplus_msm8996.sh "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2017-16939" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070/ANY/0006.patch" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2022-42896/4.9" "CVE-2024-39467";
 commentPatches android_kernel_oneplus_msm8998.sh "0008-Graphene-Kernel_Hardening-slab" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-11599" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
 commentPatches android_kernel_oneplus_sm7250.sh "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600" "CVE-2021-30324" "CVE-2021-45469" "CVE-2022-42703/4.19/0003.patch";
-commentPatches android_kernel_oneplus_sm8150.sh "CVE-2019-16746" "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-8992" "CVE-2020-24588/4.14/0018.patch" "CVE-2021-30324" "CVE-2021-45469" "CVE-2022-1184/^5.18/0001.patch" "CVE-2022-42703/4.14/0002.patch";
+commentPatches android_kernel_oneplus_sm8150.sh "CVE-2019-16746" "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-8992" "CVE-2020-24588/4.14/0018.patch" "CVE-2021-30324" "CVE-2021-45469" "CVE-2022-1184/^5.18/0001.patch" "CVE-2022-42703/4.14/0002.patch" "CVE-2023-52901";
 commentPatches android_kernel_oneplus_sm8250.sh "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600" "CVE-2022-1184/^5.18/0001.patch" "CVE-2022-42703/4.19/0003.patch";
 commentPatches android_kernel_oneplus_sm8350.sh "CVE-2018-5873" "CVE-2022-1184/^5.18/0001.patch" "CVE-2023-52879/5.4";
 commentPatches android_kernel_razer_msm8998.sh "0008-Graphene-Kernel_Hardening-slab" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-14070/ANY/0005.patch" "CVE-2020-16166";
@@ -102,9 +102,9 @@ commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening-can
 commentPatches android_kernel_sony_sdm845.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_xiaomi_msm8937.sh "CVE-2017-13162" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-25715";
 commentPatches android_kernel_xiaomi_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch";
-commentPatches android_kernel_xiaomi_sm8150.sh "CVE-2020-24588/4.14/0018.patch";
+commentPatches android_kernel_xiaomi_sm8150.sh "CVE-2020-24588/4.14/0018.patch" "CVE-2023-52901";
 commentPatches android_kernel_xiaomi_vayu.sh "CVE-2020-24588/4.14/0018.patch";
-commentPatches android_kernel_xiaomi_sm6150.sh "CVE-2023-43550";
+commentPatches android_kernel_xiaomi_sm6150.sh "CVE-2023-43550" "CVE-2023-52901";
 commentPatches android_kernel_xiaomi_sm8250.sh "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600" "CVE-2022-22075";
 commentPatches android_kernel_yandex_sdm660.sh "CVE-2019-11599" "CVE-2019-14070/ANY/0005.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166" "CVE-2024-35954";
 commentPatches android_kernel_zte_msm8930.sh "CVE-2015-2922" "CVE-2017-11015/prima";

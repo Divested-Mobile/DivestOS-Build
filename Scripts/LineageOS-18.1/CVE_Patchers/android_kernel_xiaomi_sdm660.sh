@@ -530,11 +530,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43883/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p534"
+editKernelLocalversion "-dos.p535"
 else echo "kernel_xiaomi_sdm660 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
