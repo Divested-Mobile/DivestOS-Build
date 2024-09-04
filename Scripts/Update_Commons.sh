@@ -20,6 +20,9 @@ set -uo pipefail;
 #APN List
 wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-21.0/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
 
+#Helplines
+wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-21.0/prebuilt/common/etc/sensitive_pn.xml" -O ../Patches/Common/sensitive_pn.xml;
+
 #Visual VoiceMail Config
 #wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-21.0/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/14/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
@@ -29,12 +32,12 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 
 #TODO: wireless-regdb, unused
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2024/07/31
+#Last: 2024/09/04
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2024/07/31
+#Last: 2024/09/04
 
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates
-#Last: 2024/07/31
+#Last: 2024/09/04
