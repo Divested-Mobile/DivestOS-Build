@@ -88,7 +88,7 @@
 	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
 
 	<!-- GrapheneOS
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" /> -->
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="3f07acfab1cfff00baf33c477f96d3e3f874275a" /> -->
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->

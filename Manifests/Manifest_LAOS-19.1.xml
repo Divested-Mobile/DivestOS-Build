@@ -49,8 +49,8 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
-	<project path="external/SecureCamera" name="GrapheneOS/platform_external_Camera" remote="github" revision="6b16f075e691d064379fe9d855f4c5c5a44c7f55" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="3f07acfab1cfff00baf33c477f96d3e3f874275a" />
+	<project path="external/SecureCamera" name="GrapheneOS/platform_external_Camera" remote="github" revision="42799d3da0897e53bf31db36353c2e1cd8bfa797" />
 	<project path="packages/apps/CarrierConfig2" name="GrapheneOS/platform_packages_apps_CarrierConfig2" remote="github" revision="e710a67ed64620fc11f62520cceef4bba64dc2a6" />
 <!-- END OF ADDITIONAL REPOS -->
 

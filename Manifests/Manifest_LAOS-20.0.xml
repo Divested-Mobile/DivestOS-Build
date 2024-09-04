@@ -49,7 +49,7 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="3f07acfab1cfff00baf33c477f96d3e3f874275a" />
 	<project path="packages/apps/CarrierConfig2" name="GrapheneOS/platform_packages_apps_CarrierConfig2" remote="github" revision="e710a67ed64620fc11f62520cceef4bba64dc2a6" />
 <!-- END OF ADDITIONAL REPOS -->
 
