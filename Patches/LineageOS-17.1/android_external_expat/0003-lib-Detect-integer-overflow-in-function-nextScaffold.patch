@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 19 Aug 2024 22:37:16 +0200
-Subject: [PATCH 3/3] lib: Detect integer overflow in function nextScaffoldPart
+Subject: [PATCH] lib: Detect integer overflow in function nextScaffoldPart
 
 Reported by TaiYou
 ---

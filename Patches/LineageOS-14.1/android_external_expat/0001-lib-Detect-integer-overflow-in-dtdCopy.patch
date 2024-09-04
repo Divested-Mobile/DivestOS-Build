@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 19 Aug 2024 22:34:13 +0200
-Subject: [PATCH 1/2] lib: Detect integer overflow in dtdCopy
+Subject: [PATCH] lib: Detect integer overflow in dtdCopy
 
 Reported by TaiYou
 ---

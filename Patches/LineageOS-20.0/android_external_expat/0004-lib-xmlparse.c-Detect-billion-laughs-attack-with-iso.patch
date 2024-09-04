@@ -1,8 +1,8 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 4 Mar 2024 23:49:06 +0100
-Subject: [PATCH 4/5] lib/xmlparse.c: Detect billion laughs attack with
- isolated external parser
+Subject: [PATCH] lib/xmlparse.c: Detect billion laughs attack with isolated
+ external parser
 
 When parsing DTD content with code like ..
 

@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 19 Aug 2024 22:26:07 +0200
-Subject: [PATCH 1/5] lib: Reject negative len for XML_ParseBuffer
+Subject: [PATCH] lib: Reject negative len for XML_ParseBuffer
 
 Reported by TaiYou
 ---
