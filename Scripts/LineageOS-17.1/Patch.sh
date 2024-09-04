@@ -120,6 +120,12 @@ if enterAndClear "external/conscrypt"; then
 applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "external/expat"; then
+applyPatch "$DOS_PATCHES/android_external_expat/0001-lib-Reject-negative-len-for-XML_ParseBuffer.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0002-lib-Detect-integer-overflow-in-dtdCopy.patch.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0003-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
+fi;
+
 if enterAndClear "external/freetype"; then
 applyPatch "$DOS_PATCHES/android_external_freetype/365406.patch"; #Q_asb_2023-07 Cherry-pick two upstream changes
 applyPatch "$DOS_PATCHES/android_external_freetype/365446.patch"; #Q_asb_2023-08 Cherrypick following three changes

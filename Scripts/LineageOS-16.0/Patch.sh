@@ -134,6 +134,9 @@ applyPatch "$DOS_PATCHES/android_external_expat/338354.patch"; #P_asb_2022-09 Pr
 applyPatch "$DOS_PATCHES/android_external_expat/338355.patch"; #P_asb_2022-09 Prevent integer overflow in function doProlog
 applyPatch "$DOS_PATCHES/android_external_expat/338356.patch"; #P_asb_2022-09 Prevent more integer overflows
 applyPatch "$DOS_PATCHES/android_external_expat/349328.patch"; #P_asb_2023-02 [CVE-2022-43680] Fix overeager DTD destruction (fixes #649)
+applyPatch "$DOS_PATCHES/android_external_expat/0001-lib-Reject-negative-len-for-XML_ParseBuffer.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0002-lib-Detect-integer-overflow-in-dtdCopy.patch.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0003-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
 fi;
 
 if enterAndClear "external/freetype"; then

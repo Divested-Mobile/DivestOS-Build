@@ -108,6 +108,8 @@ applyPatch "$DOS_PATCHES/android_external_expat/337987-backport.patch"; #n-asb-2
 applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
 applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
+applyPatch "$DOS_PATCHES/android_external_expat/0001-lib-Detect-integer-overflow-in-dtdCopy.patch.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0002-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
 fi;
 
 if enterAndClear "external/freetype"; then
