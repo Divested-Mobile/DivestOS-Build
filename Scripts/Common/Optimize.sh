@@ -60,12 +60,12 @@ sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=4/' zuk/msm8996-common/rootd
 sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' oneplus/oneplus2/rootdir/etc/fstab.qcom &>/dev/null || true;
 #4GB (1GB)
 sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=4/' google/marlin/fstab.common lge/msm8996-common/rootdir/etc/fstab.qcom motorola/griffin/rootdir/etc/fstab.qcom &>/dev/null || true;
-sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' essential/mata/rootdir/etc/fstab.mata google/bonito/fstab.hardware google/coral/fstab.hardware google/crosshatch/fstab*.hardware google/wahoo/fstab.hardware &>/dev/null || true;
+sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' essential/mata/rootdir/etc/fstab.mata google/bonito/fstab.hardware google/crosshatch/fstab*.hardware google/wahoo/fstab.hardware &>/dev/null || true;
 #4GB/4GB+ (1GB/1GB+)
 sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=4/' zte/axon7/rootdir/etc/fstab.qcom &>/dev/null || true;
 sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' sony/tama-common/rootdir/etc/fstab.qcom &>/dev/null || true;
 #4GB+ (1GB+)
-sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' google/redbull/fstab.hardware google/sunfish/fstab.hardware oneplus/msm8998-common/rootdir/etc/fstab.qcom oneplus/sdm845-common/rootdir/etc/fstab.qcom xiaomi/sm6150-common/rootdir/etc/fstab*.qcom &>/dev/null || true;
+sed -i 's/zramsize=.*/zramsize=25%,max_comp_streams=8/' google/coral/fstab.hardware google/redbull/fstab.hardware google/sunfish/fstab.hardware oneplus/msm8998-common/rootdir/etc/fstab.qcom oneplus/sdm845-common/rootdir/etc/fstab.qcom xiaomi/sm6150-common/rootdir/etc/fstab*.qcom &>/dev/null || true;
 echo "Finished zram tweaks";
 fi;
 
