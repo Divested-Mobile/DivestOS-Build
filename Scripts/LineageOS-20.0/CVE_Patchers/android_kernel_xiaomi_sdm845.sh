@@ -59,6 +59,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3506/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3656/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33624/4.19/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33655/4.19/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35084/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
@@ -457,6 +458,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44939/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44944/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44946/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44947/4.19/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44954/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44960/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44987/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44999/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
@@ -466,7 +472,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p466"
+editKernelLocalversion "-dos.p472"
 else echo "kernel_xiaomi_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
