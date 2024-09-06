@@ -162,7 +162,8 @@ patchWorkspaceReal() {
 			verifyAllPlatformTags;
 			gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-			#source build/envsetup.sh;
+			source build/envsetup.sh;
+			repopick -it T_asb_2024-09;
 
 			sh "$DOS_SCRIPTS/Patch.sh";
 			sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

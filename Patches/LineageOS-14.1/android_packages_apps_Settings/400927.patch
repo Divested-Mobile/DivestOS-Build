@@ -1,0 +1,28 @@
+From 16cf36cd7d7beb9d108da511da90ab4b404ea7bb Mon Sep 17 00:00:00 2001
+From: Chaohui Wang <chaohuiw@google.com>
+Date: Thu, 2 Nov 2023 11:43:00 +0800
+Subject: [PATCH] Limit wifi item edit content's max length to 500
+
+Bug: 293199910
+Test: manual - on "Add network"
+
+(cherry picked from commit 855053ca4124f2d515b21c469096f8c18bd4829d)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:092668676af741719d50ac0f121a8f8461aa21ad)
+Merged-In: I303b8c6e0f3c3a1174a047ba98f302042e5db9ae
+Change-Id: I303b8c6e0f3c3a1174a047ba98f302042e5db9ae
+---
+ res/values/styles.xml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/res/values/styles.xml b/res/values/styles.xml
+index 11e4afb6dc4..723d505618b 100644
+--- a/res/values/styles.xml
++++ b/res/values/styles.xml
+@@ -244,6 +244,7 @@
+         <item name="android:paddingStart">4dip</item>
+         <item name="android:layout_marginStart">4dip</item>
+         <item name="android:textSize">18sp</item>
++        <item name="android:maxLength">500</item>
+     </style>
+ 
+     <style name="wifi_section">

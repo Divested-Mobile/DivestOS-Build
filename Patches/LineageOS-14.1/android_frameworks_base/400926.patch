@@ -1,0 +1,148 @@
+From 973d345da476bc0b9ce7618625dac9184d6d001e Mon Sep 17 00:00:00 2001
+From: Kiran Ramachandra <kiranmr@google.com>
+Date: Thu, 30 May 2024 21:21:12 +0000
+Subject: [PATCH] DO NOT MERGE Ignore - Sanitized uri scheme by removing scheme
+ delimiter
+
+Initially considered removing unsupported characters as per IANA guidelines, but this could break applications that use custom schemes with asterisks. Instead, opted to remove only the "://" to minimize disruption
+
+Bug: 261721900
+Test: atest FrameworksCoreTests:android.net.UriTest
+
+No-Typo-Check: The unit test is specifically written to test few cases, string "http://https://" is not a typo
+
+NOTE FOR REVIEWERS - original patch and result patch are not identical.
+PLEASE REVIEW CAREFULLY.
+Diffs between the patches:
+     @AsbSecurityTest(cveBugId = 261721900)
+> +    @SmallTest
+> +    public void testSchemeSanitization() {
+> +        Uri uri = new Uri.Builder()
+> +                .scheme("http://https://evil.com:/te:st/")
+> +                .authority("google.com").path("one/way").build();
+> +        assertEquals("httphttpsevil.com:/te:st/", uri.getScheme());
+> +        assertEquals("httphttpsevil.com:/te:st/://google.com/one/way", uri.toString());
+> +    }
+> +
+
+Original patch:
+ diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
+old mode 100644
+new mode 100644
+
+Change-Id: I3c78085473351b6f424ced5e6365d5ced05ee689
+--- a/core/java/android/net/Uri.java
++++ b/core/java/android/net/Uri.java
+@@ -1388,7 +1388,11 @@
+          * @param scheme name or {@code null} if this is a relative Uri
+          */
+         public Builder scheme(String scheme) {
+-            this.scheme = scheme;
++            if (scheme != null) {
++                this.scheme = scheme.replace("://", "");
++            } else {
++                this.scheme = null;
++            }
+             return this;
+         }
+
+diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
+old mode 100644
+new mode 100644
+--- a/core/tests/coretests/src/android/net/UriTest.java
++++ b/core/tests/coretests/src/android/net/UriTest.java
+@@ -87,6 +87,16 @@
+         assertNull(u.getAuthority());
+         assertNull(u.getHost());
+     }
++
++    @AsbSecurityTest(cveBugId = 261721900)
++    @SmallTest
++    public void testSc
+[[[Original patch trimmed due to size. Decoded string size: 1426. Decoded string SHA1: 55d69e9f854938457b2d98b18776898b16c2dd54.]]]
+
+Result patch:
+ diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
+index 3da696a..f0262e9 100644
+--- a/core/java/android/net/Uri.java
++++ b/core/java/android/net/Uri.java
+@@ -1388,7 +1388,11 @@
+          * @param scheme name or {@code null} if this is a relative Uri
+          */
+         public Builder scheme(String scheme) {
+-            this.scheme = scheme;
++            if (scheme != null) {
++                this.scheme = scheme.replace("://", "");
++            } else {
++                this.scheme = null;
++            }
+             return this;
+         }
+
+diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
+index 89632a4..8c130ee 100644
+--- a/core/tests/coretests/src/android/net/UriTest.java
++++ b/core/tests/coretests/src/android/net/UriTest.java
+@@ -88,6 +88,16 @@
+         assertNull(u.getHost());
+     }
+
++    @AsbSecurityTest(cveBugId = 261721900)
++    @SmallTest
++    public void testSchemeSanitization() {
++        Uri uri = new
+[[[Result patch trimmed due to size. Decoded string size: 1417. Decoded string SHA1: f9ce831a369872ae9bfd9f50f01dd394682e0f3f.]]]
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:557941ca0cf59da66db4fad12c2139ce80922f4a)
+Merged-In: Icab100bd4ae9b1c8245e6f891ad22101bda5eea5
+Change-Id: Icab100bd4ae9b1c8245e6f891ad22101bda5eea5
+---
+ core/java/android/net/Uri.java                    |  6 +++++-
+ core/tests/coretests/src/android/net/UriTest.java | 11 +++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
+index 6c069be07e3ec..9b7153ba7076e 100644
+--- a/core/java/android/net/Uri.java
++++ b/core/java/android/net/Uri.java
+@@ -1347,7 +1347,11 @@ public Builder() {}
+          * @param scheme name or {@code null} if this is a relative Uri
+          */
+         public Builder scheme(String scheme) {
+-            this.scheme = scheme;
++            if (scheme != null) {
++                this.scheme = scheme.replace("://", "");
++            } else {
++                this.scheme = null;
++            }
+             return this;
+         }
+ 
+diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
+index ea0347d67ad74..6c9fdd5a83a78 100644
+--- a/core/tests/coretests/src/android/net/UriTest.java
++++ b/core/tests/coretests/src/android/net/UriTest.java
+@@ -18,6 +18,7 @@
+ 
+ import android.content.ContentUris;
+ import android.os.Parcel;
++import android.platform.test.annotations.AsbSecurityTest;
+ import android.test.suitebuilder.annotation.SmallTest;
+ 
+ import junit.framework.TestCase;
+@@ -83,6 +84,16 @@ public void testBuildUponOpaqueStringUri() {
+         assertNull(u.getHost());
+     }
+ 
++    @AsbSecurityTest(cveBugId = 261721900)
++    @SmallTest
++    public void testSchemeSanitization() {
++        Uri uri = new Uri.Builder()
++                .scheme("http://https://evil.com:/te:st/")
++                .authority("google.com").path("one/way").build();
++        assertEquals("httphttpsevil.com:/te:st/", uri.getScheme());
++        assertEquals("httphttpsevil.com:/te:st/://google.com/one/way", uri.toString());
++    }
++
+     @SmallTest
+     public void testStringUri() {
+         assertEquals("bob lee",
