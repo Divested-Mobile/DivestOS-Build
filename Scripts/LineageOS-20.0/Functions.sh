@@ -53,6 +53,8 @@ buildAll() {
 	#frontloaded for testing
 	buildDevice bluejay avb;
 	buildDevice taimen avb;
+	buildDevice fajita avb;
+	buildDevice flame avb;
 	#SD820
 	buildDevice h830;
 	buildDevice h850;
@@ -85,7 +87,6 @@ buildAll() {
 	buildDevice kirin;
 	buildDevice mermaid;
 	#SD845
-	buildDevice fajita avb;
 	buildDevice enchilada avb;
 	buildDevice aura avb;
 	buildDevice beryllium avb;
@@ -107,7 +108,6 @@ buildAll() {
 	buildDevice hotdog avb;
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
-	buildDevice flame avb;
 	#buildDevice vayu avb; #XXX: no Wi-Fi
 	#SD730
 	buildDevice sunfish avb;

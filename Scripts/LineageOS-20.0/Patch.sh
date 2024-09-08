@@ -313,7 +313,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-20.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 git revert --no-edit 41b4ed345a91da1dd46c00ee11a151c2b5ff4f43;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)

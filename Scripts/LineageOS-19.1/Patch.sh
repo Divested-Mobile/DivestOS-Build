@@ -128,6 +128,7 @@ sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
 fi;
 
 if enterAndClear "external/SecureCamera"; then
+git revert --no-edit 36f2dd34e1d0c2b7d26153969cca56a7ff665329;
 sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
 fi;
