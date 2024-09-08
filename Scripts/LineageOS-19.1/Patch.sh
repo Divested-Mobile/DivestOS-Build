@@ -95,7 +95,6 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-07-05/2024-08-05/' core/version_defaults.mk; #Bump Security String #S_asb_2024-08
 fi;
 
 if enterAndClear "build/soong"; then
@@ -307,7 +306,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-19.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (CalyxOS)
