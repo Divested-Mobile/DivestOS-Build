@@ -1,4 +1,4 @@
-From 42e379fa4967a4841931310b9308e5ff66e2be00 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Pinyao Ting <pinyaoting@google.com>
 Date: Thu, 30 Nov 2023 23:12:39 +0000
 Subject: [PATCH] Added throttle when reporting shortcut usage
@@ -15,10 +15,10 @@ Change-Id: I96370cbd4f6a55f894c1a93307e5f82dfd394652
  3 files changed, 41 insertions(+), 8 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/ShortcutPackage.java b/services/core/java/com/android/server/pm/ShortcutPackage.java
-index 38d69ed287e1c..b8d0120f3db62 100644
+index 0a98002feb14..36e775a3a237 100644
 --- a/services/core/java/com/android/server/pm/ShortcutPackage.java
 +++ b/services/core/java/com/android/server/pm/ShortcutPackage.java
-@@ -19,17 +19,20 @@
+@@ -19,17 +19,20 @@ import android.annotation.NonNull;
  import android.annotation.Nullable;
  import android.annotation.UserIdInt;
  import android.content.ComponentName;
@@ -61,7 +61,7 @@ index 38d69ed287e1c..b8d0120f3db62 100644
      private ShortcutPackage(ShortcutUser shortcutUser,
              int packageUserId, String packageName, ShortcutPackageInfo spi) {
          super(shortcutUser, packageUserId, packageName,
-@@ -1144,6 +1155,30 @@ public boolean hasNonManifestShortcuts() {
+@@ -1144,6 +1155,30 @@ class ShortcutPackage extends ShortcutPackageItem {
          return false;
      }
  
@@ -93,10 +93,10 @@ index 38d69ed287e1c..b8d0120f3db62 100644
          pw.println();
  
 diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
-index 944f75345df6f..02b923384a836 100644
+index 2cfc3461c697..6d57f7163b87 100644
 --- a/services/core/java/com/android/server/pm/ShortcutService.java
 +++ b/services/core/java/com/android/server/pm/ShortcutService.java
-@@ -290,7 +290,7 @@ public boolean test(PackageInfo pi) {
+@@ -290,7 +290,7 @@ public class ShortcutService extends IShortcutService.Stub {
      private CompressFormat mIconPersistFormat;
      private int mIconPersistQuality;
  
@@ -105,7 +105,7 @@ index 944f75345df6f..02b923384a836 100644
  
      private final IPackageManager mIPackageManager;
      private final PackageManagerInternal mPackageManagerInternal;
-@@ -2041,10 +2041,11 @@ public void reportShortcutUsed(String packageName, String shortcutId, int userId
+@@ -2045,10 +2045,11 @@ public class ShortcutService extends IShortcutService.Stub {
                      shortcutId, packageName, userId));
          }
  
@@ -118,7 +118,7 @@ index 944f75345df6f..02b923384a836 100644
  
              if (ps.findShortcutById(shortcutId) == null) {
                  Log.w(TAG, String.format("reportShortcutUsed: package %s doesn't have shortcut %s",
-@@ -2053,12 +2054,7 @@ public void reportShortcutUsed(String packageName, String shortcutId, int userId
+@@ -2057,12 +2058,7 @@ public class ShortcutService extends IShortcutService.Stub {
              }
          }
  
@@ -133,10 +133,10 @@ index 944f75345df6f..02b923384a836 100644
  
      /**
 diff --git a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-index d25923c019cac..149037df2ff16 100644
+index 6b86ef0e0704..579657981ff9 100644
 --- a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
 +++ b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-@@ -1799,6 +1799,8 @@ public void testThrottling_resetByInternalCall() throws Exception {
+@@ -1809,6 +1809,8 @@ public class ShortcutManagerTest2 extends BaseShortcutManagerTest {
  
      public void testReportShortcutUsed() {
          mRunningUsers.put(USER_10, true);

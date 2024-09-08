@@ -157,7 +157,7 @@ do
 done
 
 #4.14
-declare -a fourDotFourteen=("${fourDotNine[@]}" "android_kernel_google_msm-4.14.sh" "android_kernel_xiaomi_sm6150.sh" "android_kernel_oneplus_sm8150.sh" "android_kernel_xiaomi_sm8150.sh"  "android_kernel_xiaomi_vayu.sh");
+declare -a fourDotFourteen=("${fourDotNine[@]}" "android_kernel_google_msm-4.14.sh" "android_kernel_xiaomi_sm6150.sh" "android_kernel_oneplus_sm8150.sh" "android_kernel_xiaomi_sm8150.sh" "android_kernel_xiaomi_vayu.sh");
 for script in "${fourDotFourteen[@]}"
 do
 	commentPatches $script "CVE-2019-19252/4.19" "CVE-2021-46921/4.19" "CVE-2023-51043/4.19" "CVE-2024-38618" "CVE-2023-52486/^6.7" "CVE-2024-35910";

@@ -297,7 +297,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/393648.patch"; #n-asb-2024-06 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/393649.patch"; #n-asb-2024-06 AccessibilityManagerService: remove uninstalled services from enabled list after service update.
 applyPatch "$DOS_PATCHES/android_frameworks_base/396611.patch"; #n-asb-2024-07 Verify UID of incoming Zygote connections.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399269.patch"; #n-asb-2024-08 Restrict USB poups while setup is in progress
-applyPatch "$DOS_PATCHES/android_frameworks_base/400926.patch"; #n-asb-2024-09  Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/400926.patch"; #n-asb-2024-09 Sanitized uri scheme by removing scheme delimiter
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

@@ -537,7 +537,7 @@ awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compil
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then
 echo "Including CarrierConfig2 & CarrierSettings2";
 echo 'ifneq ($(BOARD_WITHOUT_RADIO),true)' >> divestos.mk;
-echo "PRODUCT_PACKAGES += CarrierConfig2"  >> divestos.mk;
+echo "PRODUCT_PACKAGES += CarrierConfig2" >> divestos.mk;
 echo "include vendor/divested-carriersettings/CarrierSettings2.mk" >> divestos.mk;
 echo "endif" >> divestos.mk;
 fi;
