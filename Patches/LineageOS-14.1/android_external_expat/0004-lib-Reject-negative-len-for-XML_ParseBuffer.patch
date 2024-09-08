@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sebastian Pipping <sebastian@pipping.org>
+Date: Mon, 19 Aug 2024 22:26:07 +0200
+Subject: [PATCH] lib: Reject negative len for XML_ParseBuffer
+
+CVE-2024-45490
+
+Reported by TaiYou
+
+Change-Id: Ic070b629e085c2aa5fd2711e1738acde42fee444
+---
+ lib/xmlparse.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+index d3b43171..d9f33395 100644
+--- a/lib/xmlparse.c
++++ b/lib/xmlparse.c
+@@ -1672,6 +1672,12 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)
+ 
+   if (parser == NULL)
+     return XML_STATUS_ERROR;
++
++  if (len < 0) {
++    errorCode = XML_ERROR_INVALID_ARGUMENT;
++    return XML_STATUS_ERROR;
++  }
++
+   switch (ps_parsing) {
+   case XML_SUSPENDED:
+     errorCode = XML_ERROR_SUSPENDED;

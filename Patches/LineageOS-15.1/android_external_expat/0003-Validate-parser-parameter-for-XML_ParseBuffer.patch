@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rhodri James <rhodri@kynesim.co.uk>
+Date: Tue, 25 Apr 2017 18:13:36 +0100
+Subject: [PATCH] Validate parser parameter for XML_ParseBuffer
+
+---
+ lib/xmlparse.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+index 9df42782..d3b43171 100644
+--- a/lib/xmlparse.c
++++ b/lib/xmlparse.c
+@@ -1670,6 +1670,8 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)
+   const char *start;
+   enum XML_Status result = XML_STATUS_OK;
+ 
++  if (parser == NULL)
++    return XML_STATUS_ERROR;
+   switch (ps_parsing) {
+   case XML_SUSPENDED:
+     errorCode = XML_ERROR_SUSPENDED;

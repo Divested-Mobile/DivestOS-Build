@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sebastian Pipping <sebastian@pipping.org>
+Date: Thu, 22 Sep 2022 16:51:17 +0200
+Subject: [PATCH] lib: Stop leaking opening tag bindings after closing tag
+ mismatch error
+
+CVE-2024-28757
+
+.. by moving the opening tag onto the free tag list only
+*after* the tag match check has passed.
+
+Change-Id: I2572abf87973e8de97898726812a14354aa01c17
+---
+ lib/xmlparse.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+index 977079f9..cc30f71f 100644
+--- a/lib/xmlparse.c
++++ b/lib/xmlparse.c
+@@ -2567,9 +2567,6 @@ doContent(XML_Parser parser,
+         int len;
+         const char *rawName;
+         TAG *tag = tagStack;
+-        tagStack = tag->parent;
+-        tag->parent = freeTagList;
+-        freeTagList = tag;
+         rawName = s + enc->minBytesPerChar*2;
+         len = XmlNameLength(enc, rawName);
+         if (len != tag->rawNameLength
+@@ -2577,6 +2574,9 @@ doContent(XML_Parser parser,
+           *eventPP = rawName;
+           return XML_ERROR_TAG_MISMATCH;
+         }
++        tagStack = tag->parent;
++        tag->parent = freeTagList;
++        freeTagList = tag;
+         --tagLevel;
+         if (endElementHandler) {
+           const XML_Char *localPart;

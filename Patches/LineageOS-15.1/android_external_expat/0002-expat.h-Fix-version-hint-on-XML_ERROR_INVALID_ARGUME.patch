@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sebastian Pipping <sebastian@pipping.org>
+Date: Wed, 31 May 2017 23:43:57 +0200
+Subject: [PATCH] expat.h: Fix version hint on XML_ERROR_INVALID_ARGUMENT
+
+Introduced at commit 768613f801020dee30a0583ec6cd77ec401d747f.
+---
+ lib/expat.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/expat.h b/lib/expat.h
+index 145c283b..59c36e54 100644
+--- a/lib/expat.h
++++ b/lib/expat.h
+@@ -96,7 +96,7 @@ enum XML_Error {
+   XML_ERROR_RESERVED_PREFIX_XML,
+   XML_ERROR_RESERVED_PREFIX_XMLNS,
+   XML_ERROR_RESERVED_NAMESPACE_URI,
+-  /* Added in 2.2 */
++  /* Added in 2.2.1. */
+   XML_ERROR_INVALID_ARGUMENT
+ };
+ 

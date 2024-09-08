@@ -3,16 +3,20 @@ From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 19 Aug 2024 22:34:13 +0200
 Subject: [PATCH] lib: Detect integer overflow in dtdCopy
 
+CVE-2024-45491
+
 Reported by TaiYou
+
+Change-Id: Ie0e4d640a83b06d9829c742e73af3aa40116e10b
 ---
  lib/xmlparse.c | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index ee71adad..e78141e6 100644
+index d9f33395..99bf2411 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -5998,6 +5998,16 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd, const XML_Memory_H
+@@ -6004,6 +6004,16 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd, const XML_Memory_H
      if (!newE)
        return 0;
      if (oldE->nDefaultAtts) {

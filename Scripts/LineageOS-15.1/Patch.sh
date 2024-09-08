@@ -112,8 +112,13 @@ applyPatch "$DOS_PATCHES/android_external_expat/337987.patch"; #Q_asb_2022-09 Pr
 applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
 applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
-applyPatch "$DOS_PATCHES/android_external_expat/0001-lib-Detect-integer-overflow-in-dtdCopy.patch.patch";
-applyPatch "$DOS_PATCHES/android_external_expat/0002-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0001-Validate-parser-parameter-to-XML_UseForeignDTD.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0002-expat.h-Fix-version-hint-on-XML_ERROR_INVALID_ARGUME.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0003-Validate-parser-parameter-for-XML_ParseBuffer.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0004-lib-Reject-negative-len-for-XML_ParseBuffer.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0005-lib-Detect-integer-overflow-in-dtdCopy.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0006-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0007-lib-Stop-leaking-opening-tag-bindings-after-closing-.patch";
 fi;
 
 if enterAndClear "external/freetype"; then

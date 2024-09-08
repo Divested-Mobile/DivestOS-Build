@@ -3,16 +3,20 @@ From: Sebastian Pipping <sebastian@pipping.org>
 Date: Mon, 19 Aug 2024 22:37:16 +0200
 Subject: [PATCH] lib: Detect integer overflow in function nextScaffoldPart
 
+CVE-2024-45492
+
 Reported by TaiYou
+
+Change-Id: Ic152fd5352442dc60db0358226118a0ad3021bc5
 ---
  lib/xmlparse.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index e78141e6..5ad4bb00 100644
+index 99bf2411..977079f9 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -6488,6 +6488,15 @@ nextScaffoldPart(XML_Parser parser)
+@@ -6494,6 +6494,15 @@ nextScaffoldPart(XML_Parser parser)
    int next;
  
    if (!dtd->scaffIndex) {
