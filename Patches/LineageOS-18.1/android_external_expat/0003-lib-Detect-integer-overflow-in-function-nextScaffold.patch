@@ -9,10 +9,10 @@ Reported by TaiYou
  1 file changed, 9 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 9bd93b0..e6f334a 100644
+index 18fcad0..b08cae9 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -6929,6 +6929,15 @@ nextScaffoldPart(XML_Parser parser) {
+@@ -6910,6 +6910,15 @@ nextScaffoldPart(XML_Parser parser) {
    int next;
  
    if (! dtd->scaffIndex) {

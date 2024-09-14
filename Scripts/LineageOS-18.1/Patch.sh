@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-08-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-08
+sed -i 's/2024-02-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-09
 fi;
 
 if enterAndClear "build/soong"; then
@@ -141,6 +141,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/385529.patch"; #R_asb_2024-03 Val
 applyPatch "$DOS_PATCHES/android_frameworks_av/385530.patch"; #R_asb_2024-03 SoftVideoDecodeOMXComponent: validate OMX params for dynamic HDR
 applyPatch "$DOS_PATCHES/android_frameworks_av/385531.patch"; #R_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
 applyPatch "$DOS_PATCHES/android_frameworks_av/399741.patch"; #R_asb_2024-08 StagefrightRecoder: Disabling B-frame support
+applyPatch "$DOS_PATCHES/android_frameworks_av/401372.patch"; #S_asb_2024-09 omx: check HDR10+ info param size
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -172,6 +173,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/397543.patch"; #R_asb_2024-07 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/399738.patch"; #R_asb_2024-08 Backport preventing BAL bypass via bound service
 applyPatch "$DOS_PATCHES/android_frameworks_base/399739.patch"; #R_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399740.patch"; #R_asb_2024-08 Hide SAW subwindows
+applyPatch "$DOS_PATCHES/android_frameworks_base/401373.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -366,7 +368,10 @@ applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Special
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-18.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401375.patch"; #S_asb_2024-09 Limit wifi item edit content's max length to 500
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401376-backport.patch"; #S_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401377.patch"; #S_asb_2024-09 Ignore fragment attr from ext authenticator resource
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401378-backport.patch"; #S_asb_2024-09 Restrict Settings Homepage prior to provisioning
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
@@ -431,6 +436,12 @@ fi;
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix (Sony)
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.patch"; #mnc fix (Sony)
+fi;
+
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401380-backport.patch"; #S_asb_2024-09 Unbind CS if connection is not created within 15 seconds.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401381.patch"; #S_asb_2024-09 Unbind CallScreeningService when timeout reached.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401382.patch"; #S_asb_2024-09 Resolve cross-user image exploit for conference status hints
 fi;
 
 if enterAndClear "packages/services/Telephony"; then

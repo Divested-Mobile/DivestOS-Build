@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pranav Madapurmath <pmadapurmath@google.com>
+Date: Tue, 11 Jun 2024 22:50:08 -0700
+Subject: [PATCH] Resolve cross-user image exploit for conference status hints
+
+Ensure that status hint image icon is validated for cross-user exploits.
+Currently, there is no check for this so a conference call can display
+an image from another user, exposing a vulnerability.
+
+Bug: 329058967
+Test: Manual with POC
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a8e2bf9c77cd94f683979c849015b78ef0537802)
+Merged-In: Ib9d701398d25d021cdb9abacbaa5b175f62bee1d
+Change-Id: Ib9d701398d25d021cdb9abacbaa5b175f62bee1d
+---
+ .../android/server/telecom/ConnectionServiceWrapper.java   | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/com/android/server/telecom/ConnectionServiceWrapper.java b/src/com/android/server/telecom/ConnectionServiceWrapper.java
+index 6ca74fba3..e944209a4 100644
+--- a/src/com/android/server/telecom/ConnectionServiceWrapper.java
++++ b/src/com/android/server/telecom/ConnectionServiceWrapper.java
+@@ -133,10 +133,17 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+                 ParcelableConference conference, Session.Info sessionInfo) {
+             Log.startSession(sessionInfo, LogUtils.Sessions.CSW_HANDLE_CREATE_CONNECTION_COMPLETE,
+                     mPackageAbbreviation);
++            UserHandle callingUserHandle = Binder.getCallingUserHandle();
+             long token = Binder.clearCallingIdentity();
+             try {
+                 synchronized (mLock) {
+                     logIncoming("handleCreateConferenceComplete %s", callId);
++                    // Check status hints image for cross user access
++                    if (conference.getStatusHints() != null) {
++                        Icon icon = conference.getStatusHints().getIcon();
++                        conference.getStatusHints().setIcon(StatusHints.
++                                validateAccountIconUserBoundary(icon, callingUserHandle));
++                    }
+                     Call call = mCallIdMapper.getCall(callId);
+                     if (mScheduledFutureMap.containsKey(call)) {
+                         ScheduledFuture<?> existingTimeout = mScheduledFutureMap.get(call);

@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Wonsik Kim <wonsik@google.com>
+Date: Fri, 28 Jun 2024 00:33:51 +0000
+Subject: [PATCH] omx: check HDR10+ info param size
+
+Bug: 329641908
+Test: presubmit
+Flag: EXEMPT security fix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:53298956ba6bb8f147a632d7aaed8566dfc203ee)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:f816148a719d2a3bbf432f11da98b3d5fa7de74f)
+Merged-In: I72523e1de61e5f947174272b732e170e1c2964df
+Change-Id: I72523e1de61e5f947174272b732e170e1c2964df
+---
+ media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+index 418302389d..4ab5d10609 100644
+--- a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
++++ b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+@@ -619,6 +619,13 @@ OMX_ERRORTYPE SoftVideoDecoderOMXComponent::getConfig(
+                 if (!isValidOMXParam(outParams)) {
+                     return OMX_ErrorBadParameter;
+                 }
++                if (offsetof(DescribeHDR10PlusInfoParams, nValue) + outParams->nParamSize >
++                    outParams->nSize) {
++                    ALOGE("b/329641908: too large param size; nParamSize=%u nSize=%u",
++                          outParams->nParamSize, outParams->nSize);
++                    android_errorWriteLog(0x534e4554, "329641908");
++                    return OMX_ErrorBadParameter;
++                }
+ 
+                 outParams->nParamSizeUsed = info->size();
+ 
