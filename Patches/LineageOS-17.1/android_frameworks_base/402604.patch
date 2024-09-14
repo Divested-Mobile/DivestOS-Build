@@ -1,0 +1,61 @@
+From 99185b565ac3298604e6351774e9bc20457d49b2 Mon Sep 17 00:00:00 2001
+From: Nan Wu <wnan@google.com>
+Date: Tue, 30 Apr 2024 17:20:29 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Backport preventing BAL bypass via bound
+ service
+
+Apply similar fix for WallpaperService to TextToSpeech Service,
+Job Service, Print Service, Sync Service and MediaRoute2Provider Service
+
+Bug: 232798473, 232798676, 336490997
+Test: Manual test. BackgroundActivityLaunchTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8fdf4a345e140eba9b4e736d24ab95c67c55a247)
+Merged-In: Ib113e45aa18296b4475b90d6dcec5dd5664f4c80
+Change-Id: Ib113e45aa18296b4475b90d6dcec5dd5664f4c80
+---
+ services/core/java/com/android/server/content/SyncManager.java | 3 ++-
+ .../core/java/com/android/server/job/JobServiceContext.java    | 2 +-
+ .../java/com/android/server/print/RemotePrintService.java      | 3 ++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/content/SyncManager.java b/services/core/java/com/android/server/content/SyncManager.java
+index fa8c48bdc7f78..586a9304e3e27 100644
+--- a/services/core/java/com/android/server/content/SyncManager.java
++++ b/services/core/java/com/android/server/content/SyncManager.java
+@@ -217,7 +217,8 @@ public class SyncManager {
+ 
+     /** Flags used when connecting to a sync adapter service */
+     private static final int SYNC_ADAPTER_CONNECTION_FLAGS = Context.BIND_AUTO_CREATE
+-            | Context.BIND_NOT_FOREGROUND | Context.BIND_ALLOW_OOM_MANAGEMENT;
++            | Context.BIND_NOT_FOREGROUND | Context.BIND_ALLOW_OOM_MANAGEMENT
++            | Context.BIND_DENY_ACTIVITY_STARTS;
+ 
+     /** Singleton instance. */
+     @GuardedBy("SyncManager.class")
+diff --git a/services/core/java/com/android/server/job/JobServiceContext.java b/services/core/java/com/android/server/job/JobServiceContext.java
+index 5ca628f6daa2d..dd598ced4cb2c 100644
+--- a/services/core/java/com/android/server/job/JobServiceContext.java
++++ b/services/core/java/com/android/server/job/JobServiceContext.java
+@@ -251,7 +251,7 @@ boolean executeRunnableJob(JobStatus job) {
+             try {
+                 binding = mContext.bindServiceAsUser(intent, this,
+                         Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND
+-                        | Context.BIND_NOT_PERCEPTIBLE,
++                        | Context.BIND_NOT_PERCEPTIBLE | Context.BIND_DENY_ACTIVITY_STARTS,
+                         UserHandle.of(job.getUserId()));
+             } catch (SecurityException e) {
+                 // Some permission policy, for example INTERACT_ACROSS_USERS and
+diff --git a/services/print/java/com/android/server/print/RemotePrintService.java b/services/print/java/com/android/server/print/RemotePrintService.java
+index 502cd2c60f4aa..702ddbb9f912a 100644
+--- a/services/print/java/com/android/server/print/RemotePrintService.java
++++ b/services/print/java/com/android/server/print/RemotePrintService.java
+@@ -572,7 +572,8 @@ private void ensureBound() {
+ 
+         boolean wasBound = mContext.bindServiceAsUser(mIntent, mServiceConnection,
+                 Context.BIND_AUTO_CREATE | Context.BIND_FOREGROUND_SERVICE
+-                        | Context.BIND_INCLUDE_CAPABILITIES | Context.BIND_ALLOW_INSTANT,
++                        | Context.BIND_INCLUDE_CAPABILITIES | Context.BIND_ALLOW_INSTANT
++                        | Context.BIND_DENY_ACTIVITY_STARTS,
+                 new UserHandle(mUserId));
+ 
+         if (!wasBound) {

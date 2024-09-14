@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 63c86c2e26ce2d2b6b4119abf5d4fe1dbb8b00b6 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 22 Apr 2024 16:43:29 +0000
 Subject: [PATCH] Fix heap-buffer overflow in sdp_utils.cc
@@ -24,10 +24,10 @@ Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
  1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/stack/sdp/sdp_utils.cc b/stack/sdp/sdp_utils.cc
-index 33f30b042..94368ecbc 100644
+index 9310770c6..93625ed4b 100644
 --- a/stack/sdp/sdp_utils.cc
 +++ b/stack/sdp/sdp_utils.cc
-@@ -943,8 +943,28 @@ bool sdpu_compare_uuid_arrays(uint8_t* p_uuid1, uint32_t len1, uint8_t* p_uuid2,
+@@ -739,8 +739,28 @@ bool sdpu_compare_uuid_arrays(uint8_t* p_uuid1, uint32_t len1, uint8_t* p_uuid2,
   ******************************************************************************/
  bool sdpu_compare_uuid_with_attr(const Uuid& uuid, tSDP_DISC_ATTR* p_attr) {
    int len = uuid.GetShortestRepresentationSize();

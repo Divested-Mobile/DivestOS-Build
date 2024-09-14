@@ -1,0 +1,25 @@
+From 85be42f596b8a36cdf61e321a2d66903b9625679 Mon Sep 17 00:00:00 2001
+From: Makoto Onuki <omakoto@google.com>
+Date: Thu, 10 Oct 2019 08:34:49 -0700
+Subject: [PATCH] Stop using UserHandle' hidden constructor.
+
+Bug: 142281756
+Test: build
+Change-Id: Icf16bdcad34dcc580fcc42d64c98a46d36bf19f7
+---
+ .../core/java/com/android/server/job/JobServiceContext.java     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/job/JobServiceContext.java b/services/core/java/com/android/server/job/JobServiceContext.java
+index 7da128f9d3ecc..5ca628f6daa2d 100644
+--- a/services/core/java/com/android/server/job/JobServiceContext.java
++++ b/services/core/java/com/android/server/job/JobServiceContext.java
+@@ -252,7 +252,7 @@ boolean executeRunnableJob(JobStatus job) {
+                 binding = mContext.bindServiceAsUser(intent, this,
+                         Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND
+                         | Context.BIND_NOT_PERCEPTIBLE,
+-                        new UserHandle(job.getUserId()));
++                        UserHandle.of(job.getUserId()));
+             } catch (SecurityException e) {
+                 // Some permission policy, for example INTERACT_ACROSS_USERS and
+                 // android:singleUser, can result in a SecurityException being thrown from

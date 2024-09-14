@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 277d3d387c624668019378f1613a699ed0acc50b Mon Sep 17 00:00:00 2001
 From: Kiran S <krns@google.com>
 Date: Mon, 13 May 2024 05:49:06 +0000
 Subject: [PATCH] Restrict USB poups while setup is in progress
@@ -14,7 +14,7 @@ Change-Id: I7d54534696fd73f3b94c5b4250142eed9341c5d8
  1 file changed, 21 insertions(+)
 
 diff --git a/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java b/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
-index 74c3939a1b1c..2e25798b25d8 100644
+index 74c3939a1b1cd..2e25798b25d81 100644
 --- a/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
 +++ b/services/usb/java/com/android/server/usb/UsbProfileGroupSettingsManager.java
 @@ -16,6 +16,8 @@
@@ -26,7 +26,7 @@ index 74c3939a1b1c..2e25798b25d8 100644
  import static com.android.internal.app.IntentForwarderActivity.FORWARD_INTENT_TO_MANAGED_PROFILE;
  
  import android.annotation.NonNull;
-@@ -42,6 +44,7 @@ import android.os.AsyncTask;
+@@ -42,6 +44,7 @@
  import android.os.Environment;
  import android.os.UserHandle;
  import android.os.UserManager;
@@ -34,7 +34,7 @@ index 74c3939a1b1c..2e25798b25d8 100644
  import android.service.usb.UsbProfileGroupSettingsManagerProto;
  import android.service.usb.UsbSettingsAccessoryPreferenceProto;
  import android.service.usb.UsbSettingsDevicePreferenceProto;
-@@ -762,10 +765,28 @@ class UsbProfileGroupSettingsManager {
+@@ -762,10 +765,28 @@ private void resolveActivity(Intent intent, UsbDevice device, boolean showMtpNot
              return;
          }
  

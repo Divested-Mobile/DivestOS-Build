@@ -137,6 +137,7 @@ applyPatch "$DOS_PATCHES/android_external_expat/349328.patch"; #P_asb_2023-02 [C
 applyPatch "$DOS_PATCHES/android_external_expat/0001-lib-Reject-negative-len-for-XML_ParseBuffer.patch";
 applyPatch "$DOS_PATCHES/android_external_expat/0002-lib-Detect-integer-overflow-in-dtdCopy.patch.patch";
 applyPatch "$DOS_PATCHES/android_external_expat/0003-lib-Detect-integer-overflow-in-function-nextScaffold.patch";
+applyPatch "$DOS_PATCHES/android_external_expat/0004-lib-Stop-leaking-opening-tag-bindings-after-closing-.patch";
 fi;
 
 if enterAndClear "external/freetype"; then

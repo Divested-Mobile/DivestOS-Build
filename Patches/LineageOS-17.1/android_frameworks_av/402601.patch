@@ -1,0 +1,48 @@
+From d4ac842dbe57dbacd69bc258d4ee8aecf672d8a9 Mon Sep 17 00:00:00 2001
+From: Alexander Grund <flamefire89@gmail.com>
+Date: Tue, 27 Aug 2024 16:53:27 +0200
+Subject: [PATCH] Fix flag check in JAudioTrack.cpp
+
+Checking for a bitwise flag needs to use `&` not `|` as the latter will
+yield a non-zero result in all (relevant) cases.
+
+Change-Id: Ifd2e98e7bb394c35a8a2f4ebde512046823da043
+---
+ media/libmediaplayer2/JAudioTrack.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/media/libmediaplayer2/JAudioTrack.cpp b/media/libmediaplayer2/JAudioTrack.cpp
+index fab6c649fc6..be91e9a920c 100644
+--- a/media/libmediaplayer2/JAudioTrack.cpp
++++ b/media/libmediaplayer2/JAudioTrack.cpp
+@@ -695,26 +695,26 @@ jobject JAudioTrack::createVolumeShaperOperationObj(
+         jBuilderObj = env->CallObjectMethod(jBuilderCls, jReplace, operation->getReplaceId(), join);
+     }
+ 
+-    if (flags | media::VolumeShaper::Operation::FLAG_REVERSE) {
++    if (flags & media::VolumeShaper::Operation::FLAG_REVERSE) {
+         jmethodID jReverse = env->GetMethodID(jBuilderCls, "reverse",
+                 "()Landroid/media/VolumeShaper$Operation$Builder;");
+         jBuilderObj = env->CallObjectMethod(jBuilderCls, jReverse);
+     }
+ 
+     // TODO: VolumeShaper Javadoc says "Do not call terminate() directly". Can we call this?
+-    if (flags | media::VolumeShaper::Operation::FLAG_TERMINATE) {
++    if (flags & media::VolumeShaper::Operation::FLAG_TERMINATE) {
+         jmethodID jTerminate = env->GetMethodID(jBuilderCls, "terminate",
+                 "()Landroid/media/VolumeShaper$Operation$Builder;");
+         jBuilderObj = env->CallObjectMethod(jBuilderCls, jTerminate);
+     }
+ 
+-    if (flags | media::VolumeShaper::Operation::FLAG_DELAY) {
++    if (flags & media::VolumeShaper::Operation::FLAG_DELAY) {
+         jmethodID jDefer = env->GetMethodID(jBuilderCls, "defer",
+                 "()Landroid/media/VolumeShaper$Operation$Builder;");
+         jBuilderObj = env->CallObjectMethod(jBuilderCls, jDefer);
+     }
+ 
+-    if (flags | media::VolumeShaper::Operation::FLAG_CREATE_IF_NECESSARY) {
++    if (flags & media::VolumeShaper::Operation::FLAG_CREATE_IF_NECESSARY) {
+         jmethodID jCreateIfNeeded = env->GetMethodID(jBuilderCls, "createIfNeeded",
+                 "()Landroid/media/VolumeShaper$Operation$Builder;");
+         jBuilderObj = env->CallObjectMethod(jBuilderCls, jCreateIfNeeded);
