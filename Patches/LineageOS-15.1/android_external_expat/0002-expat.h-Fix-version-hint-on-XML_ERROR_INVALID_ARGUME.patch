@@ -9,7 +9,7 @@ Introduced at commit 768613f801020dee30a0583ec6cd77ec401d747f.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/expat.h b/lib/expat.h
-index 145c283b..59c36e54 100644
+index 957da1c5..34644468 100644
 --- a/lib/expat.h
 +++ b/lib/expat.h
 @@ -96,7 +96,7 @@ enum XML_Error {

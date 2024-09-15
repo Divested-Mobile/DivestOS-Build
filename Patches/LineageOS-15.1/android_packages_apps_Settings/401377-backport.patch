@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Antol <cantol@google.com>
+Date: Tue, 4 Jun 2024 17:00:46 +0000
+Subject: [PATCH] Ignore fragment attr from ext authenticator resource
+
+Bug: 341886134
+Test: Unit Test
+Test: Manual - see ticket for steps
+Flag: EXEMPT <security>
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2cb9b10ed97b1b9b29661115789605a762f3c2ef)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:7e0b376b11318e1e79b31bac6aafc0c923868bc4)
+Merged-In: Id91c2b3b6d16ba3702ee2cd6723365a4db52863b
+Change-Id: Id91c2b3b6d16ba3702ee2cd6723365a4db52863b
+---
+ .../accounts/AccountTypePreferenceLoader.java | 57 +++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+
+diff --git a/src/com/android/settings/accounts/AccountTypePreferenceLoader.java b/src/com/android/settings/accounts/AccountTypePreferenceLoader.java
+index 7656dbbb77a..92b0146654f 100644
+--- a/src/com/android/settings/accounts/AccountTypePreferenceLoader.java
++++ b/src/com/android/settings/accounts/AccountTypePreferenceLoader.java
+@@ -34,14 +34,22 @@ import android.support.v7.preference.Preference;
+ import android.support.v7.preference.Preference.OnPreferenceClickListener;
+ import android.support.v7.preference.PreferenceGroup;
+ import android.support.v7.preference.PreferenceScreen;
++import android.text.TextUtils;
+ import android.util.Log;
+ 
++import android.support.annotation.NonNull;
++import android.support.annotation.Nullable;
++import android.support.annotation.VisibleForTesting;
++import android.util.ArraySet;
++
+ import com.android.settings.R;
+ import com.android.settings.SettingsActivity;
+ import com.android.settings.location.LocationSettings;
+ import com.android.settings.utils.LocalClassLoaderContextThemeWrapper;
+ import com.android.settingslib.accounts.AuthenticatorHelper;
+ 
++import java.util.Set;
++
+ /**
+  * Class to load the preference screen to be added to the settings page for the specific account
+  * type as specified in the account-authenticator.
+@@ -80,6 +88,7 @@ public class AccountTypePreferenceLoader {
+             try {
+                 desc = mAuthenticatorHelper.getAccountTypeDescription(accountType);
+                 if (desc != null && desc.accountPreferencesId != 0) {
++                    Set<String> fragmentAllowList = generateFragmentAllowlist(parent);
+                     // Load the context of the target package, then apply the
+                     // base Settings theme (no references to local resources)
+                     // and create a context theme wrapper so that we get the
+@@ -95,6 +104,12 @@ public class AccountTypePreferenceLoader {
+                     themedCtx.getTheme().setTo(baseTheme);
+                     prefs = mFragment.getPreferenceManager().inflateFromResource(themedCtx,
+                             desc.accountPreferencesId, parent);
++                    // Ignore Fragments provided dynamically, as these are coming from external
++                    // applications which must not have access to internal Settings' fragments.
++                    // These preferences are rendered into Settings, so they also won't have access
++                    // to their own Fragments, meaning there is no acceptable usage of
++                    // android:fragment here.
++                    filterBlockedFragments(prefs, fragmentAllowList);
+                 }
+             } catch (PackageManager.NameNotFoundException e) {
+                 Log.w(TAG, "Couldn't load preferences.xml file from " + desc.packageName);
+@@ -179,6 +194,48 @@ public class AccountTypePreferenceLoader {
+         }
+     }
+ 
++    // Build allowlist from existing Fragments in PreferenceGroup
++    @VisibleForTesting
++    Set<String> generateFragmentAllowlist(@Nullable PreferenceGroup prefs) {
++        Set<String> fragmentAllowList = new ArraySet<>();
++        if (prefs == null) {
++            return fragmentAllowList;
++        }
++
++        for (int i = 0; i < prefs.getPreferenceCount(); i++) {
++            Preference pref = prefs.getPreference(i);
++            if (pref instanceof PreferenceGroup) {
++                fragmentAllowList.addAll(generateFragmentAllowlist((PreferenceGroup) pref));
++            }
++
++            String fragmentName = pref.getFragment();
++            if (!TextUtils.isEmpty(fragmentName)) {
++                fragmentAllowList.add(fragmentName);
++            }
++        }
++        return fragmentAllowList;
++    }
++
++    // Block clicks on any Preference with android:fragment that is not contained in the allowlist
++    @VisibleForTesting
++    void filterBlockedFragments(@Nullable PreferenceGroup prefs,
++            @NonNull Set<String> allowedFragments) {
++        if (prefs == null) {
++            return;
++        }
++        for (int i = 0; i < prefs.getPreferenceCount(); i++) {
++            Preference pref = prefs.getPreference(i);
++            if (pref instanceof PreferenceGroup) {
++                filterBlockedFragments((PreferenceGroup) pref, allowedFragments);
++            }
++
++            String fragmentName = pref.getFragment();
++            if (fragmentName != null && !allowedFragments.contains(fragmentName)) {
++                pref.setOnPreferenceClickListener(preference -> true);
++            }
++        }
++    }
++
+     /**
+      * Determines if the supplied Intent is safe. A safe intent is one that is
+      * will launch a exported=true activity or owned by the same uid as the

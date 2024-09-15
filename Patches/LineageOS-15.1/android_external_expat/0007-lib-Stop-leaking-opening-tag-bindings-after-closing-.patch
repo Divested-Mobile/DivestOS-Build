@@ -15,10 +15,10 @@ Change-Id: I2572abf87973e8de97898726812a14354aa01c17
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 977079f9..cc30f71f 100644
+index e93a788d..300f4e0b 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -2567,9 +2567,6 @@ doContent(XML_Parser parser,
+@@ -2571,9 +2571,6 @@ doContent(XML_Parser parser,
          int len;
          const char *rawName;
          TAG *tag = tagStack;
@@ -28,7 +28,7 @@ index 977079f9..cc30f71f 100644
          rawName = s + enc->minBytesPerChar*2;
          len = XmlNameLength(enc, rawName);
          if (len != tag->rawNameLength
-@@ -2577,6 +2574,9 @@ doContent(XML_Parser parser,
+@@ -2581,6 +2578,9 @@ doContent(XML_Parser parser,
            *eventPP = rawName;
            return XML_ERROR_TAG_MISMATCH;
          }

@@ -9,7 +9,7 @@ Subject: [PATCH] Validate parser parameter to XML_UseForeignDTD.
  2 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/lib/expat.h b/lib/expat.h
-index ec62f140..145c283b 100644
+index 086e24b3..957da1c5 100644
 --- a/lib/expat.h
 +++ b/lib/expat.h
 @@ -95,7 +95,9 @@ enum XML_Error {
@@ -32,7 +32,7 @@ index ec62f140..145c283b 100644
  XMLPARSEAPI(enum XML_Error)
  XML_UseForeignDTD(XML_Parser parser, XML_Bool useDTD);
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 57c93e05..9df42782 100644
+index ee71adad..065b04f8 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
 @@ -1243,6 +1243,8 @@ XML_UseParserAsHandlerArg(XML_Parser parser)

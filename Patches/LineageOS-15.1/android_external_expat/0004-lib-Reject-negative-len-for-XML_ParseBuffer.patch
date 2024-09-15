@@ -13,7 +13,7 @@ Change-Id: Ic070b629e085c2aa5fd2711e1738acde42fee444
  1 file changed, 6 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index d3b43171..d9f33395 100644
+index f35645f3..bd429812 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
 @@ -1672,6 +1672,12 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)

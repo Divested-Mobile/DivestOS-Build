@@ -8,7 +8,7 @@ Subject: [PATCH] Validate parser parameter for XML_ParseBuffer
  1 file changed, 2 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 9df42782..d3b43171 100644
+index 065b04f8..f35645f3 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
 @@ -1670,6 +1670,8 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)

@@ -13,10 +13,10 @@ Change-Id: Ic152fd5352442dc60db0358226118a0ad3021bc5
  1 file changed, 9 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 99bf2411..977079f9 100644
+index c88eaeb3..e93a788d 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -6494,6 +6494,15 @@ nextScaffoldPart(XML_Parser parser)
+@@ -6498,6 +6498,15 @@ nextScaffoldPart(XML_Parser parser)
    int next;
  
    if (!dtd->scaffIndex) {

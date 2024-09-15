@@ -24,7 +24,7 @@ Change-Id: Ib536cbeac454efbf6af3d713c05c8e3e077e069b
  1 file changed, 22 insertions(+), 5 deletions(-)
 
 diff --git a/stack/sdp/sdp_utils.cc b/stack/sdp/sdp_utils.cc
-index e126e7cdd..58d1065a9 100644
+index e126e7cdd..8c5020477 100644
 --- a/stack/sdp/sdp_utils.cc
 +++ b/stack/sdp/sdp_utils.cc
 @@ -731,11 +731,28 @@ bool sdpu_compare_uuid_with_attr(tBT_UUID* p_btuuid, tSDP_DISC_ATTR* p_attr) {
