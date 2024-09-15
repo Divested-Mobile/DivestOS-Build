@@ -1,4 +1,4 @@
-From d60e8484debe2c0de08f438563f4a1cdd026c501 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Linus Tufvesson <lus@google.com>
 Date: Mon, 29 Apr 2024 16:32:15 +0200
 Subject: [PATCH] Hide SAW subwindows
@@ -17,10 +17,10 @@ Change-Id: If19240f5aec2e048de80d75cbbdc00be47622d7f
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/wm/WindowState.java b/services/core/java/com/android/server/wm/WindowState.java
-index cca14d884cdd8..4c0aa6492f91c 100644
+index cca14d884cdd..4c0aa6492f91 100644
 --- a/services/core/java/com/android/server/wm/WindowState.java
 +++ b/services/core/java/com/android/server/wm/WindowState.java
-@@ -2730,8 +2730,9 @@ boolean hideLw(boolean doAnimation, boolean requestAnim) {
+@@ -2730,8 +2730,9 @@ class WindowState extends WindowContainer<WindowState> implements WindowManagerP
      }
  
      void setForceHideNonSystemOverlayWindowIfNeeded(boolean forceHide) {

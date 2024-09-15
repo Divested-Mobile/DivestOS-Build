@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Antol <cantol@google.com>
+Date: Mon, 25 Mar 2024 23:49:35 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Restrict Settings Homepage prior to
+ provisioning
+
+Bug: 327749022
+Test: manual test
+1. factory reset + launch Settings via ADB during Setup -> verify app closes
+2. factory reset + bypass Setup + tap Settings icon in launcher -> verify app closes
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:70a5a0fd353cc6203d2926627de93786155ae5bc)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:7f1c4df02d153cb380a6147e86194bec2a564ab7)
+Merged-In: I8cbe38109ebf88a0f68f3917e95468a81c6463c1
+Change-Id: I8cbe38109ebf88a0f68f3917e95468a81c6463c1
+---
+ .../settings/homepage/SettingsHomepageActivity.java   | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/src/com/android/settings/homepage/SettingsHomepageActivity.java b/src/com/android/settings/homepage/SettingsHomepageActivity.java
+index 5e6c54bb7c2..80e2e32e3e9 100644
+--- a/src/com/android/settings/homepage/SettingsHomepageActivity.java
++++ b/src/com/android/settings/homepage/SettingsHomepageActivity.java
+@@ -20,6 +20,7 @@ import android.animation.LayoutTransition;
+ import android.app.ActivityManager;
+ import android.app.settings.SettingsEnums;
+ import android.os.Bundle;
++import android.util.Log;
+ import android.view.View;
+ import android.widget.FrameLayout;
+ import android.widget.ImageView;
+@@ -43,6 +44,16 @@ public class SettingsHomepageActivity extends FragmentActivity {
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+ 
++        // Ensure device is provisioned in order to access Settings home
++        // TODO(b/331254029): This should later be replaced in favor of an allowlist
++        boolean unprovisioned = android.provider.Settings.Global.getInt(getContentResolver(),
++                android.provider.Settings.Global.DEVICE_PROVISIONED, 0) == 0;
++        if (unprovisioned) {
++            Log.e("SettingsHomepageActivity", "Device is not provisioned, exiting Settings");
++            finish();
++            return;
++        }
++
+         setContentView(R.layout.settings_homepage_container);
+         final View root = findViewById(R.id.settings_homepage_container);
+         root.setSystemUiVisibility(

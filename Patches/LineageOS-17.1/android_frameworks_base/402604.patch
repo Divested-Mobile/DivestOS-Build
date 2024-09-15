@@ -1,4 +1,4 @@
-From 99185b565ac3298604e6351774e9bc20457d49b2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Nan Wu <wnan@google.com>
 Date: Tue, 30 Apr 2024 17:20:29 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Backport preventing BAL bypass via bound
@@ -19,7 +19,7 @@ Change-Id: Ib113e45aa18296b4475b90d6dcec5dd5664f4c80
  3 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/services/core/java/com/android/server/content/SyncManager.java b/services/core/java/com/android/server/content/SyncManager.java
-index fa8c48bdc7f78..586a9304e3e27 100644
+index fa8c48bdc7f7..586a9304e3e2 100644
 --- a/services/core/java/com/android/server/content/SyncManager.java
 +++ b/services/core/java/com/android/server/content/SyncManager.java
 @@ -217,7 +217,8 @@ public class SyncManager {
@@ -33,10 +33,10 @@ index fa8c48bdc7f78..586a9304e3e27 100644
      /** Singleton instance. */
      @GuardedBy("SyncManager.class")
 diff --git a/services/core/java/com/android/server/job/JobServiceContext.java b/services/core/java/com/android/server/job/JobServiceContext.java
-index 5ca628f6daa2d..dd598ced4cb2c 100644
+index 5ca628f6daa2..dd598ced4cb2 100644
 --- a/services/core/java/com/android/server/job/JobServiceContext.java
 +++ b/services/core/java/com/android/server/job/JobServiceContext.java
-@@ -251,7 +251,7 @@ boolean executeRunnableJob(JobStatus job) {
+@@ -251,7 +251,7 @@ public final class JobServiceContext implements ServiceConnection {
              try {
                  binding = mContext.bindServiceAsUser(intent, this,
                          Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND
@@ -46,10 +46,10 @@ index 5ca628f6daa2d..dd598ced4cb2c 100644
              } catch (SecurityException e) {
                  // Some permission policy, for example INTERACT_ACROSS_USERS and
 diff --git a/services/print/java/com/android/server/print/RemotePrintService.java b/services/print/java/com/android/server/print/RemotePrintService.java
-index 502cd2c60f4aa..702ddbb9f912a 100644
+index 502cd2c60f4a..702ddbb9f912 100644
 --- a/services/print/java/com/android/server/print/RemotePrintService.java
 +++ b/services/print/java/com/android/server/print/RemotePrintService.java
-@@ -572,7 +572,8 @@ private void ensureBound() {
+@@ -572,7 +572,8 @@ final class RemotePrintService implements DeathRecipient {
  
          boolean wasBound = mContext.bindServiceAsUser(mIntent, mServiceConnection,
                  Context.BIND_AUTO_CREATE | Context.BIND_FOREGROUND_SERVICE

@@ -1,8 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jason Chiu <chiujason@google.com>
+Date: Wed, 31 Jan 2024 16:29:01 +0800
+Subject: [PATCH] Replace getCallingActivity() with getLaunchedFromPackage()
+
+getLaunchedFromPackage() reports who launched this Activity or built
+PendingIntent used to launch it, whereas getCallingActivity() reports
+who will get result of Activity.
+
+Bug: 316891059
+Test: robotest, manual
+(cherry picked from commit ddc11bc03ab48e885f652b89df5f92ff283bcd4a)
+(cherry picked from commit 8bdbb580da847d82f16fb57883a01a5e65ffa696)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c7a8127d3bb6010617e507c03f7207dd50082953)
+Merged-In: If97018c2741caef622f0596bbfeaa42ef1788b78
+Change-Id: If97018c2741caef622f0596bbfeaa42ef1788b78
+---
+ .../search/SearchFeatureProvider.java         |  2 +-
+ .../search/SearchFeatureProviderImpl.java     | 20 +++++++++----------
+ .../search/SearchResultTrampoline.java        |  2 +-
+ .../search/SearchFeatureProviderImplTest.java | 15 +++++++-------
+ 4 files changed, 19 insertions(+), 20 deletions(-)
+
 diff --git a/src/com/android/settings/search/SearchFeatureProvider.java b/src/com/android/settings/search/SearchFeatureProvider.java
-index 20d4e7c16bd..d6950eb06aa 100644
+index 896f6e5c78c..cc6662acf1e 100644
 --- a/src/com/android/settings/search/SearchFeatureProvider.java
 +++ b/src/com/android/settings/search/SearchFeatureProvider.java
-@@ -49,7 +49,7 @@ public interface SearchFeatureProvider {
+@@ -47,7 +47,7 @@ public interface SearchFeatureProvider {
       * @throws IllegalArgumentException when caller is null
       * @throws SecurityException        when caller is not allowed to launch search result page
       */
@@ -12,7 +35,7 @@ index 20d4e7c16bd..d6950eb06aa 100644
  
      /**
 diff --git a/src/com/android/settings/search/SearchFeatureProviderImpl.java b/src/com/android/settings/search/SearchFeatureProviderImpl.java
-index 63bf420c027..eaadbc2af50 100644
+index 63bf420c027..423779fbabf 100644
 --- a/src/com/android/settings/search/SearchFeatureProviderImpl.java
 +++ b/src/com/android/settings/search/SearchFeatureProviderImpl.java
 @@ -17,13 +17,14 @@
@@ -62,10 +85,10 @@ index 63bf420c027..eaadbc2af50 100644
          }
          throw new SecurityException("Search result intents must be called with from a "
 diff --git a/src/com/android/settings/search/SearchResultTrampoline.java b/src/com/android/settings/search/SearchResultTrampoline.java
-index e9304739460..c233e86b6fc 100644
+index 3bbe6bd58a7..70387b021d4 100644
 --- a/src/com/android/settings/search/SearchResultTrampoline.java
 +++ b/src/com/android/settings/search/SearchResultTrampoline.java
-@@ -39,7 +39,7 @@ public class SearchResultTrampoline extends Activity {
+@@ -38,7 +38,7 @@ public class SearchResultTrampoline extends Activity {
          // First make sure caller has privilege to launch a search result page.
          FeatureFactory.getFactory(this)
                  .getSearchFeatureProvider()

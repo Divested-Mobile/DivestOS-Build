@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pranav Madapurmath <pmadapurmath@google.com>
+Date: Tue, 11 Jun 2024 15:51:39 +0000
+Subject: [PATCH] Unbind CallScreeningService when timeout reached.
+
+In a vulnerability, the exploiter showed that an app which implements a
+service with role holding ROLE_CALL_SCREENING can be used to keep a
+service alive. The assumption is that the CallScreeningService class
+uses MSG_SCREEN_CALL to screen the call and results in the service being
+unbound for outgoing calls once screening completes. However, a vanilla
+service which holds the ROLE_CALL_SCREENING role can still be used as
+the default call screening app which keeps the service alive.
+
+This CL ensures that after the timeout is reached that we try to unbind
+the service if possible.
+
+Bug: 300904123
+Test: Manual test to verify that onDestroy is called for the service
+after the timeout is reached.
+
+(cherry picked from commit 9d97cd5825066ac8e15bbf97f6755663c5341afb)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d57f25311acb7fb887fb0296364526345cc905bb)
+Merged-In: I30d276867c571ece113106d3b363fce99d64f441
+Change-Id: I30d276867c571ece113106d3b363fce99d64f441
+---
+ .../android/server/telecom/CallScreeningServiceHelper.java    | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/com/android/server/telecom/CallScreeningServiceHelper.java b/src/com/android/server/telecom/CallScreeningServiceHelper.java
+index 89778e43a..5582a7da4 100644
+--- a/src/com/android/server/telecom/CallScreeningServiceHelper.java
++++ b/src/com/android/server/telecom/CallScreeningServiceHelper.java
+@@ -185,6 +185,10 @@ public class CallScreeningServiceHelper {
+                             Log.w(TAG, "Cancelling call id process due to timeout");
+                         }
+                         mFuture.complete(null);
++                        mContext.unbindService(serviceConnection);
++                    } catch (IllegalArgumentException e) {
++                        Log.i(this, "Exception when unbinding service %s : %s", serviceConnection,
++                                e.getMessage());
+                     } finally {
+                         Log.endSession();
+                     }
