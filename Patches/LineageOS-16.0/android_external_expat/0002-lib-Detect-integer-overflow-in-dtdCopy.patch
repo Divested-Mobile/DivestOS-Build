@@ -9,10 +9,10 @@ Reported by TaiYou
  1 file changed, 10 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index f4e3d2a..a6d92f4 100644
+index 3dc9673b..158cb4ea 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -6639,6 +6639,16 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd, const XML_Memory_H
+@@ -6616,6 +6616,16 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd, const XML_Memory_H
      if (!newE)
        return 0;
      if (oldE->nDefaultAtts) {

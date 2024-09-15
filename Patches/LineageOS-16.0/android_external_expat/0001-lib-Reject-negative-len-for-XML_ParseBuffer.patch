@@ -9,10 +9,10 @@ Reported by TaiYou
  1 file changed, 6 insertions(+)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 074c841..f4e3d2a 100644
+index 90089ab7..3dc9673b 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -1969,6 +1969,12 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)
+@@ -1965,6 +1965,12 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal)
  
    if (parser == NULL)
      return XML_STATUS_ERROR;

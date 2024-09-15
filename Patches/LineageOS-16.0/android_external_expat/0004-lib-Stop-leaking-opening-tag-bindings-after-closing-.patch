@@ -1,4 +1,4 @@
-From 33050b14552fd7d0767bdc56fc9448323443735e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sebastian Pipping <sebastian@pipping.org>
 Date: Thu, 22 Sep 2022 16:51:17 +0200
 Subject: [PATCH] lib: Stop leaking opening tag bindings after closing tag
@@ -13,10 +13,10 @@ Change-Id: Ia6e29060abc733548bca1910735466c415cbd58c
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-index 2f48cf1..a891f5a 100644
+index 59b35841..008b92e9 100644
 --- a/lib/xmlparse.c
 +++ b/lib/xmlparse.c
-@@ -2962,9 +2962,6 @@ doContent(XML_Parser parser,
+@@ -2939,9 +2939,6 @@ doContent(XML_Parser parser,
          int len;
          const char *rawName;
          TAG *tag = parser->m_tagStack;
@@ -26,7 +26,7 @@ index 2f48cf1..a891f5a 100644
          rawName = s + enc->minBytesPerChar*2;
          len = XmlNameLength(enc, rawName);
          if (len != tag->rawNameLength
-@@ -2972,6 +2969,9 @@ doContent(XML_Parser parser,
+@@ -2949,6 +2946,9 @@ doContent(XML_Parser parser,
            *eventPP = rawName;
            return XML_ERROR_TAG_MISMATCH;
          }
