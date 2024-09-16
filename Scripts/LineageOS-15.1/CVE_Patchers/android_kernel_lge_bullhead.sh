@@ -818,6 +818,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43893/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44939/^6.9/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44944/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/3.10/0002.patch
@@ -830,7 +831,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p830"
+editKernelLocalversion "-dos.p831"
 else echo "kernel_lge_bullhead is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
