@@ -953,6 +953,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44939/^6.9/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44944/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46771/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4592/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9728/3.4/0008.patch
@@ -965,7 +966,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p965"
+editKernelLocalversion "-dos.p966"
 else echo "kernel_amazon_hdx-common is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
