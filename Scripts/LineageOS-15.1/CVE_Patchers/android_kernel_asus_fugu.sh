@@ -879,7 +879,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46738/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46758/^6.10/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46771/^6.11/0001.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46771/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
