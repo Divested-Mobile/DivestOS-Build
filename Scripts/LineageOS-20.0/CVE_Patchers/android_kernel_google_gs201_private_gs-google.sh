@@ -1005,6 +1005,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46744/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46745/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46747/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46750/5.10/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46754/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46755/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46756/5.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46757/5.10/0003.patch
@@ -1029,7 +1030,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.10/0003.patch
-editKernelLocalversion "-dos.p1029"
+editKernelLocalversion "-dos.p1030"
 else echo "kernel_google_gs201_private_gs-google is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
