@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 227df78aae8974bcdde516d111189f082824a765 Mon Sep 17 00:00:00 2001
 From: Chris Antol <cantol@google.com>
 Date: Tue, 4 Jun 2024 17:00:46 +0000
 Subject: [PATCH] Ignore fragment attr from ext authenticator resource
@@ -19,7 +19,7 @@ diff --git a/src/com/android/settings/accounts/AccountTypePreferenceLoader.java 
 index c639d1df2eb..84386a38f08 100644
 --- a/src/com/android/settings/accounts/AccountTypePreferenceLoader.java
 +++ b/src/com/android/settings/accounts/AccountTypePreferenceLoader.java
-@@ -32,6 +32,10 @@ import android.os.UserHandle;
+@@ -32,6 +32,10 @@
  import android.text.TextUtils;
  import android.util.Log;
  
@@ -30,7 +30,7 @@ index c639d1df2eb..84386a38f08 100644
  import androidx.preference.Preference;
  import androidx.preference.Preference.OnPreferenceClickListener;
  import androidx.preference.PreferenceFragmentCompat;
-@@ -45,6 +49,8 @@ import com.android.settings.utils.LocalClassLoaderContextThemeWrapper;
+@@ -45,6 +49,8 @@
  import com.android.settingslib.accounts.AuthenticatorHelper;
  import com.android.settingslib.core.instrumentation.Instrumentable;
  
@@ -39,7 +39,7 @@ index c639d1df2eb..84386a38f08 100644
  /**
   * Class to load the preference screen to be added to the settings page for the specific account
   * type as specified in the account-authenticator.
-@@ -83,6 +89,7 @@ public class AccountTypePreferenceLoader {
+@@ -83,6 +89,7 @@ public PreferenceScreen addPreferencesForType(final String accountType,
              try {
                  desc = mAuthenticatorHelper.getAccountTypeDescription(accountType);
                  if (desc != null && desc.accountPreferencesId != 0) {
@@ -47,7 +47,7 @@ index c639d1df2eb..84386a38f08 100644
                      // Load the context of the target package, then apply the
                      // base Settings theme (no references to local resources)
                      // and create a context theme wrapper so that we get the
-@@ -98,6 +105,12 @@ public class AccountTypePreferenceLoader {
+@@ -98,6 +105,12 @@ public PreferenceScreen addPreferencesForType(final String accountType,
                      themedCtx.getTheme().setTo(baseTheme);
                      prefs = mFragment.getPreferenceManager().inflateFromResource(themedCtx,
                              desc.accountPreferencesId, parent);
@@ -60,7 +60,7 @@ index c639d1df2eb..84386a38f08 100644
                  }
              } catch (PackageManager.NameNotFoundException e) {
                  Log.w(TAG, "Couldn't load preferences.xml file from " + desc.packageName);
-@@ -182,6 +195,48 @@ public class AccountTypePreferenceLoader {
+@@ -182,6 +195,48 @@ public boolean onPreferenceClick(Preference preference) {
          }
      }
  

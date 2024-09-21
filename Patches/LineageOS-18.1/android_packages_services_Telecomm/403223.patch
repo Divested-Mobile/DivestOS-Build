@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From d5dd619c2ba08613723d45636e04fc37da0bd716 Mon Sep 17 00:00:00 2001
 From: Grant Menke <grantmenke@google.com>
 Date: Thu, 25 Apr 2024 10:43:43 -0700
 Subject: [PATCH] DO NOT MERGE Unbind CS if connection is not created within 15
@@ -28,7 +28,7 @@ diff --git a/src/com/android/server/telecom/Call.java b/src/com/android/server/t
 index cd236d2f4..e8c5a47ac 100755
 --- a/src/com/android/server/telecom/Call.java
 +++ b/src/com/android/server/telecom/Call.java
-@@ -329,6 +329,17 @@ public class Call implements CreateConnectionResponse, EventManager.Loggable,
+@@ -329,6 +329,17 @@ public void onContactPhotoQueryComplete(Uri handle, CallerInfo callerInfo) {
      /** The state of the call. */
      private int mState;
  
@@ -46,7 +46,7 @@ index cd236d2f4..e8c5a47ac 100755
      /** The handle with which to establish this call. */
      private Uri mHandle;
  
-@@ -958,6 +969,19 @@ public class Call implements CreateConnectionResponse, EventManager.Loggable,
+@@ -958,6 +969,19 @@ public ConnectionServiceFocusManager.ConnectionServiceFocus getConnectionService
          return mConnectionService;
      }
  
@@ -66,7 +66,7 @@ index cd236d2f4..e8c5a47ac 100755
      @VisibleForTesting
      public int getState() {
          return mState;
-@@ -2043,6 +2067,7 @@ public class Call implements CreateConnectionResponse, EventManager.Loggable,
+@@ -2043,6 +2067,7 @@ public void handleCreateConferenceSuccess(
              CallIdMapper idMapper,
              ParcelableConference conference) {
          Log.v(this, "handleCreateConferenceSuccessful %s", conference);
@@ -74,7 +74,7 @@ index cd236d2f4..e8c5a47ac 100755
          setTargetPhoneAccount(conference.getPhoneAccount());
          setHandle(conference.getHandle(), conference.getHandlePresentation());
  
-@@ -2076,6 +2101,7 @@ public class Call implements CreateConnectionResponse, EventManager.Loggable,
+@@ -2076,6 +2101,7 @@ public void handleCreateConnectionSuccess(
              CallIdMapper idMapper,
              ParcelableConnection connection) {
          Log.v(this, "handleCreateConnectionSuccessful %s", connection);
@@ -86,7 +86,7 @@ diff --git a/src/com/android/server/telecom/ConnectionServiceWrapper.java b/src/
 index 64fdd8833..6ca74fba3 100644
 --- a/src/com/android/server/telecom/ConnectionServiceWrapper.java
 +++ b/src/com/android/server/telecom/ConnectionServiceWrapper.java
-@@ -37,6 +37,7 @@ import android.telecom.ConnectionService;
+@@ -37,6 +37,7 @@
  import android.telecom.DisconnectCause;
  import android.telecom.GatewayInfo;
  import android.telecom.Log;
@@ -94,7 +94,7 @@ index 64fdd8833..6ca74fba3 100644
  import android.telecom.Logging.Session;
  import android.telecom.ParcelableConference;
  import android.telecom.ParcelableConnection;
-@@ -59,6 +60,11 @@ import java.util.List;
+@@ -59,6 +60,11 @@
  import java.util.Map;
  import java.util.Set;
  import java.util.concurrent.ConcurrentHashMap;
@@ -118,7 +118,7 @@ index 64fdd8833..6ca74fba3 100644
      private final class Adapter extends IConnectionServiceAdapter.Stub {
  
          @Override
-@@ -84,6 +95,12 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -84,6 +95,12 @@ public void handleCreateConnectionComplete(String callId, ConnectionRequest requ
              try {
                  synchronized (mLock) {
                      logIncoming("handleCreateConnectionComplete %s", callId);
@@ -131,7 +131,7 @@ index 64fdd8833..6ca74fba3 100644
                      // Check status hints image for cross user access
                      if (connection.getStatusHints() != null) {
                          Icon icon = connection.getStatusHints().getIcon();
-@@ -120,6 +137,12 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -120,6 +137,12 @@ public void handleCreateConferenceComplete(String callId, ConnectionRequest requ
              try {
                  synchronized (mLock) {
                      logIncoming("handleCreateConferenceComplete %s", callId);
@@ -144,7 +144,7 @@ index 64fdd8833..6ca74fba3 100644
                      ConnectionServiceWrapper.this
                              .handleCreateConferenceComplete(callId, request, conference);
  
-@@ -1183,7 +1206,8 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -1183,7 +1206,8 @@ public void setCallDirection(String callId, int direction, Session.Info sessionI
       * @param context The context.
       * @param userHandle The {@link UserHandle} to use when binding.
       */
@@ -154,7 +154,7 @@ index 64fdd8833..6ca74fba3 100644
              ComponentName componentName,
              ConnectionServiceRepository connectionServiceRepository,
              PhoneAccountRegistrar phoneAccountRegistrar,
-@@ -1258,6 +1282,26 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -1258,6 +1282,26 @@ public void onSuccess() {
                          .setIsAdhocConferenceCall(call.isAdhocConferenceCall())
                          .build();
  
@@ -181,7 +181,7 @@ index 64fdd8833..6ca74fba3 100644
                  try {
                      mServiceInterface.createConference(
                              call.getConnectionManagerPhoneAccount(),
-@@ -1347,6 +1391,26 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -1347,6 +1391,26 @@ public void onSuccess() {
                          .setRttPipeToInCall(call.getCsToInCallRttPipeForCs())
                          .build();
  
@@ -208,7 +208,7 @@ index 64fdd8833..6ca74fba3 100644
                  try {
                      mServiceInterface.createConnection(
                              call.getConnectionManagerPhoneAccount(),
-@@ -1727,7 +1791,8 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -1727,7 +1791,8 @@ void stopDtmfTone(Call call) {
          }
      }
  
@@ -218,7 +218,7 @@ index 64fdd8833..6ca74fba3 100644
          if (mCallIdMapper.getCallId(call) == null) {
              mCallIdMapper.addCall(call);
          }
-@@ -2172,4 +2237,9 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+@@ -2172,4 +2237,9 @@ public String toString() {
          sb.append("]");
          return sb.toString();
      }
@@ -232,7 +232,7 @@ diff --git a/src/com/android/server/telecom/LogUtils.java b/src/com/android/serv
 index 5bb14e625..1c62a5c71 100644
 --- a/src/com/android/server/telecom/LogUtils.java
 +++ b/src/com/android/server/telecom/LogUtils.java
-@@ -124,8 +124,10 @@ public class LogUtils {
+@@ -124,8 +124,10 @@ public final static class Events {
          public static final String STOP_CALL_WAITING_TONE = "STOP_CALL_WAITING_TONE";
          public static final String START_CONNECTION = "START_CONNECTION";
          public static final String CREATE_CONNECTION_FAILED = "CREATE_CONNECTION_FAILED";
@@ -247,7 +247,7 @@ diff --git a/tests/src/com/android/server/telecom/tests/BasicCallTests.java b/te
 index 382e0b710..6ac8e1c62 100644
 --- a/tests/src/com/android/server/telecom/tests/BasicCallTests.java
 +++ b/tests/src/com/android/server/telecom/tests/BasicCallTests.java
-@@ -963,6 +963,7 @@ public class BasicCallTests extends TelecomSystemTest {
+@@ -963,6 +963,7 @@ public void testOutgoingCallSelectPhoneAccountVideo() throws Exception {
          call.setTargetPhoneAccount(mPhoneAccountA1.getAccountHandle());
          assert(call.isVideoCallingSupportedByPhoneAccount());
          assertEquals(VideoProfile.STATE_BIDIRECTIONAL, call.getVideoState());
@@ -255,7 +255,7 @@ index 382e0b710..6ac8e1c62 100644
      }
  
      /**
-@@ -986,6 +987,7 @@ public class BasicCallTests extends TelecomSystemTest {
+@@ -986,6 +987,7 @@ public void testOutgoingCallSelectPhoneAccountNoVideo() throws Exception {
          call.setTargetPhoneAccount(mPhoneAccountA2.getAccountHandle());
          assert(!call.isVideoCallingSupportedByPhoneAccount());
          assertEquals(VideoProfile.STATE_AUDIO_ONLY, call.getVideoState());
@@ -267,7 +267,7 @@ diff --git a/tests/src/com/android/server/telecom/tests/CallsManagerTest.java b/
 index d16430298..912b56cf3 100644
 --- a/tests/src/com/android/server/telecom/tests/CallsManagerTest.java
 +++ b/tests/src/com/android/server/telecom/tests/CallsManagerTest.java
-@@ -40,11 +40,13 @@ import static org.mockito.Mockito.timeout;
+@@ -40,11 +40,13 @@
  import static org.mockito.Mockito.times;
  import static org.mockito.Mockito.verify;
  import static org.mockito.Mockito.when;
@@ -281,7 +281,7 @@ index d16430298..912b56cf3 100644
  import android.os.Process;
  import android.os.SystemClock;
  import android.os.UserHandle;
-@@ -62,6 +64,7 @@ import android.test.suitebuilder.annotation.MediumTest;
+@@ -62,6 +64,7 @@
  import android.test.suitebuilder.annotation.SmallTest;
  import android.widget.Toast;
  
@@ -289,7 +289,7 @@ index d16430298..912b56cf3 100644
  import com.android.server.telecom.AsyncRingtonePlayer;
  import com.android.server.telecom.Call;
  import com.android.server.telecom.CallAudioManager;
-@@ -74,6 +77,7 @@ import com.android.server.telecom.CallsManagerListenerBase;
+@@ -74,6 +77,7 @@
  import com.android.server.telecom.ClockProxy;
  import com.android.server.telecom.ConnectionServiceFocusManager;
  import com.android.server.telecom.ConnectionServiceFocusManager.ConnectionServiceFocusManagerFactory;
@@ -305,7 +305,7 @@ index d16430298..912b56cf3 100644
  
      private CallsManager mCallsManager;
  
-@@ -274,11 +279,19 @@ public class CallsManagerTest extends TelecomTestCase {
+@@ -274,11 +279,19 @@ public void setUp() throws Exception {
                  eq(SIM_2_HANDLE), any())).thenReturn(SIM_2_ACCOUNT);
          when(mToastFactory.makeText(any(), anyInt(), anyInt())).thenReturn(mToast);
          when(mToastFactory.makeText(any(), any(), anyInt())).thenReturn(mToast);
@@ -325,7 +325,7 @@ index d16430298..912b56cf3 100644
          super.tearDown();
      }
  
-@@ -1456,6 +1469,32 @@ public class CallsManagerTest extends TelecomTestCase {
+@@ -1456,6 +1469,32 @@ public void testCrossUserCallRedirectionEndEarlyForIncapablePhoneAccount() {
          assertTrue(argumentCaptor.getValue().contains("Unavailable phoneAccountHandle"));
      }
  
@@ -358,7 +358,7 @@ index d16430298..912b56cf3 100644
      private Call addSpyCall() {
          return addSpyCall(SIM_2_HANDLE, CallState.ACTIVE);
      }
-@@ -1549,4 +1588,19 @@ public class CallsManagerTest extends TelecomTestCase {
+@@ -1549,4 +1588,19 @@ private void setupMsimAccounts() {
          when(mPhoneAccountRegistrar.getSimPhoneAccountsOfCurrentUser()).thenReturn(
                  new ArrayList<>(Arrays.asList(SIM_1_HANDLE, SIM_2_HANDLE)));
      }
@@ -382,7 +382,7 @@ diff --git a/tests/src/com/android/server/telecom/tests/ComponentContextFixture.
 index af062d77f..0768970b1 100644
 --- a/tests/src/com/android/server/telecom/tests/ComponentContextFixture.java
 +++ b/tests/src/com/android/server/telecom/tests/ComponentContextFixture.java
-@@ -589,6 +589,14 @@ public class ComponentContextFixture implements TestFixture<Context> {
+@@ -589,6 +589,14 @@ public void addConnectionService(
          mServiceInfoByComponentName.put(componentName, serviceInfo);
      }
  
@@ -397,7 +397,7 @@ index af062d77f..0768970b1 100644
      public void addInCallService(
              ComponentName componentName,
              IInCallService service,
-@@ -658,6 +666,12 @@ public class ComponentContextFixture implements TestFixture<Context> {
+@@ -658,6 +666,12 @@ private void addService(String action, ComponentName name, IInterface service) {
          mComponentNameByService.put(service, name);
      }
  

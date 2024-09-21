@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From e406e4d8ec8c977652e2c6be7ca1e400683a475e Mon Sep 17 00:00:00 2001
 From: Chris Antol <cantol@google.com>
 Date: Mon, 25 Mar 2024 23:49:35 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Restrict Settings Homepage prior to
@@ -20,7 +20,7 @@ diff --git a/src/com/android/settings/homepage/SettingsHomepageActivity.java b/s
 index a8426437f57..61567947124 100644
 --- a/src/com/android/settings/homepage/SettingsHomepageActivity.java
 +++ b/src/com/android/settings/homepage/SettingsHomepageActivity.java
-@@ -20,6 +20,7 @@ import android.animation.LayoutTransition;
+@@ -20,6 +20,7 @@
  import android.app.ActivityManager;
  import android.app.settings.SettingsEnums;
  import android.os.Bundle;

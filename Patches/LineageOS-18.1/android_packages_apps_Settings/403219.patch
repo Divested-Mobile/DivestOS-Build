@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From a593133d22bde6331bcaf258c2b01acea3ba246e Mon Sep 17 00:00:00 2001
 From: Chaohui Wang <chaohuiw@google.com>
 Date: Thu, 2 Nov 2023 11:43:00 +0800
 Subject: [PATCH] Limit wifi item edit content's max length to 500
