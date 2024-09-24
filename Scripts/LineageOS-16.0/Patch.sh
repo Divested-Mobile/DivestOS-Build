@@ -204,7 +204,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/379788.patch"; #P_asb_2024-01 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/383562.patch"; #P_asb_2024-02 Update mtp packet buffer
 applyPatch "$DOS_PATCHES/android_frameworks_av/385670.patch"; #P_asb_2024-03 Validate OMX Params for VPx encoders
 applyPatch "$DOS_PATCHES/android_frameworks_av/385671.patch"; #P_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
-applyPatch "$DOS_PATCHES/android_frameworks_av/402601.patch"; #Q_asb_2024-08 Fix flag check in JAudioTrack.cpp
+applyPatch "$DOS_PATCHES/android_frameworks_av/403537.patch"; #P_asb_2024-08 Fix flag check in JAudioTrack.cpp
 applyPatch "$DOS_PATCHES/android_frameworks_av/399771.patch"; #P_asb_2024-08 StagefrightRecoder: Disabling B-frame support
 applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; #(GrapheneOS)
 fi;
@@ -338,7 +338,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/397594.patch"; #P_asb_2024-07 V
 applyPatch "$DOS_PATCHES/android_frameworks_base/397595.patch"; #P_asb_2024-07 Fix security vulnerability of non-dynamic permission removal
 applyPatch "$DOS_PATCHES/android_frameworks_base/399769.patch"; #P_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 Hide SAW subwindows
-applyPatch "$DOS_PATCHES/android_frameworks_base/401373-backport.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/403538.patch"; #P_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -541,9 +541,9 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/351915.patch"; #P_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/359734.patch"; #P_asb_2023-06 Convert argument to intent in AddAccountSettings.
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/366136.patch"; #P_asb_2023-09 Prevent non-system IME from becoming device admin
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/370700.patch"; #P_asb_2023-10 Restrict ApnEditor settings
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401375-backport.patch"; #S_asb_2024-09 Limit wifi item edit content's max length to 500
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401376-backport.patch"; #S_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401377-backport.patch"; #S_asb_2024-09 Ignore fragment attr from ext authenticator resource
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403539.patch"; #P_asb_2024-09 Limit wifi item edit content's max length to 500
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403540.patch"; #P_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403541.patch"; #P_asb_2024-09 Ignore fragment attr from ext authenticator resource
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
@@ -615,7 +615,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/347042.patch"; #P_as
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/356150.patch"; #P_asb_2023-05 enforce stricter rules when registering phoneAccounts
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364617.patch"; #P_asb_2023-08 Resolve StatusHints image exploit across user.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/377776.patch"; #P_asb_2023-12 Resolve account image icon profile boundary exploit.
-applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401380-backport.patch"; #S_asb_2024-09 Unbind CS if connection is not created within 15 seconds. #XXX
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/403542.patch"; #P_asb_2024-09 Unbind CS if connection is not created within 15 seconds. #XXX
 fi;
 
 if enterAndClear "packages/services/Telephony"; then

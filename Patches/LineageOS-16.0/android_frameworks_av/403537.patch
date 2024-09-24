@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From c47fb676909e2e0896f08880dd542ea89040f791 Mon Sep 17 00:00:00 2001
 From: Alexander Grund <flamefire89@gmail.com>
 Date: Tue, 27 Aug 2024 16:53:27 +0200
 Subject: [PATCH] Fix flag check in JAudioTrack.cpp
@@ -12,7 +12,7 @@ Change-Id: Ifd2e98e7bb394c35a8a2f4ebde512046823da043
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/media/libmediaplayer2/JAudioTrack.cpp b/media/libmediaplayer2/JAudioTrack.cpp
-index ac0cc5775e..961d7e526e 100644
+index ac0cc5775ec..961d7e526e4 100644
 --- a/media/libmediaplayer2/JAudioTrack.cpp
 +++ b/media/libmediaplayer2/JAudioTrack.cpp
 @@ -615,26 +615,26 @@ jobject JAudioTrack::createVolumeShaperOperationObj(
