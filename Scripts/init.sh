@@ -21,85 +21,87 @@
 #START OF USER CONFIGURABLE OPTIONS
 #
 #General
-export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_WORKSPACE_ROOT="${DOS_WORKSPACE_ROOT:-/mnt/dos/}"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
-export DOS_BUILDS="/mnt/Storage-1/DivestOS/Builds/"; #XXX: THIS MUST BE CORRECT TO BUILD!
-export DOS_SIGNING_KEYS="$DOS_WORKSPACE_ROOT/Signing_Keys/4096pro";
-export DOS_SIGNING_GPG="$DOS_WORKSPACE_ROOT/Signing_Keys/gnupg";
+export DOS_BUILDS="${DOS_BUILDS:-/mnt/Storage-1/DivestOS/Builds/}"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_SIGNING_KEYS="${DOS_SIGNING_KEYS:-$DOS_WORKSPACE_ROOT/Signing_Keys/4096pro}";
+export DOS_SIGNING_GPG="${DOS_SIGNING_GPG:-$DOS_WORKSPACE_ROOT/Signing_Keys/gnupg}";
 #export USE_CCACHE=1;
 #export CCACHE_DIR="";
-export CCACHE_COMPRESS=1;
-export CCACHE_COMPRESSLEVEL=1;
+export CCACHE_COMPRESS="${CCACHE_COMPRESS:-1}";
+export CCACHE_COMPRESSLEVEL="${CCACHE_COMPRESSLEVEL:-1}";
 #export DOS_BINARY_PATCHER="";
-export DOS_MALWARE_SCAN_ENABLED=false; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
-export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
-export DOS_REFRESH_PATCHES=true; #Set true to refresh branch-specific patches on apply
+export DOS_MALWARE_SCAN_ENABLED="${DOS_MALWARE_SCAN_ENABLED:-false}"; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
+export DOS_MALWARE_SCAN_SETTING="${DOS_MALWARE_SCAN_SETTING:-quick}"; #buildAll() scan speed. Options: quick, extra, slow, full
+export DOS_REFRESH_PATCHES="${DOS_REFRESH_PATCHES:-true}"; #Set true to refresh branch-specific patches on apply
 
 #Deblobber
-export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories that depend on blobs
-export DOS_DEBLOBBER_REMOVE_ATFWD=true; #Set true to remove basic ATFWD blobs
-export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
-export DOS_DEBLOBBER_REMOVE_APTX=false; #Set true to remove aptX Bluetooth codec
-export DOS_DEBLOBBER_REMOVE_CNE=true; #Set true to remove all CNE blobs #XXX: Breaks Wi-Fi calling
-export DOS_DEBLOBBER_REMOVE_DPM=true; #Set true to remove all DPM blobs #XXX: Maybe breaks multi-sim and carrier aggregation (LTE+)
-export DOS_DEBLOBBER_REMOVE_DPP=false; #Set true to remove all Display Post Processing blobs #XXX: Breaks boot on select devices
-export DOS_DEBLOBBER_REMOVE_FACE=false; #Set true to remove all face unlock blobs
-export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
-export DOS_DEBLOBBER_REMOVE_EUICC=true; #Set true to remove all Google eUICC blobs
-export DOS_DEBLOBBER_REMOVE_EUICC_FULL=false; #Set true to remove all hardware eUICC blobs
-export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs #XXX: Carriers are phasing out 3G, making IMS mandatory for calls
-export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
-export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
-export DOS_DEBLOBBER_REMOVE_RCS=true; #Set true to remove all RCS blobs
+export DOS_DEBLOBBER_REMOVE_ACCESSORIES="${DOS_DEBLOBBER_REMOVE_ACCESSORIES:-true}"; #Set false to allow use of external accessories that depend on blobs
+export DOS_DEBLOBBER_REMOVE_ATFWD="${DOS_DEBLOBBER_REMOVE_ATFWD:-true}"; #Set true to remove basic ATFWD blobs
+export DOS_DEBLOBBER_REMOVE_AUDIOFX="${DOS_DEBLOBBER_REMOVE_AUDIOFX:-true}"; #Set true to remove AudioFX
+export DOS_DEBLOBBER_REMOVE_APTX="${DOS_DEBLOBBER_REMOVE_APTX:-false}"; #Set true to remove aptX Bluetooth codec
+export DOS_DEBLOBBER_REMOVE_CNE="${DOS_DEBLOBBER_REMOVE_CNE:-true}"; #Set true to remove all CNE blobs #XXX: Breaks Wi-Fi calling
+export DOS_DEBLOBBER_REMOVE_DPM="${DOS_DEBLOBBER_REMOVE_DPM:-true}"; #Set true to remove all DPM blobs #XXX: Maybe breaks multi-sim and carrier aggregation (LTE+)
+export DOS_DEBLOBBER_REMOVE_DPP="${DOS_DEBLOBBER_REMOVE_DPP:-false}"; #Set true to remove all Display Post Processing blobs #XXX: Breaks boot on select devices
+export DOS_DEBLOBBER_REMOVE_FACE="${DOS_DEBLOBBER_REMOVE_FACE:-false}"; #Set true to remove all face unlock blobs
+export DOS_DEBLOBBER_REMOVE_FP="${DOS_DEBLOBBER_REMOVE_FP:-false}"; #Set true to remove all fingerprint reader blobs
+export DOS_DEBLOBBER_REMOVE_EUICC="${DOS_DEBLOBBER_REMOVE_EUICC:-true}"; #Set true to remove all Google eUICC blobs
+export DOS_DEBLOBBER_REMOVE_EUICC_FULL="${DOS_DEBLOBBER_REMOVE_EUICC_FULL:-false}"; #Set true to remove all hardware eUICC blobs
+export DOS_DEBLOBBER_REMOVE_IMS="${DOS_DEBLOBBER_REMOVE_IMS:-false}"; #Set true to remove all IMS blobs #XXX: Carriers are phasing out 3G, making IMS mandatory for calls
+export DOS_DEBLOBBER_REMOVE_IPA="${DOS_DEBLOBBER_REMOVE_IPA:-false}"; #Set true to remove all IPA blobs
+export DOS_DEBLOBBER_REMOVE_IR="${DOS_DEBLOBBER_REMOVE_IR:-false}"; #Set true to remove all IR blobs
+export DOS_DEBLOBBER_REMOVE_RCS="${DOS_DEBLOBBER_REMOVE_RCS:-true}"; #Set true to remove all RCS blobs
 
 #Features
-export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
-export DOS_HOSTS_BLOCKING_LIST="https://divested.dev/hosts-wildcards"; #Must be in the format "127.0.0.1 bad.domain.tld"
-export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission for 14.1/15.1 #XXX: can break things like camera
-export DOS_USE_KSM=false; #Set true to use KSM for increased memory efficiency at the cost of easier side-channel attacks and increased CPU usage #XXX: testing only
+export DOS_HOSTS_BLOCKING="${DOS_HOSTS_BLOCKING:-true}"; #Set false to prevent inclusion of a HOSTS file
+export DOS_HOSTS_BLOCKING_LIST="${DOS_HOSTS_BLOCKING_LIST:-https://divested.dev/hosts-wildcards}"; #Must be in the format "127.0.0.1 bad.domain.tld"
+export DOS_SENSORS_PERM="${DOS_SENSORS_PERM:-false}"; #Set true to provide a per-app sensors permission for 14.1/15.1 #XXX: can break things like camera
+export DOS_USE_KSM="${DOS_USE_KSM:-false}"; #Set true to use KSM for increased memory efficiency at the cost of easier side-channel attacks and increased CPU usage #XXX: testing only
 
 #Servers
-export DOS_DEFAULT_DNS_PRESET="Quad9"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
-export DOS_GPS_NTP_SERVER="2.android.pool.ntp.org"; #Options: Any NTP pool
-export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: Any *valid* SUPL server
+export DOS_DEFAULT_DNS_PRESET="${DOS_DEFAULT_DNS_PRESET:-Quad9}"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
+export DOS_GPS_NTP_SERVER="${DOS_GPS_NTP_SERVER:-2.android.pool.ntp.org}"; #Options: Any NTP pool
+export DOS_GPS_SUPL_HOST="${DOS_GPS_SUPL_HOST:-supl.google.com}"; #Options: Any *valid* SUPL server
 
 #Release Processing
-export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing
-export DOS_GENERATE_DELTAS=false; #Creates deltas from existing target_files in $DOS_BUILDS
-export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
-export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
-export DOS_REMOVE_AFTER_FULL=false; #Removes the entire OUT directory
-export DOS_GPG_SIGNING=true;
-export DOS_GPG_SIGNING_KEY="B8744D67F9F1E14E145DFD8E7F627E920F316994";
+export DOS_MALWARE_SCAN_BEFORE_SIGN="${DOS_MALWARE_SCAN_BEFORE_SIGN:-false}"; #Scan device files for malware before signing
+export DOS_GENERATE_DELTAS="${DOS_GENERATE_DELTAS:-false}"; #Creates deltas from existing target_files in $DOS_BUILDS
+export DOS_AUTO_ARCHIVE_BUILDS="${DOS_AUTO_ARCHIVE_BUILDS:-true}"; #Copies files to $DOS_BUILDS after signing
+export DOS_REMOVE_AFTER="${DOS_REMOVE_AFTER:-true}"; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
+export DOS_REMOVE_AFTER_FULL="${DOS_REMOVE_AFTER_FULL:-false}"; #Removes the entire OUT directory
+export DOS_GPG_SIGNING="${DOS_GPG_SIGNING:-true}";
+export DOS_GPG_SIGNING_KEY="${DOS_GPG_SIGNING_KEY:-B8744D67F9F1E14E145DFD8E7F627E920F316994}";
 
 #Branding
-export DOS_BRANDING_NAME="DivestOS";
-export DOS_BRANDING_ZIP_PREFIX="divested";
-export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Heavy"; #Options: $ convert -list font
-export DOS_BRANDING_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
+export DOS_BRANDING_ORG="${DOS_BRANDING_ORG:-Divested Computing Group}";
+export DOS_BRANDING_NAME="${DOS_BRANDING_NAME:-DivestOS}";
+export DOS_BRANDING_EMAIL="${DOS_BRANDING_EMAIL:-support@divestos.org}";
+export DOS_BRANDING_ZIP_PREFIX="${DOS_BRANDING_ZIP_PREFIX:-divested}";
+export DOS_BRANDING_BOOTANIMATION_FONT="${DOS_BRANDING_BOOTANIMATION_FONT:-Fira-Sans-Heavy}"; #Options: $ convert -list font
+export DOS_BRANDING_BOOTANIMATION_STYLE="${DOS_BRANDING_BOOTANIMATION_STYLE:-plasma}"; #Options: gradient, plasma
 #export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
-export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
-export DOS_BRANDING_LINK_ABOUT="https://divestos.org/pages/about";
-export DOS_BRANDING_LINK_NEWS="https://divestos.org/pages/news";
-export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/pages/privacy_policy";
+export DOS_BRANDING_BOOTANIMATION_COLOR="${DOS_BRANDING_BOOTANIMATION_COLOR:-#FF5722-#03A9F4}"; #plasma
+export DOS_BRANDING_LINK_ABOUT="${DOS_BRANDING_LINK_ABOUT:-https://divestos.org/pages/about}";
+export DOS_BRANDING_LINK_NEWS="${DOS_BRANDING_LINK_NEWS:-https://divestos.org/pages/news}";
+export DOS_BRANDING_LINK_PRIVACY="${DOS_BRANDING_LINK_PRIVACY:-https://divestos.org/pages/privacy_policy}";
 
 #OTAs
-export DOS_OTA_SERVER_PRIMARY="https://divestos.org/updater.php";
-export DOS_OTA_SERVER_EXTENDED=true; #Enable to provide multiple choices as set below
-export DOS_OTA_SERVER_SECONDARY="https://divestos.eeyo.re/updater.php";
-export DOS_OTA_SERVER_SECONDARY_NAME="Cloudflare";
-export DOS_OTA_SERVER_ONION_PRIMARY="http://divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion/updater.php";
-export DOS_OTA_SERVER_ONION_SECONDARY="http://2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion/updater.php";
-export DOS_OTA_SERVER_ONION_DOMAIN_PRIMARY="divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion"; #Used for network security config
-export DOS_OTA_SERVER_ONION_DOMAIN_SECONDARY="2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion";
+export DOS_OTA_SERVER_PRIMARY="${DOS_OTA_SERVER_PRIMARY:-https://divestos.org/updater.php}";
+export DOS_OTA_SERVER_EXTENDED="${DOS_OTA_SERVER_EXTENDED:-true}"; #Enable to provide multiple choices as set below
+export DOS_OTA_SERVER_SECONDARY="${DOS_OTA_SERVER_SECONDARY:-https://divestos.eeyo.re/updater.php}";
+export DOS_OTA_SERVER_SECONDARY_NAME="${DOS_OTA_SERVER_SECONDARY_NAME:-Cloudflare}";
+export DOS_OTA_SERVER_ONION_PRIMARY="${DOS_OTA_SERVER_ONION_PRIMARY:-http://divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion/updater.php}";
+export DOS_OTA_SERVER_ONION_SECONDARY="${DOS_OTA_SERVER_ONION_SECONDARY:-http://2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion/updater.php}";
+export DOS_OTA_SERVER_ONION_DOMAIN_PRIMARY="${DOS_OTA_SERVER_ONION_DOMAIN_PRIMARY:-divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion}"; #Used for network security config
+export DOS_OTA_SERVER_ONION_DOMAIN_SECONDARY="${DOS_OTA_SERVER_ONION_DOMAIN_SECONDARY:-2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion}";
 
 #Theme
-export DOS_THEME_50="FFCA28"; #Amber 400
-export DOS_THEME_100="FFC107"; #Amber 500
-export DOS_THEME_200="FFA726"; #Orange 400
-export DOS_THEME_300="FF9800"; #Orange 500
-export DOS_THEME_500="FF5722"; #Deep Orange 500
-export DOS_THEME_700="E64A19"; #Deep Orange 700
+export DOS_THEME_50="${DOS_THEME_50:-FFCA28}"; #Amber 400
+export DOS_THEME_100="${DOS_THEME_100:-FFC107}"; #Amber 500
+export DOS_THEME_200="${DOS_THEME_200:-FFA726}"; #Orange 400
+export DOS_THEME_300="${DOS_THEME_300:-FF9800}"; #Orange 500
+export DOS_THEME_500="${DOS_THEME_500:-FF5722}"; #Deep Orange 500
+export DOS_THEME_700="${DOS_THEME_700:-E64A19}"; #Deep Orange 700
 #
 #END OF USER CONFIGURABLE OPTIONS
 #

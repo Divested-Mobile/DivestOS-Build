@@ -32,13 +32,6 @@ else
   echo "WARNING: gocryptfs failed. Signing keys will not be encrypted!"
 fi
 
-# Update paths
-# https://backreference.org/2009/12/09/using-shell-variables-in-sed/index.html
-safe_pattern=$(printf '%s\n' "$(pwd)" | sed 's/[[\.*^$/]/\\&/g')
-sed -i "s/\(^export DOS_WORKSPACE_ROOT=\).*/\1\"$safe_pattern\"/" Scripts/init.sh
-safe_pattern=$(printf '%s\n' "$(pwd)/Builds" | sed 's/[[\.*^$/]/\\&/g')
-sed -i "s/\(^export DOS_BUILDS=\).*/\1\"$safe_pattern\"/" Scripts/init.sh
-
 # Add the initial manifest
 cd "Build/LineageOS-$version/"
 cat "../../Manifests/Manifest_LAOS-$version.xml" > .repo/local_manifests/local_manifest.xml
