@@ -686,6 +686,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46738/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46758/^6.10/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46771/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46830/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46844/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/3.18/0003.patch
@@ -697,7 +699,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p697"
+editKernelLocalversion "-dos.p699"
 else echo "kernel_htc_flounder is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
