@@ -286,6 +286,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33012/qca-wifi-host-cmn/0001.patch --
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33015/5.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33023/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33049/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-34027/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35789/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35805/5.4/0004.patch
@@ -639,7 +640,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.4/0005.patch
-editKernelLocalversion "-dos.p639"
+editKernelLocalversion "-dos.p640"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
