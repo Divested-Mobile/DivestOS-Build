@@ -15,7 +15,7 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number: 8401224907861490260 (0x7497258ac73f7a54)
-        Signature Algorithm: ecdsa-with-SHA384
+    Signature Algorithm: ecdsa-with-SHA384
         Issuer: C=US, O=AffirmTrust, CN=AffirmTrust Premium ECC
         Validity
             Not Before: Jan 29 14:20:24 2010 GMT
@@ -23,7 +23,7 @@ Certificate:
         Subject: C=US, O=AffirmTrust, CN=AffirmTrust Premium ECC
         Subject Public Key Info:
             Public Key Algorithm: id-ecPublicKey
-                Public-Key: (384 bit)
+                Public-Key: (P-384)
                 pub:
                     04:0d:30:5e:1b:15:9d:03:d0:a1:79:35:b7:3a:3c:
                     92:7a:ca:15:1c:cd:62:f3:9c:26:5c:07:3d:e5:54:
@@ -32,8 +32,6 @@ Certificate:
                     47:e2:1a:e6:63:b8:3d:2e:2f:78:c4:4f:db:f4:0f:
                     a4:68:4c:55:72:6b:95:1d:4e:18:42:95:78:cc:37:
                     3c:91:e2:9b:65:2b:29
-                ASN1 OID: secp384r1
-                NIST CURVE: P-384
         X509v3 extensions:
             X509v3 Subject Key Identifier: 
                 9A:AF:29:7A:C0:11:35:35:26:51:30:00:C3:6A:FE:40:D5:AE:D6:3C
@@ -42,11 +40,10 @@ Certificate:
             X509v3 Key Usage: critical
                 Certificate Sign, CRL Sign
     Signature Algorithm: ecdsa-with-SHA384
-    Signature Value:
-        30:64:02:30:17:09:f3:87:88:50:5a:af:c8:c0:42:bf:47:5f:
-        f5:6c:6a:86:e0:c4:27:74:e4:38:53:d7:05:7f:1b:34:e3:c6:
-        2f:b3:ca:09:3c:37:9d:d7:e7:b8:46:f1:fd:a1:e2:71:02:30:
-        42:59:87:43:d4:51:df:ba:d3:09:32:5a:ce:88:7e:57:3d:9c:
-        5f:42:6b:f5:07:2d:b5:f0:82:93:f9:59:6f:ae:64:fa:58:e5:
-        8b:1e:e3:63:be:b5:81:cd:6f:02:8c:79
+         30:64:02:30:17:09:f3:87:88:50:5a:af:c8:c0:42:bf:47:5f:
+         f5:6c:6a:86:e0:c4:27:74:e4:38:53:d7:05:7f:1b:34:e3:c6:
+         2f:b3:ca:09:3c:37:9d:d7:e7:b8:46:f1:fd:a1:e2:71:02:30:
+         42:59:87:43:d4:51:df:ba:d3:09:32:5a:ce:88:7e:57:3d:9c:
+         5f:42:6b:f5:07:2d:b5:f0:82:93:f9:59:6f:ae:64:fa:58:e5:
+         8b:1e:e3:63:be:b5:81:cd:6f:02:8c:79
 SHA1 Fingerprint=B8:23:6B:00:2F:1D:16:86:53:01:55:6C:11:A4:37:CA:EB:FF:C3:BB

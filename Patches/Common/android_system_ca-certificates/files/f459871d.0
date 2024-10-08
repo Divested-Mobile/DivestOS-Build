@@ -25,7 +25,7 @@ Certificate:
         Version: 3 (0x2)
         Serial Number:
             31:f5:e4:62:0c:6c:58:ed:d6:d8
-        Signature Algorithm: sha256WithRSAEncryption
+    Signature Algorithm: sha256WithRSAEncryption
         Issuer: C=IN, OU=emSign PKI, O=eMudhra Technologies Limited, CN=emSign Root CA - G1
         Validity
             Not Before: Feb 18 18:30:00 2018 GMT
@@ -62,20 +62,19 @@ Certificate:
             X509v3 Basic Constraints: critical
                 CA:TRUE
     Signature Algorithm: sha256WithRSAEncryption
-    Signature Value:
-        59:ff:f2:8c:f5:87:7d:71:3d:a3:9f:1b:5b:d1:da:f8:d3:9c:
-        6b:36:bd:9b:a9:61:eb:de:16:2c:74:3d:9e:e6:75:da:d7:ba:
-        a7:bc:42:17:e7:3d:91:eb:e5:7d:dd:3e:9c:f1:cf:92:ac:6c:
-        48:cc:c2:22:3f:69:3b:c5:b6:15:2f:a3:35:c6:68:2a:1c:57:
-        af:39:ef:8d:d0:35:c3:18:0c:7b:00:56:1c:cd:8b:19:74:de:
-        be:0f:12:e0:d0:aa:a1:3f:02:34:b1:70:ce:9d:18:d6:08:03:
-        09:46:ee:60:e0:7e:b6:c4:49:04:51:7d:70:60:bc:aa:b2:ff:
-        79:72:7a:a6:1d:3d:5f:2a:f8:ca:e2:fd:39:b7:47:b9:eb:7e:
-        df:04:23:af:fa:9c:06:07:e9:fb:63:93:80:40:b5:c6:6c:0a:
-        31:28:ce:0c:9f:cf:b3:23:35:80:41:8d:6c:c4:37:7b:81:2f:
-        80:a1:40:42:85:e9:d9:38:8d:e8:a1:53:cd:01:bf:69:e8:5a:
-        06:f2:45:0b:90:fa:ae:e1:bf:9d:f2:ae:57:3c:a5:ae:b2:56:
-        f4:8b:65:40:e9:fd:31:81:2c:f4:39:09:d8:ee:6b:a7:b4:a6:
-        1d:15:a5:98:f7:01:81:d8:85:7d:f3:51:5c:71:88:de:ba:cc:
-        1f:80:7e:4a
+         59:ff:f2:8c:f5:87:7d:71:3d:a3:9f:1b:5b:d1:da:f8:d3:9c:
+         6b:36:bd:9b:a9:61:eb:de:16:2c:74:3d:9e:e6:75:da:d7:ba:
+         a7:bc:42:17:e7:3d:91:eb:e5:7d:dd:3e:9c:f1:cf:92:ac:6c:
+         48:cc:c2:22:3f:69:3b:c5:b6:15:2f:a3:35:c6:68:2a:1c:57:
+         af:39:ef:8d:d0:35:c3:18:0c:7b:00:56:1c:cd:8b:19:74:de:
+         be:0f:12:e0:d0:aa:a1:3f:02:34:b1:70:ce:9d:18:d6:08:03:
+         09:46:ee:60:e0:7e:b6:c4:49:04:51:7d:70:60:bc:aa:b2:ff:
+         79:72:7a:a6:1d:3d:5f:2a:f8:ca:e2:fd:39:b7:47:b9:eb:7e:
+         df:04:23:af:fa:9c:06:07:e9:fb:63:93:80:40:b5:c6:6c:0a:
+         31:28:ce:0c:9f:cf:b3:23:35:80:41:8d:6c:c4:37:7b:81:2f:
+         80:a1:40:42:85:e9:d9:38:8d:e8:a1:53:cd:01:bf:69:e8:5a:
+         06:f2:45:0b:90:fa:ae:e1:bf:9d:f2:ae:57:3c:a5:ae:b2:56:
+         f4:8b:65:40:e9:fd:31:81:2c:f4:39:09:d8:ee:6b:a7:b4:a6:
+         1d:15:a5:98:f7:01:81:d8:85:7d:f3:51:5c:71:88:de:ba:cc:
+         1f:80:7e:4a
 SHA1 Fingerprint=8A:C7:AD:8F:73:AC:4E:C1:B5:75:4D:A5:40:F4:FC:CF:7C:B5:8E:8C

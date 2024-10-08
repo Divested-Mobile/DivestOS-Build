@@ -36,7 +36,7 @@ Certificate:
         Version: 3 (0x2)
         Serial Number:
             64:f6:0e:65:77:61:6a:ab:3b:b4:ea:85:84:bb:b1:89:b8:71:93:0f
-        Signature Algorithm: sha384WithRSAEncryption
+    Signature Algorithm: sha384WithRSAEncryption
         Issuer: C=CN, O=TrustAsia Technologies, Inc., CN=TrustAsia Global Root CA G3
         Validity
             Not Before: May 20 02:10:19 2021 GMT
@@ -86,40 +86,40 @@ Certificate:
             X509v3 Basic Constraints: critical
                 CA:TRUE
             X509v3 Authority Key Identifier: 
-                40:E4:E4:F2:23:EF:38:CA:B0:AE:57:7F:F2:21:30:16:34:DB:BC:92
+                keyid:40:E4:E4:F2:23:EF:38:CA:B0:AE:57:7F:F2:21:30:16:34:DB:BC:92
+
             X509v3 Subject Key Identifier: 
                 40:E4:E4:F2:23:EF:38:CA:B0:AE:57:7F:F2:21:30:16:34:DB:BC:92
             X509v3 Key Usage: critical
                 Certificate Sign, CRL Sign
     Signature Algorithm: sha384WithRSAEncryption
-    Signature Value:
-        26:3b:51:e1:4d:38:f3:32:18:b4:b4:5e:e1:65:5e:c4:94:4f:
-        d4:a7:61:a3:f8:c0:cf:33:01:02:e9:c3:aa:35:0f:f1:94:13:
-        77:77:35:9e:2d:56:51:44:6e:e1:c6:2e:28:1e:ff:da:ec:47:
-        cd:97:44:17:f7:e0:4c:c2:e1:7c:7c:32:7a:66:c8:5a:b6:5c:
-        53:45:57:5a:45:d4:05:99:2f:2e:23:55:ee:63:68:df:d3:1b:
-        78:a7:12:94:06:00:75:0d:72:84:e9:2e:bc:5a:6a:d5:de:2f:
-        59:c7:a3:ec:d2:87:66:db:b7:54:b5:24:ab:f4:43:78:db:4b:
-        04:c4:6f:dd:e6:3e:66:3e:29:f2:4b:68:71:22:87:a0:f8:b1:
-        33:63:76:e3:0d:85:72:44:22:55:3f:1c:7c:e9:fc:b8:15:e8:
-        52:fa:aa:3e:a3:21:39:35:74:89:a6:6a:c2:39:fa:78:cf:b6:
-        ac:e7:e7:d6:56:ff:23:92:2e:50:0b:a9:b5:07:33:f4:38:5f:
-        a4:49:a6:cb:65:70:76:e8:0a:85:80:4b:36:3d:33:f7:95:54:
-        75:25:da:ac:c4:73:82:65:e9:52:f5:5c:fd:38:95:02:6a:69:
-        30:c5:1c:0a:57:07:ae:22:a4:2c:f9:c5:41:b7:b8:ec:9f:4f:
-        48:00:f9:01:04:55:cc:ac:f9:32:31:c4:75:95:06:a0:7f:d1:
-        8d:27:dd:b3:a9:a4:72:87:fe:59:8b:9a:7a:74:16:dd:16:a5:
-        62:29:eb:3a:96:dc:8b:a7:68:59:d3:eb:77:91:39:f8:d7:cb:
-        d9:8f:5f:5a:27:01:7d:5d:68:19:62:d8:c8:cd:f4:b7:72:47:
-        be:5b:97:ce:f2:ad:a2:99:93:ad:94:cb:93:f6:12:09:95:b6:
-        ab:d7:3b:d0:3f:11:cb:30:16:2e:79:80:e4:67:81:2d:5d:ed:
-        70:78:b6:60:59:ac:e1:5d:45:63:8f:c8:df:72:68:5b:ea:1d:
-        b8:01:f1:7e:fb:e7:8a:b3:e3:54:a0:38:09:e0:3c:de:42:f2:
-        c2:ed:2e:9b:f3:1f:35:b6:36:d8:e3:80:a1:8b:cd:99:64:0f:
-        c2:aa:ab:b1:ca:f5:6f:9e:43:8d:84:54:99:b3:6e:c0:12:66:
-        d8:70:10:f1:06:35:33:43:a8:9c:2e:ba:14:31:ce:10:7f:1c:
-        86:e3:8f:d2:d5:f8:77:ec:9b:ab:f1:2f:63:d9:42:5f:e0:67:
-        81:64:91:f1:97:2f:fc:6e:26:f6:33:f8:d3:b5:f8:c4:62:ab:
-        31:51:25:02:7a:f8:dd:6b:65:d5:6d:4d:30:c8:65:ba:68:14:
-        65:ac:27:0b:74:8a:f2:87
+         26:3b:51:e1:4d:38:f3:32:18:b4:b4:5e:e1:65:5e:c4:94:4f:
+         d4:a7:61:a3:f8:c0:cf:33:01:02:e9:c3:aa:35:0f:f1:94:13:
+         77:77:35:9e:2d:56:51:44:6e:e1:c6:2e:28:1e:ff:da:ec:47:
+         cd:97:44:17:f7:e0:4c:c2:e1:7c:7c:32:7a:66:c8:5a:b6:5c:
+         53:45:57:5a:45:d4:05:99:2f:2e:23:55:ee:63:68:df:d3:1b:
+         78:a7:12:94:06:00:75:0d:72:84:e9:2e:bc:5a:6a:d5:de:2f:
+         59:c7:a3:ec:d2:87:66:db:b7:54:b5:24:ab:f4:43:78:db:4b:
+         04:c4:6f:dd:e6:3e:66:3e:29:f2:4b:68:71:22:87:a0:f8:b1:
+         33:63:76:e3:0d:85:72:44:22:55:3f:1c:7c:e9:fc:b8:15:e8:
+         52:fa:aa:3e:a3:21:39:35:74:89:a6:6a:c2:39:fa:78:cf:b6:
+         ac:e7:e7:d6:56:ff:23:92:2e:50:0b:a9:b5:07:33:f4:38:5f:
+         a4:49:a6:cb:65:70:76:e8:0a:85:80:4b:36:3d:33:f7:95:54:
+         75:25:da:ac:c4:73:82:65:e9:52:f5:5c:fd:38:95:02:6a:69:
+         30:c5:1c:0a:57:07:ae:22:a4:2c:f9:c5:41:b7:b8:ec:9f:4f:
+         48:00:f9:01:04:55:cc:ac:f9:32:31:c4:75:95:06:a0:7f:d1:
+         8d:27:dd:b3:a9:a4:72:87:fe:59:8b:9a:7a:74:16:dd:16:a5:
+         62:29:eb:3a:96:dc:8b:a7:68:59:d3:eb:77:91:39:f8:d7:cb:
+         d9:8f:5f:5a:27:01:7d:5d:68:19:62:d8:c8:cd:f4:b7:72:47:
+         be:5b:97:ce:f2:ad:a2:99:93:ad:94:cb:93:f6:12:09:95:b6:
+         ab:d7:3b:d0:3f:11:cb:30:16:2e:79:80:e4:67:81:2d:5d:ed:
+         70:78:b6:60:59:ac:e1:5d:45:63:8f:c8:df:72:68:5b:ea:1d:
+         b8:01:f1:7e:fb:e7:8a:b3:e3:54:a0:38:09:e0:3c:de:42:f2:
+         c2:ed:2e:9b:f3:1f:35:b6:36:d8:e3:80:a1:8b:cd:99:64:0f:
+         c2:aa:ab:b1:ca:f5:6f:9e:43:8d:84:54:99:b3:6e:c0:12:66:
+         d8:70:10:f1:06:35:33:43:a8:9c:2e:ba:14:31:ce:10:7f:1c:
+         86:e3:8f:d2:d5:f8:77:ec:9b:ab:f1:2f:63:d9:42:5f:e0:67:
+         81:64:91:f1:97:2f:fc:6e:26:f6:33:f8:d3:b5:f8:c4:62:ab:
+         31:51:25:02:7a:f8:dd:6b:65:d5:6d:4d:30:c8:65:ba:68:14:
+         65:ac:27:0b:74:8a:f2:87
 SHA1 Fingerprint=63:CF:B6:C1:27:2B:56:E4:88:8E:1C:23:9A:B6:2E:81:47:24:C3:C7

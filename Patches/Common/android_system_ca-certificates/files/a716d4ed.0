@@ -21,7 +21,7 @@ Certificate:
         Version: 3 (0x2)
         Serial Number:
             5f:02:41:d7:7a:87:7c:4c:03:a3:ac:96:8d:fb:ff:d0
-        Signature Algorithm: ecdsa-with-SHA384
+    Signature Algorithm: ecdsa-with-SHA384
         Issuer: C=DE, O=D-Trust GmbH, CN=D-TRUST EV Root CA 1 2020
         Validity
             Not Before: Feb 11 10:00:00 2020 GMT
@@ -29,7 +29,7 @@ Certificate:
         Subject: C=DE, O=D-Trust GmbH, CN=D-TRUST EV Root CA 1 2020
         Subject Public Key Info:
             Public Key Algorithm: id-ecPublicKey
-                Public-Key: (384 bit)
+                Public-Key: (P-384)
                 pub:
                     04:f1:0b:dd:86:43:20:19:df:97:85:e8:22:4a:9b:
                     cf:9d:98:bf:b4:05:26:c9:cb:e3:a6:d2:8f:c5:9e:
@@ -38,8 +38,6 @@ Certificate:
                     c5:f0:b1:8a:f9:ef:b9:b7:14:ca:29:4a:c2:0f:a9:
                     7f:75:65:49:2a:30:67:f4:64:f7:d6:1a:77:da:c3:
                     c2:97:61:42:7b:49:ad
-                ASN1 OID: secp384r1
-                NIST CURVE: P-384
         X509v3 extensions:
             X509v3 Basic Constraints: critical
                 CA:TRUE
@@ -48,16 +46,18 @@ Certificate:
             X509v3 Key Usage: critical
                 Certificate Sign, CRL Sign
             X509v3 CRL Distribution Points: 
+
                 Full Name:
                   URI:http://crl.d-trust.net/crl/d-trust_ev_root_ca_1_2020.crl
+
                 Full Name:
                   URI:ldap://directory.d-trust.net/CN=D-TRUST%20EV%20Root%20CA%201%202020,O=D-Trust%20GmbH,C=DE?certificaterevocationlist
+
     Signature Algorithm: ecdsa-with-SHA384
-    Signature Value:
-        30:66:02:31:00:ca:3c:c6:2a:75:c2:5e:75:62:39:36:00:60:
-        5a:8b:c1:93:99:cc:d9:db:41:3b:3b:87:99:17:3b:d5:cc:4f:
-        ca:22:f7:a0:80:cb:f9:b4:b1:1b:56:f5:72:d2:fc:19:d1:02:
-        31:00:91:f7:30:93:3f:10:46:2b:71:a4:d0:3b:44:9b:c0:29:
-        02:05:b2:41:77:51:f3:79:5a:9e:8e:14:a0:4e:42:d2:5b:81:
-        f3:34:6a:03:e7:22:38:50:5b:ed:19:4f:43:16
+         30:66:02:31:00:ca:3c:c6:2a:75:c2:5e:75:62:39:36:00:60:
+         5a:8b:c1:93:99:cc:d9:db:41:3b:3b:87:99:17:3b:d5:cc:4f:
+         ca:22:f7:a0:80:cb:f9:b4:b1:1b:56:f5:72:d2:fc:19:d1:02:
+         31:00:91:f7:30:93:3f:10:46:2b:71:a4:d0:3b:44:9b:c0:29:
+         02:05:b2:41:77:51:f3:79:5a:9e:8e:14:a0:4e:42:d2:5b:81:
+         f3:34:6a:03:e7:22:38:50:5b:ed:19:4f:43:16
 SHA1 Fingerprint=61:DB:8C:21:59:69:03:90:D8:7C:9C:12:86:54:CF:9D:3D:F4:DD:07

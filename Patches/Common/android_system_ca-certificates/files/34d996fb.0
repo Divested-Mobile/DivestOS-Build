@@ -17,7 +17,7 @@ Certificate:
         Version: 3 (0x2)
         Serial Number:
             28:fd:99:60:41:47:a6:01:3a:ca:14:7b:1f:ef:f9:68:08:83:5d:7d
-        Signature Algorithm: ecdsa-with-SHA384
+    Signature Algorithm: ecdsa-with-SHA384
         Issuer: C=US, O=CommScope, CN=CommScope Public Trust ECC Root-02
         Validity
             Not Before: Apr 28 17:44:54 2021 GMT
@@ -25,7 +25,7 @@ Certificate:
         Subject: C=US, O=CommScope, CN=CommScope Public Trust ECC Root-02
         Subject Public Key Info:
             Public Key Algorithm: id-ecPublicKey
-                Public-Key: (384 bit)
+                Public-Key: (P-384)
                 pub:
                     04:78:30:81:e8:63:1e:e5:eb:71:51:0f:f7:07:07:
                     ca:39:99:7c:4e:d5:0f:cc:30:30:0b:8f:66:93:3e:
@@ -34,8 +34,6 @@ Certificate:
                     7f:ee:6c:22:b5:b0:af:48:45:0a:bd:a8:49:94:bf:
                     84:43:b0:db:84:4a:03:23:19:67:6a:6f:c1:6e:bc:
                     06:39:37:d1:88:22:f7
-                ASN1 OID: secp384r1
-                NIST CURVE: P-384
         X509v3 extensions:
             X509v3 Basic Constraints: critical
                 CA:TRUE
@@ -44,11 +42,10 @@ Certificate:
             X509v3 Subject Key Identifier: 
                 E6:18:75:FF:EF:60:DE:84:A4:F5:46:C7:DE:4A:55:E3:32:36:79:F5
     Signature Algorithm: ecdsa-with-SHA384
-    Signature Value:
-        30:64:02:30:26:73:49:7a:b6:ab:e6:49:f4:7d:52:3f:d4:41:
-        04:ae:80:43:83:65:75:b9:85:80:38:3b:d6:6f:e4:93:86:ab:
-        8f:e7:89:c8:7f:9b:7e:6b:0a:12:55:61:aa:11:e0:79:02:30:
-        77:e8:31:71:ac:3c:71:03:d6:84:26:1e:14:b8:f3:3b:3b:de:
-        ed:59:fc:6b:4c:30:7f:59:ce:45:e9:73:60:15:9a:4c:f0:e6:
-        5e:25:22:15:6d:c2:87:59:d0:b2:8e:6a
+         30:64:02:30:26:73:49:7a:b6:ab:e6:49:f4:7d:52:3f:d4:41:
+         04:ae:80:43:83:65:75:b9:85:80:38:3b:d6:6f:e4:93:86:ab:
+         8f:e7:89:c8:7f:9b:7e:6b:0a:12:55:61:aa:11:e0:79:02:30:
+         77:e8:31:71:ac:3c:71:03:d6:84:26:1e:14:b8:f3:3b:3b:de:
+         ed:59:fc:6b:4c:30:7f:59:ce:45:e9:73:60:15:9a:4c:f0:e6:
+         5e:25:22:15:6d:c2:87:59:d0:b2:8e:6a
 SHA1 Fingerprint=3C:3F:EF:57:0F:FE:65:93:86:9E:A0:FE:B0:F6:ED:8E:D1:13:C7:E5

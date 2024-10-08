@@ -18,7 +18,7 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number: 3182246526754555285 (0x2c299c5b16ed0595)
-        Signature Algorithm: ecdsa-with-SHA256
+    Signature Algorithm: ecdsa-with-SHA256
         Issuer: C=US, ST=Texas, L=Houston, O=SSL Corporation, CN=SSL.com EV Root Certification Authority ECC
         Validity
             Not Before: Feb 12 18:15:23 2016 GMT
@@ -26,7 +26,7 @@ Certificate:
         Subject: C=US, ST=Texas, L=Houston, O=SSL Corporation, CN=SSL.com EV Root Certification Authority ECC
         Subject Public Key Info:
             Public Key Algorithm: id-ecPublicKey
-                Public-Key: (384 bit)
+                Public-Key: (P-384)
                 pub:
                     04:aa:12:47:90:98:1b:fb:ef:c3:40:07:83:20:4e:
                     f1:30:82:a2:06:d1:f2:92:86:61:f2:f6:21:68:ca:
@@ -35,23 +35,21 @@ Certificate:
                     1f:61:16:07:51:3d:7d:5c:07:53:e3:35:38:8c:df:
                     cd:9f:d9:2e:0d:4a:b6:19:2e:5a:70:5a:06:ed:be:
                     f0:a1:b0:ca:d0:09:29
-                ASN1 OID: secp384r1
-                NIST CURVE: P-384
         X509v3 extensions:
             X509v3 Subject Key Identifier: 
                 5B:CA:5E:E5:DE:D2:81:AA:CD:A8:2D:64:51:B6:D9:72:9B:97:E6:4F
             X509v3 Basic Constraints: critical
                 CA:TRUE
             X509v3 Authority Key Identifier: 
-                5B:CA:5E:E5:DE:D2:81:AA:CD:A8:2D:64:51:B6:D9:72:9B:97:E6:4F
+                keyid:5B:CA:5E:E5:DE:D2:81:AA:CD:A8:2D:64:51:B6:D9:72:9B:97:E6:4F
+
             X509v3 Key Usage: critical
                 Digital Signature, Certificate Sign, CRL Sign
     Signature Algorithm: ecdsa-with-SHA256
-    Signature Value:
-        30:65:02:31:00:8a:e6:40:89:37:eb:e9:d5:13:d9:ca:d4:6b:
-        24:f3:b0:3d:87:46:58:1a:ec:b1:df:6f:fb:56:ba:70:6b:c7:
-        38:cc:e8:b1:8c:4f:0f:f7:f1:67:76:0e:83:d0:1e:51:8f:02:
-        30:3d:f6:23:28:26:4c:c6:60:87:93:26:9b:b2:35:1e:ba:d6:
-        f7:3c:d1:1c:ce:fa:25:3c:a6:1a:81:15:5b:f3:12:0f:6c:ee:
-        65:8a:c9:87:a8:f9:07:e0:62:9a:8c:5c:4a
+         30:65:02:31:00:8a:e6:40:89:37:eb:e9:d5:13:d9:ca:d4:6b:
+         24:f3:b0:3d:87:46:58:1a:ec:b1:df:6f:fb:56:ba:70:6b:c7:
+         38:cc:e8:b1:8c:4f:0f:f7:f1:67:76:0e:83:d0:1e:51:8f:02:
+         30:3d:f6:23:28:26:4c:c6:60:87:93:26:9b:b2:35:1e:ba:d6:
+         f7:3c:d1:1c:ce:fa:25:3c:a6:1a:81:15:5b:f3:12:0f:6c:ee:
+         65:8a:c9:87:a8:f9:07:e0:62:9a:8c:5c:4a
 SHA1 Fingerprint=4C:DD:51:A3:D1:F5:20:32:14:B0:C6:C5:32:23:03:91:C7:46:42:6D

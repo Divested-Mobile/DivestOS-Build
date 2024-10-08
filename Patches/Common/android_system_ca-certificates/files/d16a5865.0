@@ -37,7 +37,7 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number: 1977337328857672817 (0x1b70e9d2ffae6c71)
-        Signature Algorithm: sha256WithRSAEncryption
+    Signature Algorithm: sha256WithRSAEncryption
         Issuer: C=ES, CN=Autoridad de Certificacion Firmaprofesional CIF A62634068
         Validity
             Not Before: Sep 23 15:22:07 2014 GMT
@@ -93,37 +93,37 @@ Certificate:
                   CPS: http://www.firmaprofesional.com/cps
                   User Notice:
                     Explicit Text: 
+
             X509v3 Key Usage: critical
                 Certificate Sign, CRL Sign
     Signature Algorithm: sha256WithRSAEncryption
-    Signature Value:
-        74:87:28:02:2b:77:1f:66:89:64:ed:8f:74:2e:46:1c:bb:a8:
-        f8:f8:0b:1d:83:b6:3a:a7:e8:45:8a:07:b7:e0:3e:20:cb:e1:
-        08:db:13:08:f8:28:a1:35:b2:80:b3:0b:51:c0:d3:56:9a:8d:
-        33:45:49:af:49:f0:e0:3d:07:7a:45:13:5a:ff:c8:97:d8:d3:
-        18:2c:7d:96:f8:dd:a2:65:43:70:93:90:15:ba:90:df:e8:19:
-        b0:db:2c:8a:60:0f:b7:6f:94:07:1e:1d:a6:c9:85:f6:bd:34:
-        f8:40:78:62:10:70:3a:be:7d:4b:39:81:a9:10:d4:96:41:bb:
-        f8:5f:1c:0b:1d:08:f2:b1:b0:89:7a:f2:f7:a0:e0:c4:8f:8b:
-        78:b5:3b:58:a5:23:8e:4f:55:fe:36:3b:e0:0c:b7:ca:2a:30:
-        41:20:b4:80:cd:ae:fc:76:66:73:a8:ae:6e:e1:7c:da:03:e8:
-        94:20:e6:22:a3:d0:1f:90:5d:20:53:14:26:57:da:54:97:df:
-        16:44:10:01:1e:88:66:8f:72:38:93:dd:20:b7:34:be:d7:f1:
-        ee:63:8e:47:79:28:06:fc:f3:59:45:25:60:22:33:1b:a3:5f:
-        a8:ba:2a:da:1a:3d:cd:40:ea:8c:ee:05:15:95:d5:a5:2c:20:
-        2f:a7:98:28:ee:45:fc:f1:b8:88:00:2c:8f:42:da:51:d5:9c:
-        e5:13:68:71:45:43:8b:9e:0b:21:3c:4b:5c:05:dc:1a:9f:98:
-        8e:da:bd:22:9e:72:cd:ad:0a:cb:cc:a3:67:9b:28:74:c4:9b:
-        d7:1a:3c:04:58:a6:82:9d:ad:c7:7b:6f:ff:80:96:e9:f8:8d:
-        6a:bd:18:90:1d:ff:49:1a:90:52:37:93:2f:3c:02:5d:82:76:
-        0b:51:e7:16:c7:57:f8:38:f9:a7:cd:9b:22:54:ef:63:b0:15:
-        6d:53:65:03:4a:5e:4a:a0:b2:a7:8e:49:00:59:38:d5:c7:f4:
-        80:64:f5:6e:95:50:b8:11:7e:15:70:38:4a:b0:7f:d0:c4:32:
-        70:c0:19:ff:c9:38:2d:14:2c:66:f4:42:44:e6:55:76:1b:80:
-        15:57:ff:c0:a7:a7:aa:39:aa:d8:d3:70:d0:2e:ba:eb:94:6a:
-        fa:5f:34:86:e7:62:b5:fd:8a:f0:30:85:94:c9:af:24:02:2f:
-        6f:d6:dd:67:fe:e3:b0:55:4f:04:98:4f:a4:41:56:e2:93:d0:
-        6a:e8:d6:f3:fb:65:e0:ce:75:c4:31:59:0c:ee:82:c8:0c:60:
-        33:4a:19:ba:84:67:27:0f:bc:42:5d:bd:24:54:0d:ec:1d:70:
-        06:5f:a4:bc:fa:20:7c:55
+         74:87:28:02:2b:77:1f:66:89:64:ed:8f:74:2e:46:1c:bb:a8:
+         f8:f8:0b:1d:83:b6:3a:a7:e8:45:8a:07:b7:e0:3e:20:cb:e1:
+         08:db:13:08:f8:28:a1:35:b2:80:b3:0b:51:c0:d3:56:9a:8d:
+         33:45:49:af:49:f0:e0:3d:07:7a:45:13:5a:ff:c8:97:d8:d3:
+         18:2c:7d:96:f8:dd:a2:65:43:70:93:90:15:ba:90:df:e8:19:
+         b0:db:2c:8a:60:0f:b7:6f:94:07:1e:1d:a6:c9:85:f6:bd:34:
+         f8:40:78:62:10:70:3a:be:7d:4b:39:81:a9:10:d4:96:41:bb:
+         f8:5f:1c:0b:1d:08:f2:b1:b0:89:7a:f2:f7:a0:e0:c4:8f:8b:
+         78:b5:3b:58:a5:23:8e:4f:55:fe:36:3b:e0:0c:b7:ca:2a:30:
+         41:20:b4:80:cd:ae:fc:76:66:73:a8:ae:6e:e1:7c:da:03:e8:
+         94:20:e6:22:a3:d0:1f:90:5d:20:53:14:26:57:da:54:97:df:
+         16:44:10:01:1e:88:66:8f:72:38:93:dd:20:b7:34:be:d7:f1:
+         ee:63:8e:47:79:28:06:fc:f3:59:45:25:60:22:33:1b:a3:5f:
+         a8:ba:2a:da:1a:3d:cd:40:ea:8c:ee:05:15:95:d5:a5:2c:20:
+         2f:a7:98:28:ee:45:fc:f1:b8:88:00:2c:8f:42:da:51:d5:9c:
+         e5:13:68:71:45:43:8b:9e:0b:21:3c:4b:5c:05:dc:1a:9f:98:
+         8e:da:bd:22:9e:72:cd:ad:0a:cb:cc:a3:67:9b:28:74:c4:9b:
+         d7:1a:3c:04:58:a6:82:9d:ad:c7:7b:6f:ff:80:96:e9:f8:8d:
+         6a:bd:18:90:1d:ff:49:1a:90:52:37:93:2f:3c:02:5d:82:76:
+         0b:51:e7:16:c7:57:f8:38:f9:a7:cd:9b:22:54:ef:63:b0:15:
+         6d:53:65:03:4a:5e:4a:a0:b2:a7:8e:49:00:59:38:d5:c7:f4:
+         80:64:f5:6e:95:50:b8:11:7e:15:70:38:4a:b0:7f:d0:c4:32:
+         70:c0:19:ff:c9:38:2d:14:2c:66:f4:42:44:e6:55:76:1b:80:
+         15:57:ff:c0:a7:a7:aa:39:aa:d8:d3:70:d0:2e:ba:eb:94:6a:
+         fa:5f:34:86:e7:62:b5:fd:8a:f0:30:85:94:c9:af:24:02:2f:
+         6f:d6:dd:67:fe:e3:b0:55:4f:04:98:4f:a4:41:56:e2:93:d0:
+         6a:e8:d6:f3:fb:65:e0:ce:75:c4:31:59:0c:ee:82:c8:0c:60:
+         33:4a:19:ba:84:67:27:0f:bc:42:5d:bd:24:54:0d:ec:1d:70:
+         06:5f:a4:bc:fa:20:7c:55
 SHA1 Fingerprint=0B:BE:C2:27:22:49:CB:39:AA:DB:35:5C:53:E3:8C:AE:78:FF:B6:FE
