@@ -1,0 +1,51 @@
+From 25bff2717051677d510eed49e5825123682ea19a Mon Sep 17 00:00:00 2001
+From: Almaz Mingaleev <mingaleev@google.com>
+Date: Wed, 10 Jul 2024 13:38:35 +0100
+Subject: [PATCH] Do not accept zip files with invalid headers.
+
+According to Section 4.3.6 in [1] non-empty zip file starts with
+local file header. 4.3.1 allows empty files, and in such case
+file starts with "end of central directory record".
+
+This aligns ZipFile with libziparchive modulo empty zip files -
+libziparchive rejects them.
+
+Tests are skipped because sc-dev branch uses ART module
+prebuilts, but builds tests from sources which leads to presubmit
+failures.
+
+Ignore-AOSP-First: b/309938635#comment1
+
+[1] https://pkwaredownloads.blob.core.windows.net/pem/APPNOTE.txt
+
+Bug: 309938635
+Test: CtsLibcoreTestCases
+Test: CtsLibcoreOjTestCases
+Change-Id: I545cdd49ec3cc138331145f4716c8148662a478b
+Merged-In: I545cdd49ec3cc138331145f4716c8148662a478b
+---
+ ojluni/src/main/native/zip_util.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/ojluni/src/main/native/zip_util.c b/ojluni/src/main/native/zip_util.c
+index 5a2a0b8c538..1ce510e1d10 100644
+--- a/ojluni/src/main/native/zip_util.c
++++ b/ojluni/src/main/native/zip_util.c
+@@ -871,6 +871,17 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
+             zip->locsig = JNI_TRUE;
+         else
+             zip->locsig = JNI_FALSE;
++
++        // BEGIN Android-changed: do not accept files with invalid header.
++        if (GETSIG(errbuf) != LOCSIG && GETSIG(errbuf) != ENDSIG) {
++            if (pmsg) {
++                *pmsg = strdup("Entry at offset zero has invalid LFH signature.");
++            }
++            ZFILE_Close(zfd);
++            freeZip(zip);
++            return NULL;
++        }
++        // END Android-changed: do not accept files with invalid header.
+     }
+ 
+     // This lseek is safe because it happens during construction of the ZipFile

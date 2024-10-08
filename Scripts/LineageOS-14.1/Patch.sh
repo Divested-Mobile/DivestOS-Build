@@ -82,7 +82,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-09 #XXX
+sed -i 's/2021-06-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-10 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -298,6 +298,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/393649.patch"; #n-asb-2024-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/396611.patch"; #n-asb-2024-07 Verify UID of incoming Zygote connections.
 applyPatch "$DOS_PATCHES/android_frameworks_base/399269.patch"; #n-asb-2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/400926.patch"; #n-asb-2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/405038.patch"; #n-asb-2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405039.patch"; #n-asb-2024-10 Update AccountManagerService checkKeyIntent.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -410,6 +412,10 @@ fi;
 
 if enterAndClear "hardware/qcom/media-caf/msm8994"; then
 applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227622.patch"; #n_asb_09-2018-qcom (CAF)
+fi;
+
+if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405037.patch"; #n-asb-2024-10 Do not accept zip files with invalid headers.
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
