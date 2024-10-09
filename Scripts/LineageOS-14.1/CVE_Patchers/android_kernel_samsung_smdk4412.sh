@@ -459,6 +459,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39192/4.4/0001.patch
@@ -544,9 +545,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44939/^6.9/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44944/4.4/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/^6.11/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-44998/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-45028/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46673/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46771/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46781/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46830/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
@@ -556,7 +559,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p556"
+editKernelLocalversion "-dos.p559"
 else echo "kernel_samsung_smdk4412 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

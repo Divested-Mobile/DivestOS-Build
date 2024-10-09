@@ -1,4 +1,4 @@
-From 560e0b6265e67b7a1f5e63da097e27485ba65a8f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: William Loh <wloh@google.com>
 Date: Mon, 3 Jun 2024 12:56:47 -0700
 Subject: [PATCH] Fail parseUri if end is missing
@@ -12,10 +12,10 @@ Change-Id: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
  1 file changed, 3 insertions(+)
 
 diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
-index 2142aae2ec74a..6c93c4651cec5 100644
+index 0059f9edb6e1..4c1f22472b10 100644
 --- a/core/java/android/content/Intent.java
 +++ b/core/java/android/content/Intent.java
-@@ -5112,6 +5112,9 @@ public static Intent parseUri(String uri, int flags) throws URISyntaxException {
+@@ -5112,6 +5112,9 @@ public class Intent implements Parcelable, Cloneable {
                  int eq = uri.indexOf('=', i);
                  if (eq < 0) eq = i-1;
                  int semi = uri.indexOf(';', i);
