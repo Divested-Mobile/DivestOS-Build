@@ -619,6 +619,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46777/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46781/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46830/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-46844/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-47669/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-47670/^6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6752/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
@@ -626,7 +628,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p626"
+editKernelLocalversion "-dos.p628"
 else echo "kernel_lge_g3 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
