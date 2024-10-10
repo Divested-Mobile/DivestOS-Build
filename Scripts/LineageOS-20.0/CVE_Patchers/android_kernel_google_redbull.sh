@@ -221,6 +221,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33055/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.19/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33079/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33090/audio-kernel/0001.patch --directory=techpack/audio
@@ -490,7 +491,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27436/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-31076/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.19/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-34027/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35789/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35806/4.19/0002.patch
@@ -677,6 +678,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42313/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43830/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43835/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/4.19/0002.patch
@@ -752,7 +754,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p752"
+editKernelLocalversion "-dos.p754"
 else echo "kernel_google_redbull is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

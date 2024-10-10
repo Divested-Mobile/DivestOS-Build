@@ -452,6 +452,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42315/^6.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-prereq/4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43882/4.14/0009.patch
@@ -496,11 +497,13 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.pat
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p500"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.9/0009.patch
+editKernelLocalversion "-dos.p503"
 else echo "kernel_razer_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

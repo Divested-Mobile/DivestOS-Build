@@ -308,6 +308,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30316/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30319/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30324/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30334/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30337/4.14/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31829/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-32399/4.14/0002.patch
@@ -1015,7 +1016,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27429/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33015/4.14/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.14/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35806/4.14/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35821/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35822/4.14/0008.patch
@@ -1230,7 +1231,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p1230"
+editKernelLocalversion "-dos.p1231"
 else echo "kernel_xiaomi_sm8150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

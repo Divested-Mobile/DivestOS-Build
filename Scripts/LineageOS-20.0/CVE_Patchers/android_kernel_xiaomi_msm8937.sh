@@ -147,6 +147,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33019/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33059/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33064/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33110/4.9/0003.patch
@@ -445,6 +446,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42305/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/4.14/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-prereq/4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43858/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43882/4.14/0009.patch
@@ -490,11 +492,13 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.pat
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p494"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.9/0009.patch
+editKernelLocalversion "-dos.p498"
 else echo "kernel_xiaomi_msm8937 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
