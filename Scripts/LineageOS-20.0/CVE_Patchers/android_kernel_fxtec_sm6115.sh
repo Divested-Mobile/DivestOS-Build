@@ -118,6 +118,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6915/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43545/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-47233/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52429/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52435/4.19/0007.patch
@@ -522,7 +523,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p522"
+editKernelLocalversion "-dos.p523"
 else echo "kernel_fxtec_sm6115 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -145,6 +145,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33019/prima/0001.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33059/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33064/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33110/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33120/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.14/0002.patch
@@ -158,6 +162,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39194/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43528/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46343/4.14/0003.patch
@@ -487,7 +492,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p487"
+editKernelLocalversion "-dos.p492"
 else echo "kernel_xiaomi_msm8937 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

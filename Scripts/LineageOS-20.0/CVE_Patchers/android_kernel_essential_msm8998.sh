@@ -38,6 +38,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9711/4.4/0003.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13218/4.4/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13693/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13694/^4.12.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15832/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17052/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18174/^4.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18204/4.4/0004.patch
@@ -54,6 +55,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5910/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11273/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11818/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11883/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11919/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11984/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11986/ANY/0001.patch
@@ -610,7 +612,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p610"
+editKernelLocalversion "-dos.p612"
 else echo "kernel_essential_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

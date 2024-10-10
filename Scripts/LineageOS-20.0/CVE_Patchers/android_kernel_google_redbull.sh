@@ -212,15 +212,26 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28541/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28554/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28571/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.19/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33055/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33079/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33090/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33106/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33107/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33110/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33111/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33114/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33117/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33118/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33118/audio-kernel/0002.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34324/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35001/4.19/0007.patch
@@ -237,6 +248,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42755/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43513/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43528/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43545/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45871/4.19/0003.patch
@@ -356,6 +369,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-21475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22386/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23368/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23378/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23848/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23848/4.19/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23849/4.19/0002.patch
@@ -735,7 +749,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p735"
+editKernelLocalversion "-dos.p749"
 else echo "kernel_google_redbull is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -30,12 +30,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9211/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13218/4.4/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13693/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13694/^4.12.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15832/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17052/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18174/^4.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18204/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000252/^4.13/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11883/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11980/qcacld-3.0/0002.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-16597/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^5.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12378/^5.1.5/0001.patch
@@ -48,6 +51,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11160/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26141/qcacld-3.0/0004.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29374-alt/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29374-alt/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29374-alt/4.4/0007.patch
@@ -58,6 +62,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3542/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4034/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4149/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20292/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30319/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33656/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/^5.16/0001.patch
@@ -122,6 +127,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.4/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4662/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20368/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22065/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22072/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23036/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23036/4.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23037/4.4/0005.patch
@@ -130,6 +137,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23040/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23042/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25654/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25664/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25720/qcacld-3.0/0005.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25743/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-26365/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-26966/4.4/0008.patch
@@ -575,7 +583,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p575"
+editKernelLocalversion "-dos.p583"
 else echo "kernel_sony_sdm660 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

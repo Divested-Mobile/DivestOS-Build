@@ -44,6 +44,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11065/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13693/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13694/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14886/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15832/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17052/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18061/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18174/^4.10/0001.patch
@@ -53,6 +54,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3575/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5902/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5906/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11836/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11852/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11863/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11883/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11898/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11980/qcacld-3.0/0002.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-16597/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^5.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12378/^5.1.5/0001.patch
@@ -579,7 +586,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p579"
+editKernelLocalversion "-dos.p586"
 else echo "kernel_google_wahoo is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

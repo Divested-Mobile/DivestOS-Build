@@ -38,12 +38,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7477/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13693/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13694/^4.12.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15832/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000252/^4.13/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0005.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11412/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20855/^4.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-25020/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10622/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12378/^5.1.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12455/^5.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0002.patch
@@ -154,6 +156,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33110/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33120/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.14/0002.patch
@@ -167,6 +171,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39194/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43528/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43545/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43550/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
@@ -500,7 +506,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p500"
+editKernelLocalversion "-dos.p506"
 else echo "kernel_xiaomi_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

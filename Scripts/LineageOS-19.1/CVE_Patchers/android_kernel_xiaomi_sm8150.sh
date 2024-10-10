@@ -147,7 +147,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25704/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25705/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26139/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26141/qcacld-3.0/0004.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qca-wifi-host-cmn/0009.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-3.0/0007.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26146/qca-wifi-host-cmn/0003.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26147/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26555/4.14/0002.patch
@@ -199,8 +201,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0937/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1048/4.1-^5.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1891/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1904/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1904/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1907/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1915/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1927/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1940/ANY/0001.patch
@@ -214,7 +218,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1964/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1968/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1969/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1970/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1974/qca-wifi-host-cmn/0002.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1977/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1980/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.14/0007.patch
@@ -297,7 +303,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30002/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30262/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30265/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30265/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30299/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30316/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30319/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30324/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30334/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31829/4.14/0009.patch
@@ -315,10 +323,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33909/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34693/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34981/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35069/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35081/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35084/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35085/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35088/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35098/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35105/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35106/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35118/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37576/4.14/0003.patch
@@ -605,6 +616,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20422/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20566/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20571/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22065/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22075/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23039/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23041/4.19/0004.patch
@@ -617,6 +629,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25666/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25712/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25715/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25717/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25741/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-26966/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27223/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
@@ -627,6 +640,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-29581/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-32981/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33246/audio-kernel/0002.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33740/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.14/0002.patch
@@ -780,6 +794,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28541/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28554/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28571/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28584/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28772/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.14/0002.patch
@@ -787,8 +802,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33059/audio-kernel/0002.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33068/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33070/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33110/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33114/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33120/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35001/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35823/4.19/0002.patch
@@ -799,6 +820,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39194/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43528/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43545/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43550/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
@@ -1203,7 +1226,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p1203"
+editKernelLocalversion "-dos.p1226"
 else echo "kernel_xiaomi_sm8150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

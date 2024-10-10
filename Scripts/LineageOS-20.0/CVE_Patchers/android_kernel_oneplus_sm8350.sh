@@ -74,6 +74,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-7042/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35826/^6.3/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43545/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-47233/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52429/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52434/5.4/0006.patch
@@ -121,6 +122,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0607/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0841/5.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-1086/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/5.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23378/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23849/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24857/5.4/0005.patch
@@ -640,7 +642,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.4/0005.patch
-editKernelLocalversion "-dos.p640"
+editKernelLocalversion "-dos.p642"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

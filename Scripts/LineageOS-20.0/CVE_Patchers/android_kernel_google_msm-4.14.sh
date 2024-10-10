@@ -39,6 +39,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-unused/4.14/000
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7837/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-3695/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-5754/^4.19/0157.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15832/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18232/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5995/4.19/0003.patch
@@ -92,6 +93,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4382/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20382/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33246/audio-kernel/0002.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48627/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48671/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48697/4.19/0002.patch
@@ -110,8 +112,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21657/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28554/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33064/audio-kernel/0001.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33070/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35823/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43528/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43550/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46838/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-47233/4.14/0009.patch
@@ -497,7 +502,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p497"
+editKernelLocalversion "-dos.p502"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
