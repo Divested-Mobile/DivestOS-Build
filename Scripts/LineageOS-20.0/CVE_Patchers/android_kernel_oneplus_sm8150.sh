@@ -761,6 +761,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31085/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33059/audio-kernel/0002.patch --directory=techpack/audio
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.14/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33068/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33070/ANY/0001.patch
@@ -1126,6 +1127,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42309/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42310/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42311/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42313/4.14/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-prereq/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43839/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43853/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43854/4.19/0005.patch
@@ -1181,11 +1183,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47222/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p1185"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.14/0007.patch
+editKernelLocalversion "-dos.p1189"
 else echo "kernel_oneplus_sm8150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -221,7 +221,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33031/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33055/audio-kernel/0001.patch --directory=techpack/audio
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.19/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33063/4.19/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33065/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33079/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33090/audio-kernel/0001.patch --directory=techpack/audio
