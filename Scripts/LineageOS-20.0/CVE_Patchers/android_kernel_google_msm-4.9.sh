@@ -69,7 +69,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3506/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3656/4.14/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30319/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30319/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33624/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33655/4.19/0006.patch

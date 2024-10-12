@@ -59,7 +59,7 @@ commentPatches android_kernel_google_gs101_private_gs-google.sh "CVE-2021-29648/
 commentPatches android_kernel_google_gs201_private_gs-google.sh "CVE-2021-29648/^5.11/0001.patch" "CVE-2023-6817/5.10/0002.patch" "CVE-2023-52462/5.10/0002.patch" "CVE-2023-52672" "CVE-2024-26733/5.10/0002.patch" "CVE-2023-52656/5.10" "CVE-2024-26882" "CVE-2024-38564" "CVE-2022-48862" "CVE-2024-46681" "CVE-2024-46826";
 commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0048.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0049.patch" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-14883" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
 commentPatches android_kernel_google_msm.sh "CVE-2017-11015/prima" "CVE-2021-Misc2/ANY/0031.patch";
-commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-30324" "CVE-2021-45469";
+commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-30324" "CVE-2021-45469" "CVE-2021-30319";
 commentPatches android_kernel_google_redbull.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_google_sunfish.sh "CVE-2021-30324";
 commentPatches android_kernel_google_wahoo.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-14047/ANY/0002.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166" "CVE-2021-30324";
@@ -98,7 +98,7 @@ commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
 commentPatches android_kernel_samsung_universal8890.sh "0008-Graphene-Kernel_Hardening-ro" "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2022-42896/4.9";
 commentPatches android_kernel_samsung_exynos9810.sh "CVE-2020-1749" "CVE-2019-ctnl-addr-leak" "CVE-2019-18282" "CVE-2019-11599" "CVE-2022-20566" "CVE-2019-16746" "CVE-2021-45469" "CVE-2020-0305" "CVE-2021-3506/4.19" "CVE-2024-26934/4.19" "CVE-2024-26934" "CVE-2024-44944";
 commentPatches android_kernel_samsung_universal9810.sh "CVE-2020-1749";
-commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
+commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166" "CVE-2021-30319";
 commentPatches android_kernel_sony_sdm845.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_xiaomi_msm8937.sh "CVE-2017-13162" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-25715";
 commentPatches android_kernel_xiaomi_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch";
