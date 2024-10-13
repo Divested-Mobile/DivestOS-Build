@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-09
+sed -i 's/2024-02-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-10
 fi;
 
 if enterAndClear "build/soong"; then
@@ -174,6 +174,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399738.patch"; #R_asb_2024-08 B
 applyPatch "$DOS_PATCHES/android_frameworks_base/399739.patch"; #R_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399740.patch"; #R_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/403218.patch"; #R_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/405358.patch"; #T_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405359.patch"; #T_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405360-backport.patch"; #T_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
+applyPatch "$DOS_PATCHES/android_frameworks_base/405361-backport.patch"; #T_asb_2024-10 Check whether installerPackageName contains only valid characters
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -307,6 +311,7 @@ applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; 
 fi;
 
 if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405362.patch"; #T_asb_2024-10 Do not accept zip files with invalid headers.
 applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0003-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
@@ -319,6 +324,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405364-backport.patch"; #T_asb_2024-10 Disallow unexpected incoming HID connections
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -372,6 +378,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403219.patch"; #R_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403220.patch"; #R_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403221.patch"; #R_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403222.patch"; #R_asb_2024-09 Restrict Settings Homepage prior to provisioning
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405363-backport.patch"; #T_asb_2024-10 FRP bypass defense in App battery usage page
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
