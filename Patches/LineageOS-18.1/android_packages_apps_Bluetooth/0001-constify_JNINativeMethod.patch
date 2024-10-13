@@ -191,10 +191,10 @@ index 17b6e97c0..c3a00d5d2 100644
      {"initNative", "()V", (void*)initNative},
      {"cleanupNative", "()V", (void*)cleanupNative},
 diff --git a/jni/com_android_bluetooth_hid_host.cpp b/jni/com_android_bluetooth_hid_host.cpp
-index cab5e3361..cc242e811 100644
+index 22c7dcfe8..3b690d6d4 100644
 --- a/jni/com_android_bluetooth_hid_host.cpp
 +++ b/jni/com_android_bluetooth_hid_host.cpp
-@@ -506,7 +506,7 @@ static jboolean setIdleTimeNative(JNIEnv* env, jobject object,
+@@ -508,7 +508,7 @@ static jboolean setIdleTimeNative(JNIEnv* env, jobject object,
    return status == BT_STATUS_SUCCESS ? JNI_TRUE : JNI_FALSE;
  }
  

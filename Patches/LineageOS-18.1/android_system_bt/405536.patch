@@ -1,4 +1,4 @@
-From 935b7a26fa502de27c0cd3c97a05381319e8f22c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Sun, 14 Mar 2021 09:52:19 -0700
 Subject: [PATCH] Add btif/include/btif_hh::btif_hh_status_text
@@ -16,7 +16,7 @@ Change-Id: Iab6a4f33a3e498c33f4870abc5abd59e073d03f2
  1 file changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/btif/include/btif_hh.h b/btif/include/btif_hh.h
-index b71d347c1a7..f33598d2f19 100644
+index b71d347c1..f33598d2f 100644
 --- a/btif/include/btif_hh.h
 +++ b/btif/include/btif_hh.h
 @@ -46,7 +46,7 @@

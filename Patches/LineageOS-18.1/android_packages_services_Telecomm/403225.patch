@@ -1,4 +1,4 @@
-From cd4c2994e16a9a5c911292a6d05ed66f41efd53a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Pranav Madapurmath <pmadapurmath@google.com>
 Date: Tue, 11 Jun 2024 22:50:08 -0700
 Subject: [PATCH] Resolve cross-user image exploit for conference status hints
@@ -20,7 +20,7 @@ diff --git a/src/com/android/server/telecom/ConnectionServiceWrapper.java b/src/
 index 6ca74fba3..e944209a4 100644
 --- a/src/com/android/server/telecom/ConnectionServiceWrapper.java
 +++ b/src/com/android/server/telecom/ConnectionServiceWrapper.java
-@@ -133,10 +133,17 @@ public void handleCreateConferenceComplete(String callId, ConnectionRequest requ
+@@ -133,10 +133,17 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
                  ParcelableConference conference, Session.Info sessionInfo) {
              Log.startSession(sessionInfo, LogUtils.Sessions.CSW_HANDLE_CREATE_CONNECTION_COMPLETE,
                      mPackageAbbreviation);

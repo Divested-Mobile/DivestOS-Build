@@ -1,4 +1,4 @@
-From da6ee7b698b7d4c4cbe56c70027904268b72d0f1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yiling Chuang <emilychuang@google.com>
 Date: Mon, 8 Jul 2024 03:09:50 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE FRP bypass defense in App battery usage
@@ -24,7 +24,7 @@ diff --git a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java b/
 index e8d5f3330f2..d17642053e7 100644
 --- a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
 +++ b/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
-@@ -210,6 +210,11 @@ public void onResume() {
+@@ -210,6 +210,11 @@ public class AdvancedPowerUsageDetail extends DashboardFragment implements
          initPreference();
      }
  
@@ -40,7 +40,7 @@ diff --git a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsa
 index 8eeac8d26b0..37fa511beeb 100644
 --- a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
 +++ b/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
-@@ -395,4 +395,9 @@ public void testInitPreference_hasCorrectSummary() {
+@@ -395,4 +395,9 @@ public class AdvancedPowerUsageDetailTest {
          assertThat(mForegroundPreference.getSummary().toString()).isEqualTo("Used for 0 min");
          assertThat(mBackgroundPreference.getSummary().toString()).isEqualTo("Active for 0 min");
      }

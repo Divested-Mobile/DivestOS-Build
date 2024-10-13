@@ -311,7 +311,7 @@ applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; 
 fi;
 
 if enterAndClear "libcore"; then
-applyPatch "$DOS_PATCHES/android_libcore/405541.patch"; #R_asb_2024-10 Do not accept zip files with invalid headers.
+applyPatch "$DOS_PATCHES/android_libcore/405362.patch"; #R_asb_2024-10 Do not accept zip files with invalid headers.
 applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0003-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
