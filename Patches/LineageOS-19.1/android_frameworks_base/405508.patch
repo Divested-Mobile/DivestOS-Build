@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From aa9853f993a575fb59dd2ccc4cfeb54bbaa1ab4d Mon Sep 17 00:00:00 2001
 From: William Loh <wloh@google.com>
 Date: Mon, 3 Jun 2024 12:56:47 -0700
 Subject: [PATCH] Fail parseUri if end is missing
@@ -7,7 +7,7 @@ Bug: 318683126
 Test: atest IntentTest
 Flag: EXEMPT bugfix
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:b85bee508793e31d6fe37fc9cd4e8fa3787113cc)
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:77c140c674ec1cec011989f4a2c2666949771370)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a649e8e9abfb16548ccf57d8b740b4bf9ff73ef4)
 Merged-In: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
 Change-Id: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
 ---
@@ -15,10 +15,10 @@ Change-Id: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
  1 file changed, 3 insertions(+)
 
 diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
-index 6224758ce71a..ec67c7239df2 100644
+index 6224758ce71a4..ec67c7239df25 100644
 --- a/core/java/android/content/Intent.java
 +++ b/core/java/android/content/Intent.java
-@@ -7322,6 +7322,9 @@ public class Intent implements Parcelable, Cloneable {
+@@ -7322,6 +7322,9 @@ private static Intent parseUriInternal(String uri, @UriFlags int flags)
                  int eq = uri.indexOf('=', i);
                  if (eq < 0) eq = i-1;
                  int semi = uri.indexOf(';', i);

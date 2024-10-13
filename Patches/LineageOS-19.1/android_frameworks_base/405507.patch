@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 0ae6d568dabe36c3d303849aee50ce01f58eea11 Mon Sep 17 00:00:00 2001
 From: Dmitry Dementyev <dementyev@google.com>
 Date: Thu, 11 Jul 2024 12:39:22 -0700
 Subject: [PATCH] Update AccountManagerService checkKeyIntent.
@@ -9,7 +9,7 @@ Bug: 349780950
 Test: manual
 Flag: EXEMPT bugfix
 (cherry picked from commit c1e79495a49bd4d3e380136fe4bca7ac1a9ed763)
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1bcf4f36c171a73990b47136930af1930ccd3ece)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2fec744928adb3e30539a1b9f7bff4ca0ec68bcd)
 Merged-In: I8b23191d3d60036ca7ddf0ef7dcba6b38fb27b3c
 Change-Id: I8b23191d3d60036ca7ddf0ef7dcba6b38fb27b3c
 ---
@@ -17,10 +17,10 @@ Change-Id: I8b23191d3d60036ca7ddf0ef7dcba6b38fb27b3c
  1 file changed, 3 insertions(+)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index 43944b050de4..d55be44f62cd 100644
+index 43944b050de4e..d55be44f62cdc 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -4895,6 +4895,9 @@ public class AccountManagerService
+@@ -4895,6 +4895,9 @@ protected boolean checkKeyIntent(int authUid, Bundle bundle) {
                  if (resolveInfo == null) {
                      return false;
                  }

@@ -174,10 +174,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399738.patch"; #R_asb_2024-08 B
 applyPatch "$DOS_PATCHES/android_frameworks_base/399739.patch"; #R_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399740.patch"; #R_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/403218.patch"; #R_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
-applyPatch "$DOS_PATCHES/android_frameworks_base/405358.patch"; #T_asb_2024-10 Fail parseUri if end is missing
-applyPatch "$DOS_PATCHES/android_frameworks_base/405359.patch"; #T_asb_2024-10 Update AccountManagerService checkKeyIntent.
-applyPatch "$DOS_PATCHES/android_frameworks_base/405360-backport.patch"; #T_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
-applyPatch "$DOS_PATCHES/android_frameworks_base/405361-backport.patch"; #T_asb_2024-10 Check whether installerPackageName contains only valid characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/405515.patch"; #R_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405516.patch"; #R_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405517.patch"; #R_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
+applyPatch "$DOS_PATCHES/android_frameworks_base/405518.patch"; #R_asb_2024-10 Check whether installerPackageName contains only valid characters
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -324,7 +324,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405364-backport.patch"; #T_asb_2024-10 Disallow unexpected incoming HID connections
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405540.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -378,7 +378,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403219.patch"; #R_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403220.patch"; #R_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403221.patch"; #R_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403222.patch"; #R_asb_2024-09 Restrict Settings Homepage prior to provisioning
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405363-backport.patch"; #T_asb_2024-10 FRP bypass defense in App battery usage page
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405534.patch"; #R_asb_2024-10 FRP bypass defense in App battery usage page
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
@@ -461,6 +461,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/385558.patch"; #R_asb_2024-03 Reland:
 applyPatch "$DOS_PATCHES/android_system_bt/385559.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/397545.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_system_bt/399742.patch"; #R_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_system_bt/405535.patch"; #R_asb_2024-10 Add privatize option for bluetooth addresses for logging
+applyPatch "$DOS_PATCHES/android_system_bt/405536.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
+applyPatch "$DOS_PATCHES/android_system_bt/405537.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 git am "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic (AOSP)
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;

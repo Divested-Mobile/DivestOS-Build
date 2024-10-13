@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-09-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-10
+sed -i 's/2024-09-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #S_asb_2024-10
 fi;
 
 if enterAndClear "build/soong"; then
@@ -135,10 +135,10 @@ fi;
 
 if enterAndClear "frameworks/base"; then
 git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
-applyPatch "$DOS_PATCHES/android_frameworks_base/405358.patch"; #T_asb_2024-10 Fail parseUri if end is missing
-applyPatch "$DOS_PATCHES/android_frameworks_base/405359.patch"; #T_asb_2024-10 Update AccountManagerService checkKeyIntent.
-applyPatch "$DOS_PATCHES/android_frameworks_base/405360-backport.patch"; #T_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
-applyPatch "$DOS_PATCHES/android_frameworks_base/405361-backport.patch"; #T_asb_2024-10 Check whether installerPackageName contains only valid characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/405507.patch"; #S_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405508.patch"; #S_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405509.patch"; #S_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
+applyPatch "$DOS_PATCHES/android_frameworks_base/405510.patch"; #S_asb_2024-10 Check whether installerPackageName contains only valid characters
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
