@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 1e0f995b0b68d811d4225e73426c4c6350a506ad Mon Sep 17 00:00:00 2001
 From: Almaz Mingaleev <mingaleev@google.com>
 Date: Wed, 10 Jul 2024 13:38:35 +0100
 Subject: [PATCH] Do not accept zip files with invalid headers.
@@ -22,7 +22,7 @@ Bug: 309938635
 Test: CtsLibcoreTestCases
 Test: CtsLibcoreOjTestCases
 (cherry picked from commit 288a44a1817707110cdf5a3a6ef8377c6e10cce2)
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5a6809400627ab1c8dbb76f92dfb89daae6b2f65)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:43e428a99aa89a9dfbe93000171721ecbfc31b88)
 Merged-In: I545cdd49ec3cc138331145f4716c8148662a478b
 Change-Id: I545cdd49ec3cc138331145f4716c8148662a478b
 ---
@@ -30,7 +30,7 @@ Change-Id: I545cdd49ec3cc138331145f4716c8148662a478b
  1 file changed, 11 insertions(+)
 
 diff --git a/ojluni/src/main/native/zip_util.c b/ojluni/src/main/native/zip_util.c
-index aa9c5cede9..16951a78ed 100644
+index aa9c5cede9e..16951a78ede 100644
 --- a/ojluni/src/main/native/zip_util.c
 +++ b/ojluni/src/main/native/zip_util.c
 @@ -878,6 +878,17 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
