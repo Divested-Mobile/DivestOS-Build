@@ -95,6 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
+sed -i 's/2024-09-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-10
 fi;
 
 if enterAndClear "build/soong"; then
@@ -134,6 +135,10 @@ fi;
 
 if enterAndClear "frameworks/base"; then
 git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
+applyPatch "$DOS_PATCHES/android_frameworks_base/405358.patch"; #T_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405359.patch"; #T_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405360-backport.patch"; #T_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
+applyPatch "$DOS_PATCHES/android_frameworks_base/405361-backport.patch"; #T_asb_2024-10 Check whether installerPackageName contains only valid characters
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -255,6 +260,7 @@ applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; 
 fi;
 
 if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405362.patch"; #T_asb_2024-10 Do not accept zip files with invalid headers.
 applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0003-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
@@ -266,6 +272,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405364-backport.patch"; #T_asb_2024-10 Disallow unexpected incoming HID connections
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -306,6 +313,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405363-backport.patch"; #T_asb_2024-10 FRP bypass defense in App battery usage page
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (CalyxOS)
@@ -394,6 +402,7 @@ if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$D
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/405364-backport.patch"; #T_asb_2024-10 Disallow unexpected incoming HID connections
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
