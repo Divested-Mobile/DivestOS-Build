@@ -519,11 +519,17 @@ git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako firs
 fi;
 
 if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_packages_apps_Bluetooth/405585.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 2/2
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385591.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385592.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385593.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/397546.patch"; #R_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399743.patch"; #R_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405583.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405584.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 fi;
 
 if enterAndClear "vendor/lineage"; then
