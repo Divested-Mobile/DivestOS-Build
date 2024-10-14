@@ -257,7 +257,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-26545/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28542/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28542/qcacld-3.0/0001.patch --directory=drivers/staging/qcacld-3.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28584/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/4.4/0007.patch
