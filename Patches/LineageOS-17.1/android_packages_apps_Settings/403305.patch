@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 31469a42bf69d10b697f74989e2516a3bcece609 Mon Sep 17 00:00:00 2001
 From: Chris Antol <cantol@google.com>
 Date: Mon, 25 Mar 2024 23:49:35 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Restrict Settings Homepage prior to
@@ -13,14 +13,14 @@ Test: manual test
 Merged-In: I8cbe38109ebf88a0f68f3917e95468a81c6463c1
 Change-Id: I8cbe38109ebf88a0f68f3917e95468a81c6463c1
 ---
- .../settings/homepage/SettingsHomepageActivity.java   | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../settings/homepage/SettingsHomepageActivity.java | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/src/com/android/settings/homepage/SettingsHomepageActivity.java b/src/com/android/settings/homepage/SettingsHomepageActivity.java
-index 5e6c54bb7c2..80e2e32e3e9 100644
+index 5e6c54bb7c2..784c6a2ec9c 100644
 --- a/src/com/android/settings/homepage/SettingsHomepageActivity.java
 +++ b/src/com/android/settings/homepage/SettingsHomepageActivity.java
-@@ -20,6 +20,7 @@ import android.animation.LayoutTransition;
+@@ -20,6 +20,7 @@
  import android.app.ActivityManager;
  import android.app.settings.SettingsEnums;
  import android.os.Bundle;
@@ -28,7 +28,13 @@ index 5e6c54bb7c2..80e2e32e3e9 100644
  import android.view.View;
  import android.widget.FrameLayout;
  import android.widget.ImageView;
-@@ -43,6 +44,16 @@ public class SettingsHomepageActivity extends FragmentActivity {
+@@ -39,10 +40,22 @@
+ 
+ public class SettingsHomepageActivity extends FragmentActivity {
+ 
++    private static final String TAG = "SettingsHomepageActivity";
++
+     @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
  
@@ -37,7 +43,7 @@ index 5e6c54bb7c2..80e2e32e3e9 100644
 +        boolean unprovisioned = android.provider.Settings.Global.getInt(getContentResolver(),
 +                android.provider.Settings.Global.DEVICE_PROVISIONED, 0) == 0;
 +        if (unprovisioned) {
-+            Log.e("SettingsHomepageActivity", "Device is not provisioned, exiting Settings");
++            Log.e(TAG, "Device is not provisioned, exiting Settings");
 +            finish();
 +            return;
 +        }

@@ -1,0 +1,33 @@
+From e81da50d737fe764f9dc7852185d72a576a230ec Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Thu, 14 Jan 2021 14:04:09 -0800
+Subject: [PATCH] Add APIs stack/btm/security_device_record::
+
+get_br_edr_hci_handle,Handle
+
+Towards encapsulated code
+
+Bug: 163134718
+Tag: #refactor
+Test: gd/cert/run
+
+Change-Id: I820541c1f2fc86202710b7ef1bb5756ca9427851
+---
+ stack/btm/btm_int_types.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/stack/btm/btm_int_types.h b/stack/btm/btm_int_types.h
+index e7450a5746..a5bd894abd 100644
+--- a/stack/btm/btm_int_types.h
++++ b/stack/btm/btm_int_types.h
+@@ -475,6 +475,10 @@ typedef struct {
+   LinkKey link_key;        /* Device link key                    */
+   uint8_t pin_code_length; /* Length of the pin_code used for paring */
+ 
++ public:
++  RawAddress RemoteAddress() const { return bd_addr; }
++  uint16_t get_br_edr_hci_handle() const { return hci_handle; }
++
+ #define BTM_SEC_AUTHORIZED BTM_SEC_FLAG_AUTHORIZED       /* 0x01 */
+ #define BTM_SEC_AUTHENTICATED BTM_SEC_FLAG_AUTHENTICATED /* 0x02 */
+ #define BTM_SEC_ENCRYPTED BTM_SEC_FLAG_ENCRYPTED         /* 0x04 */

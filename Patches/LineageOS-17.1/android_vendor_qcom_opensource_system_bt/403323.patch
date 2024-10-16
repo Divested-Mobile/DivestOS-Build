@@ -1,0 +1,85 @@
+From 541a53f79d4342e25cbe4212a8192a8f7467b163 Mon Sep 17 00:00:00 2001
+From: Hansong Zhang <hsz@google.com>
+Date: Tue, 20 Oct 2020 18:48:52 -0700
+Subject: [PATCH] Refactor btm_sec_set_peer_sec_caps
+
+No need to pass acl_cb
+
+Bug: 159815595
+Tag: #refactor
+Test: compile & verify basic functions working
+Change-Id: I7cb1bae627c731106ab3a93442acb8f6bb2018fa
+---
+ stack/btm/btm_acl.cc | 15 +++++++++++++--
+ stack/btm/btm_int.h  |  2 +-
+ stack/btm/btm_sec.cc |  7 +++----
+ 3 files changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/stack/btm/btm_acl.cc b/stack/btm/btm_acl.cc
+index 57c5c479a..aeb2b1c1b 100644
+--- a/stack/btm/btm_acl.cc
++++ b/stack/btm/btm_acl.cc
+@@ -320,7 +320,13 @@ void btm_acl_created(const RawAddress& bda, DEV_CLASS dc, BD_NAME bdn,
+           const uint8_t req_pend = (p_dev_rec->sm4 & BTM_SM4_REQ_PEND);
+ 
+           /* Store the Peer Security Capabilites (in SM4 and rmt_sec_caps) */
+-          btm_sec_set_peer_sec_caps(p, p_dev_rec);
++          bool ssp_supported =
++              HCI_SSP_HOST_SUPPORTED(p->peer_lmp_feature_pages[1]);
++          bool secure_connections_supported =
++              HCI_SC_HOST_SUPPORTED(p->peer_lmp_feature_pages[1]);
++          btm_sec_set_peer_sec_caps(ssp_supported, secure_connections_supported,
++                                    p_dev_rec);
++
+ 
+           BTM_TRACE_API("%s: pend:%d", __func__, req_pend);
+           if (req_pend) {
+@@ -1110,7 +1116,12 @@ void btm_process_remote_ext_features(tACL_CONN* p_acl_cb,
+   const uint8_t req_pend = (p_dev_rec->sm4 & BTM_SM4_REQ_PEND);
+ 
+   /* Store the Peer Security Capabilites (in SM4 and rmt_sec_caps) */
+-  btm_sec_set_peer_sec_caps(p_acl_cb, p_dev_rec);
++  bool ssp_supported =
++      HCI_SSP_HOST_SUPPORTED(p_acl_cb->peer_lmp_feature_pages[1]);
++  bool secure_connections_supported =
++      HCI_SC_HOST_SUPPORTED(p_acl_cb->peer_lmp_feature_pages[1]);
++  btm_sec_set_peer_sec_caps(ssp_supported, secure_connections_supported,
++                            p_dev_rec);
+ 
+   BTM_TRACE_API("%s: pend:%d", __func__, req_pend);
+   if (req_pend) {
+diff --git a/stack/btm/btm_int.h b/stack/btm/btm_int.h
+index 6262d89b9..b3ea2b73b 100644
+--- a/stack/btm/btm_int.h
++++ b/stack/btm/btm_int.h
+@@ -271,7 +271,7 @@ extern void btm_sec_pin_code_request(const RawAddress& p_bda);
+ extern void btm_sec_update_clock_offset(uint16_t handle, uint16_t clock_offset);
+ extern void btm_sec_dev_rec_cback_event(tBTM_SEC_DEV_REC* p_dev_rec,
+                                         uint8_t res, bool is_le_trasnport);
+-extern void btm_sec_set_peer_sec_caps(tACL_CONN* p_acl_cb,
++extern void btm_sec_set_peer_sec_caps(bool ssp_supported, bool sc_supported,
+                                       tBTM_SEC_DEV_REC* p_dev_rec);
+ 
+ extern void btm_sec_clear_ble_keys(tBTM_SEC_DEV_REC* p_dev_rec);
+diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
+index 65713b1a9..faa79e132 100644
+--- a/stack/btm/btm_sec.cc
++++ b/stack/btm/btm_sec.cc
+@@ -6116,14 +6116,13 @@ static bool btm_sec_queue_encrypt_request(const RawAddress& bd_addr,
+  * Returns          void
+  *
+  ******************************************************************************/
+-void btm_sec_set_peer_sec_caps(tACL_CONN* p_acl_cb,
++void btm_sec_set_peer_sec_caps(bool ssp_supported, bool sc_supported,
+                                tBTM_SEC_DEV_REC* p_dev_rec) {
+   if ((btm_cb.security_mode == BTM_SEC_MODE_SP ||
+        btm_cb.security_mode == BTM_SEC_MODE_SC) &&
+-      HCI_SSP_HOST_SUPPORTED(p_acl_cb->peer_lmp_feature_pages[1])) {
++      ssp_supported) {
+     p_dev_rec->sm4 = BTM_SM4_TRUE;
+-    p_dev_rec->remote_supports_secure_connections =
+-        (HCI_SC_HOST_SUPPORTED(p_acl_cb->peer_lmp_feature_pages[1]));
++    p_dev_rec->remote_supports_secure_connections = sc_supported;
+   } else {
+     p_dev_rec->sm4 = BTM_SM4_KNOWN;
+     p_dev_rec->remote_supports_secure_connections = false;

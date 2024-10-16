@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From e8fcd9986114b673068e77ad14202edc2b6aaaf5 Mon Sep 17 00:00:00 2001
 From: Jason Chiu <chiujason@google.com>
 Date: Wed, 31 Jan 2024 16:29:01 +0800
 Subject: [PATCH] Replace getCallingActivity() with getLaunchedFromPackage()
@@ -16,10 +16,10 @@ Merged-In: If97018c2741caef622f0596bbfeaa42ef1788b78
 Change-Id: If97018c2741caef622f0596bbfeaa42ef1788b78
 ---
  .../search/SearchFeatureProvider.java         |  2 +-
- .../search/SearchFeatureProviderImpl.java     | 20 +++++++++----------
- .../search/SearchResultTrampoline.java        |  2 +-
- .../search/SearchFeatureProviderImplTest.java | 15 +++++++-------
- 4 files changed, 19 insertions(+), 20 deletions(-)
+ .../search/SearchFeatureProviderImpl.java     | 26 +++++++++----------
+ .../search/SearchResultTrampoline.java        | 11 +++++++-
+ .../search/SearchFeatureProviderImplTest.java | 15 ++++++-----
+ 4 files changed, 31 insertions(+), 23 deletions(-)
 
 diff --git a/src/com/android/settings/search/SearchFeatureProvider.java b/src/com/android/settings/search/SearchFeatureProvider.java
 index 896f6e5c78c..cc6662acf1e 100644
@@ -35,7 +35,7 @@ index 896f6e5c78c..cc6662acf1e 100644
  
      /**
 diff --git a/src/com/android/settings/search/SearchFeatureProviderImpl.java b/src/com/android/settings/search/SearchFeatureProviderImpl.java
-index 63bf420c027..423779fbabf 100644
+index 63bf420c027..3a62ddfb67e 100644
 --- a/src/com/android/settings/search/SearchFeatureProviderImpl.java
 +++ b/src/com/android/settings/search/SearchFeatureProviderImpl.java
 @@ -17,13 +17,14 @@
@@ -54,7 +54,7 @@ index 63bf420c027..423779fbabf 100644
  import com.android.settingslib.search.SearchIndexableResources;
  import com.android.settingslib.search.SearchIndexableResourcesMobile;
  
-@@ -32,22 +33,19 @@ import com.android.settingslib.search.SearchIndexableResourcesMobile;
+@@ -32,26 +33,23 @@
   */
  public class SearchFeatureProviderImpl implements SearchFeatureProvider {
  
@@ -79,21 +79,57 @@ index 63bf420c027..423779fbabf 100644
 -        if (isSettingsPackage || isWhitelistedPackage) {
 +        final boolean isSettingsPackage = TextUtils.equals(callerPackage, context.getPackageName())
 +                || TextUtils.equals(getSettingsIntelligencePkgName(context), callerPackage);
-+        final boolean isAllowlistedPackage = isSignatureWhitelisted(context, callerPackage);
++        final boolean isAllowlistedPackage = isSignatureAllowlisted(context, callerPackage);
 +        if (isSettingsPackage || isAllowlistedPackage) {
              return;
          }
-         throw new SecurityException("Search result intents must be called with from a "
+-        throw new SecurityException("Search result intents must be called with from a "
+-                + "whitelisted package.");
++        throw new SecurityException("Search result intents must be called with from an "
++                + "allowlisted package.");
+     }
+ 
+     @Override
+@@ -69,7 +67,7 @@ public Intent buildSearchIntent(Context context, int pageId) {
+                 .putExtra(Intent.EXTRA_REFERRER, buildReferrer(context, pageId));
+     }
+ 
+-    protected boolean isSignatureWhitelisted(Context context, String callerPackage) {
++    protected boolean isSignatureAllowlisted(Context context, String callerPackage) {
+         return false;
+     }
+ 
 diff --git a/src/com/android/settings/search/SearchResultTrampoline.java b/src/com/android/settings/search/SearchResultTrampoline.java
-index 3bbe6bd58a7..70387b021d4 100644
+index 3bbe6bd58a7..3a14e874eae 100644
 --- a/src/com/android/settings/search/SearchResultTrampoline.java
 +++ b/src/com/android/settings/search/SearchResultTrampoline.java
-@@ -38,7 +38,7 @@ public class SearchResultTrampoline extends Activity {
+@@ -19,8 +19,10 @@
+ import static com.android.settings.SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS;
+ 
+ import android.app.Activity;
++import android.app.ActivityTaskManager;
+ import android.content.Intent;
+ import android.os.Bundle;
++import android.os.RemoteException;
+ 
+ import com.android.settings.SettingsActivity;
+ import com.android.settings.SubSettings;
+@@ -35,10 +37,17 @@ public class SearchResultTrampoline extends Activity {
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+ 
++        String callerPackage;
++        try {
++            callerPackage = ActivityTaskManager.getService().getLaunchedFromPackage(getActivityToken());
++        } catch (RemoteException e) {
++            throw e.rethrowFromSystemServer();
++        }
++
          // First make sure caller has privilege to launch a search result page.
          FeatureFactory.getFactory(this)
                  .getSearchFeatureProvider()
 -                .verifyLaunchSearchResultPageCaller(this, getCallingActivity());
-+                .verifyLaunchSearchResultPageCaller(this, getCallingPackage());
++                .verifyLaunchSearchResultPageCaller(this, callerPackage);
          // Didn't crash, proceed and launch the result as a subsetting.
          final Intent intent = getIntent();
  
@@ -101,7 +137,7 @@ diff --git a/tests/robotests/src/com/android/settings/search/SearchFeatureProvid
 index 444a8137889..ebd935d3406 100644
 --- a/tests/robotests/src/com/android/settings/search/SearchFeatureProviderImplTest.java
 +++ b/tests/robotests/src/com/android/settings/search/SearchFeatureProviderImplTest.java
-@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
+@@ -21,7 +21,6 @@
  
  import android.app.Activity;
  import android.app.settings.SettingsEnums;
@@ -109,7 +145,7 @@ index 444a8137889..ebd935d3406 100644
  import android.content.Intent;
  import android.content.pm.ActivityInfo;
  import android.content.pm.ResolveInfo;
-@@ -126,20 +125,22 @@ public class SearchFeatureProviderImplTest {
+@@ -126,20 +125,22 @@ public void verifyLaunchSearchResultPageCaller_nullCaller_shouldCrash() {
  
      @Test(expected = SecurityException.class)
      public void verifyLaunchSearchResultPageCaller_badCaller_shouldCrash() {

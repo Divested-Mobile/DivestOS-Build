@@ -1,0 +1,266 @@
+From 0b49d63202e63201a10b1eb2d1e3943b73a8a7b5 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Sat, 25 May 2024 00:28:41 +0000
+Subject: [PATCH] Add support for checking security downgrade
+
+As a guard against the BLUFFS attack, we will need to check the security
+parameters of incoming connections against cached values and disallow
+connection if these parameters are downgraded or changed from their
+cached values.
+
+Future CLs will add checks during connection.  This CL adds the
+functions that will be needed to perform those checks and the necessary
+mocks.
+Currently supported checks are : IO capabilities (must be an exact match),
+Secure Connections capability (must not be a downgrade), and session key
+length (must not be a downgrade).  Maximum session key length, which was
+previously not cached, has been added to the device security manager
+cache.
+
+To QA: This CL is a logical no-op by itself.  Tests should be performed as described in ag/25815924 and ag/25815925/
+
+Bug: 314331379
+Test: m libbluetooth
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:82382a934cf4a11b979de286e3f9ada723a740a3)
+Merged-In: I8810c1bf9b3d3af1108cf621e2c51537e429c0f3
+Change-Id: I8810c1bf9b3d3af1108cf621e2c51537e429c0f3
+---
+ btif/src/btif_storage.cc     |  31 ++++++++++-
+ include/hardware/bluetooth.h |  14 +++++
+ service/logging_helpers.cc   |   2 +
+ stack/btm/btm_int.h          |   3 +
+ stack/btm/btm_sec.cc         | 103 +++++++++++++++++++++++++++++++++++
+ 5 files changed, 152 insertions(+), 1 deletion(-)
+
+diff --git a/btif/src/btif_storage.cc b/btif/src/btif_storage.cc
+index 2427493cd5b..200ea2c4e42 100644
+--- a/btif/src/btif_storage.cc
++++ b/btif/src/btif_storage.cc
+@@ -84,7 +84,10 @@ using bluetooth::Uuid;
+ #define BTIF_STORAGE_KEY_ADAPTER_SCANMODE "ScanMode"
+ #define BTIF_STORAGE_KEY_LOCAL_IO_CAPS "LocalIOCaps"
+ #define BTIF_STORAGE_KEY_LOCAL_IO_CAPS_BLE "LocalIOCapsBLE"
++#define BTIF_STORAGE_KEY_MAX_SESSION_KEY_SIZE "MaxSessionKeySize"
+ #define BTIF_STORAGE_KEY_ADAPTER_DISC_TIMEOUT "DiscoveryTimeout"
++#define BTIF_STORAGE_KEY_SECURE_CONNECTIONS_SUPPORTED \
++  "SecureConnectionsSupported"
+ 
+ /* This is a local property to add a device found */
+ #define BT_PROPERTY_REMOTE_DEVICE_TIMESTAMP 0xFF
+@@ -267,7 +270,14 @@ static int prop2cfg(const RawAddress* remote_bd_addr, bt_property_t* prop) {
+       btif_config_set_int(bdstr, BTIF_STORAGE_PATH_REMOTE_VER_SUBVER,
+                           info->sub_ver);
+     } break;
+-
++    case BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED:
++      btif_config_set_int(bdstr, BTIF_STORAGE_KEY_SECURE_CONNECTIONS_SUPPORTED,
++                          *(uint8_t*)prop->val);
++      break;
++    case BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE:
++      btif_config_set_int(bdstr, BTIF_STORAGE_KEY_MAX_SESSION_KEY_SIZE,
++                          *(uint8_t*)prop->val);
++      break;
+     default:
+       BTIF_TRACE_ERROR("Unknown prop type:%d", prop->type);
+       return false;
+@@ -394,6 +404,25 @@ static int cfg2prop(const RawAddress* remote_bd_addr, bt_property_t* prop) {
+                                     &info->sub_ver);
+       }
+     } break;
++    case BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED: {
++      int val;
++
++      if (prop->len >= (int)sizeof(uint8_t)) {
++        ret = btif_config_get_int(
++            bdstr, BTIF_STORAGE_KEY_SECURE_CONNECTIONS_SUPPORTED, &val);
++        *(uint8_t*)prop->val = (uint8_t)val;
++      }
++    } break;
++
++    case BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE: {
++      int val;
++
++      if (prop->len >= (int)sizeof(uint8_t)) {
++        ret = btif_config_get_int(bdstr, BTIF_STORAGE_KEY_MAX_SESSION_KEY_SIZE,
++                                  &val);
++        *(uint8_t*)prop->val = (uint8_t)val;
++      }
++    } break;
+ 
+     default:
+       BTIF_TRACE_ERROR("Unknow prop type:%d", prop->type);
+diff --git a/include/hardware/bluetooth.h b/include/hardware/bluetooth.h
+index cd070a7fb28..7de2bbe7a18 100644
+--- a/include/hardware/bluetooth.h
++++ b/include/hardware/bluetooth.h
+@@ -262,6 +262,20 @@ typedef enum {
+    */
+   BT_PROPERTY_LOCAL_IO_CAPS_BLE,
+ 
++  /**
++   * Description - Whether remote device supports Secure Connections mode
++   * Access mode - GET and SET.
++   * Data Type - uint8_t.
++   */
++  BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED,
++
++  /**
++   * Description - Maximum observed session key for remote device
++   * Access mode - GET and SET.
++   * Data Type - uint8_t.
++   */
++  BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE,
++
+   BT_PROPERTY_REMOTE_DEVICE_TIMESTAMP = 0xFF,
+ } bt_property_type_t;
+ 
+diff --git a/service/logging_helpers.cc b/service/logging_helpers.cc
+index 70f8720c6d8..17ebe952056 100644
+--- a/service/logging_helpers.cc
++++ b/service/logging_helpers.cc
+@@ -117,6 +117,8 @@ const char* BtPropertyText(const bt_property_type_t prop) {
+     CASE_RETURN_TEXT(BT_PROPERTY_REMOTE_VERSION_INFO);
+     CASE_RETURN_TEXT(BT_PROPERTY_LOCAL_LE_FEATURES);
+     CASE_RETURN_TEXT(BT_PROPERTY_REMOTE_DEVICE_TIMESTAMP);
++    CASE_RETURN_TEXT(BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED);
++    CASE_RETURN_TEXT(BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE);
+     default:
+       return "Invalid property";
+   }
+diff --git a/stack/btm/btm_int.h b/stack/btm/btm_int.h
+index b5205aa43fc..971a02faa20 100644
+--- a/stack/btm/btm_int.h
++++ b/stack/btm/btm_int.h
+@@ -238,6 +238,8 @@ extern void btm_sec_abort_access_req(const RawAddress& bd_addr);
+ extern void btm_sec_auth_complete(uint16_t handle, uint8_t status);
+ extern void btm_sec_encrypt_change(uint16_t handle, uint8_t status,
+                                    uint8_t encr_enable);
++bool btm_sec_is_session_key_size_downgrade(uint16_t hci_handle,
++                                           uint8_t key_size);
+ extern void btm_sec_connected(const RawAddress& bda, uint16_t handle,
+                               uint8_t status, uint8_t enc_mode);
+ extern tBTM_STATUS btm_sec_disconnect(uint16_t handle, uint8_t reason);
+@@ -256,6 +258,7 @@ extern void btm_sec_link_key_notification(const RawAddress& p_bda,
+ extern void btm_sec_link_key_request(const RawAddress& p_bda);
+ extern void btm_sec_pin_code_request(const RawAddress& p_bda);
+ extern void btm_sec_update_clock_offset(uint16_t handle, uint16_t clock_offset);
++void btm_sec_update_session_key_size(uint16_t hci_handle, uint8_t key_size);
+ extern void btm_sec_dev_rec_cback_event(tBTM_SEC_DEV_REC* p_dev_rec,
+                                         uint8_t res, bool is_le_trasnport);
+ extern void btm_sec_set_peer_sec_caps(uint16_t hci_handle, bool ssp_supported,
+diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
+index dcf01745d6c..835a5d7c5bf 100644
+--- a/stack/btm/btm_sec.cc
++++ b/stack/btm/btm_sec.cc
+@@ -220,6 +220,109 @@ static bool btm_serv_trusted(tBTM_SEC_DEV_REC* p_dev_rec,
+   return (false);
+ }
+ 
++/*******************************************************************************
++ *
++ * Function         btm_sec_is_device_sc_downgrade
++ *
++ * Description      Check for a stored device record matching the candidate
++ *                  device, and return true if the stored device has reported
++ *                  that it supports Secure Connections mode and the candidate
++ *                  device reports that it does not.  Otherwise, return false.
++ *
++ * Returns          bool
++ *
++ ******************************************************************************/
++static bool btm_sec_is_device_sc_downgrade(uint16_t hci_handle,
++                                           bool secure_connections_supported) {
++  if (secure_connections_supported) return false;
++
++  tBTM_SEC_DEV_REC* p_dev_rec = btm_find_dev_by_handle(hci_handle);
++  if (p_dev_rec == nullptr) return false;
++
++  uint8_t property_val = 0;
++  bt_property_t property = {
++      .type = BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED,
++      .len = sizeof(uint8_t),
++      .val = &property_val};
++
++  bt_status_t cached =
++      btif_storage_get_remote_device_property(&p_dev_rec->bd_addr, &property);
++
++  if (cached == BT_STATUS_FAIL) return false;
++
++  return (bool)property_val;
++}
++
++/*******************************************************************************
++ *
++ * Function         btm_sec_store_device_sc_support
++ *
++ * Description      Save Secure Connections support for this device to file
++ *
++ ******************************************************************************/
++
++static void btm_sec_store_device_sc_support(uint16_t hci_handle,
++                                            bool secure_connections_supported) {
++  tBTM_SEC_DEV_REC* p_dev_rec = btm_find_dev_by_handle(hci_handle);
++  if (p_dev_rec == nullptr) return;
++
++  uint8_t property_val = (uint8_t)secure_connections_supported;
++  bt_property_t property = {
++      .type = BT_PROPERTY_REMOTE_SECURE_CONNECTIONS_SUPPORTED,
++      .len = sizeof(uint8_t),
++      .val = &property_val};
++
++  btif_storage_set_remote_device_property(&p_dev_rec->bd_addr, &property);
++}
++
++/*******************************************************************************
++ *
++ * Function         btm_sec_is_session_key_size_downgrade
++ *
++ * Description      Check if there is a stored device record matching this
++ *                  handle, and return true if the stored record has a lower
++ *                  session key size than the candidate device.
++ *
++ * Returns          bool
++ *
++ ******************************************************************************/
++bool btm_sec_is_session_key_size_downgrade(uint16_t hci_handle,
++                                           uint8_t key_size) {
++  tBTM_SEC_DEV_REC* p_dev_rec = btm_find_dev_by_handle(hci_handle);
++  if (p_dev_rec == nullptr) return false;
++
++  uint8_t property_val = 0;
++  bt_property_t property = {.type = BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE,
++                            .len = sizeof(uint8_t),
++                            .val = &property_val};
++
++  bt_status_t cached =
++      btif_storage_get_remote_device_property(&p_dev_rec->bd_addr, &property);
++
++  if (cached == BT_STATUS_FAIL) return false;
++
++  return property_val > key_size;
++}
++
++/*******************************************************************************
++ *
++ * Function         btm_sec_update_session_key_size
++ *
++ * Description      Store the max session key size to disk, if possible.
++ *
++ ******************************************************************************/
++void btm_sec_update_session_key_size(uint16_t hci_handle, uint8_t key_size) {
++  tBTM_SEC_DEV_REC* p_dev_rec = btm_find_dev_by_handle(hci_handle);
++  if (p_dev_rec == nullptr) return;
++
++  uint8_t property_val = key_size;
++  bt_property_t property = {.type = BT_PROPERTY_REMOTE_MAX_SESSION_KEY_SIZE,
++                            .len = sizeof(uint8_t),
++                            .val = &property_val};
++
++  btif_storage_set_remote_device_property(&p_dev_rec->bd_addr, &property);
++}
++
+ /*******************************************************************************
+  *
+  * Function         access_secure_service_from_temp_bond

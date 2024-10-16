@@ -1,0 +1,112 @@
+From 144792df6991b7e9b462b657f93d05fa45ca4d43 Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Mon, 7 Sep 2020 09:37:31 -0700
+Subject: [PATCH] Add getters to
+ stack/btm/security_device_record::tBTM_SEC_DEV_REC
+
+Towards readable code
+
+Bug: 163134718
+Tag: #refactor
+Test: compile & verify basic functions working
+Test: act.py -tc BleCocTest
+
+Change-Id: Ia024a6977d606714f7edc58ded09f82a95703324
+---
+ stack/btm/btm_int_types.h | 60 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+
+diff --git a/stack/btm/btm_int_types.h b/stack/btm/btm_int_types.h
+index a0460b1c0eb..e7450a5746d 100644
+--- a/stack/btm/btm_int_types.h
++++ b/stack/btm/btm_int_types.h
+@@ -516,6 +516,37 @@ typedef struct {
+ #define BTM_SEC_STATE_DISCONNECTING_BOTH 9 /* disconnecting BR/EDR and BLE */
+ 
+   uint8_t sec_state;  /* Operating state                    */
++  bool is_security_state_idle() const {
++    return sec_state == BTM_SEC_STATE_IDLE;
++  }
++  bool is_security_state_authenticating() const {
++    return sec_state == BTM_SEC_STATE_AUTHENTICATING;
++  }
++  bool is_security_state_encrypting() const {
++    return sec_state == BTM_SEC_STATE_ENCRYPTING;
++  }
++  bool is_security_state_getting_name() const {
++    return sec_state == BTM_SEC_STATE_GETTING_NAME;
++  }
++  bool is_security_state_authorizing() const {
++    return sec_state == BTM_SEC_STATE_AUTHORIZING;
++  }
++  bool is_security_state_switching_role() const {
++    return sec_state == BTM_SEC_STATE_SWITCHING_ROLE;
++  }
++  bool is_security_state_disconnecting() const {
++    return sec_state == BTM_SEC_STATE_DISCONNECTING;
++  }
++  bool is_security_state_wait_for_encryption() const {
++    return sec_state == BTM_SEC_STATE_DELAY_FOR_ENC;
++  }
++  bool is_security_state_ble_disconnecting() const {
++    return sec_state == BTM_SEC_STATE_DISCONNECTING_BLE;
++  }
++  bool is_security_state_br_edr_and_ble() const {
++    return sec_state == BTM_SEC_STATE_DISCONNECTING_BOTH;
++  }
++
+   bool is_originator; /* true if device is originating connection */
+   bool role_master;           /* true if current mode is master     */
+   uint16_t security_required; /* Security required for connection   */
+@@ -550,8 +581,20 @@ typedef struct {
+   /* it knows peer's support for Secure Connections */
+ 
+   uint16_t ble_hci_handle; /* use in DUMO connection */
++  uint16_t get_ble_hci_handle() const { return ble_hci_handle; }
++
+   uint8_t enc_key_size;    /* current link encryption key size */
++  uint8_t get_encryption_key_size() const { return enc_key_size; }
++
+   tBT_DEVICE_TYPE device_type;
++  bool is_device_type_br_edr() const {
++    return device_type == BT_DEVICE_TYPE_BREDR;
++  }
++  bool is_device_type_ble() const { return device_type == BT_DEVICE_TYPE_BLE; }
++  bool is_device_type_dual_mode() const {
++    return device_type == BT_DEVICE_TYPE_DUMO;
++  }
++
+   bool new_encryption_key_is_p256; /* Set to true when the newly generated LK
+                                    ** is generated from P-256.
+                                    ** Link encrypted with such LK can be used
+@@ -561,6 +604,14 @@ typedef struct {
+                             /* work, i.e. link keys crosspairing */
+                             /* SC BR/EDR->SC LE doesn't happen */
+   tBTM_BOND_TYPE bond_type; /* peering bond type */
++  bool is_bond_type_unknown() const { return bond_type == BOND_TYPE_UNKNOWN; }
++  bool is_bond_type_persistent() const {
++    return bond_type == BOND_TYPE_PERSISTENT;
++  }
++  bool is_bond_type_temporary() const {
++    return bond_type == BOND_TYPE_TEMPORARY;
++  }
++
+ 
+   tBTM_SEC_BLE ble;
+   tBTM_LE_CONN_PRAMS conn_params;
+@@ -570,6 +621,15 @@ typedef struct {
+ #define BTM_SEC_RS_PENDING 1     /* Role Switch in progress */
+ #define BTM_SEC_DISC_PENDING 2   /* Disconnect is pending */
+   uint8_t rs_disc_pending;
++  bool is_role_switch_idle() const {
++    return rs_disc_pending == BTM_SEC_RS_NOT_PENDING;
++  }
++  bool is_role_switch_pending() const {
++    return rs_disc_pending == BTM_SEC_RS_PENDING;
++  }
++  bool is_role_switch_disconnecting() const {
++    return rs_disc_pending == BTM_SEC_DISC_PENDING;
++  }
+ #endif
+ #define BTM_SEC_NO_LAST_SERVICE_ID 0
+   uint8_t last_author_service_id; /* ID of last serviced authorized: Reset after

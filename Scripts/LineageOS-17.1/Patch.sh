@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-09
+sed -i 's/2023-02-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2024-09
 fi;
 
 if enterAndClear "build/soong"; then
@@ -202,7 +202,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/391907.patch"; #Q_asb_2024-03 Sof
 applyPatch "$DOS_PATCHES/android_frameworks_av/391908.patch"; #Q_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
 applyPatch "$DOS_PATCHES/android_frameworks_av/402601.patch"; #Q_asb_2024-08 Fix flag check in JAudioTrack.cpp
 applyPatch "$DOS_PATCHES/android_frameworks_av/402602.patch"; #Q_asb_2024-08 StagefrightRecoder: Disabling B-frame support
-applyPatch "$DOS_PATCHES/android_frameworks_av/401372.patch"; #S_asb_2024-09 omx: check HDR10+ info param size
+applyPatch "$DOS_PATCHES/android_frameworks_av/403300.patch"; #Q_asb_2024-09 omx: check HDR10+ info param size
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -327,7 +327,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/402603.patch"; #Q_asb_2024-08 S
 applyPatch "$DOS_PATCHES/android_frameworks_base/402604.patch"; #Q_asb_2024-08 Backport preventing BAL bypass via bound service
 applyPatch "$DOS_PATCHES/android_frameworks_base/402605.patch"; #Q_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/402606.patch"; #Q_asb_2024-08 Hide SAW subwindows
-applyPatch "$DOS_PATCHES/android_frameworks_base/401373.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/403301.patch"; #Q_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -524,10 +524,10 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/368012.patch"; #Q_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/378109.patch"; #Q_asb_2023-09 Settings: don't try to allow NLSes with too-long component names
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/378110.patch"; #Q_asb_2023-10 Restrict ApnEditor settings
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/380569.patch"; #Q_asb_2024-01 Validate ringtone URIs before setting
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401375-backport.patch"; #S_asb_2024-09 Limit wifi item edit content's max length to 500
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401376-backport.patch"; #S_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401377.patch"; #S_asb_2024-09 Ignore fragment attr from ext authenticator resource
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401378-backport.patch"; #S_asb_2024-09 Restrict Settings Homepage prior to provisioning
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403302.patch"; #Q_asb_2024-09 Limit wifi item edit content's max length to 500
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403303.patch"; #Q_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403304.patch"; #Q_asb_2024-09 Ignore fragment attr from ext authenticator resource
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403305.patch"; #Q_asb_2024-09 Restrict Settings Homepage prior to provisioning
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -615,8 +615,8 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/378122.patch"; #Q_as
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/369703.patch"; #Q_asb_2023-12 Fix vulnerability in CallRedirectionService.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/378123.patch"; #Q_asb_2023-12 Support for API cleanups.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/378065.patch"; #Q_asb_2023-12 Resolve account image icon profile boundary exploit.
-applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401380-backport.patch"; #S_asb_2024-09 Unbind CS if connection is not created within 15 seconds. #XXX
-applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/401381.patch"; #S_asb_2024-09 Unbind CallScreeningService when timeout reached.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/403306.patch"; #Q_asb_2024-09 Unbind CS if connection is not created within 15 seconds.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/403307.patch"; #Q_asb_2024-09 Unbind CallScreeningService when timeout reached.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -658,6 +658,16 @@ applyPatch "$DOS_PATCHES/android_system_bt/391915.patch"; #Q_asb_2024-03 Reland:
 applyPatch "$DOS_PATCHES/android_system_bt/391916.patch"; #Q_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/399092.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_system_bt/402607.patch"; #Q_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_system_bt/403308.patch"; #Q_asb_2024-09 Clean up BTM_SEC_MODE
+applyPatch "$DOS_PATCHES/android_system_bt/403309.patch"; #Q_asb_2024-09 Add getters to stack/btm/security_device_record::tBTM_SEC_DEV_REC
+applyPatch "$DOS_PATCHES/android_system_bt/403310.patch"; #Q_asb_2024-09 Add APIs stack/btm/security_device_record::
+applyPatch "$DOS_PATCHES/android_system_bt/403311.patch"; #Q_asb_2024-09 Add tACL_CONN::SupportsSecureConnections
+applyPatch "$DOS_PATCHES/android_system_bt/403312.patch"; #Q_asb_2024-09 Use tACL_CONN::SupportsSecureConnections
+applyPatch "$DOS_PATCHES/android_system_bt/403313.patch"; #Q_asb_2024-09 Refactor btm_sec_set_peer_sec_caps
+applyPatch "$DOS_PATCHES/android_system_bt/403314.patch"; #Q_asb_2024-09 Use btm_sec_set_peer_sec_caps to store features
+applyPatch "$DOS_PATCHES/android_system_bt/403315.patch"; #Q_asb_2024-09 Add support for checking security downgrade
+applyPatch "$DOS_PATCHES/android_system_bt/403316.patch"; #Q_asb_2024-09 Disallow connect with Secure Connections downgrade
+applyPatch "$DOS_PATCHES/android_system_bt/403317.patch"; #Q_asb_2024-09 Disallow connect with key length downgrade
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -771,6 +781,16 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391918.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/391919.patch"; #Q_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399091.patch"; #Q_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/402608.patch"; #Q_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403318.patch"; #Q_asb_2024-09 Clean up BTM_SEC_MODE
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403319.patch"; #Q_asb_2024-09 Add getters to stack/btm/security_device_record::tBTM_SEC_DEV_REC
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403320.patch"; #Q_asb_2024-09 Add APIs stack/btm/security_device_record::
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403321.patch"; #Q_asb_2024-09 Add tACL_CONN::SupportsSecureConnections
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403322.patch"; #Q_asb_2024-09 Use tACL_CONN::SupportsSecureConnections
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403323.patch"; #Q_asb_2024-09 Refactor btm_sec_set_peer_sec_caps
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403324.patch"; #Q_asb_2024-09 Use btm_sec_set_peer_sec_caps to store features
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403325.patch"; #Q_asb_2024-09 Add support for checking security downgrade
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403326.patch"; #Q_asb_2024-09 Disallow connect with Secure Connections downgrade
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403327.patch"; #Q_asb_2024-09 Disallow connect with key length downgrade
 fi;
 
 if enterAndClear "vendor/lineage"; then

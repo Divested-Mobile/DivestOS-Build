@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 337e31b00dc055d99911ec527f79183c2e881033 Mon Sep 17 00:00:00 2001
 From: Kiran Ramachandra <kiranmr@google.com>
 Date: Wed, 5 Jun 2024 21:03:33 +0000
 Subject: [PATCH] DO NOT MERGE Ignore - Sanitized uri scheme by removing scheme
@@ -19,10 +19,10 @@ Change-Id: I88b1550a5d8b3dc0f6286e28899884025d059645
  2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
-index 33acef7f9506..3f3501d1dbca 100644
+index 33acef7f95060..3f3501d1dbca5 100644
 --- a/core/java/android/net/Uri.java
 +++ b/core/java/android/net/Uri.java
-@@ -1380,7 +1380,11 @@ public abstract class Uri implements Parcelable, Comparable<Uri> {
+@@ -1380,7 +1380,11 @@ public Builder() {}
           * @param scheme name or {@code null} if this is a relative Uri
           */
          public Builder scheme(String scheme) {
@@ -36,10 +36,10 @@ index 33acef7f9506..3f3501d1dbca 100644
          }
  
 diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
-index 670aefd21d36..17a37831afdb 100644
+index 670aefd21d360..17a37831afdb1 100644
 --- a/core/tests/coretests/src/android/net/UriTest.java
 +++ b/core/tests/coretests/src/android/net/UriTest.java
-@@ -18,6 +18,7 @@ package android.net;
+@@ -18,6 +18,7 @@
  
  import android.content.ContentUris;
  import android.os.Parcel;
@@ -47,7 +47,7 @@ index 670aefd21d36..17a37831afdb 100644
  
  import androidx.test.filters.SmallTest;
  
-@@ -88,6 +89,16 @@ public class UriTest extends TestCase {
+@@ -88,6 +89,16 @@ public void testBuildUponOpaqueStringUri() {
          assertNull(u.getHost());
      }
  

@@ -1,0 +1,54 @@
+From ee89e827180526082add19d08c480b72e9324e2d Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Fri, 31 May 2024 21:50:12 +0000
+Subject: [PATCH] Disallow connect with key length downgrade
+
+As a guard against the BLUFFS attack, check security parameters of
+incoming connections against cached values and disallow connection if
+these parameters are downgraded or changed from their cached values.
+
+This CL adds the connection-time check for session key length.
+
+To test, please validate that bonding can be established and
+reestablished against devices with session key lengths of 7 and 16 bits,
+that session key lengths of less than 7 bits are refused, and that basic
+LE bonding functionality still works.  If it is possible to configure a
+remote device to establish a bond with a session key length of 16 bits
+and then reduce that key length to <16 bits before reconnection, this
+should fail.
+
+Bug: 314331379
+Test: m libbluetooth
+Test: manual
+
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:bd88324876a8664899bd23e926675d7c1b2bbfb2)
+Merged-In: I5b931ddb4876b529ed0c2e1138c02382291216ab
+Change-Id: I5b931ddb4876b529ed0c2e1138c02382291216ab
+---
+ stack/btu/btu_hcif.cc | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/stack/btu/btu_hcif.cc b/stack/btu/btu_hcif.cc
+index 7bf385ea3d..615d3c6899 100644
+--- a/stack/btu/btu_hcif.cc
++++ b/stack/btu/btu_hcif.cc
+@@ -1171,6 +1171,17 @@ static void read_encryption_key_size_complete_after_encryption_change(uint8_t st
+     return;
+   }
+ 
++  if (btm_sec_is_session_key_size_downgrade(handle, key_size)) {
++    LOG_ERROR(LOG_TAG,
++        "encryption key size lower than cached value, disconnecting. "
++        "handle: 0x%x attempted key size: %d",
++        handle, key_size);
++    btsnd_hcic_disconnect(handle, HCI_ERR_HOST_REJECT_SECURITY);
++    return;
++  }
++
++  btm_sec_update_session_key_size(handle, key_size);
++
+   // good key size - succeed
+   btm_acl_encrypt_change(handle, status, 1 /* enable */);
+   btm_sec_encrypt_change(handle, status, 1 /* enable */);

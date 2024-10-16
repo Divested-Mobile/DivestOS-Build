@@ -1,0 +1,40 @@
+From 901b9e1e71a53cb99dca8117b20e6e2f525008df Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Fri, 1 Jan 2021 19:11:49 -0800
+Subject: [PATCH] Add tACL_CONN::SupportsSecureConnections
+
+Towards encapsulation
+
+Bug: 163134718
+Tag: #refactor
+Test: gd/cert/run --host
+
+Change-Id: I4ede2886aa5d90bfab8fccea5edaed70ad1514e7
+---
+ stack/btm/btm_int_types.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/stack/btm/btm_int_types.h b/stack/btm/btm_int_types.h
+index 9a75b3a02..433deaa00 100644
+--- a/stack/btm/btm_int_types.h
++++ b/stack/btm/btm_int_types.h
+@@ -618,7 +618,19 @@ typedef struct {
+   uint8_t sm4;                /* BTM_SM4_TRUE, if the peer supports SM4 */
+   tBTM_IO_CAP rmt_io_caps;    /* IO capability of the peer device */
+   tBTM_AUTH_REQ rmt_auth_req; /* the auth_req flag as in the IO caps rsp evt */
++
+   bool remote_supports_secure_connections;
++  friend void btm_sec_set_peer_sec_caps(uint16_t hci_handle, bool ssp_supported,
++                                        bool sc_supported,
++                                        bool hci_role_switch_supported,
++                                        bool br_edr_supported,
++                                        bool le_supported);
++
++ public:
++  bool SupportsSecureConnections() const {
++    return remote_supports_secure_connections;
++  }
++
+   bool remote_features_needed; /* set to true if the local device is in */
+   /* "Secure Connections Only" mode and it receives */
+   /* HCI_IO_CAPABILITY_REQUEST_EVT from the peer before */
