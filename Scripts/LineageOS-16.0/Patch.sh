@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-09 #XXX
+sed -i 's/2022-01-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-10 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -339,6 +339,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/397595.patch"; #P_asb_2024-07 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/399769.patch"; #P_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/403538.patch"; #P_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/405829.patch"; #P_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405830.patch"; #P_asb_2024-10 Fail parseUri if end is missing
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -452,6 +454,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8
 fi;
 
 if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405831.patch"; #P_asb_2024-10 Do not accept zip files with invalid headers.
 applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
@@ -467,6 +470,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332759.patch"; #P_asb_2
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345907.patch"; #P_asb_2022-12 Fix URI check in BluetoothOppUtility.java
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/349332.patch"; #P_asb_2023-02 Fix OPP comparison
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/377774.patch"; #P_asb_2023-12 Fix UAF in ~CallbackEnv
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405835.patch"; #P_asb_2024-10 Disallow unexpected incoming HID connections 2/2
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -544,6 +548,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/370700.patch"; #P_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403539.patch"; #P_asb_2024-09 Limit wifi item edit content's max length to 500
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403540.patch"; #P_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403541.patch"; #P_asb_2024-09 Ignore fragment attr from ext authenticator resource
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405832.patch"; #P_asb_2024-10 FRP bypass defense in App battery usage page
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
@@ -677,6 +682,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/385677.patch"; #P_asb_2024-03 Reland:
 applyPatch "$DOS_PATCHES/android_system_bt/385678.patch"; #P_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_system_bt/399772.patch"; #P_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_system_bt/405833.patch"; #P_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
+applyPatch "$DOS_PATCHES/android_system_bt/405834.patch"; #P_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 

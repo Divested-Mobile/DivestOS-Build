@@ -1,0 +1,51 @@
+From 9e4a67d2ae95b69f88b0bdf15ace52870ae93d5e Mon Sep 17 00:00:00 2001
+From: Yiling Chuang <emilychuang@google.com>
+Date: Mon, 8 Jul 2024 03:09:50 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE FRP bypass defense in App battery usage
+ page
+
+Before the setup flow completion, don't allow the app info page in App battery usage to be launched.
+
+Bug: 327748846
+Test: atest SettingsRoboTests + manual test
+- factory reset + launch app battery usage app info via ADB during Setup -> verify app closes
+Flag : EXEMPT bugfix
+
+(cherry picked from commit 419a6a907902a12a0f565c808fa70092004d6686)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:62b0014ed6e69b0abc48a5c18b740f95bc5dc429)
+Merged-In: I486820ca2afecc02729a56a3c531fb931c1907d0
+Change-Id: I486820ca2afecc02729a56a3c531fb931c1907d0
+---
+ .../android/settings/fuelgauge/AdvancedPowerUsageDetail.java | 5 +++++
+ .../settings/fuelgauge/AdvancedPowerUsageDetailTest.java     | 3 +++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java b/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
+index 683395e773c..d2a34c64886 100644
+--- a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
++++ b/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
+@@ -234,6 +234,11 @@ public void onResume() {
+         initPreference();
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     @VisibleForTesting
+     void initAnomalyInfo() {
+         mAnomalies = getArguments().getParcelableArrayList(EXTRA_ANOMALY_LIST);
+diff --git a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java b/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
+index 0be63899785..2de4786763d 100644
+--- a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
++++ b/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
+@@ -434,5 +434,8 @@ public void testInitAnomalyInfo_anomalyExisted_updateAnomaly() {
+         mFragment.initAnomalyInfo();
+ 
+         verify(mAnomalySummaryPreferenceController).updateAnomalySummaryPreference(mAnomalies);
++
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mFragment.shouldSkipForInitialSUW()).isTrue();
+     }
+ }
