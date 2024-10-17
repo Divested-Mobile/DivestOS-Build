@@ -1,4 +1,4 @@
-From f9f366e1227c0a46b54b959cd97851ca0b654501 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hansong Zhang <hsz@google.com>
 Date: Tue, 11 Aug 2020 12:39:26 -0700
 Subject: [PATCH] Clean up BTM_SEC_MODE
@@ -16,7 +16,7 @@ Change-Id: Ib567b050a3cd38e0f77f1b875476ad84c3e949fa
  2 files changed, 4 insertions(+), 29 deletions(-)
 
 diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
-index 72dc9a2ed4b..8a194f08d59 100644
+index 72dc9a2ed..8a194f08d 100644
 --- a/stack/btm/btm_sec.cc
 +++ b/stack/btm/btm_sec.cc
 @@ -591,7 +591,6 @@ static bool btm_sec_set_security_level(CONNECTION_TYPE conn_type,
@@ -126,7 +126,7 @@ index 72dc9a2ed4b..8a194f08d59 100644
        HCI_SSP_HOST_SUPPORTED(p_acl_cb->peer_lmp_feature_pages[1])) {
      p_dev_rec->sm4 = BTM_SM4_TRUE;
 diff --git a/stack/include/btm_api_types.h b/stack/include/btm_api_types.h
-index 0d3d7d4b689..21c97d53f29 100644
+index 0d3d7d4b6..21c97d53f 100644
 --- a/stack/include/btm_api_types.h
 +++ b/stack/include/btm_api_types.h
 @@ -1038,12 +1038,8 @@ typedef void(tBTM_ESCO_CBACK)(tBTM_ESCO_EVT event, tBTM_ESCO_EVT_DATA* p_data);

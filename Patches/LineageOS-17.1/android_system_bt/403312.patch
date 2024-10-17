@@ -1,4 +1,4 @@
-From 9aa51330f13f42da60f0641b7ece6818690151d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Fri, 1 Jan 2021 19:12:36 -0800
 Subject: [PATCH] Use tACL_CONN::SupportsSecureConnections
@@ -15,7 +15,7 @@ Change-Id: I7bfe087dcc28cfaeb492db1e1a6ec276e1e29ce2
  1 file changed, 9 insertions(+), 13 deletions(-)
 
 diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
-index 8a194f08d5..bd11381abb 100644
+index 8a194f08d..bd11381ab 100644
 --- a/stack/btm/btm_sec.cc
 +++ b/stack/btm/btm_sec.cc
 @@ -1727,7 +1727,7 @@ bool BTM_PeerSupportsSecureConnections(const RawAddress& bd_addr) {

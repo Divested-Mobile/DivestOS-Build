@@ -1,4 +1,4 @@
-From b7877b7a39d68acb35c40d1df1b588f067cca800 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Almaz Mingaleev <mingaleev@google.com>
 Date: Wed, 10 Jul 2024 13:38:35 +0100
 Subject: [PATCH] Do not accept zip files with invalid headers.

@@ -1,4 +1,4 @@
-From 901b9e1e71a53cb99dca8117b20e6e2f525008df Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Fri, 1 Jan 2021 19:11:49 -0800
 Subject: [PATCH] Add tACL_CONN::SupportsSecureConnections

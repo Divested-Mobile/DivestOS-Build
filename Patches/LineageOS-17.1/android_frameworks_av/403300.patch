@@ -1,4 +1,4 @@
-From a9760e6a3e5a55ed5e67881bca5d3242ee5fe2ad Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Wonsik Kim <wonsik@google.com>
 Date: Fri, 28 Jun 2024 00:33:51 +0000
 Subject: [PATCH] omx: check HDR10+ info param size
@@ -15,7 +15,7 @@ Change-Id: I72523e1de61e5f947174272b732e170e1c2964df
  1 file changed, 7 insertions(+)
 
 diff --git a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
-index 418302389d1..4ab5d106096 100644
+index 418302389d..4ab5d10609 100644
 --- a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
 +++ b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
 @@ -619,6 +619,13 @@ OMX_ERRORTYPE SoftVideoDecoderOMXComponent::getConfig(

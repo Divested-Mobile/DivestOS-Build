@@ -1,4 +1,4 @@
-From 51fa2abc7a900e24075bbd52b95c79be12e81ee2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Fri, 31 May 2024 21:50:12 +0000
 Subject: [PATCH] Disallow connect with key length downgrade

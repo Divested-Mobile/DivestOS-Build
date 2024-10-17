@@ -1,4 +1,4 @@
-From e4fd09d4b7b1a4a4bd773b59f23f039d0fa877ca Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Sat, 25 May 2024 00:28:41 +0000
 Subject: [PATCH] Add support for checking security downgrade

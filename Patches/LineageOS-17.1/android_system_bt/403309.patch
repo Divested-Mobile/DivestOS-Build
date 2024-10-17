@@ -1,4 +1,4 @@
-From 144792df6991b7e9b462b657f93d05fa45ca4d43 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Mon, 7 Sep 2020 09:37:31 -0700
 Subject: [PATCH] Add getters to
@@ -17,7 +17,7 @@ Change-Id: Ia024a6977d606714f7edc58ded09f82a95703324
  1 file changed, 60 insertions(+)
 
 diff --git a/stack/btm/btm_int_types.h b/stack/btm/btm_int_types.h
-index a0460b1c0eb..e7450a5746d 100644
+index a0460b1c0..e7450a574 100644
 --- a/stack/btm/btm_int_types.h
 +++ b/stack/btm/btm_int_types.h
 @@ -516,6 +516,37 @@ typedef struct {

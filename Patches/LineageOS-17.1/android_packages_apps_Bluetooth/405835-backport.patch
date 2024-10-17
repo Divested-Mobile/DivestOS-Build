@@ -1,8 +1,7 @@
-From 6799e4b038c33ce3fd175749ebdea69379a5489f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:44:45 +0000
-Subject: [PATCH] RESTRICT AUTOMERGE Disallow unexpected incoming HID
- connections 2/2
+Subject: [PATCH] Disallow unexpected incoming HID connections 2/2
 
 HID profile accepted any new incoming HID connection. Even when the
 connection policy disabled HID connection, remote devices could initiate
@@ -25,10 +24,10 @@ Change-Id: I1d7e886b1045d026f96c8274aca86dc499f87777
  2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/jni/com_android_bluetooth_hid_host.cpp b/jni/com_android_bluetooth_hid_host.cpp
-index cab5e3361..22c7dcfe8 100644
+index 7838ff6ce..60fffc2f3 100644
 --- a/jni/com_android_bluetooth_hid_host.cpp
 +++ b/jni/com_android_bluetooth_hid_host.cpp
-@@ -284,7 +284,8 @@ static jboolean connectHidNative(JNIEnv* env, jobject object,
+@@ -276,7 +276,8 @@ static jboolean connectHidNative(JNIEnv* env, jobject object,
  }
  
  static jboolean disconnectHidNative(JNIEnv* env, jobject object,
@@ -38,7 +37,7 @@ index cab5e3361..22c7dcfe8 100644
    jbyte* addr;
    jboolean ret = JNI_TRUE;
    if (!sBluetoothHidInterface) return JNI_FALSE;
-@@ -295,7 +296,8 @@ static jboolean disconnectHidNative(JNIEnv* env, jobject object,
+@@ -287,7 +288,8 @@ static jboolean disconnectHidNative(JNIEnv* env, jobject object,
      return JNI_FALSE;
    }
  
@@ -48,7 +47,7 @@ index cab5e3361..22c7dcfe8 100644
    if (status != BT_STATUS_SUCCESS) {
      ALOGE("Failed disconnect hid channel, status: %d", status);
      ret = JNI_FALSE;
-@@ -511,7 +513,7 @@ static JNINativeMethod sMethods[] = {
+@@ -503,7 +505,7 @@ static JNINativeMethod sMethods[] = {
      {"initializeNative", "()V", (void*)initializeNative},
      {"cleanupNative", "()V", (void*)cleanupNative},
      {"connectHidNative", "([B)Z", (void*)connectHidNative},
@@ -58,22 +57,22 @@ index cab5e3361..22c7dcfe8 100644
      {"virtualUnPlugNative", "([B)Z", (void*)virtualUnPlugNative},
      {"setProtocolModeNative", "([BB)Z", (void*)setProtocolModeNative},
 diff --git a/src/com/android/bluetooth/hid/HidHostService.java b/src/com/android/bluetooth/hid/HidHostService.java
-index 10d414d46..ed35c2908 100644
+index c378f8e89..fea167148 100644
 --- a/src/com/android/bluetooth/hid/HidHostService.java
 +++ b/src/com/android/bluetooth/hid/HidHostService.java
-@@ -161,7 +161,10 @@ public void handleMessage(Message msg) {
+@@ -157,7 +157,10 @@ public class HidHostService extends ProfileService {
                  break;
                  case MESSAGE_DISCONNECT: {
                      BluetoothDevice device = (BluetoothDevice) msg.obj;
 -                    if (!disconnectHidNative(Utils.getByteAddress(device))) {
-+                    int connectionPolicy = getConnectionPolicy(device);
++                    int connectionPolicy = getPriority(device);
 +                    boolean reconnectAllowed =
-+                            connectionPolicy == BluetoothProfile.CONNECTION_POLICY_ALLOWED;
++                            connectionPolicy == BluetoothProfile.PRIORITY_ON;
 +                    if (!disconnectHidNative(Utils.getByteAddress(device), reconnectAllowed)) {
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTING);
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTED);
                          break;
-@@ -934,7 +937,7 @@ public void dump(StringBuilder sb) {
+@@ -871,7 +874,7 @@ public class HidHostService extends ProfileService {
  
      private native boolean connectHidNative(byte[] btAddress);
  

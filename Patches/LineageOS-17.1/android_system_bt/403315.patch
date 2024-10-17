@@ -1,4 +1,4 @@
-From 0b49d63202e63201a10b1eb2d1e3943b73a8a7b5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Sat, 25 May 2024 00:28:41 +0000
 Subject: [PATCH] Add support for checking security downgrade
@@ -35,7 +35,7 @@ Change-Id: I8810c1bf9b3d3af1108cf621e2c51537e429c0f3
  5 files changed, 152 insertions(+), 1 deletion(-)
 
 diff --git a/btif/src/btif_storage.cc b/btif/src/btif_storage.cc
-index 2427493cd5b..200ea2c4e42 100644
+index 2427493cd..200ea2c4e 100644
 --- a/btif/src/btif_storage.cc
 +++ b/btif/src/btif_storage.cc
 @@ -84,7 +84,10 @@ using bluetooth::Uuid;
@@ -92,7 +92,7 @@ index 2427493cd5b..200ea2c4e42 100644
      default:
        BTIF_TRACE_ERROR("Unknow prop type:%d", prop->type);
 diff --git a/include/hardware/bluetooth.h b/include/hardware/bluetooth.h
-index cd070a7fb28..7de2bbe7a18 100644
+index cd070a7fb..7de2bbe7a 100644
 --- a/include/hardware/bluetooth.h
 +++ b/include/hardware/bluetooth.h
 @@ -262,6 +262,20 @@ typedef enum {
@@ -117,7 +117,7 @@ index cd070a7fb28..7de2bbe7a18 100644
  } bt_property_type_t;
  
 diff --git a/service/logging_helpers.cc b/service/logging_helpers.cc
-index 70f8720c6d8..17ebe952056 100644
+index 70f8720c6..17ebe9520 100644
 --- a/service/logging_helpers.cc
 +++ b/service/logging_helpers.cc
 @@ -117,6 +117,8 @@ const char* BtPropertyText(const bt_property_type_t prop) {
@@ -130,7 +130,7 @@ index 70f8720c6d8..17ebe952056 100644
        return "Invalid property";
    }
 diff --git a/stack/btm/btm_int.h b/stack/btm/btm_int.h
-index b5205aa43fc..971a02faa20 100644
+index b5205aa43..971a02faa 100644
 --- a/stack/btm/btm_int.h
 +++ b/stack/btm/btm_int.h
 @@ -238,6 +238,8 @@ extern void btm_sec_abort_access_req(const RawAddress& bd_addr);
@@ -151,7 +151,7 @@ index b5205aa43fc..971a02faa20 100644
                                          uint8_t res, bool is_le_trasnport);
  extern void btm_sec_set_peer_sec_caps(uint16_t hci_handle, bool ssp_supported,
 diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
-index dcf01745d6c..835a5d7c5bf 100644
+index dcf01745d..835a5d7c5 100644
 --- a/stack/btm/btm_sec.cc
 +++ b/stack/btm/btm_sec.cc
 @@ -220,6 +220,109 @@ static bool btm_serv_trusted(tBTM_SEC_DEV_REC* p_dev_rec,

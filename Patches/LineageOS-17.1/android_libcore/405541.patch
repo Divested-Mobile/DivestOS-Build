@@ -1,4 +1,4 @@
-From 1e0f995b0b68d811d4225e73426c4c6350a506ad Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Almaz Mingaleev <mingaleev@google.com>
 Date: Wed, 10 Jul 2024 13:38:35 +0100
 Subject: [PATCH] Do not accept zip files with invalid headers.
@@ -30,7 +30,7 @@ Change-Id: I545cdd49ec3cc138331145f4716c8148662a478b
  1 file changed, 11 insertions(+)
 
 diff --git a/ojluni/src/main/native/zip_util.c b/ojluni/src/main/native/zip_util.c
-index aa9c5cede9e..16951a78ede 100644
+index 6c02d2bc73b..475be3afd9d 100644
 --- a/ojluni/src/main/native/zip_util.c
 +++ b/ojluni/src/main/native/zip_util.c
 @@ -878,6 +878,17 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,

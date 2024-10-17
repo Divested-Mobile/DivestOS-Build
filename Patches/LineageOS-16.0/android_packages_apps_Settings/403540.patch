@@ -1,4 +1,4 @@
-From 814483f2eee226ee461cea6685325b6f0b04748f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jason Chiu <chiujason@google.com>
 Date: Wed, 31 Jan 2024 16:29:01 +0800
 Subject: [PATCH] Replace getCallingActivity() with getLaunchedFromPackage()
@@ -51,7 +51,7 @@ index 78c47edf046..7c88785b337 100644
  import com.android.internal.annotations.VisibleForTesting;
  import com.android.settings.overlay.FeatureFactory;
  import com.android.settings.search.indexing.IndexData;
-@@ -32,24 +33,21 @@
+@@ -32,24 +33,21 @@ import java.util.Locale;
   */
  public class SearchFeatureProviderImpl implements SearchFeatureProvider {
  
@@ -87,7 +87,7 @@ diff --git a/src/com/android/settings/search/SearchResultTrampoline.java b/src/c
 index 3bbe6bd58a7..70387b021d4 100644
 --- a/src/com/android/settings/search/SearchResultTrampoline.java
 +++ b/src/com/android/settings/search/SearchResultTrampoline.java
-@@ -38,7 +38,7 @@ protected void onCreate(Bundle savedInstanceState) {
+@@ -38,7 +38,7 @@ public class SearchResultTrampoline extends Activity {
          // First make sure caller has privilege to launch a search result page.
          FeatureFactory.getFactory(this)
                  .getSearchFeatureProvider()
@@ -100,7 +100,7 @@ diff --git a/tests/robotests/src/com/android/settings/search/SearchFeatureProvid
 index eeebdee96e3..7945c05a293 100644
 --- a/tests/robotests/src/com/android/settings/search/SearchFeatureProviderImplTest.java
 +++ b/tests/robotests/src/com/android/settings/search/SearchFeatureProviderImplTest.java
-@@ -21,7 +21,6 @@
+@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
  import static org.mockito.Mockito.spy;
  
  import android.app.Activity;
@@ -108,7 +108,7 @@ index eeebdee96e3..7945c05a293 100644
  import android.content.Intent;
  import android.widget.Toolbar;
  
-@@ -70,21 +69,23 @@ public void verifyLaunchSearchResultPageCaller_nullCaller_shouldCrash() {
+@@ -70,21 +69,23 @@ public class SearchFeatureProviderImplTest {
  
      @Test(expected = SecurityException.class)
      public void verifyLaunchSearchResultPageCaller_badCaller_shouldCrash() {

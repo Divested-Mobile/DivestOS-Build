@@ -1,4 +1,4 @@
-From 0b906b1eef2156110bb753272fe133c096eb371b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:44:45 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Disallow unexpected incoming HID
@@ -59,34 +59,34 @@ index b8f4d6530..e4c885b3e 100644
      {"virtualUnPlugNative", "([B)Z", (void*)virtualUnPlugNative},
      {"setProtocolModeNative", "([BB)Z", (void*)setProtocolModeNative},
 diff --git a/src/com/android/bluetooth/hid/HidHostService.java b/src/com/android/bluetooth/hid/HidHostService.java
-index 4687bd6a1..0258f1fdd 100644
+index bbde61948..a830d07e1 100644
 --- a/src/com/android/bluetooth/hid/HidHostService.java
 +++ b/src/com/android/bluetooth/hid/HidHostService.java
-@@ -167,7 +167,10 @@ public void handleMessage(Message msg) {
+@@ -156,7 +156,10 @@ public class HidHostService extends ProfileService {
                  break;
                  case MESSAGE_DISCONNECT: {
                      BluetoothDevice device = (BluetoothDevice) msg.obj;
 -                    if (!disconnectHidNative(Utils.getByteAddress(device))) {
-+                    int connectionPolicy = getConnectionPolicy(device);
++                    int connectionPolicy = getPriority(device);
 +                    boolean reconnectAllowed =
-+                            connectionPolicy == BluetoothProfile.CONNECTION_POLICY_ALLOWED;
++                            connectionPolicy == BluetoothProfile.PRIORITY_ON;
 +                    if (!disconnectHidNative(Utils.getByteAddress(device), reconnectAllowed)) {
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTING);
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTED);
                          break;
-@@ -192,7 +195,10 @@ public void handleMessage(Message msg) {
+@@ -181,7 +184,10 @@ public class HidHostService extends ProfileService {
                              Log.d(TAG, "Incoming HID connection rejected");
                          }
                          if (disconnectRemote(device)) {
 -                            disconnectHidNative(Utils.getByteAddress(device));
-+                            int connectionPolicy = getConnectionPolicy(device);
++                            int connectionPolicy = getPriority(device);
 +                            boolean reconnectAllowed =
-+                                    connectionPolicy == BluetoothProfile.CONNECTION_POLICY_ALLOWED;
++                                    connectionPolicy == BluetoothProfile.PRIORITY_ON;
 +                            disconnectHidNative(Utils.getByteAddress(device), reconnectAllowed);
                          } else {
                              virtualUnPlugNative(Utils.getByteAddress(device));
                          }
-@@ -978,7 +984,7 @@ public void dump(StringBuilder sb) {
+@@ -906,7 +912,7 @@ public class HidHostService extends ProfileService {
  
      private native boolean connectHidNative(byte[] btAddress);
  

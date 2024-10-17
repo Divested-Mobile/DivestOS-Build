@@ -1,7 +1,7 @@
-From d2c71969119d6c4bee9c9da387af449827448d03 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:42:21 +0000
-Subject: [PATCH] [BACKPORT] Disallow unexpected incoming HID connections 1/2
+Subject: [PATCH] Disallow unexpected incoming HID connections 1/2
 
 HID profile accepted any new incoming HID connection. Even when the
 connection policy disabled HID connection, remote devices could initiate
@@ -27,7 +27,7 @@ Change-Id: I6e9db983e752dd498625078c13b736cd4c668806
  5 files changed, 160 insertions(+), 8 deletions(-)
 
 diff --git a/btif/include/btif_hh.h b/btif/include/btif_hh.h
-index 5c1ad45108b..8c9ead46283 100644
+index 5c1ad4510..8c9ead462 100644
 --- a/btif/include/btif_hh.h
 +++ b/btif/include/btif_hh.h
 @@ -94,6 +94,7 @@ typedef struct {
@@ -49,7 +49,7 @@ index 5c1ad45108b..8c9ead46283 100644
  extern void btif_hh_disconnect(RawAddress* bd_addr);
  extern void btif_hh_setreport(btif_hh_device_t* p_dev,
 diff --git a/btif/include/btif_storage.h b/btif/include/btif_storage.h
-index 07d29c81a7e..365f714d2d6 100644
+index 07d29c81a..365f714d2 100644
 --- a/btif/include/btif_storage.h
 +++ b/btif/include/btif_storage.h
 @@ -152,6 +152,29 @@ bt_status_t btif_storage_remove_bonded_device(const RawAddress* remote_bd_addr);
@@ -83,7 +83,7 @@ index 07d29c81a7e..365f714d2d6 100644
   *
   * Function         btif_storage_add_hid_device_info
 diff --git a/btif/src/btif_hh.cc b/btif/src/btif_hh.cc
-index b6441e1cce0..ea6559d34f2 100644
+index b6441e1cc..ea6559d34 100644
 --- a/btif/src/btif_hh.cc
 +++ b/btif/src/btif_hh.cc
 @@ -338,6 +338,24 @@ btif_hh_device_t* btif_hh_find_connected_dev_by_handle(uint8_t handle) {
@@ -261,7 +261,7 @@ index b6441e1cce0..ea6559d34f2 100644
  
    osi_free_and_reset((void**)&dscp_info.descriptor.dsc_list);
 diff --git a/btif/src/btif_storage.cc b/btif/src/btif_storage.cc
-index ef2e191ebce..f768845dddf 100644
+index ef2e191eb..f768845dd 100644
 --- a/btif/src/btif_storage.cc
 +++ b/btif/src/btif_storage.cc
 @@ -85,6 +85,8 @@ using bluetooth::Uuid;
@@ -347,7 +347,7 @@ index ef2e191ebce..f768845dddf 100644
    return BT_STATUS_SUCCESS;
  }
 diff --git a/include/hardware/bt_hh.h b/include/hardware/bt_hh.h
-index b87b129bb12..923c6279216 100644
+index b87b129bb..923c62792 100644
 --- a/include/hardware/bt_hh.h
 +++ b/include/hardware/bt_hh.h
 @@ -154,7 +154,7 @@ typedef struct {

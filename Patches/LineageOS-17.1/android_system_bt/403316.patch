@@ -1,4 +1,4 @@
-From 53a4eb2e74169493aad8f4ea49ab1dc086a3513d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Fri, 31 May 2024 21:46:17 +0000
 Subject: [PATCH] Disallow connect with Secure Connections downgrade
@@ -25,7 +25,7 @@ Change-Id: I7b9dd1a18f1c04df88aabe89d4790fef9112da7e
  1 file changed, 16 insertions(+)
 
 diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
-index 835a5d7c5b..d5d698c274 100644
+index 835a5d7c5..d5d698c27 100644
 --- a/stack/btm/btm_sec.cc
 +++ b/stack/btm/btm_sec.cc
 @@ -4751,6 +4751,13 @@ void btm_sec_link_key_notification(const RawAddress& p_bda,

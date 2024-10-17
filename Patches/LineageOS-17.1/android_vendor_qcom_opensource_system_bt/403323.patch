@@ -1,4 +1,4 @@
-From 541a53f79d4342e25cbe4212a8192a8f7467b163 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hansong Zhang <hsz@google.com>
 Date: Tue, 20 Oct 2020 18:48:52 -0700
 Subject: [PATCH] Refactor btm_sec_set_peer_sec_caps

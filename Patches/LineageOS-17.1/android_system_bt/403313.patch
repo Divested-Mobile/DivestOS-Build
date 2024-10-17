@@ -1,4 +1,4 @@
-From 060dad70cc532963ab0ff727aa8aebf8f8424beb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hansong Zhang <hsz@google.com>
 Date: Tue, 20 Oct 2020 18:48:52 -0700
 Subject: [PATCH] Refactor btm_sec_set_peer_sec_caps
@@ -16,7 +16,7 @@ Change-Id: I7cb1bae627c731106ab3a93442acb8f6bb2018fa
  3 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/stack/btm/btm_acl.cc b/stack/btm/btm_acl.cc
-index 55772e69883..4717a95d7b2 100644
+index 55772e698..4717a95d7 100644
 --- a/stack/btm/btm_acl.cc
 +++ b/stack/btm/btm_acl.cc
 @@ -261,7 +261,13 @@ void btm_acl_created(const RawAddress& bda, DEV_CLASS dc, BD_NAME bdn,
@@ -49,7 +49,7 @@ index 55772e69883..4717a95d7b2 100644
    BTM_TRACE_API("%s: pend:%d", __func__, req_pend);
    if (req_pend) {
 diff --git a/stack/btm/btm_int.h b/stack/btm/btm_int.h
-index 05180db5eed..3ecca642245 100644
+index 05180db5e..3ecca6422 100644
 --- a/stack/btm/btm_int.h
 +++ b/stack/btm/btm_int.h
 @@ -258,7 +258,7 @@ extern void btm_sec_pin_code_request(const RawAddress& p_bda);
@@ -62,7 +62,7 @@ index 05180db5eed..3ecca642245 100644
  
  extern void btm_sec_clear_ble_keys(tBTM_SEC_DEV_REC* p_dev_rec);
 diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
-index bd11381abb2..150ab7daf6b 100644
+index bd11381ab..150ab7daf 100644
 --- a/stack/btm/btm_sec.cc
 +++ b/stack/btm/btm_sec.cc
 @@ -5770,14 +5770,13 @@ static bool btm_sec_queue_encrypt_request(const RawAddress& bd_addr,

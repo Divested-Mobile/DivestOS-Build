@@ -278,7 +278,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399769-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/401373-backport.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
 applyPatch "$DOS_PATCHES/android_frameworks_base/405829-backport.patch"; #P_asb_2024-10 Update AccountManagerService checkKeyIntent.
-+applyPatch "$DOS_PATCHES/android_frameworks_base/405830.patch"; #P_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405830.patch"; #P_asb_2024-10 Fail parseUri if end is missing
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)

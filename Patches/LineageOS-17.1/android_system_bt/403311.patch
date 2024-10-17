@@ -1,4 +1,4 @@
-From 0690014ef4e8b810871c91372d61fd59f2f2f60e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Fri, 1 Jan 2021 19:11:49 -0800
 Subject: [PATCH] Add tACL_CONN::SupportsSecureConnections
@@ -15,7 +15,7 @@ Change-Id: I4ede2886aa5d90bfab8fccea5edaed70ad1514e7
  1 file changed, 12 insertions(+)
 
 diff --git a/stack/btm/btm_int_types.h b/stack/btm/btm_int_types.h
-index a5bd894abd..3ca1182d54 100644
+index a5bd894ab..3ca1182d5 100644
 --- a/stack/btm/btm_int_types.h
 +++ b/stack/btm/btm_int_types.h
 @@ -578,7 +578,19 @@ typedef struct {

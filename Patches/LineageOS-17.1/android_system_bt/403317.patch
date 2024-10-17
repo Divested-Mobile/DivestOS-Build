@@ -1,4 +1,4 @@
-From ee89e827180526082add19d08c480b72e9324e2d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Fri, 31 May 2024 21:50:12 +0000
 Subject: [PATCH] Disallow connect with key length downgrade
@@ -31,7 +31,7 @@ Change-Id: I5b931ddb4876b529ed0c2e1138c02382291216ab
  1 file changed, 11 insertions(+)
 
 diff --git a/stack/btu/btu_hcif.cc b/stack/btu/btu_hcif.cc
-index 7bf385ea3d..615d3c6899 100644
+index 7bf385ea3..615d3c689 100644
 --- a/stack/btu/btu_hcif.cc
 +++ b/stack/btu/btu_hcif.cc
 @@ -1171,6 +1171,17 @@ static void read_encryption_key_size_complete_after_encryption_change(uint8_t st

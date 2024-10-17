@@ -1,4 +1,4 @@
-From b1f14158f389b0522a2eda4212344440dace65de Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Pranav Madapurmath <pmadapurmath@google.com>
 Date: Tue, 11 Jun 2024 15:51:39 +0000
 Subject: [PATCH] Unbind CallScreeningService when timeout reached.
@@ -30,7 +30,7 @@ diff --git a/src/com/android/server/telecom/CallScreeningServiceHelper.java b/sr
 index 89778e43a..5582a7da4 100644
 --- a/src/com/android/server/telecom/CallScreeningServiceHelper.java
 +++ b/src/com/android/server/telecom/CallScreeningServiceHelper.java
-@@ -185,6 +185,10 @@ public void onNullBinding(ComponentName name) {
+@@ -185,6 +185,10 @@ public class CallScreeningServiceHelper {
                              Log.w(TAG, "Cancelling call id process due to timeout");
                          }
                          mFuture.complete(null);

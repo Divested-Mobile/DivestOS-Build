@@ -1,4 +1,4 @@
-From a3b3bada1c107c7c97d776d4d1ba5f8602076737 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hansong Zhang <hsz@google.com>
 Date: Thu, 29 Oct 2020 20:29:14 -0700
 Subject: [PATCH] Use btm_sec_set_peer_sec_caps to store features

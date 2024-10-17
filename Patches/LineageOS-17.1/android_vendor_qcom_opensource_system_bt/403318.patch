@@ -1,4 +1,4 @@
-From a85afea964ff0589e474b816ffa941b371076af8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hansong Zhang <hsz@google.com>
 Date: Tue, 11 Aug 2020 12:39:26 -0700
 Subject: [PATCH] Clean up BTM_SEC_MODE
