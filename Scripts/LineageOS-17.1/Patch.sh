@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2024-09
+sed -i 's/2023-02-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-10
 fi;
 
 if enterAndClear "build/soong"; then
@@ -328,6 +328,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/402604.patch"; #Q_asb_2024-08 B
 applyPatch "$DOS_PATCHES/android_frameworks_base/402605.patch"; #Q_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/402606.patch"; #Q_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/403301.patch"; #Q_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/405515.patch"; #R_asb_2024-10 Update AccountManagerService checkKeyIntent.
+applyPatch "$DOS_PATCHES/android_frameworks_base/405516.patch"; #R_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/405517-backport.patch"; #R_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
+applyPatch "$DOS_PATCHES/android_frameworks_base/405518.patch"; #R_asb_2024-10 Check whether installerPackageName contains only valid characters
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -450,6 +454,7 @@ applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; 
 fi;
 
 if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405541.patch"; #R_asb_2024-10 Do not accept zip files with invalid headers.
 applyPatch "$DOS_PATCHES/android_libcore/0001-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0001-Exec_Based_Spawning-2.patch";
 applyPatch "$DOS_PATCHES/android_libcore/0003-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
@@ -463,6 +468,7 @@ fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/378135.patch"; #Q_asb_2023-12 Fix UAF in ~CallbackEnv
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/405540.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 2/2
 #applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272652.patch"; #ten-bt-sbc-hd-dualchannel: SBC Dual Channel (SBC HD Audio) support (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272653.patch"; #ten-bt-sbc-hd-dualchannel: Assume optional codecs are supported if were supported previously (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
@@ -528,6 +534,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403302.patch"; #Q_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403303.patch"; #Q_asb_2024-09 Replace getCallingActivity() with getLaunchedFromPackage()
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403304.patch"; #Q_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403305.patch"; #Q_asb_2024-09 Restrict Settings Homepage prior to provisioning
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405534.patch"; #R_asb_2024-10 FRP bypass defense in App battery usage page
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -668,6 +675,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/403314.patch"; #Q_asb_2024-09 Use btm
 applyPatch "$DOS_PATCHES/android_system_bt/403315.patch"; #Q_asb_2024-09 Add support for checking security downgrade
 applyPatch "$DOS_PATCHES/android_system_bt/403316.patch"; #Q_asb_2024-09 Disallow connect with Secure Connections downgrade
 applyPatch "$DOS_PATCHES/android_system_bt/403317.patch"; #Q_asb_2024-09 Disallow connect with key length downgrade
+applyPatch "$DOS_PATCHES/android_system_bt/405536.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
+applyPatch "$DOS_PATCHES/android_system_bt/405537.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -749,6 +758,7 @@ fi;
 
 if enterAndClear "vendor/qcom/opensource/commonsys/packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_packages_apps_Bluetooth/378136.patch"; #Q_asb_2023-12 Fix UAF in ~CallbackEnv
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_packages_apps_Bluetooth/405585.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 2/2
 fi;
 
 if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
@@ -791,6 +801,8 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403324.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403325.patch"; #Q_asb_2024-09 Add support for checking security downgrade
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403326.patch"; #Q_asb_2024-09 Disallow connect with Secure Connections downgrade
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403327.patch"; #Q_asb_2024-09 Disallow connect with key length downgrade
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405583.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405584.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 fi;
 
 if enterAndClear "vendor/lineage"; then

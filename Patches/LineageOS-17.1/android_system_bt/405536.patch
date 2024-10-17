@@ -1,0 +1,56 @@
+From 935b7a26fa502de27c0cd3c97a05381319e8f22c Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Sun, 14 Mar 2021 09:52:19 -0700
+Subject: [PATCH] Add btif/include/btif_hh::btif_hh_status_text
+
+Toward loggable code
+
+Bug: 163134718
+Test: gd/cert/run
+Tag: #refactor
+BYPASS_LONG_LINES_REASON: Bluetooth likes 120 lines
+
+Change-Id: Iab6a4f33a3e498c33f4870abc5abd59e073d03f2
+---
+ btif/include/btif_hh.h | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/btif/include/btif_hh.h b/btif/include/btif_hh.h
+index b71d347c1a7..f33598d2f19 100644
+--- a/btif/include/btif_hh.h
++++ b/btif/include/btif_hh.h
+@@ -46,7 +46,7 @@
+  *  Type definitions and return values
+  ******************************************************************************/
+ 
+-typedef enum {
++typedef enum : unsigned {
+   BTIF_HH_DISABLED = 0,
+   BTIF_HH_ENABLED,
+   BTIF_HH_DISABLING,
+@@ -56,6 +56,25 @@ typedef enum {
+   BTIF_HH_DEV_DISCONNECTED
+ } BTIF_HH_STATUS;
+ 
++#define CASE_RETURN_TEXT(code) \
++  case code:                   \
++    return #code
++
++inline std::string btif_hh_status_text(const BTIF_HH_STATUS& status) {
++  switch (status) {
++    CASE_RETURN_TEXT(BTIF_HH_DISABLED);
++    CASE_RETURN_TEXT(BTIF_HH_ENABLED);
++    CASE_RETURN_TEXT(BTIF_HH_DISABLING);
++    CASE_RETURN_TEXT(BTIF_HH_DEV_UNKNOWN);
++    CASE_RETURN_TEXT(BTIF_HH_DEV_CONNECTING);
++    CASE_RETURN_TEXT(BTIF_HH_DEV_CONNECTED);
++    CASE_RETURN_TEXT(BTIF_HH_DEV_DISCONNECTED);
++    default:
++      return std::string("UNKNOWN[%hhu]", status);
++  }
++}
++#undef CASE_RETURN_TEXT
++
+ typedef struct {
+   bthh_connection_state_t dev_status;
+   uint8_t dev_handle;

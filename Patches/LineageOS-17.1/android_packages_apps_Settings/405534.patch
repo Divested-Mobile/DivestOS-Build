@@ -1,0 +1,52 @@
+From da6ee7b698b7d4c4cbe56c70027904268b72d0f1 Mon Sep 17 00:00:00 2001
+From: Yiling Chuang <emilychuang@google.com>
+Date: Mon, 8 Jul 2024 03:09:50 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE FRP bypass defense in App battery usage
+ page
+
+Before the setup flow completion, don't allow the app info page in App battery usage to be launched.
+
+Bug: 327748846
+Test: atest SettingsRoboTests + manual test
+- factory reset + launch app battery usage app info via ADB during Setup -> verify app closes
+Flag : EXEMPT bugfix
+
+(cherry picked from commit 419a6a907902a12a0f565c808fa70092004d6686)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:62b0014ed6e69b0abc48a5c18b740f95bc5dc429)
+Merged-In: I486820ca2afecc02729a56a3c531fb931c1907d0
+Change-Id: I486820ca2afecc02729a56a3c531fb931c1907d0
+---
+ .../android/settings/fuelgauge/AdvancedPowerUsageDetail.java | 5 +++++
+ .../settings/fuelgauge/AdvancedPowerUsageDetailTest.java     | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java b/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
+index e8d5f3330f2..d17642053e7 100644
+--- a/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
++++ b/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetail.java
+@@ -210,6 +210,11 @@ public void onResume() {
+         initPreference();
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     @VisibleForTesting
+     void initHeader() {
+         final View appSnippet = mHeaderPreference.findViewById(R.id.entity_header);
+diff --git a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java b/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
+index 8eeac8d26b0..37fa511beeb 100644
+--- a/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
++++ b/tests/robotests/src/com/android/settings/fuelgauge/AdvancedPowerUsageDetailTest.java
+@@ -395,4 +395,9 @@ public void testInitPreference_hasCorrectSummary() {
+         assertThat(mForegroundPreference.getSummary().toString()).isEqualTo("Used for 0 min");
+         assertThat(mBackgroundPreference.getSummary().toString()).isEqualTo("Active for 0 min");
+     }
++
++    @Test
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mFragment.shouldSkipForInitialSUW()).isTrue();
++    }
+ }

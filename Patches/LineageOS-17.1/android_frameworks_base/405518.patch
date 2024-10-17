@@ -1,0 +1,39 @@
+From 5fe06ebbd23db602bb46ba51a7e40711d7823be6 Mon Sep 17 00:00:00 2001
+From: Sumedh Sen <sumedhsen@google.com>
+Date: Wed, 17 Jul 2024 01:00:55 +0000
+Subject: [PATCH] [RESTRICT AUTOMERGE] Check whether installerPackageName
+ contains only valid characters
+
+Bug: 341256391
+Bug: 307532206
+Test: sts-tradefed run sts-dynamic-develop -m CtsSecurityTestCases -t android.security.cts.CVE_2024_0044
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:9b850b6f68e63288f240439601723412324381bb)
+Merged-In: I74a172c617d6f5b13f0708092156b657b73b5891
+Change-Id: I74a172c617d6f5b13f0708092156b657b73b5891
+---
+ .../com/android/server/pm/PackageInstallerService.java     | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageInstallerService.java b/services/core/java/com/android/server/pm/PackageInstallerService.java
+index 7e67021e3b847..ab8cc4c8d6697 100644
+--- a/services/core/java/com/android/server/pm/PackageInstallerService.java
++++ b/services/core/java/com/android/server/pm/PackageInstallerService.java
+@@ -580,12 +580,17 @@ private int createSessionInternal(SessionParams params, String installerPackageN
+         params.appLabel = TextUtils.trimToSize(params.appLabel,
+                 PackageItemInfo.MAX_SAFE_LABEL_LENGTH);
+ 
+-        // Validate installer package name.
++        // Validate requested installer package name.
+         if (params.installerPackageName != null && !isValidPackageName(
+                 params.installerPackageName)) {
+             params.installerPackageName = null;
+         }
+ 
++        // Validate installer package name.
++        if (installerPackageName != null && !isValidPackageName(installerPackageName)) {
++            installerPackageName = null;
++        }
++
+         String requestedInstallerPackageName =
+                 params.installerPackageName != null ? params.installerPackageName
+                         : installerPackageName;

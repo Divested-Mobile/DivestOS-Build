@@ -1,0 +1,53 @@
+From 1e0f995b0b68d811d4225e73426c4c6350a506ad Mon Sep 17 00:00:00 2001
+From: Almaz Mingaleev <mingaleev@google.com>
+Date: Wed, 10 Jul 2024 13:38:35 +0100
+Subject: [PATCH] Do not accept zip files with invalid headers.
+
+According to Section 4.3.6 in [1] non-empty zip file starts with
+local file header. 4.3.1 allows empty files, and in such case
+file starts with "end of central directory record".
+
+This aligns ZipFile with libziparchive modulo empty zip files -
+libziparchive rejects them.
+
+Tests are skipped because sc-dev branch uses ART module
+prebuilts, but builds tests from sources which leads to presubmit
+failures.
+
+Ignore-AOSP-First: b/309938635#comment1
+
+[1] https://pkwaredownloads.blob.core.windows.net/pem/APPNOTE.txt
+
+Bug: 309938635
+Test: CtsLibcoreTestCases
+Test: CtsLibcoreOjTestCases
+(cherry picked from commit 288a44a1817707110cdf5a3a6ef8377c6e10cce2)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:43e428a99aa89a9dfbe93000171721ecbfc31b88)
+Merged-In: I545cdd49ec3cc138331145f4716c8148662a478b
+Change-Id: I545cdd49ec3cc138331145f4716c8148662a478b
+---
+ ojluni/src/main/native/zip_util.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/ojluni/src/main/native/zip_util.c b/ojluni/src/main/native/zip_util.c
+index aa9c5cede9e..16951a78ede 100644
+--- a/ojluni/src/main/native/zip_util.c
++++ b/ojluni/src/main/native/zip_util.c
+@@ -878,6 +878,17 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
+             zip->locsig = JNI_TRUE;
+         else
+             zip->locsig = JNI_FALSE;
++
++        // BEGIN Android-changed: do not accept files with invalid header.
++        if (GETSIG(errbuf) != LOCSIG && GETSIG(errbuf) != ENDSIG) {
++            if (pmsg) {
++                *pmsg = strdup("Entry at offset zero has invalid LFH signature.");
++            }
++            ZFILE_Close(zfd);
++            freeZip(zip);
++            return NULL;
++        }
++        // END Android-changed: do not accept files with invalid header.
+     }
+ 
+     // This lseek is safe because it happens during construction of the ZipFile
