@@ -1,0 +1,30 @@
+From 036b28bd48fae9e16d8b1b2a8bb629f4221e41c2 Mon Sep 17 00:00:00 2001
+From: William Loh <wloh@google.com>
+Date: Mon, 3 Jun 2024 12:56:47 -0700
+Subject: [PATCH] Fail parseUri if end is missing
+
+Bug: 318683126
+Test: atest IntentTest
+Flag: EXEMPT bugfix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:b85bee508793e31d6fe37fc9cd4e8fa3787113cc)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5d754ed6dd1fd321746f5ec4742831ffd97a9967)
+Merged-In: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
+Change-Id: I5f619ced684ff505ce2b7408cd35dd3e9be89dea
+---
+ core/java/android/content/Intent.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
+index 66c2658f9f132..dbed1b1a8fd31 100644
+--- a/core/java/android/content/Intent.java
++++ b/core/java/android/content/Intent.java
+@@ -6277,6 +6277,9 @@ public static Intent parseUri(String uri, @UriFlags int flags) throws URISyntaxE
+                 int eq = uri.indexOf('=', i);
+                 if (eq < 0) eq = i-1;
+                 int semi = uri.indexOf(';', i);
++                if (semi < 0) {
++                    throw new URISyntaxException(uri, "uri end not found");
++                }
+                 String value = eq < semi ? Uri.decode(uri.substring(eq + 1, semi)) : "";
+ 
+                 // action

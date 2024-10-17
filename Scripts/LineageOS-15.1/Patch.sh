@@ -76,7 +76,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-09-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -277,6 +277,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/397594.patch"; #P_asb_2024-07 V
 applyPatch "$DOS_PATCHES/android_frameworks_base/399769-backport.patch"; #P_asb_2024-08 Restrict USB poups while setup is in progress
 applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 Hide SAW subwindows
 applyPatch "$DOS_PATCHES/android_frameworks_base/401373-backport.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
+applyPatch "$DOS_PATCHES/android_frameworks_base/405829-backport.patch"; #P_asb_2024-10 Update AccountManagerService checkKeyIntent.
++applyPatch "$DOS_PATCHES/android_frameworks_base/405830.patch"; #P_asb_2024-10 Fail parseUri if end is missing
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -360,6 +362,10 @@ if enterAndClear "hardware/qcom/gps"; then
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_gps/0001-rollover.patch"; #Fix week rollover (jlask)
 fi;
 
+if enterAndClear "libcore"; then
+applyPatch "$DOS_PATCHES/android_libcore/405831.patch"; #P_asb_2024-10 Do not accept zip files with invalid headers.
+fi;
+
 if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
@@ -428,6 +434,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/365973-backport.patch"; 
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/367639-backport.patch"; #n-asb-2023-10 Restrict ApnEditor settings
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401375-backport.patch"; #S_asb_2024-09 Limit wifi item edit content's max length to 500
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401377-backport.patch"; #S_asb_2024-09 Ignore fragment attr from ext authenticator resource
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405832-backport.patch"; #P_asb_2024-10 FRP bypass defense in App battery usage page
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then
