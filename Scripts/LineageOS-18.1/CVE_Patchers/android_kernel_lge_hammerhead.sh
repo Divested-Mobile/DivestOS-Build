@@ -571,6 +571,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-47757/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-49877/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-49900/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-49967/^6.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50007/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50035/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50040/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50044/^6.12/0001.patch
@@ -582,7 +583,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p582"
+editKernelLocalversion "-dos.p583"
 else echo "kernel_lge_hammerhead is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
