@@ -381,6 +381,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37353/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37356/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38381/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38402/5.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38422/audio-kernel/0001.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38549/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38552/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38555/^6.9/0001.patch
@@ -715,7 +716,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/5.4/0005.patch
-editKernelLocalversion "-dos.p715"
+editKernelLocalversion "-dos.p716"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

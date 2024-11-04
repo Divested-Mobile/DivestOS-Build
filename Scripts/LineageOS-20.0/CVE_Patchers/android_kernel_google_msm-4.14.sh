@@ -283,6 +283,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27428/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27429/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33032/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-34027/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35789/4.14/0008.patch
@@ -343,6 +344,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37078/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37353/4.14/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-37356/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38381/4.14/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38422/audio-kernel/0002.patch --directory=techpack/audio
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38549/4.14/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38558/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-38559/4.14/0008.patch
@@ -557,7 +559,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.14/0007.patch
-editKernelLocalversion "-dos.p557"
+editKernelLocalversion "-dos.p559"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
