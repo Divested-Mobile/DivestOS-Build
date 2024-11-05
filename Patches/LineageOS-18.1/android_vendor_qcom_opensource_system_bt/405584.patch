@@ -1,4 +1,4 @@
-From 0196deeccce43dc7fc5d8c4bfe94d2f24ad2d4b2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:42:21 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Disallow unexpected incoming HID

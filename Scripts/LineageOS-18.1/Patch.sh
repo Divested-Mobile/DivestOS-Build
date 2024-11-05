@@ -518,7 +518,7 @@ if enterAndClear "system/vold"; then
 git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako first boot
 fi;
 
-if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
+if enterAndClear "vendor/qcom/opensource/commonsys/packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_packages_apps_Bluetooth/405585.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 2/2
 fi;
 

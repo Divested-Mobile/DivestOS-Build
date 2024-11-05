@@ -1,4 +1,4 @@
-From 0b906b1eef2156110bb753272fe133c096eb371b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:44:45 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Disallow unexpected incoming HID
@@ -62,7 +62,7 @@ diff --git a/src/com/android/bluetooth/hid/HidHostService.java b/src/com/android
 index 4687bd6a1..0258f1fdd 100644
 --- a/src/com/android/bluetooth/hid/HidHostService.java
 +++ b/src/com/android/bluetooth/hid/HidHostService.java
-@@ -167,7 +167,10 @@ public void handleMessage(Message msg) {
+@@ -167,7 +167,10 @@ public class HidHostService extends ProfileService {
                  break;
                  case MESSAGE_DISCONNECT: {
                      BluetoothDevice device = (BluetoothDevice) msg.obj;
@@ -74,7 +74,7 @@ index 4687bd6a1..0258f1fdd 100644
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTING);
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTED);
                          break;
-@@ -192,7 +195,10 @@ public void handleMessage(Message msg) {
+@@ -192,7 +195,10 @@ public class HidHostService extends ProfileService {
                              Log.d(TAG, "Incoming HID connection rejected");
                          }
                          if (disconnectRemote(device)) {
@@ -86,7 +86,7 @@ index 4687bd6a1..0258f1fdd 100644
                          } else {
                              virtualUnPlugNative(Utils.getByteAddress(device));
                          }
-@@ -978,7 +984,7 @@ public void dump(StringBuilder sb) {
+@@ -978,7 +984,7 @@ public class HidHostService extends ProfileService {
  
      private native boolean connectHidNative(byte[] btAddress);
  
