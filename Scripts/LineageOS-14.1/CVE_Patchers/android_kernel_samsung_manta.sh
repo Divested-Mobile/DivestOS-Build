@@ -560,6 +560,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50007/^6.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50035/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50040/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50044/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50143/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50148/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50168/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50186/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50201/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
@@ -567,7 +572,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p567"
+editKernelLocalversion "-dos.p572"
 else echo "kernel_samsung_manta is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
