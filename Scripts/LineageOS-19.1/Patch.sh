@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-09-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #S_asb_2024-10
+sed -i 's/2024-10-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #S_asb_2024-11
 fi;
 
 if enterAndClear "build/soong"; then
@@ -131,6 +131,10 @@ if enterAndClear "external/SecureCamera"; then
 git revert --no-edit 36f2dd34e1d0c2b7d26153969cca56a7ff665329;
 sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
+fi;
+
+if enterAndClear "external/skia"; then
+git fetch https://github.com/LineageOS/android_external_skia refs/changes/54/408154/1 && git cherry-pick FETCH_HEAD; #S_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "frameworks/base"; then

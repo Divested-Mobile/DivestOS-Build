@@ -1,0 +1,37 @@
+From 90cdc60d6b846c5f07556e350c108b937c809fd6 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 2 Jul 2024 11:02:07 -0700
+Subject: [PATCH] [BACKPORT] Remove authenticator data if it was disabled.
+
+Test: manual
+Bug: 343440463
+Flag: EXEMPT bugfix
+(cherry picked from commit ddfc078af7e89641360b896f99af23a6b371b847)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:cd372149336675c82e032fe2613d1dc8b03122f6)
+Merged-In: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
+Change-Id: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
+---
+ .../android/server/accounts/AccountManagerService.java | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 126955add01a9..9e8f1708b8520 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -633,6 +633,16 @@ private void validateAccountsInternal(
+                                             META_KEY_FOR_AUTHENTICATOR_UID_FOR_TYPE_PREFIX + type,
+                                             uid}
+                                     );
++                        } else if (knownUid != null && !uid.equals(knownUid.toString())) {
++                            Slog.w(TAG, "authenticator no longer exist for type " + type);
++                            obsoleteAuthType.add(type);
++                            db.delete(
++                                    TABLE_META,
++                                    META_KEY + "=? AND " + META_VALUE + "=?",
++                                    new String[] {
++                                            META_KEY_FOR_AUTHENTICATOR_UID_FOR_TYPE_PREFIX + type,
++                                            uid}
++                                    );
+                         }
+                     }
+                 }

@@ -1,0 +1,84 @@
+From 4f133c1c3c9b219d070046e575cc3a8074788cef Mon Sep 17 00:00:00 2001
+From: Ben Murdoch <benm@google.com>
+Date: Fri, 30 Aug 2024 17:22:59 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Clear app-provided shortcut icons
+
+When displaying keyboard shortcuts provided by an app, clear
+any icon that may have been set (this is only possible via
+reflection, and is not a intended for usage outside of the system).
+
+Bug: 331180422
+Test: Verify on device
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8dc5ed150f2c0e08870f656f3170f304ba9ad260)
+Merged-In: If7e291eb2254c3cbec23673c65e7477e6ad45b09
+Change-Id: If7e291eb2254c3cbec23673c65e7477e6ad45b09
+
+Change-Id: I03cd38e124f393f950c520f8aa9619c42a755ebb
+---
+ core/java/android/view/KeyboardShortcutInfo.java    | 13 +++++++++++--
+ .../systemui/statusbar/KeyboardShortcuts.java       |  9 +++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/view/KeyboardShortcutInfo.java b/core/java/android/view/KeyboardShortcutInfo.java
+index a9f2699a6bb16..b3965fde115b3 100644
+--- a/core/java/android/view/KeyboardShortcutInfo.java
++++ b/core/java/android/view/KeyboardShortcutInfo.java
+@@ -28,7 +28,7 @@
+  */
+ public final class KeyboardShortcutInfo implements Parcelable {
+     private final CharSequence mLabel;
+-    private final Icon mIcon;
++    private Icon mIcon;
+     private final char mBaseCharacter;
+     private final int mKeycode;
+     private final int mModifiers;
+@@ -114,6 +114,15 @@ public Icon getIcon() {
+         return mIcon;
+     }
+ 
++    /**
++     * Removes an icon that was previously set.
++     *
++     * @hide
++     */
++    public void clearIcon() {
++        mIcon = null;
++    }
++
+     /**
+      * Returns the base keycode that, combined with the modifiers, triggers this shortcut. If the
+      * base character was set instead, returns {@link KeyEvent#KEYCODE_UNKNOWN}. Valid keycodes are
+@@ -164,4 +173,4 @@ public KeyboardShortcutInfo[] newArray(int size) {
+             return new KeyboardShortcutInfo[size];
+         }
+     };
+-}
+\ No newline at end of file
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java b/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
+index 9972d0d52b05d..c3028659cdf1f 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
+@@ -362,6 +362,7 @@ private void showKeyboardShortcuts(int deviceId) {
+                     @Override
+                     public void onKeyboardShortcutsReceived(
+                             final List<KeyboardShortcutGroup> result) {
++                        sanitiseShortcuts(result);
+                         result.add(getSystemShortcuts());
+                         final KeyboardShortcutGroup appShortcuts = getDefaultApplicationShortcuts();
+                         if (appShortcuts != null) {
+@@ -372,6 +373,14 @@ public void onKeyboardShortcutsReceived(
+                 }, deviceId);
+     }
+ 
++    static void sanitiseShortcuts(List<KeyboardShortcutGroup> shortcutGroups) {
++        for (KeyboardShortcutGroup group : shortcutGroups) {
++            for (KeyboardShortcutInfo info : group.getItems()) {
++                info.clearIcon();
++            }
++        }
++    }
++
+     private void dismissKeyboardShortcuts() {
+         if (mKeyboardShortcutsDialog != null) {
+             mKeyboardShortcutsDialog.dismiss();

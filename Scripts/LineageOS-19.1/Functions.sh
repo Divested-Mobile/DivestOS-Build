@@ -68,7 +68,7 @@ patchWorkspaceReal() {
 
 	source build/envsetup.sh;
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
-	repopick -it S_asb_2024-10;
+	repopick -it S_asb_2024-11;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
