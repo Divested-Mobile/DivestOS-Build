@@ -87,10 +87,10 @@ index dca3e6b139..9c45521fde 100644
              return config.getRandomizedMacAddress();
          }
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index 1997a9adf6..40837ff703 100644
+index 9d7063fbe8..e1b36fb172 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-@@ -245,7 +245,7 @@ public class WifiConfigurationUtil {
+@@ -254,7 +254,7 @@ public class WifiConfigurationUtil {
      public static boolean hasMacRandomizationSettingsChanged(WifiConfiguration existingConfig,
              WifiConfiguration newConfig) {
          if (existingConfig == null) {
