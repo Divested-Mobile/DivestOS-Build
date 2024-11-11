@@ -177,7 +177,7 @@ applyPatch "$DOS_PATCHES/android_external_libxml2/367634.patch"; #n-asb-2023-10 
 fi;
 
 if enterAndClear "external/skia"; then
-applyPatch "$DOS_PATCHES/android_external_skia/351107.patch"; #n-asb-2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/407794.patch"; #n-asb-2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "external/sonivox"; then

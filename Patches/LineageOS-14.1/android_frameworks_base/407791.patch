@@ -1,7 +1,7 @@
-From 90cdc60d6b846c5f07556e350c108b937c809fd6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Dementyev <dementyev@google.com>
 Date: Tue, 2 Jul 2024 11:02:07 -0700
-Subject: [PATCH] [BACKPORT] Remove authenticator data if it was disabled.
+Subject: [PATCH] Remove authenticator data if it was disabled.
 
 Test: manual
 Bug: 343440463
@@ -15,10 +15,10 @@ Change-Id: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
  1 file changed, 10 insertions(+)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index 126955add01a9..9e8f1708b8520 100644
+index ce98ce412aaa..0d20d86da413 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -633,6 +633,16 @@ private void validateAccountsInternal(
+@@ -636,6 +636,16 @@ public class AccountManagerService
                                              META_KEY_FOR_AUTHENTICATOR_UID_FOR_TYPE_PREFIX + type,
                                              uid}
                                      );
