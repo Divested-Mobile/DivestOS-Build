@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-10
+sed -i 's/2024-02-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-11
 fi;
 
 if enterAndClear "build/soong"; then
@@ -130,6 +130,10 @@ sed -i -e '76,78d;' Android.bp; #fix compile under A13
 sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
 awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
 rm -rfv androidtest; #fix compile under A11
+fi;
+
+if enterAndClear "external/skia"; then
+applyPatch "$DOS_PATCHES/android_external_skia/408442.patch"; #R_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -178,6 +182,12 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/405515.patch"; #R_asb_2024-10 U
 applyPatch "$DOS_PATCHES/android_frameworks_base/405516.patch"; #R_asb_2024-10 Fail parseUri if end is missing
 applyPatch "$DOS_PATCHES/android_frameworks_base/405517.patch"; #R_asb_2024-10 Prevent Sharing when FRP enforcement is in effect
 applyPatch "$DOS_PATCHES/android_frameworks_base/405518.patch"; #R_asb_2024-10 Check whether installerPackageName contains only valid characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/408443.patch"; #R_asb_2024-11 Remove authenticator data if it was disabled.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408444.patch"; #R_asb_2024-11 RingtoneManager: allow video ringtone URI
+applyPatch "$DOS_PATCHES/android_frameworks_base/408445.patch"; #R_asb_2024-11 Set no data transfer on function switch timeout for accessory mode
+applyPatch "$DOS_PATCHES/android_frameworks_base/408446.patch"; #R_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408447.patch"; #R_asb_2024-11 Clear app-provided shortcut icons
+applyPatch "$DOS_PATCHES/android_frameworks_base/408448.patch"; #R_asb_2024-11 Restrict access to directories
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -254,6 +264,7 @@ fi;
 fi;
 
 if enterAndClear "frameworks/opt/net/wifi"; then
+applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/408452.patch"; #R_asb_2024-11 Fix security issue by change the field in WifiConfig
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
 
@@ -379,6 +390,9 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403220.patch"; #R_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403221.patch"; #R_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403222.patch"; #R_asb_2024-09 Restrict Settings Homepage prior to provisioning
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405534.patch"; #R_asb_2024-10 FRP bypass defense in App battery usage page
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408449.patch"; #R_asb_2024-11 Stops hiding a11y services with the same package+label as an activity.
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408450.patch"; #R_asb_2024-11 startActivityForResult with new Intent
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408451.patch"; #R_asb_2024-11 Checks cross user permission before handling intent
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
@@ -438,6 +452,7 @@ fi;
 
 if enterAndClear "packages/providers/MediaProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/397544.patch"; #R_asb_2024-07 Prevent insertion in other users storage volumes
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/408453.patch"; #R_asb_2024-11 Prevent apps from renaming files they don't own
 fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then

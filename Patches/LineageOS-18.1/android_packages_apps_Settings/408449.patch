@@ -1,0 +1,72 @@
+From 9411c079df368653f34617e2e07487c00b5da4bc Mon Sep 17 00:00:00 2001
+From: Daniel Norman <danielnorman@google.com>
+Date: Wed, 14 Aug 2024 21:15:42 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Stops hiding a11y services with the same
+ package+label as an activity.
+
+Bug: 353700779
+Test: Install poc APKs from the bug, observe issue not reproducible
+Test: (automated tests on 'main' branch)
+Flag: NONE security fix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:fecb99475e019614d6eba07a79ddc7f46b335892)
+Merged-In: Ia8d43229d277dd4442173166ae0402f05096da4b
+Change-Id: Ia8d43229d277dd4442173166ae0402f05096da4b
+---
+ .../accessibility/AccessibilitySettings.java  | 25 -------------------
+ 1 file changed, 25 deletions(-)
+
+diff --git a/src/com/android/settings/accessibility/AccessibilitySettings.java b/src/com/android/settings/accessibility/AccessibilitySettings.java
+index f918046bc37..b2f37c026ff 100644
+--- a/src/com/android/settings/accessibility/AccessibilitySettings.java
++++ b/src/com/android/settings/accessibility/AccessibilitySettings.java
+@@ -27,7 +27,6 @@
+ import android.content.pm.ActivityInfo;
+ import android.content.pm.PackageManager;
+ import android.content.pm.ResolveInfo;
+-import android.content.pm.ServiceInfo;
+ import android.graphics.drawable.Drawable;
+ import android.hardware.display.ColorDisplayManager;
+ import android.net.Uri;
+@@ -407,17 +406,11 @@ private List<RestrictedPreference> getInstalledAccessibilityList(Context context
+         final List<AccessibilityShortcutInfo> installedShortcutList =
+                 a11yManager.getInstalledAccessibilityShortcutListAsUser(context,
+                         UserHandle.myUserId());
+-
+-        // Remove duplicate item here, new a ArrayList to copy unmodifiable list result
+-        // (getInstalledAccessibilityServiceList).
+         final List<AccessibilityServiceInfo> installedServiceList = new ArrayList<>(
+                 a11yManager.getInstalledAccessibilityServiceList());
+-        installedServiceList.removeIf(
+-                target -> containsTargetNameInList(installedShortcutList, target));
+ 
+         final List<RestrictedPreference> activityList =
+                 preferenceHelper.createAccessibilityActivityPreferenceList(installedShortcutList);
+-
+         final List<RestrictedPreference> serviceList =
+                 preferenceHelper.createAccessibilityServicePreferenceList(installedServiceList);
+ 
+@@ -428,24 +421,6 @@ private List<RestrictedPreference> getInstalledAccessibilityList(Context context
+         return preferenceList;
+     }
+ 
+-    private boolean containsTargetNameInList(List<AccessibilityShortcutInfo> shortcutInfos,
+-            AccessibilityServiceInfo targetServiceInfo) {
+-        final ServiceInfo serviceInfo = targetServiceInfo.getResolveInfo().serviceInfo;
+-        final String servicePackageName = serviceInfo.packageName;
+-        final CharSequence serviceLabel = serviceInfo.loadLabel(getPackageManager());
+-
+-        for (int i = 0, count = shortcutInfos.size(); i < count; ++i) {
+-            final ActivityInfo activityInfo = shortcutInfos.get(i).getActivityInfo();
+-            final String activityPackageName = activityInfo.packageName;
+-            final CharSequence activityLabel = activityInfo.loadLabel(getPackageManager());
+-            if (servicePackageName.equals(activityPackageName)
+-                    && serviceLabel.equals(activityLabel)) {
+-                return true;
+-            }
+-        }
+-        return false;
+-    }
+-
+     private void initializePreBundledServicesMapFromArray(String categoryKey, int key) {
+         String[] services = getResources().getStringArray(key);
+         PreferenceCategory category = mCategoryToPrefCategoryMap.get(categoryKey);

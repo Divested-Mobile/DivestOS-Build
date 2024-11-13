@@ -1,0 +1,33 @@
+From 57ac15dfd212fd91ef2501248ac6fab1ec3f6bc6 Mon Sep 17 00:00:00 2001
+From: Adam Bookatz <bookatz@google.com>
+Date: Mon, 22 Jul 2024 17:03:12 -0700
+Subject: [PATCH] startActivityForResult with new Intent
+
+Rather than use the raw Intent, we make a copy of it. See bug.
+
+Bug: 330722900
+Flag: EXEMPT bugfix
+Test: manual
+Test: atest com.android.settings.users.UserSettingsTest
+            com.android.settings.users.UserDetailsSettingsTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1189e24e47571eae86634aeaa7dc60b8fe7f4820)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:fdb148b6efb16af018a39511001b48286f401512)
+Merged-In: Id74e4b7ae261f2916eedaef04a679f83409a4b67
+Change-Id: Id74e4b7ae261f2916eedaef04a679f83409a4b67
+---
+ src/com/android/settings/users/AppRestrictionsFragment.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/users/AppRestrictionsFragment.java b/src/com/android/settings/users/AppRestrictionsFragment.java
+index 51624ca63b4..e9e60fb319e 100644
+--- a/src/com/android/settings/users/AppRestrictionsFragment.java
++++ b/src/com/android/settings/users/AppRestrictionsFragment.java
+@@ -655,7 +655,7 @@ public void onReceive(Context context, Intent intent) {
+                     int requestCode = generateCustomActivityRequestCode(
+                             RestrictionsResultReceiver.this.preference);
+                     AppRestrictionsFragment.this.startActivityForResult(
+-                            restrictionsIntent, requestCode);
++                            new Intent(restrictionsIntent), requestCode);
+                 }
+             }
+         }
