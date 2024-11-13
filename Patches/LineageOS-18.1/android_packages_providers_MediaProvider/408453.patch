@@ -1,4 +1,4 @@
-From a062609478ba61d2b015ea4eaee550f7c4a31c9f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Omar Eissa <oeissa@google.com>
 Date: Tue, 27 Aug 2024 13:24:21 +0000
 Subject: [PATCH] Prevent apps from renaming files they don't own
@@ -28,7 +28,7 @@ diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/androi
 index a01ba34c6..c15193414 100644
 --- a/src/com/android/providers/media/MediaProvider.java
 +++ b/src/com/android/providers/media/MediaProvider.java
-@@ -5351,6 +5351,8 @@ && getCallingPackageTargetSdkVersion() <= Build.VERSION_CODES.Q) {
+@@ -5351,6 +5351,8 @@ public class MediaProvider extends ContentProvider {
                  case IMAGES_MEDIA_ID:
                  case DOWNLOADS_ID:
                  case FILES_ID:

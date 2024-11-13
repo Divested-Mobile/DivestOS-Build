@@ -1,4 +1,4 @@
-From 57ac15dfd212fd91ef2501248ac6fab1ec3f6bc6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Adam Bookatz <bookatz@google.com>
 Date: Mon, 22 Jul 2024 17:03:12 -0700
 Subject: [PATCH] startActivityForResult with new Intent
@@ -22,7 +22,7 @@ diff --git a/src/com/android/settings/users/AppRestrictionsFragment.java b/src/c
 index 51624ca63b4..e9e60fb319e 100644
 --- a/src/com/android/settings/users/AppRestrictionsFragment.java
 +++ b/src/com/android/settings/users/AppRestrictionsFragment.java
-@@ -655,7 +655,7 @@ public void onReceive(Context context, Intent intent) {
+@@ -655,7 +655,7 @@ public class AppRestrictionsFragment extends SettingsPreferenceFragment implemen
                      int requestCode = generateCustomActivityRequestCode(
                              RestrictionsResultReceiver.this.preference);
                      AppRestrictionsFragment.this.startActivityForResult(

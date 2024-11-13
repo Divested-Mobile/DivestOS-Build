@@ -1,4 +1,4 @@
-From e1c64096a439b5d54a5cb6de77242217b1516ca1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dipankar Bhardwaj <dipankarb@google.com>
 Date: Wed, 21 Aug 2024 14:26:50 +0000
 Subject: [PATCH] Restrict access to directories
@@ -18,7 +18,7 @@ Change-Id: I8879900e57e1702d11797b81e86d0cc3f55bac22
  1 file changed, 68 insertions(+), 11 deletions(-)
 
 diff --git a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
-index 53e17e35953d1..a722c08605083 100644
+index 53e17e35953d..a722c0860508 100644
 --- a/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
 +++ b/packages/ExternalStorageProvider/src/com/android/externalstorage/ExternalStorageProvider.java
 @@ -16,8 +16,6 @@
@@ -30,7 +30,7 @@ index 53e17e35953d1..a722c08605083 100644
  import android.annotation.NonNull;
  import android.annotation.Nullable;
  import android.app.usage.StorageStatsManager;
-@@ -61,12 +59,15 @@
+@@ -61,12 +59,15 @@ import java.io.FileDescriptor;
  import java.io.FileNotFoundException;
  import java.io.IOException;
  import java.io.PrintWriter;
@@ -63,7 +63,7 @@ index 53e17e35953d1..a722c08605083 100644
  
      private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
              Root.COLUMN_ROOT_ID, Root.COLUMN_FLAGS, Root.COLUMN_ICON, Root.COLUMN_TITLE,
-@@ -308,10 +306,69 @@ protected boolean shouldHideDocument(@NonNull String documentId) {
+@@ -308,10 +306,69 @@ public class ExternalStorageProvider extends FileSystemProvider {
              return false;
          }
  

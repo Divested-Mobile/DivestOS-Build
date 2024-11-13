@@ -1,4 +1,4 @@
-From 9411c079df368653f34617e2e07487c00b5da4bc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Norman <danielnorman@google.com>
 Date: Wed, 14 Aug 2024 21:15:42 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Stops hiding a11y services with the same
@@ -19,7 +19,7 @@ diff --git a/src/com/android/settings/accessibility/AccessibilitySettings.java b
 index f918046bc37..b2f37c026ff 100644
 --- a/src/com/android/settings/accessibility/AccessibilitySettings.java
 +++ b/src/com/android/settings/accessibility/AccessibilitySettings.java
-@@ -27,7 +27,6 @@
+@@ -27,7 +27,6 @@ import android.content.Context;
  import android.content.pm.ActivityInfo;
  import android.content.pm.PackageManager;
  import android.content.pm.ResolveInfo;
@@ -27,7 +27,7 @@ index f918046bc37..b2f37c026ff 100644
  import android.graphics.drawable.Drawable;
  import android.hardware.display.ColorDisplayManager;
  import android.net.Uri;
-@@ -407,17 +406,11 @@ private List<RestrictedPreference> getInstalledAccessibilityList(Context context
+@@ -407,17 +406,11 @@ public class AccessibilitySettings extends DashboardFragment {
          final List<AccessibilityShortcutInfo> installedShortcutList =
                  a11yManager.getInstalledAccessibilityShortcutListAsUser(context,
                          UserHandle.myUserId());
@@ -45,7 +45,7 @@ index f918046bc37..b2f37c026ff 100644
          final List<RestrictedPreference> serviceList =
                  preferenceHelper.createAccessibilityServicePreferenceList(installedServiceList);
  
-@@ -428,24 +421,6 @@ private List<RestrictedPreference> getInstalledAccessibilityList(Context context
+@@ -428,24 +421,6 @@ public class AccessibilitySettings extends DashboardFragment {
          return preferenceList;
      }
  

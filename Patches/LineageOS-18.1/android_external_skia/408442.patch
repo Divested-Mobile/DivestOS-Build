@@ -1,4 +1,4 @@
-From cfb96168e5e753a0bdcca4874b012c25a7f7737a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Osman <brianosman@google.com>
 Date: Tue, 27 Aug 2024 14:22:52 -0400
 Subject: [PATCH] RESTRICT AUTOMERGE: Avoid potential overflow when allocating
@@ -25,7 +25,7 @@ Change-Id: Ia35860371d45120baca63238e77faa5c0eb25d51
  1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/src/effects/SkEmbossMaskFilter.cpp b/src/effects/SkEmbossMaskFilter.cpp
-index 2dcce2b9102..8ea8c08039b 100644
+index 2dcce2b910..8ea8c08039 100644
 --- a/src/effects/SkEmbossMaskFilter.cpp
 +++ b/src/effects/SkEmbossMaskFilter.cpp
 @@ -95,11 +95,13 @@ bool SkEmbossMaskFilter::filterMask(SkMask* dst, const SkMask& src,

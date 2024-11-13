@@ -1,4 +1,4 @@
-From 12f53fb98530441d6612b06f07db77db9de2eaf9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ashish Kumar Gupta <kumarashishg@google.com>
 Date: Wed, 31 Jul 2024 16:02:29 +0000
 Subject: [PATCH] Set no data transfer on function switch timeout for accessory
@@ -23,10 +23,10 @@ Change-Id: I698e9df0333cbb51dd9bd5917a94d81273a2784a
  1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/services/usb/java/com/android/server/usb/UsbDeviceManager.java b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
-index a7a51a151b973..8a6731e2e5ee6 100644
+index a7a51a151b97..8a6731e2e5ee 100644
 --- a/services/usb/java/com/android/server/usb/UsbDeviceManager.java
 +++ b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
-@@ -659,7 +659,7 @@ private void updateCurrentAccessory() {
+@@ -659,7 +659,7 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
              }
          }
  
@@ -35,7 +35,7 @@ index a7a51a151b973..8a6731e2e5ee6 100644
              // make sure accessory mode is off
              // and restore default functions
              Slog.d(TAG, "exited USB accessory mode");
-@@ -1791,8 +1791,13 @@ public void handleMessage(Message msg) {
+@@ -1791,8 +1791,13 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
                       * Dont force to default when the configuration is already set to default.
                       */
                      if (msg.arg1 != 1) {

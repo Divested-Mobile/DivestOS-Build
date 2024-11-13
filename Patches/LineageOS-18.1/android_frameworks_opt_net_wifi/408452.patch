@@ -1,8 +1,7 @@
-From 77dbe1a766a8207f7039b9b55643599e2210b0da Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Nate Jiang <qiangjiang@google.com>
 Date: Thu, 8 Aug 2024 18:13:39 +0000
-Subject: [PATCH] [BACKPORT] Fix security issue by change the field in
- WifiConfig
+Subject: [PATCH] Fix security issue by change the field in WifiConfig
 
 Flag: EXEMPT bugfix
 Bug: 347912017
@@ -18,7 +17,7 @@ Change-Id: I8998340ae557660036895dd906808d682b83c6f0
  1 file changed, 71 insertions(+), 1 deletion(-)
 
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index ffa9facf55..6b942735b5 100644
+index ffa9facf5..6b942735b 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 @@ -63,6 +63,11 @@ public class WifiConfigurationUtil {
@@ -33,7 +32,7 @@ index ffa9facf55..6b942735b5 100644
  
      @VisibleForTesting
      public static final String PASSWORD_MASK = "*";
-@@ -597,7 +602,8 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
+@@ -597,7 +602,8 @@ public class WifiConfigurationUtil {
          if (!validateSsid(config.SSID, isAdd)) {
              return false;
          }
@@ -43,7 +42,7 @@ index ffa9facf55..6b942735b5 100644
              return false;
          }
          if (!validateBitSets(config)) {
-@@ -606,6 +612,12 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
+@@ -606,6 +612,12 @@ public class WifiConfigurationUtil {
          if (!validateKeyMgmt(config.allowedKeyManagement)) {
              return false;
          }
@@ -56,7 +55,7 @@ index ffa9facf55..6b942735b5 100644
          if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK)
                  && !validatePassword(config.preSharedKey, isAdd, false, false)) {
              return false;
-@@ -651,6 +663,64 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
+@@ -651,6 +663,64 @@ public class WifiConfigurationUtil {
          return true;
      }
  
