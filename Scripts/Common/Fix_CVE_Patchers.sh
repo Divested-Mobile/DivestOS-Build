@@ -53,7 +53,7 @@ commentPatches android_kernel_fxtec_msm8998.sh "0008-Graphene-Kernel_Hardening-s
 commentPatches android_kernel_fxtec_sm6115.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_google_bonito.sh "CVE-2020-0067";
 commentPatches android_kernel_google_coral.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-30324";
-commentPatches android_kernel_google_dragon.sh "0006-AndroidHardening-Kernel_Hardening/3.18/0026.patch" "0008-Graphene-Kernel_Hardening-ro" "CVE-2015-4167" "CVE-2017-15951" "CVE-2016-1237" "CVE-2016-6198" "CVE-2017-7374" "CVE-2018-17972" "CVE-2019-2214" "CVE-2021-39715/ANY/0001.patch" "CVE-2024-46777";
+commentPatches android_kernel_google_dragon.sh "0006-AndroidHardening-Kernel_Hardening/3.18/0026.patch" "0008-Graphene-Kernel_Hardening-ro" "CVE-2015-4167" "CVE-2017-15951" "CVE-2016-1237" "CVE-2016-6198" "CVE-2017-7374" "CVE-2018-17972" "CVE-2019-2214" "CVE-2021-39715/ANY/0001.patch" "CVE-2024-46777" "CVE-2024-50143" "CVE-2022-48946";
 commentPatches android_kernel_google_crosshatch.sh "CVE-2020-0067";
 commentPatches android_kernel_google_gs101_private_gs-google.sh "CVE-2021-29648/^5.11/0001.patch" "CVE-2023-6817/5.10/0002.patch" "CVE-2023-52462/5.10/0002.patch" "CVE-2023-52672" "CVE-2024-26733/5.10/0002.patch" "CVE-2023-52656/5.10" "CVE-2024-26882" "CVE-2024-38564" "CVE-2022-48862" "CVE-2024-46681" "CVE-2024-46826" "CVE-2022-48961";
 commentPatches android_kernel_google_gs201_private_gs-google.sh "CVE-2021-29648/^5.11/0001.patch" "CVE-2023-6817/5.10/0002.patch" "CVE-2023-52462/5.10/0002.patch" "CVE-2023-52672" "CVE-2024-26733/5.10/0002.patch" "CVE-2023-52656/5.10" "CVE-2024-26882" "CVE-2024-38564" "CVE-2022-48862" "CVE-2024-46681" "CVE-2024-46826" "CVE-2022-48961";
