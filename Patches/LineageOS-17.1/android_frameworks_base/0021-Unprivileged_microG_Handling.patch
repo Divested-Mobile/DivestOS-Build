@@ -81,7 +81,7 @@ index a84d23b624bf..1ab293758ee7 100644
  
      <!-- This string array can be overriden to enable test location providers initially. -->
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 32b022455451..568cdcac1d47 100644
+index 9a4edcc5ea39..4e06b9a23624 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -4203,8 +4203,20 @@ public class PackageManagerService extends IPackageManager.Stub

@@ -33,7 +33,7 @@ index 4cd4452d0..6e9845fc6 100644
                  case IMAGES_MEDIA_ID:
                  case DOWNLOADS_ID:
 +                    // Check if the caller has the required permissions to do placement
-+                    enforceCallingPermission(uri, extras, true);
++                    enforceCallingPermission(uri, true);
                      break;
                  default:
                      throw new IllegalArgumentException("Movement of " + uri

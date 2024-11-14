@@ -69,10 +69,10 @@ index fce5758e1..817fb2958 100644
      }
  
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index b8992a011..f47f42d1b 100644
+index 98d2cb31a..3830ee286 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-@@ -242,7 +242,7 @@ public class WifiConfigurationUtil {
+@@ -247,7 +247,7 @@ public class WifiConfigurationUtil {
      public static boolean hasMacRandomizationSettingsChanged(WifiConfiguration existingConfig,
              WifiConfiguration newConfig) {
          if (existingConfig == null) {

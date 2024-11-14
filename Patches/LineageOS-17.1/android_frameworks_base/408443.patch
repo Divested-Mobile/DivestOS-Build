@@ -1,4 +1,4 @@
-From 3651d27fdb579b51ea8a9b12fc18ca6e495566da Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Dementyev <dementyev@google.com>
 Date: Tue, 2 Jul 2024 11:02:07 -0700
 Subject: [PATCH] Remove authenticator data if it was disabled.
@@ -15,10 +15,10 @@ Change-Id: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
  1 file changed, 4 insertions(+)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index fb79904a5b3a8..5718071c2bc4e 100644
+index e8c8b32884e9..f99e82f74f6e 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -1165,6 +1165,10 @@ private void validateAccountsInternal(
+@@ -1165,6 +1165,10 @@ public class AccountManagerService
                              obsoleteAuthType.add(type);
                              // And delete it from the TABLE_META
                              accountsDb.deleteMetaByAuthTypeAndUid(type, uid);

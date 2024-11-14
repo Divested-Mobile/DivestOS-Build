@@ -1,4 +1,4 @@
-From ddc8e8afabfd0956ddd646f57e7b10670a9309a8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: lpeter <lpeter@google.com>
 Date: Tue, 6 Aug 2024 09:22:12 +0000
 Subject: [PATCH] Disallow device admin package and protected packages to be
@@ -21,10 +21,10 @@ Change-Id: I4e913a12477fd4a64990033eaae533e30863e2a2
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 893268da7f361..19245c4f7e0f9 100644
+index 893268da7f36..19245c4f7e0f 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -14284,6 +14284,9 @@ public int installExistingPackageAsUser(String packageName, int userId, int inst
+@@ -14284,6 +14284,9 @@ public class PackageManagerService extends IPackageManager.Stub
                      (installFlags & PackageManager.INSTALL_INSTANT_APP) != 0;
              final boolean fullApp =
                      (installFlags & PackageManager.INSTALL_FULL_APP) != 0;
@@ -34,7 +34,7 @@ index 893268da7f361..19245c4f7e0f9 100644
  
              // writer
              synchronized (mPackages) {
-@@ -14291,7 +14294,8 @@ public int installExistingPackageAsUser(String packageName, int userId, int inst
+@@ -14291,7 +14294,8 @@ public class PackageManagerService extends IPackageManager.Stub
                  if (pkgSetting == null) {
                      return PackageManager.INSTALL_FAILED_INVALID_URI;
                  }

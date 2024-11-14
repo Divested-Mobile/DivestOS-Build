@@ -174,7 +174,7 @@ git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/15/3
 fi;
 
 if enterAndClear "external/skia"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_skia/408442.patch"; #R_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/408442.patch"; #R_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -415,7 +415,7 @@ if enterAndClear "frameworks/opt/net/wifi"; then
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/352562.patch"; #Q_asb_2023-03 Revert "wifi: remove certificates for network factory reset"
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/355360.patch"; #Q_asb_2023-04 Revert "Revert "wifi: remove certificates for network factory reset""
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/378139.patch"; #Q_asb_2023-07 Limit the number of Passpoint per App
-applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/408452-backport.patch"; #Q_asb_2024-11 Fix security issue by change the field in WifiConfig
+applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/408452-backport.patch"; #R_asb_2024-11 Fix security issue by change the field in WifiConfig
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0002-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -612,7 +612,7 @@ applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/355362.patch";
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378137.patch"; #Q_asb_2023-09 Canonicalize file path for insertion by legacy apps
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378138.patch"; #Q_asb_2023-10 Fix path traversal vulnerabilities in MediaProvider
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/399090.patch"; #Q_asb_2024-07 Prevent insertion in other users storage volumes
-applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/408453-backport.patch"; #Q_asb_2024-11
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/408453-backport.patch"; #R_asb_2024-11
 fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then

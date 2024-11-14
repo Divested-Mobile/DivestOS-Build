@@ -1,8 +1,7 @@
-From 371cf5203e1140ba416a248ed626413257bac87d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Fan Wu <cechkahn@google.com>
 Date: Mon, 22 Jul 2024 16:12:46 +0800
-Subject: [PATCH] [BACKPORT] Checks cross user permission before handling
- intent
+Subject: [PATCH] Checks cross user permission before handling intent
 
 Bug: 326057017
 
@@ -21,7 +20,7 @@ diff --git a/src/com/android/settings/applications/AppInfoBase.java b/src/com/an
 index f8ed315bfd5..549ecbdd61e 100644
 --- a/src/com/android/settings/applications/AppInfoBase.java
 +++ b/src/com/android/settings/applications/AppInfoBase.java
-@@ -18,7 +18,9 @@
+@@ -18,7 +18,9 @@ package com.android.settings.applications;
  
  import static com.android.settingslib.RestrictedLockUtils.EnforcedAdmin;
  
@@ -31,7 +30,7 @@ index f8ed315bfd5..549ecbdd61e 100644
  import android.app.AlertDialog;
  import android.app.Dialog;
  import android.app.DialogFragment;
-@@ -37,6 +39,7 @@
+@@ -37,6 +39,7 @@ import android.os.IBinder;
  import android.os.ServiceManager;
  import android.os.UserHandle;
  import android.os.UserManager;
@@ -39,7 +38,7 @@ index f8ed315bfd5..549ecbdd61e 100644
  import android.text.TextUtils;
  import android.util.Log;
  
-@@ -134,8 +137,13 @@ protected String retrieveAppEntry() {
+@@ -134,8 +137,13 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
              }
          }
          if (intent != null && intent.hasExtra(Intent.EXTRA_USER_HANDLE)) {
@@ -55,7 +54,7 @@ index f8ed315bfd5..549ecbdd61e 100644
          } else {
              mUserId = UserHandle.myUserId();
          }
-@@ -158,6 +166,32 @@ protected String retrieveAppEntry() {
+@@ -158,6 +166,32 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
          return mPackageName;
      }
  

@@ -1,4 +1,4 @@
-From ed3e90e0c1ff4f2a2b0e893ac354ef92503210f4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jean-Michel Trivi <jmtrivi@google.com>
 Date: Mon, 24 Jun 2024 17:29:14 -0700
 Subject: [PATCH] RingtoneManager: allow video ringtone URI
@@ -17,10 +17,10 @@ Change-Id: Iac9f27f14bae29e0fabc31e05da2357f6f4f16c7
  2 files changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/media/java/android/media/RingtoneManager.java b/media/java/android/media/RingtoneManager.java
-index 0e03bfb2502a4..7a27b03fd731d 100644
+index 0e03bfb2502a..7a27b03fd731 100644
 --- a/media/java/android/media/RingtoneManager.java
 +++ b/media/java/android/media/RingtoneManager.java
-@@ -851,9 +851,13 @@ public static void setActualDefaultRingtoneUri(Context context, int type, Uri ri
+@@ -851,9 +851,13 @@ public class RingtoneManager {
                          + " ignored: failure to find mimeType (no access from this context?)");
                  return;
              }
@@ -37,10 +37,10 @@ index 0e03bfb2502a4..7a27b03fd731d 100644
              }
          }
 diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
-index b65b612ecad5c..1cef725241222 100644
+index b65b612ecad5..1cef72524122 100644
 --- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
 +++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
-@@ -1497,7 +1497,7 @@ private boolean mutateSystemSetting(String name, String value, int runAsUserId,
+@@ -1497,7 +1497,7 @@ public class SettingsProvider extends ContentProvider {
              cacheName = Settings.System.ALARM_ALERT_CACHE;
          }
          if (cacheName != null) {
@@ -49,7 +49,7 @@ index b65b612ecad5c..1cef725241222 100644
                  return false;
              }
              final File cacheFile = new File(
-@@ -1532,7 +1532,7 @@ owningUserId, name, value, null, false, getCallingPackage(),
+@@ -1532,7 +1532,7 @@ public class SettingsProvider extends ContentProvider {
          }
      }
  
@@ -58,7 +58,7 @@ index b65b612ecad5c..1cef725241222 100644
          if (uri != null) {
              Uri audioUri = Uri.parse(uri);
              if (Settings.AUTHORITY.equals(
-@@ -1550,10 +1550,13 @@ private boolean isValidAudioUri(String name, String uri) {
+@@ -1550,10 +1550,13 @@ public class SettingsProvider extends ContentProvider {
                  return false;
              }
              if (!(mimeType.startsWith("audio/") || mimeType.equals("application/ogg")
