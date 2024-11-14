@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Omar Eissa <oeissa@google.com>
+Date: Tue, 27 Aug 2024 13:24:21 +0000
+Subject: [PATCH] Prevent apps from renaming files they don't own
+
+Malicious apps could rename files in lower file system using
+MediaProvider.update even if they don't have access to such files. They
+weren't able to update the DB of MediaProvider, but by renaming such
+files they could create fake records in MediaProvider DB and then rename
+the file to have the same name as their created record, which would
+allow them to access these files.
+
+IMAGES_MEDIA_ID, AUDIO_MEDIA_ID and VIDEO_MEDIA_ID URIs were already
+guaraded against this vulnerability and the aim of this fix to fix it
+for all other Media URIs.
+
+Bug: 304280682
+Flag: EXEMPT bug fix
+Test: Manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:191ae46fed057cb96f78d8f140f90f0cec50a797)
+Merged-In: I91e9966c012fe292cebc0b544f77032613516fac
+Change-Id: I91e9966c012fe292cebc0b544f77032613516fac
+---
+ src/com/android/providers/media/MediaProvider.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index 4cd4452d0..6e9845fc6 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -4713,6 +4713,8 @@ public class MediaProvider extends ContentProvider {
+                 case VIDEO_MEDIA_ID:
+                 case IMAGES_MEDIA_ID:
+                 case DOWNLOADS_ID:
++                    // Check if the caller has the required permissions to do placement
++                    enforceCallingPermission(uri, extras, true);
+                     break;
+                 default:
+                     throw new IllegalArgumentException("Movement of " + uri

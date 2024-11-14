@@ -1,0 +1,122 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nate Jiang <qiangjiang@google.com>
+Date: Thu, 8 Aug 2024 18:13:39 +0000
+Subject: [PATCH] Fix security issue by change the field in WifiConfig
+
+Flag: EXEMPT bugfix
+Bug: 347912017
+Bug: 348352288
+Bug: 346289032
+Test: atest com.android.server.wifi
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:eca3f190d2a5b6b634224863f5ee5f584babd0dc)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0597dc97b34e1d1609c1e33f9b6e524474a94144)
+Merged-In: I8998340ae557660036895dd906808d682b83c6f0
+Change-Id: I8998340ae557660036895dd906808d682b83c6f0
+---
+ .../server/wifi/WifiConfigurationUtil.java    | 72 ++++++++++++++++++-
+ 1 file changed, 71 insertions(+), 1 deletion(-)
+
+diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
+index b8992a011..98d2cb31a 100644
+--- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
++++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
+@@ -82,6 +82,11 @@ public class WifiConfigurationUtil {
+     private static final int SAE_ASCII_MIN_LEN = 1 + ENCLOSING_QUOTES_LEN;
+     private static final int PSK_SAE_ASCII_MAX_LEN = 63 + ENCLOSING_QUOTES_LEN;
+     private static final int PSK_SAE_HEX_LEN = 64;
++    private static final int MAX_STRING_LENGTH = 512;
++
++    // BACKPORT
++    private static final int MAX_NUMBER_OF_OI = 36;
++    private static final long MAX_OI_VALUE = ((long) 1 << 40)  - 1;
+     @VisibleForTesting
+     public static final String PASSWORD_MASK = "*";
+     private static final String MATCH_EMPTY_SSID_PATTERN_PATH = "";
+@@ -688,7 +693,8 @@ public class WifiConfigurationUtil {
+         if (!validateSsid(config.SSID, isAdd)) {
+             return false;
+         }
+-        if (!validateBssid(config.BSSID)) {
++        if (!validateBssid(config.BSSID) || !validateBssid(config.dhcpServer)
++                || !validateBssid(config.defaultGwMacAddress)) {
+             return false;
+         }
+         if (!validateBitSets(config)) {
+@@ -697,6 +703,12 @@ public class WifiConfigurationUtil {
+         if (!validateKeyMgmt(config.allowedKeyManagement)) {
+             return false;
+         }
++        if (!validatePasspoint(config)) {
++            return false;
++        }
++        if (!validateNetworkSelectionStatus(config.getNetworkSelectionStatus())) {
++            return false;
++        }
+         if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK)
+                 && !validatePassword(config.preSharedKey, isAdd, false)) {
+             return false;
+@@ -732,6 +744,64 @@ public class WifiConfigurationUtil {
+         return true;
+     }
+ 
++    private static boolean validateStringField(String field, int maxLength) {
++        return field == null || field.length() <= maxLength;
++    }
++
++    private static boolean validatePasspoint(WifiConfiguration config) {
++        if (!validateStringField(config.FQDN, 255)) {
++            return false;
++        }
++        if (!validateStringField(config.providerFriendlyName, 255)) {
++            return false;
++        }
++        if (!validateRoamingConsortiumIds(config.roamingConsortiumIds)) {
++            return false;
++        }
++        if (!validateUpdateIdentifier(config.updateIdentifier)) {
++            return false;
++        }
++        return true;
++    }
++
++    private static boolean validateUpdateIdentifier(String updateIdentifier) {
++        if (TextUtils.isEmpty(updateIdentifier)) {
++            return true;
++        }
++        try {
++            Integer.valueOf(updateIdentifier);
++        } catch (NumberFormatException e) {
++            return false;
++        }
++        return true;
++    }
++
++    private static boolean validateNetworkSelectionStatus(
++            WifiConfiguration.NetworkSelectionStatus status) {
++        if (status == null) {
++            return false;
++        }
++        return validateStringField(status.getConnectChoice(), MAX_STRING_LENGTH)
++                    && validateBssid(status.getNetworkSelectionBSSID());
++    }
++
++    private static boolean validateRoamingConsortiumIds(long[] roamingConsortiumIds) {
++        if (roamingConsortiumIds != null) {
++            if (roamingConsortiumIds.length > MAX_NUMBER_OF_OI) {
++                Log.d(TAG, "too many Roaming Consortium Organization Identifiers in the "
++                        + "profile");
++                return false;
++            }
++            for (long oi : roamingConsortiumIds) {
++                if (oi < 0 || oi > MAX_OI_VALUE) {
++                    Log.d(TAG, "Organization Identifiers is out of range");
++                    return false;
++                }
++            }
++        }
++        return true;
++    }
++
+     private static boolean validateBssidPattern(
+             Pair<MacAddress, MacAddress> bssidPatternMatcher) {
+         if (bssidPatternMatcher == null) return true;

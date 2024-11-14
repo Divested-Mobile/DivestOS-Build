@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-10
+sed -i 's/2023-02-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-11
 fi;
 
 if enterAndClear "build/soong"; then
@@ -171,6 +171,10 @@ git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/87/3
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/88/378088/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/14/378314/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/15/378315/1 && git cherry-pick FETCH_HEAD;
+fi;
+
+if enterAndClear "external/skia"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_skia/408442.patch"; #R_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -331,6 +335,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/403301.patch"; #Q_asb_2024-09 S
 applyPatch "$DOS_PATCHES/android_frameworks_base/405515.patch"; #R_asb_2024-10 Update AccountManagerService checkKeyIntent.
 applyPatch "$DOS_PATCHES/android_frameworks_base/405516.patch"; #R_asb_2024-10 Fail parseUri if end is missing
 applyPatch "$DOS_PATCHES/android_frameworks_base/405518.patch"; #R_asb_2024-10 Check whether installerPackageName contains only valid characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/408443.patch"; #R_asb_2024-11 Remove authenticator data if it was disabled.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408444.patch"; #R_asb_2024-11 RingtoneManager: allow video ringtone URI
+applyPatch "$DOS_PATCHES/android_frameworks_base/408446-backport.patch"; #R_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408447.patch"; #R_asb_2024-11 Clear app-provided shortcut icons
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -407,6 +415,7 @@ if enterAndClear "frameworks/opt/net/wifi"; then
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/352562.patch"; #Q_asb_2023-03 Revert "wifi: remove certificates for network factory reset"
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/355360.patch"; #Q_asb_2023-04 Revert "Revert "wifi: remove certificates for network factory reset""
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/378139.patch"; #Q_asb_2023-07 Limit the number of Passpoint per App
+applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/408452-backport.patch"; #Q_asb_2024-11 Fix security issue by change the field in WifiConfig
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0002-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -534,6 +543,8 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403303.patch"; #Q_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403304.patch"; #Q_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/403305.patch"; #Q_asb_2024-09 Restrict Settings Homepage prior to provisioning
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405534.patch"; #R_asb_2024-10 FRP bypass defense in App battery usage page
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408450.patch"; #R_asb_2024-11 startActivityForResult with new Intent
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408451.patch"; #R_asb_2024-11 Checks cross user permission before handling intent
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -601,6 +612,7 @@ applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/355362.patch";
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378137.patch"; #Q_asb_2023-09 Canonicalize file path for insertion by legacy apps
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/378138.patch"; #Q_asb_2023-10 Fix path traversal vulnerabilities in MediaProvider
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/399090.patch"; #Q_asb_2024-07 Prevent insertion in other users storage volumes
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/408453-backport.patch"; #Q_asb_2024-11
 fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then
