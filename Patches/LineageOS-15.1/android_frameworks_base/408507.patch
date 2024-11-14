@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 2 Jul 2024 11:02:07 -0700
+Subject: [PATCH] Remove authenticator data if it was disabled.
+
+Test: manual
+Bug: 343440463
+Flag: EXEMPT bugfix
+(cherry picked from commit ddfc078af7e89641360b896f99af23a6b371b847)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c2660dcf7fca3f652528d219767f65858bbbe622)
+Merged-In: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
+Change-Id: I36bd6bf101da03c9c30a6d3c0080b801e7898bc6
+---
+ .../com/android/server/accounts/AccountManagerService.java    | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 95fd335bc11c..d1e032ccc760 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -1155,6 +1155,10 @@ public class AccountManagerService
+                             obsoleteAuthType.add(type);
+                             // And delete it from the TABLE_META
+                             accountsDb.deleteMetaByAuthTypeAndUid(type, uid);
++                        } else if (knownUid != null && knownUid != uid) {
++                            Slog.w(TAG, "authenticator no longer exist for type " + type);
++                            obsoleteAuthType.add(type);
++                            accountsDb.deleteMetaByAuthTypeAndUid(type, uid);
+                         }
+                     }
+                 }

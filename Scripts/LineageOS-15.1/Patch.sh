@@ -76,7 +76,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-10-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -152,6 +152,10 @@ fi;
 
 if enterAndClear "external/libxml2"; then
 applyPatch "$DOS_PATCHES/android_external_libxml2/368053.patch"; #R_asb_2023-10 malloc-fail: Fix OOB read after xmlRegGetCounter
+fi;
+
+if enterAndClear "external/skia"; then
+applyPatch "$DOS_PATCHES/android_external_skia/408506.patch"; #P_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -279,6 +283,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/399770.patch"; #P_asb_2024-08 H
 applyPatch "$DOS_PATCHES/android_frameworks_base/401373-backport.patch"; #S_asb_2024-09 Sanitized uri scheme by removing scheme delimiter
 applyPatch "$DOS_PATCHES/android_frameworks_base/405829-backport.patch"; #P_asb_2024-10 Update AccountManagerService checkKeyIntent.
 applyPatch "$DOS_PATCHES/android_frameworks_base/405830.patch"; #P_asb_2024-10 Fail parseUri if end is missing
+applyPatch "$DOS_PATCHES/android_frameworks_base/408507.patch"; #P_asb_2024-11 Remove authenticator data if it was disabled.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408508.patch"; #P_asb_2024-11 RingtoneManager: allow video ringtone URI
+applyPatch "$DOS_PATCHES/android_frameworks_base/408509.patch"; #P_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/408510.patch"; #P_asb_2024-11 Clear app-provided shortcut icons
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -435,6 +443,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/367639-backport.patch"; 
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401375-backport.patch"; #S_asb_2024-09 Limit wifi item edit content's max length to 500
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/401377-backport.patch"; #S_asb_2024-09 Ignore fragment attr from ext authenticator resource
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405832-backport.patch"; #P_asb_2024-10 FRP bypass defense in App battery usage page
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408511.patch"; #P_asb_2024-11 startActivityForResult with new Intent
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then

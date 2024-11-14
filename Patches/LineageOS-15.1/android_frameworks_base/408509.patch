@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: lpeter <lpeter@google.com>
+Date: Tue, 6 Aug 2024 09:22:12 +0000
+Subject: [PATCH] Disallow device admin package and protected packages to be
+ reinstalled as instant.
+
+We should prevent the following types of apps from being reinstalled with
+--install-existing as an instant.
+(1)device admin package
+(2)protected packages
+
+Flag: EXEMPT bugfix
+
+Bug: 341256043
+Test: Manual test
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:77c5ebbd2a83e060577dd584aed7802452339ca5)
+Merged-In: I4e913a12477fd4a64990033eaae533e30863e2a2
+Change-Id: I4e913a12477fd4a64990033eaae533e30863e2a2
+---
+ .../java/com/android/server/pm/PackageManagerService.java   | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index e2f257e1fce0..743d469a3078 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -15422,6 +15422,9 @@ public class PackageManagerService extends IPackageManager.Stub
+                     (installFlags & PackageManager.INSTALL_INSTANT_APP) != 0;
+             final boolean fullApp =
+                     (installFlags & PackageManager.INSTALL_FULL_APP) != 0;
++            final boolean isPackageDeviceAdmin = isPackageDeviceAdmin(packageName, userId);
++            final boolean isProtectedPackage = mProtectedPackages != null
++                    && mProtectedPackages.isPackageStateProtected(userId, packageName);
+ 
+             // writer
+             synchronized (mPackages) {
+@@ -15429,7 +15432,8 @@ public class PackageManagerService extends IPackageManager.Stub
+                 if (pkgSetting == null) {
+                     return PackageManager.INSTALL_FAILED_INVALID_URI;
+                 }
+-                if (instantApp && (pkgSetting.isSystem() || isUpdatedSystemApp(pkgSetting))) {
++                if (instantApp && (pkgSetting.isSystem() || isUpdatedSystemApp(pkgSetting)
++                        || isPackageDeviceAdmin || isProtectedPackage)) {
+                     return PackageManager.INSTALL_FAILED_INVALID_URI;
+                 }
+                 if (!canViewInstantApps(callingUid, UserHandle.getUserId(callingUid))) {

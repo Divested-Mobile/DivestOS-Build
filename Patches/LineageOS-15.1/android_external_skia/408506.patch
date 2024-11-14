@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Osman <brianosman@google.com>
+Date: Tue, 27 Aug 2024 14:22:52 -0400
+Subject: [PATCH] RESTRICT AUTOMERGE: Avoid potential overflow when allocating
+ 3D mask from emboss filter
+
+Note: the original fix landed after
+Iac8b937e516dbfbbcefef54360dd5b7300bacb67 introduced SkMaskBuilder, so
+this cherry-pick had to be tweaked to avoid conflicts. Unfortuantely
+that means we need RESTRICT AUTOMERGE to prevent this modified version
+from flowing through API boundaries into VIC, and we need to manually
+cherry-pick it to each API level.
+
+Bug: 344620577
+Test: N/A -- unclear if even reachable
+Reviewed-on: https://skia-review.googlesource.com/c/skia/+/893738
+Commit-Queue: Brian Osman <brianosman@google.com>
+Reviewed-by: Ben Wagner <bungeman@google.com>
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2bc38734eec777bf2574d4b38a7fd4fc05f0ecde)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:69fc79acf3f05f269c55069ba5e2fbd00e1a76b6)
+Merged-In: Ia35860371d45120baca63238e77faa5c0eb25d51
+Change-Id: Ia35860371d45120baca63238e77faa5c0eb25d51
+---
+ src/effects/SkEmbossMaskFilter.cpp | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/src/effects/SkEmbossMaskFilter.cpp b/src/effects/SkEmbossMaskFilter.cpp
+index 4caef9ef0b..5013089a83 100644
+--- a/src/effects/SkEmbossMaskFilter.cpp
++++ b/src/effects/SkEmbossMaskFilter.cpp
+@@ -78,11 +78,13 @@ bool SkEmbossMaskFilter::filterMask(SkMask* dst, const SkMask& src,
+ 
+     {
+         uint8_t* alphaPlane = dst->fImage;
+-        size_t   planeSize = dst->computeImageSize();
+-        if (0 == planeSize) {
+-            return false;   // too big to allocate, abort
++        size_t totalSize = dst->computeTotalImageSize();
++        if (totalSize == 0) {
++            return false;  // too big to allocate, abort
+         }
+-        dst->fImage = SkMask::AllocImage(planeSize * 3);
++        size_t planeSize = dst->computeImageSize();
++        SkASSERT(planeSize != 0);  // if totalSize didn't overflow, this can't either
++        dst->fImage = SkMask::AllocImage(totalSize);
+         memcpy(dst->fImage, alphaPlane, planeSize);
+         SkMask::FreeImage(alphaPlane);
+     }
