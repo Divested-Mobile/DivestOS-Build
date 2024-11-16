@@ -1164,6 +1164,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50179/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50180/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50186/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50201/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50218/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50229/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50230/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50234/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50237/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/4.9/0008.patch
@@ -1172,7 +1177,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
-editKernelLocalversion "-dos.p1172"
+editKernelLocalversion "-dos.p1177"
 else echo "kernel_samsung_exynos9810 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -546,6 +546,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50179/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50180/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50186/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50201/^6.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50218/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50229/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50230/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50234/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-50237/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
@@ -557,7 +562,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.14/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-43047-upstream/4.9/0009.patch
-editKernelLocalversion "-dos.p557"
+editKernelLocalversion "-dos.p562"
 else echo "kernel_google_msm-4.9 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
