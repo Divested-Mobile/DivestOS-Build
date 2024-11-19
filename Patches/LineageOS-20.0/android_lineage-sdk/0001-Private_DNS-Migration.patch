@@ -55,7 +55,7 @@ index 829a5e50..f16f2c7a 100644
 +                ConnectivitySettingsManager.setPrivateDnsMode(mContext,
 +                            ConnectivitySettingsManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME);
 +            } else if ("mullvad".equals(currentPrivateDnsMode)) {
-+                ConnectivitySettingsManager.setPrivateDnsHostname(mContext, "adblock.dns.mullvad.net");
++                ConnectivitySettingsManager.setPrivateDnsHostname(mContext, "base.dns.mullvad.net");
 +                ConnectivitySettingsManager.setPrivateDnsMode(mContext,
 +                            ConnectivitySettingsManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME);
 +            } else if ("quadnine".equals(currentPrivateDnsMode)) {

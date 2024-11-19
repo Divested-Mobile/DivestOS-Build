@@ -128,7 +128,7 @@ index 698965172f..444f2f9131 100644
 +    <string name="private_dns_hostname_google" translatable="false">dns.google</string>
 +
 +    <string name="private_dns_mode_mullvad" translatable="false">Mullvad (SE)</string>
-+    <string name="private_dns_hostname_mullvad" translatable="false">adblock.dns.mullvad.net</string>
++    <string name="private_dns_hostname_mullvad" translatable="false">base.dns.mullvad.net</string>
 +
 +    <string name="private_dns_mode_quadnine" translatable="false">Quad9 (CH)</string>
 +    <string name="private_dns_hostname_quadnine" translatable="false">dns.quad9.net</string>

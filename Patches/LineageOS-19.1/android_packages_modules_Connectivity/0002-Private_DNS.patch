@@ -146,7 +146,7 @@ index 9c8d08fb1..27263d2a4 100644
 +    /**
 +     * @hide
 +     */
-+    public static final String PRIVATE_DNS_SPECIFIER_MULLVAD = "adblock.doh.mullvad.net";
++    public static final String PRIVATE_DNS_SPECIFIER_MULLVAD = "base.dns.mullvad.net";
 +
 +    /**
 +     * @hide
