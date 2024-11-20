@@ -731,6 +731,7 @@ fixupCarrierConfigs() {
 	#Things we don't want
 	#Reference (BSD-3-Clause): https://github.com/GrapheneOS/carriersettings-extractor/blob/13/carriersettings_extractor.py
 	local ccLines="allow_adding_apns_bool|apn_expand_bool|hide_ims_apn_bool|hide_preset_apn_details_bool|hide_enable_2g_bool|gps.lpp_profile|gps.persist_lpp_mode_bool";
+	#TODO: carrier_default_wfc_ims_mode_int https://review.lineageos.org/c/LineageOS/android_device_fairphone_FP4/+/408874
 	sed -i -E "/($ccLines)/d" $pathsToFixup;
 	local ccArrays="read_only_apn_fields_string_array|read_only_apn_types_string_array";
 	sed -i -E "/("$ccArrays").*num=\"0\"/d" $pathsToFixup; #ugly hack because next line is very greedy
