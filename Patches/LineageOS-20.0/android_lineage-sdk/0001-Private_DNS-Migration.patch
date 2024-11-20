@@ -13,7 +13,7 @@ Change-Id: Ie3990a6e789be22da0c7771d85ad71034ed334eb
  1 file changed, 60 insertions(+)
 
 diff --git a/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java b/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
-index 829a5e50..f16f2c7a 100644
+index 829a5e50..60947b9f 100644
 --- a/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
 +++ b/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
 @@ -120,6 +120,66 @@ public class LineageDatabaseHelper extends SQLiteOpenHelper{

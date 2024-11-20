@@ -9,11 +9,11 @@ lockdownAllowlist can be either null or immutable, the latter case wasn't handle
 
 Change-Id: I62c2553c8877b946d7e7e1ca4ef113f963d3f8eb
 ---
- .../com/android/server/connectivity/Vpn.java  | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ .../com/android/server/connectivity/Vpn.java  | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
 diff --git a/services/core/java/com/android/server/connectivity/Vpn.java b/services/core/java/com/android/server/connectivity/Vpn.java
-index 8510de4ef201..b50df46e14dd 100644
+index 8510de4ef201..f444bc22a026 100644
 --- a/services/core/java/com/android/server/connectivity/Vpn.java
 +++ b/services/core/java/com/android/server/connectivity/Vpn.java
 @@ -47,9 +47,11 @@ import android.content.Intent;
@@ -52,7 +52,7 @@ index 8510de4ef201..b50df46e14dd 100644
 +        final String INVIZIBLE_PACKAGE_NAME = "pan.alexander.tordnscrypt.stable";
 +        final String TOR_VPN_PACKAGE_NAME = "org.torproject.vpn";
 +        final String TOR_SERVICES_PACKAGE_NAME = "org.torproject.services";
-+        if (ORBOT_PACKAGE_NAME.equals(packageName) || INVIZIBLE_PACKAGE_NAME.equals(packageName) || TOR_VPN_PACKAGE_NAME.equals(packageName) || TOR_SERVICES_PACKAGE_NAME.equals(packageName)) {
++        if (ORBOT_PACKAGE_NAME.equals(packageName) || TOR_VPN_PACKAGE_NAME.equals(packageName) || TOR_SERVICES_PACKAGE_NAME.equals(packageName)) {
 +            if (lockdownAllowlist == null) {
 +                lockdownAllowlist = new ArrayList<>();
 +                Log.i(TAG, "lockdown allowlist was null, created");
