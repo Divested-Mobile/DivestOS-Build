@@ -345,6 +345,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52843/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52880/^6.5/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52893/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52900/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52922/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-25739/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
@@ -458,7 +459,7 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
-editKernelLocalversion "-dos.p458"
+editKernelLocalversion "-dos.p459"
 else echo "kernel_samsung_exynos5420 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
