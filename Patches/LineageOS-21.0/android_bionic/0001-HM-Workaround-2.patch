@@ -10,10 +10,10 @@ Subject: [PATCH] disable hardened_malloc for surfaceflinger
  3 files changed, 5 insertions(+)
 
 diff --git a/libc/bionic/libc_init_dynamic.cpp b/libc/bionic/libc_init_dynamic.cpp
-index 7097a70b0..f83d24ea7 100644
+index 042d037a3..9f17fd16a 100644
 --- a/libc/bionic/libc_init_dynamic.cpp
 +++ b/libc/bionic/libc_init_dynamic.cpp
-@@ -87,6 +87,9 @@ static void init_prog_id(libc_globals* globals) {
+@@ -93,6 +93,9 @@ static void init_prog_id(libc_globals* globals) {
    if (IS("/apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2.7-service-google")) {
      prog_id = PROG_PIXEL_CAMERA_PROVIDER_SERVICE;
    }

@@ -11,10 +11,10 @@ Subject: [PATCH] support assigning ID to path of current executable
  4 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/libc/bionic/libc_init_dynamic.cpp b/libc/bionic/libc_init_dynamic.cpp
-index c61810e34..804e586e2 100644
+index 1180a513e..1135b805c 100644
 --- a/libc/bionic/libc_init_dynamic.cpp
 +++ b/libc/bionic/libc_init_dynamic.cpp
-@@ -72,6 +72,28 @@ extern "C" __attribute__((weak)) void __hwasan_library_unloaded(ElfW(Addr) base,
+@@ -78,6 +78,28 @@ extern "C" __attribute__((weak)) void __hwasan_library_unloaded(ElfW(Addr) base,
                                                                  const ElfW(Phdr)* phdr,
                                                                  ElfW(Half) phnum);
  
@@ -43,7 +43,7 @@ index c61810e34..804e586e2 100644
  // We need a helper function for __libc_preinit because compiling with LTO may
  // inline functions requiring a stack protector check, but __stack_chk_guard is
  // not initialized at the start of __libc_preinit. __libc_preinit_impl will run
-@@ -103,7 +125,10 @@ static void __libc_preinit_impl() {
+@@ -109,7 +131,10 @@ static void __libc_preinit_impl() {
  #endif
  
    // Hooks for various libraries to let them know that we're starting up.
@@ -70,7 +70,7 @@ index 2830a493d..5ce8f9103 100644
  
  #include <android/legacy_stdlib_inlines.h>
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 156e9ee32..5d87cd8ef 100644
+index 2c8ec0796..f5340c172 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -420,6 +420,7 @@ LIBC {
@@ -82,10 +82,10 @@ index 156e9ee32..5d87cd8ef 100644
      getauxval; # introduced-arm=18 introduced-arm64=21 introduced-x86=18 introduced-x86_64=21
      getc;
 diff --git a/libc/private/bionic_globals.h b/libc/private/bionic_globals.h
-index 8ea7d4d66..66f8d84b0 100644
+index 6f1e3895e..598918f09 100644
 --- a/libc/private/bionic_globals.h
 +++ b/libc/private/bionic_globals.h
-@@ -65,6 +65,7 @@ struct libc_globals {
+@@ -66,6 +66,7 @@ struct libc_globals {
    // limit is enabled and some other hook is enabled at the same time.
    _Atomic(const MallocDispatch*) default_dispatch_table;
    MallocDispatch malloc_dispatch_table;

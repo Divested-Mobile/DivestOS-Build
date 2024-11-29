@@ -69,7 +69,7 @@ applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Runtime_Control-3.patch"; #Suppo
 applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Workaround-1.patch"; #Disable hardened_malloc for Pixel camera provider service (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Workaround-2.patch"; #Disable hardened_malloc for surfaceflinger (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_bionic/0001-HM-No_GWP_ASan.patch"; #Never enable GWP-ASan (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-1.patch"; #Add a real explicit_bzero implementation (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-1.patch"; #Add a real explicit_bzero implementation (GrapheneOS) #TODO REBASE
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-2.patch"; #Replace brk and sbrk with stubs (GrapheneOS) #XXX: some vendor blobs use sbrk
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-3.patch"; #Use blocking getrandom and avoid urandom fallback (GrapheneOS) #XXX: some kernels do not have (working) getrandom
 applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-4.patch"; #Fix undefined out-of-bounds accesses in sched.h (GrapheneOS)

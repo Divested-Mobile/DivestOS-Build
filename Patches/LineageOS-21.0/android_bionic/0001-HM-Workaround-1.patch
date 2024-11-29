@@ -10,10 +10,10 @@ Subject: [PATCH] disable hardened_malloc for Pixel camera provider service
  3 files changed, 7 insertions(+)
 
 diff --git a/libc/bionic/libc_init_dynamic.cpp b/libc/bionic/libc_init_dynamic.cpp
-index 804e586e2..7097a70b0 100644
+index 1135b805c..042d037a3 100644
 --- a/libc/bionic/libc_init_dynamic.cpp
 +++ b/libc/bionic/libc_init_dynamic.cpp
-@@ -84,6 +84,9 @@ static void init_prog_id(libc_globals* globals) {
+@@ -90,6 +90,9 @@ static void init_prog_id(libc_globals* globals) {
  
  #define IS(prog) (!strcmp(exe_path, prog))
  

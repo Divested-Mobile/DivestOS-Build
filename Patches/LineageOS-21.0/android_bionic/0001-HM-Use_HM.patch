@@ -16,10 +16,10 @@ Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
  create mode 100644 libc/bionic/h_malloc_wrapper.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 71d8ee556..13cefe94f 100644
+index 68155b1db..a5f87c3a2 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -76,6 +76,8 @@ libc_common_flags = [
+@@ -48,6 +48,8 @@ libc_common_flags = [
      // ever touch 0, 1, or 2 bytes into a call to memset, which was never going
      // to amortize.)
      "-fno-builtin",
@@ -28,7 +28,7 @@ index 71d8ee556..13cefe94f 100644
  ]
  
  // Define some common cflags
-@@ -159,13 +161,30 @@ libc_scudo_product_variables = {
+@@ -131,13 +133,30 @@ libc_scudo_product_variables = {
  // ========================================================
  cc_defaults {
      name: "libc_native_allocator_defaults",
@@ -64,7 +64,7 @@ index 71d8ee556..13cefe94f 100644
  }
  
  // Functions not implemented by jemalloc directly, or that need to
-@@ -173,12 +192,20 @@ cc_defaults {
+@@ -145,12 +164,20 @@ cc_defaults {
  cc_library_static {
      name: "libc_jemalloc_wrapper",
      defaults: ["libc_defaults"],
