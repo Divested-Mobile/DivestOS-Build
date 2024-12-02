@@ -502,6 +502,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27436/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-31076/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33014/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33053/video-driver/0001.patch --directory=techpack/video
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-33060/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-34027/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35789/4.19/0002.patch
@@ -861,13 +862,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53060/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53061/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53066/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53101/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53103/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53104/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p867"
+editKernelLocalversion "-dos.p870"
 else echo "kernel_google_redbull is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
