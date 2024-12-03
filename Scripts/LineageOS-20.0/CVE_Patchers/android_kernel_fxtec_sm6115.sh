@@ -639,13 +639,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53066/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53101/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53103/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53104/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-53112/^6.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-42104/4.19/0002.patch
-editKernelLocalversion "-dos.p645"
+editKernelLocalversion "-dos.p646"
 else echo "kernel_fxtec_sm6115 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
