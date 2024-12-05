@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 umask 0022;
 
-#Last verified: 2022-10-15
+#Last verified: 2024-12-05
 
 patchAllKernels() {
 	startPatcher "kernel_google_wahoo";
@@ -51,15 +51,15 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#frontloaded for testing
-	buildDevice bluejay avb;
 	buildDevice taimen avb;
 
 	#SD835
 	buildDevice walleye avb;
 
-	#Tensor
+	#Tensor #TODO: inline kernel building
 	buildDevice oriole avb;
 	buildDevice raven avb;
+	buildDevice bluejay avb;
 	buildDevice panther avb;
 	buildDevice cheetah avb;
 	buildDevice lynx avb;

@@ -374,7 +374,7 @@ processRelease() {
 		"${APK_SWITCHES_EXTRA[@]}" \
 		"${APEX_SWITCHES[@]}" \
 		"${VERITY_SWITCHES[@]}" \
-		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
+		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files*.zip \
 		"$OUT_DIR/$PREFIX-target_files.zip";
 	sha512sum "$OUT_DIR/$PREFIX-target_files.zip" > "$OUT_DIR/$PREFIX-target_files.zip.sha512sum";
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');

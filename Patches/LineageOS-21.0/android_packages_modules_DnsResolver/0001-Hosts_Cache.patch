@@ -168,7 +168,7 @@ index 00000000..a40fb403
 +{
 +    size_t alen = hstrlen(a);
 +    size_t blen = hstrlen(b);
-+    int res = strncmp(a, b, MIN(alen, blen));
++    int res = strncmp(a, b, std::min(alen, blen));
 +    if (res == 0)
 +        res = alen - blen;
 +    return res;
