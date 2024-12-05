@@ -139,7 +139,7 @@ index 475859fbc2e5..0ad5485ee643 100644
  import com.android.permission.persistence.RuntimePermissionsState;
  import com.android.server.LocalServices;
  import com.android.server.backup.PreferredActivityBackupHelper;
-++import com.android.server.ext.PackageManagerHooks;
++import com.android.server.ext.PackageManagerHooks;
  import com.android.server.pm.Installer.InstallerException;
  import com.android.server.pm.parsing.PackageInfoUtils;
  import com.android.server.pm.permission.LegacyPermissionDataProvider;

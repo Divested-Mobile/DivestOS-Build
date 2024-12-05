@@ -140,16 +140,16 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don'
 applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0005-User_Logout.patch"; #Enable secondary user logout support by default (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0005-User_Logout-a1.patch"; #Fix DevicePolicyManager#logoutUser() never succeeding (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-1.patch"; #Support new special runtime permissions (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-2.patch"; #Make INTERNET into a special runtime permission (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-3.patch"; #Add special runtime permission for other sensors (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-1.patch"; #Support new special runtime permissions (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-2.patch"; #Make INTERNET into a special runtime permission (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-3.patch"; #Add special runtime permission for other sensors (GrapheneOS) #TODO: 21REBASE
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-4.patch"; #Infrastructure for spoofing self permission checks (GrapheneOS) #TODO: 21REBASE
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-5.patch"; #App-side infrastructure for special runtime permissions (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-6.patch"; #Improve compatibility of INTERNET special runtime permission (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-7.patch"; #Mark UserHandle#get{Uid, UserId} as module SystemApi (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-8.patch"; #Improve compatibility with revoked INTERNET in DownloadManager (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-9.patch"; #Ignore pid when spoofing permission checks (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-10.patch"; #srt permissions: don't auto-grant denied ones when permissions are reset (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-5.patch"; #App-side infrastructure for special runtime permissions (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-6.patch"; #Improve compatibility of INTERNET special runtime permission (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-7.patch"; #Mark UserHandle#get{Uid, UserId} as module SystemApi (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-8.patch"; #Improve compatibility with revoked INTERNET in DownloadManager (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-9.patch"; #Ignore pid when spoofing permission checks (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-10.patch"; #srt permissions: don't auto-grant denied ones when permissions are reset (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-System_Server_Extensions.patch"; #Timeout for Bluetooth (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-WiFi_Timeout.patch"; #Timeout for Wi-Fi (GrapheneOS)
@@ -186,12 +186,12 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0031-appops_reset_fix-1.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0031-appops_reset_fix-2.patch"; #appops: skip ops for invalid null package during state serialization (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0032-SUPL_Toggle.patch"; #Add a setting for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0033-Ugly_Orbot_Workaround.patch"; #Always add Briar and Tor Browser to Orbot's lockdown allowlist (CalyxOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0034-Allow_Disabling_NTP.patch"; #Dont ping ntp server when nitz time update is toggled off (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0034-Allow_Disabling_NTP.patch"; #Dont ping ntp server when nitz time update is toggled off (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_frameworks_base/0036-Unprivileged_microG_Handling.patch"; #Unprivileged microG handling (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0037-filter-gms.patch"; #Filter select package queries for GMS (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0038-no-camera-lpad.patch"; #Do not auto-grant Camera permission to the eUICC LPA UI app (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0039-package_hooks.patch"; #Add hooks for modifying PackageManagerService behavior (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0040-euicc-restrictions.patch"; #Integrate Google's EuiccSupportPixel package (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0039-package_hooks.patch"; #Add hooks for modifying PackageManagerService behavior (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0040-euicc-restrictions.patch"; #Integrate Google's EuiccSupportPixel package (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_frameworks_base/0041-tile_restrictions.patch"; #SystemUI: Require unlocking to use sensitive QS tiles (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0042-minimal_screenshot_exif.patch"; #Put bare minimum metadata in screenshots (CalyxOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0008-No_Crash_GSF.patch"; #Don't crash apps that depend on missing Gservices provider (GrapheneOS)
@@ -211,9 +211,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_libs_systemui/0001-Icon_Cache.patch"
 fi;
 
 #if enterAndClear "frameworks/native"; then
-#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-1.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-2.patch"; #Protect step sensors with OTHER_SENSORS permission for targetSdk<29 apps (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-3.patch"; #Exempt system processes from OTHER_SENSORS permission enforcement (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-1.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-2.patch"; #Protect step sensors with OTHER_SENSORS permission for targetSdk<29 apps (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-3.patch"; #Exempt system processes from OTHER_SENSORS permission enforcement (GrapheneOS) #TODO: 21REBASE
 #fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
@@ -255,7 +255,7 @@ applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8350.patch"; 
 fi;
 
 if enterAndClear "libcore"; then
-#applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Don't throw SecurityException when INTERNET permission is revoked (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Don't throw SecurityException when INTERNET permission is revoked (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0003-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0003-Exec_Based_Spawning-2.patch";
@@ -313,7 +313,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-Captive_Portal_Togg
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode.patch"; #LTE Only Mode (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-microG_Toggle.patch"; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
-if [ "$DOS_DEBLOBBER_REMOVE_EUICC_FULL" = false ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0017-OpenEUICC_Toggle.patch"; fi; #Add a toggle for OpenEUICC enablement (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0017-OpenEUICC_Toggle.patch"; #Add a toggle for OpenEUICC enablement (heavily based off of a GrapheneOS patch)
 if [ -d "$DOS_BUILD_BASE"/vendor/divested-carriersettings ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0018-CC2_Toggle.patch"; fi; #Add a toggle for CarrierConfig2 enablement (heavily based off of a GrapheneOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0018-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 fi;
@@ -340,10 +340,10 @@ applyPatch "$DOS_PATCHES/android_packages_inputmethods_LatinIME/0002-Disable_Per
 fi;
 
 #if enterAndClear "packages/modules/Connectivity"; then
-#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-1.patch"; #Enforce INTERNET permission per-uid instead of per-appId (GrapheneOS) #XXX: 21REBASE PROBABLY BROKEN
-#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Don't crash INTERNET-unaware apps that try to access NsdManager (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-3.patch"; #ConnectivityManager: pretend that network is down to INTERNET-unaware callers (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-4.patch"; #Fixup! don't crash INTERNET-unaware apps that try to access NsdManager (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-1.patch"; #Enforce INTERNET permission per-uid instead of per-appId (GrapheneOS) # #TODO: 21REBASE XXX: PROBABLY BROKEN
+#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Don't crash INTERNET-unaware apps that try to access NsdManager (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-3.patch"; #ConnectivityManager: pretend that network is down to INTERNET-unaware callers (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-4.patch"; #Fixup! don't crash INTERNET-unaware apps that try to access NsdManager (GrapheneOS) #TODO: 21REBASE
 #fi;
 
 if enterAndClear "packages/modules/DnsResolver"; then
@@ -358,8 +358,8 @@ applyPatch "$DOS_PATCHES/android_packages_modules_NetworkStack/0001-Random_MAC.p
 fi;
 
 if enterAndClear "packages/modules/Permission"; then
-#applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permissions-1.patch"; #Add special handling for INTERNET/OTHER_SENSORS (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permissions-2.patch"; #Fix usage UI summary for Network/Sensors (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permissions-1.patch"; #Add special handling for INTERNET/OTHER_SENSORS (GrapheneOS) #TODO: 21REBASE
+#applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permissions-2.patch"; #Fix usage UI summary for Network/Sensors (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Location.patch"; #Stop auto-granting location to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 fi;
