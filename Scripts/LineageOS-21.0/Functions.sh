@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-10-15
 
 patchAllKernels() {
-	startPatcher "kernel_google_gs201_private_gs-google";
+	startPatcher "kernel_google_wahoo";
 }
 export -f patchAllKernels;
 
@@ -50,8 +50,14 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#Tensor
+	#frontloaded for testing
 	buildDevice bluejay avb;
+	buildDevice taimen avb;
+
+	#SD835
+	buildDevice walleye avb;
+
+	#Tensor
 	buildDevice oriole avb;
 	buildDevice raven avb;
 	buildDevice panther avb;
@@ -79,7 +85,7 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS/Rebrand.sh";
 	sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
 	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
-	#sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh"; #TODO: 21REBASE
+	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
 }
