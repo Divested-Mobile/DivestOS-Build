@@ -11,10 +11,10 @@ Subject: [PATCH] use -fwrapv when signed overflow checking is off
  3 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/cc/cc.go b/cc/cc.go
-index 9d5b8d894..01cae261a 100644
+index b3f0bfadb..ccbc44a56 100644
 --- a/cc/cc.go
 +++ b/cc/cc.go
-@@ -2052,6 +2052,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
+@@ -2079,6 +2079,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
  	}
  	if c.sanitize != nil {
  		flags = c.sanitize.flags(ctx, flags)
@@ -24,10 +24,10 @@ index 9d5b8d894..01cae261a 100644
  	if c.coverage != nil {
  		flags, deps = c.coverage.flags(ctx, flags, deps)
 diff --git a/cc/cc_test.go b/cc/cc_test.go
-index 3631f1998..af9498499 100644
+index 6cc500b5f..59f45403a 100644
 --- a/cc/cc_test.go
 +++ b/cc/cc_test.go
-@@ -4427,7 +4427,7 @@ func TestIncludeDirectoryOrdering(t *testing.T) {
+@@ -4439,7 +4439,7 @@ func TestIncludeDirectoryOrdering(t *testing.T) {
  	conly := []string{"-fPIC", "${config.CommonGlobalConlyflags}"}
  	cppOnly := []string{"-fPIC", "${config.CommonGlobalCppflags}", "${config.DeviceGlobalCppflags}", "${config.ArmCppflags}"}
  
@@ -37,7 +37,7 @@ index 3631f1998..af9498499 100644
  	cppstd := []string{"-std=gnu++20", "-std=cpp", "-fno-rtti"}
  
 diff --git a/cc/sanitize.go b/cc/sanitize.go
-index 31c050018..38eeb12af 100644
+index 52b5be9e6..91e953090 100644
 --- a/cc/sanitize.go
 +++ b/cc/sanitize.go
 @@ -787,8 +787,22 @@ func toDisableUnsignedShiftBaseChange(flags []string) bool {

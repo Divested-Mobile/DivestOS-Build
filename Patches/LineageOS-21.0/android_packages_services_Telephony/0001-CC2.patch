@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tavi <tavi@divested.dev>
+Date: Tue, 25 Jun 2024 02:39:28 -0400
+Subject: [PATCH] Runtime control of platform carrier config package
+
+Change-Id: I8cc8f2bda264bd42fe83d5c96fa6382e63a88410
+Signed-off-by: Tavi <tavi@divested.dev>
+---
+ src/com/android/phone/CarrierConfigLoader.java | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/phone/CarrierConfigLoader.java b/src/com/android/phone/CarrierConfigLoader.java
+index d565c4911..8444847eb 100644
+--- a/src/com/android/phone/CarrierConfigLoader.java
++++ b/src/com/android/phone/CarrierConfigLoader.java
+@@ -47,6 +47,7 @@ import android.os.PersistableBundle;
+ import android.os.Process;
+ import android.os.RemoteException;
+ import android.os.ResultReceiver;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.preference.PreferenceManager;
+ import android.service.carrier.CarrierIdentifier;
+@@ -708,8 +709,13 @@ public class CarrierConfigLoader extends ICarrierConfigLoader.Stub {
+             @NonNull FeatureFlags featureFlags) {
+         super(PermissionEnforcer.fromContext(context));
+         mContext = context;
+-        mPlatformCarrierConfigPackage =
+-                mContext.getString(R.string.platform_carrier_config_package);
++        if (SystemProperties.getBoolean("persist.security.carrierconfig2", false)) {
++            mPlatformCarrierConfigPackage = "app.grapheneos.carrierconfig2";
++        } else {
++            //mPlatformCarrierConfigPackage = "com.android.carrierconfig";
++            mPlatformCarrierConfigPackage =
++                    mContext.getString(R.string.platform_carrier_config_package);
++        }
+         mHandler = new ConfigHandler(looper);
+ 
+         IntentFilter systemEventsFilter = new IntentFilter();

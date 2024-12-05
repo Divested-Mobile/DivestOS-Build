@@ -10,10 +10,10 @@ spawning when doing debugging.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 9e78c3a8b16c..cc936ccefb91 100644
+index ca6c358cc997..703b5d12cbc2 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -536,7 +536,8 @@ class ZygoteConnection {
+@@ -539,7 +539,8 @@ class ZygoteConnection {
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {

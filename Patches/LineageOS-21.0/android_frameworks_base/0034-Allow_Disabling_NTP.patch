@@ -9,7 +9,7 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 9 insertions(+)
 
 diff --git a/core/java/android/util/NtpTrustedTime.java b/core/java/android/util/NtpTrustedTime.java
-index 3adbd686cd2c..6221541473d3 100644
+index 3adbd686cd2c..a3d1bd6a2a2e 100644
 --- a/core/java/android/util/NtpTrustedTime.java
 +++ b/core/java/android/util/NtpTrustedTime.java
 @@ -272,6 +272,15 @@ public abstract class NtpTrustedTime implements TrustedTime {

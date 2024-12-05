@@ -13,10 +13,10 @@ Change-Id: Ic5ddb78b1014ce567d1a5c57fc79f79edd1154c0
  1 file changed, 13 insertions(+)
 
 diff --git a/services/core/java/com/android/server/pm/AppsFilterBase.java b/services/core/java/com/android/server/pm/AppsFilterBase.java
-index a5bc2c36a5a8..0c1d307a4aa9 100644
+index 98b7c9610295..28942cd262d6 100644
 --- a/services/core/java/com/android/server/pm/AppsFilterBase.java
 +++ b/services/core/java/com/android/server/pm/AppsFilterBase.java
-@@ -37,6 +37,7 @@ import android.util.Slog;
+@@ -38,6 +38,7 @@ import android.util.Slog;
  import android.util.SparseArray;
  
  import com.android.internal.annotations.VisibleForTesting;
@@ -24,7 +24,7 @@ index a5bc2c36a5a8..0c1d307a4aa9 100644
  import com.android.internal.util.function.QuadFunction;
  import com.android.server.om.OverlayReferenceMapper;
  import com.android.server.pm.pkg.AndroidPackage;
-@@ -63,6 +64,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
+@@ -64,6 +65,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  public abstract class AppsFilterBase implements AppsFilterSnapshot {
      protected static final String TAG = "AppsFilter";
  
@@ -34,7 +34,7 @@ index a5bc2c36a5a8..0c1d307a4aa9 100644
      // Logs all filtering instead of enforcing
      protected static final boolean DEBUG_ALLOW_ALL = false;
      protected static final boolean DEBUG_LOGGING = false;
-@@ -510,6 +514,15 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
+@@ -518,6 +522,15 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
                      if (DEBUG_LOGGING) {
                          log(callingSetting, targetPkgSetting, "force queryable");
                      }

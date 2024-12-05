@@ -71,6 +71,7 @@
 	<project path="device/google/raviole" name="LineageOS/android_device_google_raviole" remote="github" revision="lineage-21" />
 	<project path="device/google/oriole" name="LineageOS/android_device_google_oriole" remote="github" revision="lineage-21" />
 	<project path="device/google/raven" name="LineageOS/android_device_google_raven" remote="github" revision="lineage-21" />
+	<project path="device/google/raviole-kernel" name="device/google/raviole-kernel" remote="aosp-raviole" clone-depth="1" />
 	<!-- Google Pixel 6a (bluejay) -->
 	<project path="device/google/bluejay" name="LineageOS/android_device_google_bluejay" remote="github" revision="lineage-21" />
 	<project path="device/google/bluejay-kernel" name="device/google/bluejay-kernel" remote="aosp-bluejay" clone-depth="1" />
@@ -78,12 +79,16 @@
 	<project path="device/google/pantah" name="LineageOS/android_device_google_pantah" remote="github" revision="lineage-21" />
 	<project path="device/google/panther" name="LineageOS/android_device_google_panther" remote="github" revision="lineage-21" />
 	<project path="device/google/cheetah" name="LineageOS/android_device_google_cheetah" remote="github" revision="lineage-21" />
+	<project path="device/google/pantah-kernel" name="device/google/pantah-kernel" remote="aosp-pantah" clone-depth="1" />
 	<!-- Google Pixel 7a (lynx) -->
 	<project path="device/google/lynx" name="LineageOS/android_device_google_lynx" remote="github" revision="lineage-21" />
+	<project path="device/google/lynx-kernel" name="device/google/lynx-kernel" remote="aosp-lynx" clone-depth="1" />
 	<!-- Google Pixel Tablet (tangorpro) -->
 	<project path="device/google/tangorpro" name="LineageOS/android_device_google_tangorpro" remote="github" revision="lineage-21" />
+	<project path="device/google/tangorpro-kernel" name="device/google/tangorpro-kernel" remote="aosp-tangorpro" clone-depth="1" />
 	<!-- Google Pixel Fold (felix) -->
 	<project path="device/google/felix" name="LineageOS/android_device_google_felix" remote="github" revision="lineage-21" />
+	<project path="device/google/felix-kernel" name="device/google/felix-kernel" remote="aosp-felix" clone-depth="1" />
 
         <!-- Proprietary Blobs -->
 	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="github" revision="lineage-21" />

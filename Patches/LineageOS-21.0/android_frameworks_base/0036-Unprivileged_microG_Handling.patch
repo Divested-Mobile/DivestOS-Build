@@ -30,10 +30,10 @@ Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
  4 files changed, 118 insertions(+), 7 deletions(-)
 
 diff --git a/core/java/android/content/pm/SigningDetails.java b/core/java/android/content/pm/SigningDetails.java
-index 8c2197470a8b..03fabcd21ffd 100644
+index bb09ad23f6ec..38f9a41bae90 100644
 --- a/core/java/android/content/pm/SigningDetails.java
 +++ b/core/java/android/content/pm/SigningDetails.java
-@@ -798,6 +798,38 @@ public final class SigningDetails implements Parcelable {
+@@ -801,6 +801,38 @@ public final class SigningDetails implements Parcelable {
          return false;
      }
  
@@ -72,7 +72,7 @@ index 8c2197470a8b..03fabcd21ffd 100644
      /** Returns true if the signatures in this and other match exactly. */
      public boolean signaturesMatchExactly(@NonNull SigningDetails other) {
          return Signature.areExactMatch(this, other);
-@@ -1003,10 +1035,10 @@ public final class SigningDetails implements Parcelable {
+@@ -1006,10 +1038,10 @@ public final class SigningDetails implements Parcelable {
      }
  
      @DataClass.Generated(
@@ -86,10 +86,10 @@ index 8c2197470a8b..03fabcd21ffd 100644
      private void __metadata() {}
  
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index be714871ad0f..0039f6c4d8ad 100644
+index 34ddab5adae1..1dcc8c93fe31 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
-@@ -2124,6 +2124,8 @@
+@@ -2140,6 +2140,8 @@
      <string-array name="config_locationProviderPackageNames" translatable="false">
          <!-- The standard AOSP fused location provider -->
          <item>com.android.location.fused</item>
@@ -97,9 +97,9 @@ index be714871ad0f..0039f6c4d8ad 100644
 +        <item>com.google.android.gms</item> -->
      </string-array>
  
-     <!-- Package name(s) of Advanced Driver Assistance applications. These packages have additional
+    <!-- Package name of the extension software fallback. -->
 diff --git a/services/core/java/com/android/server/pm/AppsFilterImpl.java b/services/core/java/com/android/server/pm/AppsFilterImpl.java
-index 82622d9a4ea8..3b49300d87b7 100644
+index cc4c2b5bf893..c774c88f1da6 100644
 --- a/services/core/java/com/android/server/pm/AppsFilterImpl.java
 +++ b/services/core/java/com/android/server/pm/AppsFilterImpl.java
 @@ -555,6 +555,15 @@ public final class AppsFilterImpl extends AppsFilterLocked implements Watchable,
@@ -137,10 +137,10 @@ index 82622d9a4ea8..3b49300d87b7 100644
                              || newPkg.isForceQueryable()
                              || ArrayUtils.contains(mForceQueryableByDevicePackageNames,
 diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
-index 063fc92dddb8..f7b163e42587 100644
+index b76683e29e42..9b999426c06c 100644
 --- a/services/core/java/com/android/server/pm/ComputerEngine.java
 +++ b/services/core/java/com/android/server/pm/ComputerEngine.java
-@@ -84,6 +84,7 @@ import android.content.pm.InstantAppResolveInfo;
+@@ -86,6 +86,7 @@ import android.content.pm.InstantAppResolveInfo;
  import android.content.pm.InstrumentationInfo;
  import android.content.pm.KeySet;
  import android.content.pm.PackageInfo;
@@ -148,7 +148,7 @@ index 063fc92dddb8..f7b163e42587 100644
  import android.content.pm.PackageManager;
  import android.content.pm.PackageManagerInternal;
  import android.content.pm.ParceledListSlice;
-@@ -104,6 +105,7 @@ import android.os.IBinder;
+@@ -106,6 +107,7 @@ import android.os.IBinder;
  import android.os.ParcelableException;
  import android.os.PatternMatcher;
  import android.os.Process;
@@ -156,7 +156,7 @@ index 063fc92dddb8..f7b163e42587 100644
  import android.os.Trace;
  import android.os.UserHandle;
  import android.os.UserManager;
-@@ -1491,18 +1493,34 @@ public class ComputerEngine implements Computer {
+@@ -1493,18 +1495,34 @@ public class ComputerEngine implements Computer {
              // Compute GIDs only if requested
              final int[] gids = (flags & PackageManager.GET_GIDS) == 0 ? EMPTY_INT_ARRAY
                      : mPermissionManager.getGidsForUid(UserHandle.getUid(userId, ps.getAppId()));
@@ -196,7 +196,7 @@ index 063fc92dddb8..f7b163e42587 100644
  
              if (packageInfo == null) {
                  return null;
-@@ -1551,6 +1569,34 @@ public class ComputerEngine implements Computer {
+@@ -1561,6 +1579,34 @@ public class ComputerEngine implements Computer {
          }
      }
  
@@ -231,7 +231,7 @@ index 063fc92dddb8..f7b163e42587 100644
      public final PackageInfo getPackageInfo(String packageName,
              @PackageManager.PackageInfoFlagsBits long flags, int userId) {
          return getPackageInfoInternal(packageName, PackageManager.VERSION_CODE_HIGHEST,
-@@ -5082,6 +5128,20 @@ public class ComputerEngine implements Computer {
+@@ -5100,6 +5146,20 @@ public class ComputerEngine implements Computer {
              return null;
          }
  

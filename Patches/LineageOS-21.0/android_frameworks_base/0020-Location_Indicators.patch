@@ -14,10 +14,10 @@ Change-Id: Ie457bb2dad17bddbf9dc3a818e3ec586023ce918
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/permission/PermissionUsageHelper.java b/core/java/android/permission/PermissionUsageHelper.java
-index 1f798baf1bd6..20502cdc81c3 100644
+index 141ffc9a491a..20ccdb025604 100644
 --- a/core/java/android/permission/PermissionUsageHelper.java
 +++ b/core/java/android/permission/PermissionUsageHelper.java
-@@ -108,7 +108,7 @@ public class PermissionUsageHelper implements AppOpsManager.OnOpActiveChangedLis
+@@ -114,7 +114,7 @@ public class PermissionUsageHelper implements AppOpsManager.OnOpActiveChangedLis
  
      private static boolean shouldShowLocationIndicator() {
          return DeviceConfig.getBoolean(DeviceConfig.NAMESPACE_PRIVACY,

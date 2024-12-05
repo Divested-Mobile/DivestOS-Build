@@ -14,10 +14,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/product/generic_system.mk b/target/product/generic_system.mk
-index 08a7cdf83e..8ed85ab6fa 100644
+index 7aff62c39f..c7e11b89e0 100644
 --- a/target/product/generic_system.mk
 +++ b/target/product/generic_system.mk
-@@ -112,7 +112,7 @@ PRODUCT_COPY_FILES += \
+@@ -123,7 +123,7 @@ PRODUCT_COPY_FILES += \
  # Enable dynamic partition size
  PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
  

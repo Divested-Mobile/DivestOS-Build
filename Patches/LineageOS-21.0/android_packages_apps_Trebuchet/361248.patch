@@ -50,7 +50,7 @@ index 83ef5b3bd2..a10c0f5365 100644
          android:key="pref_desktop_show_labels"
          android:title="@string/desktop_show_labels"
 diff --git a/src/com/android/launcher3/InvariantDeviceProfile.java b/src/com/android/launcher3/InvariantDeviceProfile.java
-index 6e03a40ce2..65708a349e 100644
+index 9cf38eee18..738bbe134c 100644
 --- a/src/com/android/launcher3/InvariantDeviceProfile.java
 +++ b/src/com/android/launcher3/InvariantDeviceProfile.java
 @@ -94,10 +94,13 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener
@@ -67,7 +67,7 @@ index 6e03a40ce2..65708a349e 100644
      // Constants that affects the interpolation curve between statically defined device profile
      // buckets.
      private static final float KNEARESTNEIGHBOR = 3;
-@@ -356,6 +359,8 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener
+@@ -357,6 +360,8 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener
      @Override
      public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
          switch (key) {

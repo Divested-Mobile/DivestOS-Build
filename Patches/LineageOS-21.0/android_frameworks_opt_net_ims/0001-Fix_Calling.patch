@@ -10,10 +10,10 @@ Change-Id: Id5e3b8f7793d0783104b8b59581688c8ef821396
  1 file changed, 1 insertion(+), 25 deletions(-)
 
 diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
-index c9252f24..d822cf1d 100644
+index 217a26f2..214dd9fc 100644
 --- a/src/java/com/android/ims/ImsManager.java
 +++ b/src/java/com/android/ims/ImsManager.java
-@@ -549,13 +549,6 @@ public class ImsManager implements FeatureUpdates {
+@@ -550,13 +550,6 @@ public class ImsManager implements FeatureUpdates {
       */
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
      public static boolean isEnhanced4gLteModeSettingEnabledByUser(Context context) {
@@ -27,7 +27,7 @@ index c9252f24..d822cf1d 100644
          return false;
      }
  
-@@ -570,24 +563,7 @@ public class ImsManager implements FeatureUpdates {
+@@ -571,24 +564,7 @@ public class ImsManager implements FeatureUpdates {
       * return the default value.
       */
      public boolean isEnhanced4gLteModeSettingEnabledByUser() {

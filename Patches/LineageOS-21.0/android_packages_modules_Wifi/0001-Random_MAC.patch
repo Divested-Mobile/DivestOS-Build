@@ -12,10 +12,10 @@ Co-authored-by: renlord <me@renlord.com>
  4 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/framework/api/current.txt b/framework/api/current.txt
-index 40d2765497..8566ca7fc7 100644
+index ccdd8a7daa..fa4017bf3c 100644
 --- a/framework/api/current.txt
 +++ b/framework/api/current.txt
-@@ -172,6 +172,7 @@ package android.net.wifi {
+@@ -174,6 +174,7 @@ package android.net.wifi {
      method @Deprecated public void writeToParcel(android.os.Parcel, int);
      field @Deprecated public String BSSID;
      field @Deprecated public String FQDN;
@@ -24,10 +24,10 @@ index 40d2765497..8566ca7fc7 100644
      field @Deprecated public static final int RANDOMIZATION_NONE = 0; // 0x0
      field @Deprecated public static final int RANDOMIZATION_NON_PERSISTENT = 2; // 0x2
 diff --git a/framework/java/android/net/wifi/WifiConfiguration.java b/framework/java/android/net/wifi/WifiConfiguration.java
-index 0b63780ca2..0ead2c76c0 100644
+index 88582dde76..0d4e3fcc38 100644
 --- a/framework/java/android/net/wifi/WifiConfiguration.java
 +++ b/framework/java/android/net/wifi/WifiConfiguration.java
-@@ -1856,7 +1856,8 @@ public class WifiConfiguration implements Parcelable {
+@@ -1865,7 +1865,8 @@ public class WifiConfiguration implements Parcelable {
              RANDOMIZATION_NONE,
              RANDOMIZATION_PERSISTENT,
              RANDOMIZATION_NON_PERSISTENT,
@@ -37,7 +37,7 @@ index 0b63780ca2..0ead2c76c0 100644
      public @interface MacRandomizationSetting {}
  
      /**
-@@ -1880,16 +1881,22 @@ public class WifiConfiguration implements Parcelable {
+@@ -1889,16 +1890,22 @@ public class WifiConfiguration implements Parcelable {
       */
      public static final int RANDOMIZATION_AUTO = 3;
  
@@ -63,10 +63,10 @@ index 0b63780ca2..0ead2c76c0 100644
      /**
       * Set the MAC randomization setting for this network.
 diff --git a/service/java/com/android/server/wifi/WifiConfigManager.java b/service/java/com/android/server/wifi/WifiConfigManager.java
-index ec6359f900..143f8b98e2 100644
+index d2f26183c3..e758344204 100644
 --- a/service/java/com/android/server/wifi/WifiConfigManager.java
 +++ b/service/java/com/android/server/wifi/WifiConfigManager.java
-@@ -491,6 +491,10 @@ public class WifiConfigManager {
+@@ -492,6 +492,10 @@ public class WifiConfigManager {
       * @return
       */
      public boolean shouldUseNonPersistentRandomization(WifiConfiguration config) {
@@ -77,7 +77,7 @@ index ec6359f900..143f8b98e2 100644
          if (!isMacRandomizationSupported()
                  || config.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_NONE) {
              return false;
-@@ -640,7 +644,8 @@ public class WifiConfigManager {
+@@ -641,7 +645,8 @@ public class WifiConfigManager {
      private MacAddress updateRandomizedMacIfNeeded(WifiConfiguration config) {
          boolean shouldUpdateMac = config.randomizedMacExpirationTimeMs
                  < mClock.getWallClockMillis() || mClock.getWallClockMillis()
@@ -88,10 +88,10 @@ index ec6359f900..143f8b98e2 100644
              return config.getRandomizedMacAddress();
          }
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index a1bfb7a9cb..c6ca8766d7 100644
+index 501a071b34..fb73e08a02 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-@@ -265,7 +265,7 @@ public class WifiConfigurationUtil {
+@@ -271,7 +271,7 @@ public class WifiConfigurationUtil {
      public static boolean hasMacRandomizationSettingsChanged(WifiConfiguration existingConfig,
              WifiConfiguration newConfig) {
          if (existingConfig == null) {

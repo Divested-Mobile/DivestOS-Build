@@ -8,7 +8,7 @@ Subject: [PATCH] invalidate icon cache between OS releases
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
-index d6cd0f2..acb5d9f 100644
+index 072bcbf..873735d 100644
 --- a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
 +++ b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
 @@ -273,7 +273,7 @@ public abstract class BaseIconCache {

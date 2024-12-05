@@ -12,10 +12,10 @@ Subject: [PATCH] add native debugging setting
  create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index de8ed4718e4..8ad86f32445 100644
+index 9f0e7336f1d..d9a023e091f 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -668,6 +668,9 @@
+@@ -665,6 +665,9 @@
      <string name="auto_reboot_title">Auto reboot</string>
      <string name="auto_reboot_summary">Automatically reboot the device, if the phone hasn\'t been unlocked within the selected number of hours.</string>
  

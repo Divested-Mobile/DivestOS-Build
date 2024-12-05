@@ -16,10 +16,10 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/OpenEuiccPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 06ab1e345df..2cfe705e467 100644
+index 5d99076843f..44aacacb5a7 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -680,6 +680,9 @@
+@@ -677,6 +677,9 @@
      <string name="sig_spoof_title">Unprivileged microG enablement</string>
      <string name="sig_spoof_summary">Allows official builds of microG apps to function. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
  

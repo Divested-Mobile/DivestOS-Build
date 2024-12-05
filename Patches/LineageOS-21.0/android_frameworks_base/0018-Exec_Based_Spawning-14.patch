@@ -11,10 +11,10 @@ Subject: [PATCH] exec spawning: support runtime resource overlays
  4 files changed, 43 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/app/IActivityManager.aidl b/core/java/android/app/IActivityManager.aidl
-index 260e9859c72d..c3fdad0624d4 100644
+index 7a95720c1cf4..2f5122d4af16 100644
 --- a/core/java/android/app/IActivityManager.aidl
 +++ b/core/java/android/app/IActivityManager.aidl
-@@ -950,4 +950,6 @@ interface IActivityManager {
+@@ -966,4 +966,6 @@ interface IActivityManager {
       */
      oneway void frozenBinderTransactionDetected(int debugPid, int code, int flags, int err);
      int getBindingUidProcessState(int uid, in String callingPackage);
@@ -22,7 +22,7 @@ index 260e9859c72d..c3fdad0624d4 100644
 +    String[] getSystemIdmapPaths();
  }
 diff --git a/core/java/android/content/res/AssetManager.java b/core/java/android/content/res/AssetManager.java
-index 0399995540e7..3885f0fe3dd4 100644
+index d62abf923126..faa21dcf5f7a 100644
 --- a/core/java/android/content/res/AssetManager.java
 +++ b/core/java/android/content/res/AssetManager.java
 @@ -26,6 +26,7 @@ import android.annotation.Nullable;
@@ -41,7 +41,7 @@ index 0399995540e7..3885f0fe3dd4 100644
  
  import java.io.FileDescriptor;
  import java.io.FileNotFoundException;
-@@ -235,6 +237,9 @@ public final class AssetManager implements AutoCloseable {
+@@ -242,6 +244,9 @@ public final class AssetManager implements AutoCloseable {
          }
      }
  
@@ -51,7 +51,7 @@ index 0399995540e7..3885f0fe3dd4 100644
      /**
       * This must be called from Zygote so that system assets are shared by all applications.
       * @hide
-@@ -251,8 +256,32 @@ public final class AssetManager implements AutoCloseable {
+@@ -258,8 +263,32 @@ public final class AssetManager implements AutoCloseable {
              final ArrayList<ApkAssets> apkAssets = new ArrayList<>();
              apkAssets.add(ApkAssets.loadFromPath(frameworkPath, ApkAssets.PROPERTY_SYSTEM));
  
@@ -109,10 +109,10 @@ index 749c67abf389..39f08b6a0f15 100644
          // classpath. If found, create a PathClassLoader and use it for applicationInit.
          ClassLoader classLoader = null;
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 0d95e615911d..ba6d5a027c9d 100644
+index c579af374a2f..5d4fa6e846e3 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -20673,4 +20673,10 @@ public class ActivityManagerService extends IActivityManager.Stub
+@@ -20868,4 +20868,10 @@ public class ActivityManagerService extends IActivityManager.Stub
          }
          mOomAdjuster.mCachedAppOptimizer.binderError(debugPid, app, code, flags, err);
      }

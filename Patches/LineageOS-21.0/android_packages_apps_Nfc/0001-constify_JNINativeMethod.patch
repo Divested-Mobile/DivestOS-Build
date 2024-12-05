@@ -10,10 +10,10 @@ Subject: [PATCH] constify JNINativeMethod tables
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/nci/jni/NativeNfcManager.cpp b/nci/jni/NativeNfcManager.cpp
-index 603d8ab6..8fc42860 100644
+index 2c6e7aa0..a746f101 100644
 --- a/nci/jni/NativeNfcManager.cpp
 +++ b/nci/jni/NativeNfcManager.cpp
-@@ -1994,7 +1994,7 @@ static jbyteArray nfcManager_doGetRoutingTable(JNIEnv* e, jobject o) {
+@@ -2273,7 +2273,7 @@ static void sendRawVsCmdCallback(uint8_t event, uint16_t param_len,
  ** JNI functions for android-4.0.1_r1
  **
  *****************************************************************************/
@@ -23,10 +23,10 @@ index 603d8ab6..8fc42860 100644
  
      {"initializeNativeStructure", "()Z", (void*)nfcManager_initNativeStruc},
 diff --git a/nci/jni/NativeNfcTag.cpp b/nci/jni/NativeNfcTag.cpp
-index d9c59953..a1eb7953 100644
+index 53e1fb41..f846c4af 100644
 --- a/nci/jni/NativeNfcTag.cpp
 +++ b/nci/jni/NativeNfcTag.cpp
-@@ -1739,7 +1739,7 @@ void nativeNfcTag_releaseRfInterfaceMutexLock() {
+@@ -1699,7 +1699,7 @@ void nativeNfcTag_releaseRfInterfaceMutexLock() {
  ** JNI functions for Android 4.0.3
  **
  *****************************************************************************/
@@ -36,10 +36,10 @@ index d9c59953..a1eb7953 100644
      {"doDisconnect", "()Z", (void*)nativeNfcTag_doDisconnect},
      {"doReconnect", "()I", (void*)nativeNfcTag_doReconnect},
 diff --git a/nci/jni/NativeP2pDevice.cpp b/nci/jni/NativeP2pDevice.cpp
-index 23f5db41..396c6d0c 100644
+index efb82526..a2215870 100644
 --- a/nci/jni/NativeP2pDevice.cpp
 +++ b/nci/jni/NativeP2pDevice.cpp
-@@ -58,7 +58,7 @@ static jboolean nativeP2pDeviceDoSend(JNIEnv*, jobject, jbyteArray) {
+@@ -56,7 +56,7 @@ static jboolean nativeP2pDeviceDoSend(JNIEnv*, jobject, jbyteArray) {
  ** Description:     JNI functions
  **
  *****************************************************************************/

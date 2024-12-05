@@ -13,7 +13,7 @@ Change-Id: I62c2553c8877b946d7e7e1ca4ef113f963d3f8eb
  1 file changed, 46 insertions(+)
 
 diff --git a/services/core/java/com/android/server/connectivity/Vpn.java b/services/core/java/com/android/server/connectivity/Vpn.java
-index c5170585a1b3..f430b7b7c7a1 100644
+index b7ece2ea65b1..33e2c3d9195b 100644
 --- a/services/core/java/com/android/server/connectivity/Vpn.java
 +++ b/services/core/java/com/android/server/connectivity/Vpn.java
 @@ -50,9 +50,11 @@ import android.content.Context;

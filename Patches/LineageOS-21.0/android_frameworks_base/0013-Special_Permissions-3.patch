@@ -13,10 +13,10 @@ Ported from 12: 9d5a62ed573bc3c7be8b19445b372fed13533d0e
  5 files changed, 29 insertions(+), 1 deletion(-)
 
 diff --git a/core/api/current.txt b/core/api/current.txt
-index ab1becbad01f..2f251c8a7755 100644
+index a08bc5ee1887..ad2059849b57 100644
 --- a/core/api/current.txt
 +++ b/core/api/current.txt
-@@ -220,6 +220,7 @@ package android {
+@@ -231,6 +231,7 @@ package android {
      field public static final String NFC = "android.permission.NFC";
      field public static final String NFC_PREFERRED_PAYMENT_INFO = "android.permission.NFC_PREFERRED_PAYMENT_INFO";
      field public static final String NFC_TRANSACTION_EVENT = "android.permission.NFC_TRANSACTION_EVENT";
@@ -24,7 +24,7 @@ index ab1becbad01f..2f251c8a7755 100644
      field public static final String OVERRIDE_WIFI_CONFIG = "android.permission.OVERRIDE_WIFI_CONFIG";
      field public static final String PACKAGE_USAGE_STATS = "android.permission.PACKAGE_USAGE_STATS";
      field @Deprecated public static final String PERSISTENT_ACTIVITY = "android.permission.PERSISTENT_ACTIVITY";
-@@ -333,6 +334,7 @@ package android {
+@@ -347,6 +348,7 @@ package android {
      field public static final String NEARBY_DEVICES = "android.permission-group.NEARBY_DEVICES";
      field public static final String NETWORK = "android.permission-group.NETWORK";
      field public static final String NOTIFICATIONS = "android.permission-group.NOTIFICATIONS";
@@ -33,10 +33,10 @@ index ab1becbad01f..2f251c8a7755 100644
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
      field public static final String READ_MEDIA_VISUAL = "android.permission-group.READ_MEDIA_VISUAL";
 diff --git a/core/java/com/android/internal/pm/pkg/parsing/ParsingPackageUtils.java b/core/java/com/android/internal/pm/pkg/parsing/ParsingPackageUtils.java
-index dbe4fba5dfdb..f71bbec1a8ad 100644
+index 95ecd47e3037..1e9c18a0b4ff 100644
 --- a/core/java/com/android/internal/pm/pkg/parsing/ParsingPackageUtils.java
 +++ b/core/java/com/android/internal/pm/pkg/parsing/ParsingPackageUtils.java
-@@ -2321,6 +2321,8 @@ public class ParsingPackageUtils {
+@@ -2310,6 +2310,8 @@ public class ParsingPackageUtils {
          setSupportsSizeChanges(pkg);
  
          pkg.setHasDomainUrls(hasDomainURLs(pkg));
@@ -46,10 +46,10 @@ index dbe4fba5dfdb..f71bbec1a8ad 100644
  
      /**
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 6536d86432b4..84a53173be9f 100644
+index 63e4fca51d80..5c7dc3e9a622 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1815,6 +1815,18 @@
+@@ -1844,6 +1844,18 @@
                  android:protectionLevel="dangerous|instant" />
      <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
  
@@ -69,10 +69,10 @@ index 6536d86432b4..84a53173be9f 100644
      <!-- REMOVED PERMISSIONS                                                    -->
      <!-- ====================================================================== -->
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 5fe90e5510f5..fe69b195ea4c 100644
+index a967af7720a2..09af484a7941 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -946,6 +946,11 @@
+@@ -967,6 +967,11 @@
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. [CHAR LIMIT=NONE]-->
      <string name="permgroupdesc_notifications">show notifications</string>
  
@@ -84,7 +84,7 @@ index 5fe90e5510f5..fe69b195ea4c 100644
      <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
      <string name="permgrouplab_network">Network</string>
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
-@@ -1361,6 +1366,13 @@
+@@ -1393,6 +1398,13 @@
      <!-- Description of the background body sensors permission, listed so the user can decide whether to allow the application to access data from body sensors in the background. [CHAR LIMIT=NONE] -->
      <string name="permdesc_bodySensors_background" product="default">Allows the app to access body sensor data, such as heart rate, temperature, and blood oxygen percentage, while the app is in the background.</string>
  
@@ -99,10 +99,10 @@ index 5fe90e5510f5..fe69b195ea4c 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index ad63a2d19779..9d91fbc0be74 100644
+index ea7e13f20a17..39384823f2cb 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-@@ -2477,7 +2477,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2487,7 +2487,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {

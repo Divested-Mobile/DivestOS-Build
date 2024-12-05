@@ -103,7 +103,7 @@ index c0a15f767..26213b258 100644
  genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
  genfscon proc /sys/kernel/bpf_ u:object_r:proc_bpf:s0
 diff --git a/private/genfs_contexts b/private/genfs_contexts
-index 41c60df06..19083cef2 100644
+index e4baeeeda..c27fa76cc 100644
 --- a/private/genfs_contexts
 +++ b/private/genfs_contexts
 @@ -41,7 +41,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0

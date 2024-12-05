@@ -217,10 +217,10 @@ index 000000000000..83d895650473
 +    }
 +}
 diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
-index fb36c0168172..308a0fdf7a8a 100644
+index 202aff7d5e04..f98fe8ca4c31 100644
 --- a/services/java/com/android/server/SystemServer.java
 +++ b/services/java/com/android/server/SystemServer.java
-@@ -3280,6 +3280,8 @@ public final class SystemServer implements Dumpable {
+@@ -3332,6 +3332,8 @@ public final class SystemServer implements Dumpable {
                  reportWtf("Triggering OdsignStatsLogger", e);
              }
              t.traceEnd();

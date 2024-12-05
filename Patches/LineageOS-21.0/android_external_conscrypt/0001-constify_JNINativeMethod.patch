@@ -8,10 +8,10 @@ Subject: [PATCH] constify JNINativeMethod table
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/common/src/jni/main/cpp/conscrypt/native_crypto.cc b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
-index 6d831d03..db24fbc3 100644
+index 54625f5c..c2aaf494 100644
 --- a/common/src/jni/main/cpp/conscrypt/native_crypto.cc
 +++ b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
-@@ -10940,7 +10940,7 @@ static jlong NativeCrypto_SSL_get1_session(JNIEnv* env, jclass, jlong ssl_addres
+@@ -10981,7 +10981,7 @@ static jlong NativeCrypto_SSL_get1_session(JNIEnv* env, jclass, jlong ssl_addres
  #define REF_X509_CRL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/OpenSSLX509CRL;"
  #define REF_SSL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/NativeSsl;"
  #define REF_SSL_CTX "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/AbstractSessionContext;"

@@ -14,10 +14,10 @@ Co-authored-by: flawedworld <flawedworld@flawed.world>
  3 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 04722ef295b..980ecbdbd9a 100644
+index 70ea886db71..58e02007982 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -11097,6 +11097,8 @@
+@@ -11340,6 +11340,8 @@
      <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary">Preferred network mode: CDMA/EvDo/GSM/WCDMA</string>
      <!-- LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_summary">Preferred network mode: LTE </string>
@@ -26,7 +26,7 @@ index 04722ef295b..980ecbdbd9a 100644
      <!-- GSM/WCDMA/LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_gsm_wcdma_summary">Preferred network mode: GSM/WCDMA/LTE</string>
      <!-- CDMA+LTE/EVDO [CHAR LIMIT=NONE] -->
-@@ -11162,8 +11164,12 @@
+@@ -11405,8 +11407,12 @@
      <string name="network_4G_pure" translatable="false">4G</string>
      <!-- Text for Network lte [CHAR LIMIT=NONE] -->
      <string name="network_lte">LTE (recommended)</string>
@@ -40,10 +40,10 @@ index 04722ef295b..980ecbdbd9a 100644
      <string name="network_3G" translatable="false">3G</string>
      <!-- Text for Network 2g [CHAR LIMIT=NONE] -->
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index 2a355adaae4..03d5f20f16f 100644
+index 56ce9e7a301..0b4646cf413 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-@@ -95,7 +95,7 @@ public class EnabledNetworkModePreferenceController extends
+@@ -101,7 +101,7 @@ public class EnabledNetworkModePreferenceController extends
                  CarrierConfigManager.KEY_HIDE_CARRIER_NETWORK_SETTINGS_BOOL)
                  || carrierConfig.getBoolean(
                  CarrierConfigManager.KEY_HIDE_PREFERRED_NETWORK_TYPE_BOOL)) {
@@ -52,7 +52,7 @@ index 2a355adaae4..03d5f20f16f 100644
          } else if (carrierConfig.getBoolean(CarrierConfigManager.KEY_WORLD_PHONE_BOOL)) {
              visible = false;
          } else if (!isCallStateIdle()) {
-@@ -290,6 +290,7 @@ public class EnabledNetworkModePreferenceController extends
+@@ -305,6 +305,7 @@ public class EnabledNetworkModePreferenceController extends
          }
  
          void setPreferenceEntries() {
@@ -60,7 +60,7 @@ index 2a355adaae4..03d5f20f16f 100644
              mTelephonyManager = mTelephonyManager.createForSubscriptionId(mSubId);
  
              clearAllEntries();
-@@ -305,6 +306,7 @@ public class EnabledNetworkModePreferenceController extends
+@@ -320,6 +321,7 @@ public class EnabledNetworkModePreferenceController extends
                              .addFormat(UiOptions.PresentFormat.addGlobalEntry);
                      break;
                  case ENABLED_NETWORKS_CDMA_NO_LTE_CHOICES:
@@ -68,7 +68,7 @@ index 2a355adaae4..03d5f20f16f 100644
                      uiOptions = uiOptions
                              .setChoices(R.array.enabled_networks_cdma_no_lte_values)
                              .addFormat(UiOptions.PresentFormat.add3gEntry)
-@@ -324,6 +326,7 @@ public class EnabledNetworkModePreferenceController extends
+@@ -339,6 +341,7 @@ public class EnabledNetworkModePreferenceController extends
                              .addFormat(UiOptions.PresentFormat.add2gEntry);
                      break;
                  case ENABLED_NETWORKS_EXCEPT_GSM_LTE_CHOICES:
@@ -76,7 +76,7 @@ index 2a355adaae4..03d5f20f16f 100644
                      uiOptions = uiOptions
                              .setChoices(R.array.enabled_networks_except_gsm_lte_values)
                              .addFormat(UiOptions.PresentFormat.add3gEntry);
-@@ -341,6 +344,7 @@ public class EnabledNetworkModePreferenceController extends
+@@ -356,6 +359,7 @@ public class EnabledNetworkModePreferenceController extends
                              .addFormat(UiOptions.PresentFormat.add3gEntry);
                      break;
                  case ENABLED_NETWORKS_EXCEPT_LTE_CHOICES:
@@ -84,7 +84,7 @@ index 2a355adaae4..03d5f20f16f 100644
                      uiOptions = uiOptions
                              .setChoices(R.array.enabled_networks_except_lte_values)
                              .addFormat(UiOptions.PresentFormat.add3gEntry)
-@@ -389,6 +393,11 @@ public class EnabledNetworkModePreferenceController extends
+@@ -404,6 +408,11 @@ public class EnabledNetworkModePreferenceController extends
                  throw new IllegalArgumentException(
                          uiOptions.getType().name() + " index error.");
              }
@@ -96,7 +96,7 @@ index 2a355adaae4..03d5f20f16f 100644
              // Compose options based on given values and formats.
              IntStream.range(0, formatList.size()).forEach(entryIndex -> {
                  switch (formatList.get(entryIndex)) {
-@@ -575,6 +584,9 @@ public class EnabledNetworkModePreferenceController extends
+@@ -590,6 +599,9 @@ public class EnabledNetworkModePreferenceController extends
                          break;
                      }
                  case TelephonyManagerConstants.NETWORK_MODE_LTE_ONLY:
@@ -106,7 +106,7 @@ index 2a355adaae4..03d5f20f16f 100644
                  case TelephonyManagerConstants.NETWORK_MODE_LTE_WCDMA:
                      if (!mIsGlobalCdma) {
                          setSelectedEntry(
-@@ -840,6 +852,16 @@ public class EnabledNetworkModePreferenceController extends
+@@ -855,6 +867,16 @@ public class EnabledNetworkModePreferenceController extends
              mEntriesValue.add(value);
          }
  

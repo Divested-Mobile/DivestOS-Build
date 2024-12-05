@@ -8,7 +8,7 @@ Subject: [PATCH] avoid reusing DHCP state for full MAC randomization
  1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/src/android/net/dhcp/DhcpClient.java b/src/android/net/dhcp/DhcpClient.java
-index b0bac047..e5e79362 100644
+index e4156983..76dcafc0 100644
 --- a/src/android/net/dhcp/DhcpClient.java
 +++ b/src/android/net/dhcp/DhcpClient.java
 @@ -75,6 +75,9 @@ import android.net.metrics.IpConnectivityLog;

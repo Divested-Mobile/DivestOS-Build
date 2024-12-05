@@ -9,7 +9,7 @@ Subject: [PATCH] add parameter for avoiding full preload with exec
  2 files changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/api/module-lib-current.txt b/api/module-lib-current.txt
-index 0ff15eaf273..5c3a486fff9 100644
+index ad36b7d6f93..a0589f3d6dd 100644
 --- a/api/module-lib-current.txt
 +++ b/api/module-lib-current.txt
 @@ -365,7 +365,9 @@ package dalvik.system {

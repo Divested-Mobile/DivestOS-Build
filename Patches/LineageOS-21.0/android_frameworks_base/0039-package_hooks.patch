@@ -108,10 +108,10 @@ index 000000000000..007b65349e55
 +    });
 +}
 diff --git a/services/core/java/com/android/server/pm/AppsFilterBase.java b/services/core/java/com/android/server/pm/AppsFilterBase.java
-index 0c1d307a4aa9..b0855bb53131 100644
+index 28942cd262d6..cf8da62167e5 100644
 --- a/services/core/java/com/android/server/pm/AppsFilterBase.java
 +++ b/services/core/java/com/android/server/pm/AppsFilterBase.java
-@@ -39,6 +39,7 @@ import android.util.SparseArray;
+@@ -40,6 +40,7 @@ import android.util.SparseArray;
  import com.android.internal.annotations.VisibleForTesting;
  import com.android.internal.util.ArrayUtils;
  import com.android.internal.util.function.QuadFunction;
@@ -119,7 +119,7 @@ index 0c1d307a4aa9..b0855bb53131 100644
  import com.android.server.om.OverlayReferenceMapper;
  import com.android.server.pm.pkg.AndroidPackage;
  import com.android.server.pm.pkg.PackageStateInternal;
-@@ -449,6 +450,11 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
+@@ -457,6 +458,11 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
                  Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);
              }
  
@@ -132,10 +132,10 @@ index 0c1d307a4aa9..b0855bb53131 100644
                  if (callingPkgSetting.getPkg() != null
                          && !mFeatureConfig.packageIsEnabled(callingPkgSetting.getPkg())) {
 diff --git a/services/core/java/com/android/server/pm/Settings.java b/services/core/java/com/android/server/pm/Settings.java
-index b097b52cd759..126b212c9eb1 100644
+index 475859fbc2e5..0ad5485ee643 100644
 --- a/services/core/java/com/android/server/pm/Settings.java
 +++ b/services/core/java/com/android/server/pm/Settings.java
-@@ -106,6 +106,7 @@ import com.android.permission.persistence.RuntimePermissionsPersistence;
+@@ -107,6 +107,7 @@ import com.android.permission.persistence.RuntimePermissionsPersistence;
  import com.android.permission.persistence.RuntimePermissionsState;
  import com.android.server.LocalServices;
  import com.android.server.backup.PreferredActivityBackupHelper;
@@ -143,7 +143,7 @@ index b097b52cd759..126b212c9eb1 100644
  import com.android.server.pm.Installer.InstallerException;
  import com.android.server.pm.parsing.PackageInfoUtils;
  import com.android.server.pm.permission.LegacyPermissionDataProvider;
-@@ -1927,8 +1928,11 @@ public final class Settings implements Watchable, Snappable, ResilientAtomicFile
+@@ -1913,8 +1914,11 @@ public final class Settings implements Watchable, Snappable, ResilientAtomicFile
                                  parser.getAttributeBoolean(null, ATTR_INSTANT_APP, false);
                          final boolean virtualPreload =
                                  parser.getAttributeBoolean(null, ATTR_VIRTUAL_PRELOAD, false);
@@ -158,7 +158,7 @@ index b097b52cd759..126b212c9eb1 100644
                                  ATTR_ENABLED_CALLER);
                          final String harmfulAppWarning =
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index b771b6ba1726..b4a761a8da25 100644
+index cd1d7996fbac..f7dcd5c20975 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -135,6 +135,7 @@ import com.android.server.PermissionThread;
@@ -169,7 +169,7 @@ index b771b6ba1726..b4a761a8da25 100644
  import com.android.server.pm.ApexManager;
  import com.android.server.pm.KnownPackages;
  import com.android.server.pm.PackageInstallerService;
-@@ -1360,6 +1361,13 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -1369,6 +1370,13 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
              isRolePermission = permission.isRole();
              isSoftRestrictedPermission = permission.isSoftRestricted();
          }
@@ -183,7 +183,7 @@ index b771b6ba1726..b4a761a8da25 100644
          final boolean mayGrantRolePermission = isRolePermission
                  && mayManageRolePermission(callingUid);
          final boolean mayGrantSoftRestrictedPermission = isSoftRestrictedPermission
-@@ -2931,6 +2939,11 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2918,6 +2926,11 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
                          Slog.wtf(LOG_TAG, "Unknown permission protection " + bp.getProtection()
                                  + " for permission " + bp.getName());
                      }

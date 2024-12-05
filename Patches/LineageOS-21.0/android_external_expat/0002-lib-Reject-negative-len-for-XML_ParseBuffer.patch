@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sebastian Pipping <sebastian@pipping.org>
+Date: Mon, 19 Aug 2024 22:26:07 +0200
+Subject: [PATCH] lib: Reject negative len for XML_ParseBuffer
+
+Reported by TaiYou
+---
+ expat/lib/xmlparse.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+index 67970854..d73d980e 100644
+--- a/expat/lib/xmlparse.c
++++ b/expat/lib/xmlparse.c
+@@ -2030,6 +2030,12 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal) {
+ 
+   if (parser == NULL)
+     return XML_STATUS_ERROR;
++
++  if (len < 0) {
++    parser->m_errorCode = XML_ERROR_INVALID_ARGUMENT;
++    return XML_STATUS_ERROR;
++  }
++
+   switch (parser->m_parsingStatus.parsing) {
+   case XML_SUSPENDED:
+     parser->m_errorCode = XML_ERROR_SUSPENDED;

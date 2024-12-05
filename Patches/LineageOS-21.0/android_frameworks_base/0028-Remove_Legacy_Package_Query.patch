@@ -22,10 +22,10 @@ https://github.com/GrapheneOS/os-issue-tracker/issues/1634 for more details.
  1 file changed, 12 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
-index 3cb2420cd223..063fc92dddb8 100644
+index 06b16becd3fe..b76683e29e42 100644
 --- a/services/core/java/com/android/server/pm/ComputerEngine.java
 +++ b/services/core/java/com/android/server/pm/ComputerEngine.java
-@@ -2711,24 +2711,12 @@ public class ComputerEngine implements Computer {
+@@ -2721,24 +2721,12 @@ public class ComputerEngine implements Computer {
       * Update given flags when being used to request {@link PackageInfo}.
       */
      public final long updateFlagsForPackage(long flags, int userId) {

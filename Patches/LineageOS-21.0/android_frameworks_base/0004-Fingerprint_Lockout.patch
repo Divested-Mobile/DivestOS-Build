@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java b/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
-index 0730c672acd9..cbd7a8963eb1 100644
+index 0e05a7923db4..073d9a3777f6 100644
 --- a/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
 +++ b/services/core/java/com/android/server/biometrics/sensors/fingerprint/hidl/LockoutFrameworkImpl.java
-@@ -43,7 +43,7 @@ public class LockoutFrameworkImpl implements LockoutTracker {
+@@ -48,7 +48,7 @@ public class LockoutFrameworkImpl implements LockoutTracker {
      private static final String ACTION_LOCKOUT_RESET =
              "com.android.server.biometrics.sensors.fingerprint.ACTION_LOCKOUT_RESET";
      private static final int MAX_FAILED_ATTEMPTS_LOCKOUT_TIMED = 5;

@@ -12,7 +12,7 @@ Subject: [PATCH] add bluetooth auto-turn-off setting
  create mode 100644 src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 954e3047f57..8982867bb0e 100644
+index b6fe89a9bce..8bc2d2a97e8 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -18,6 +18,50 @@
@@ -67,7 +67,7 @@ index 954e3047f57..8982867bb0e 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 9713adcc767..48b67197e77 100644
+index bf2c65eefec..3f8e5f12cc6 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -27,6 +27,25 @@
@@ -97,12 +97,12 @@ index 9713adcc767..48b67197e77 100644
      <string name="device_info_default">Unknown</string>
      <!-- String for removal of sensitive info on about, depending on tap -->
 diff --git a/res/xml/connected_devices.xml b/res/xml/connected_devices.xml
-index 1d2dd24e26c..24ba25f536e 100644
+index 40ab145bc89..47ad1b67831 100644
 --- a/res/xml/connected_devices.xml
 +++ b/res/xml/connected_devices.xml
-@@ -60,6 +60,14 @@
+@@ -46,6 +46,14 @@
          settings:useAdminDisabledSummary="true"
-         settings:controller="com.android.settings.connecteddevice.AddDevicePreferenceController"/>
+         settings:userRestriction="no_config_bluetooth" />
  
 +    <androidx.preference.ListPreference
 +        android:key="bluetooth_timeout"

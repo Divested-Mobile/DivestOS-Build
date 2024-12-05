@@ -127,10 +127,10 @@ index 974bd15..0632e32 100644
          if (mSupportsKeyDisabler) {
              final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
 diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
-index 34b8b1b..2aa217c 100644
+index d635bfa..0a7aa36 100644
 --- a/src/org/lineageos/setupwizard/SetupWizardApp.java
 +++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
-@@ -36,7 +36,6 @@ public class SetupWizardApp extends Application {
+@@ -37,7 +37,6 @@ public class SetupWizardApp extends Application {
      public static final String EXTRA_PREFS_SET_BACK_TEXT = "extra_prefs_set_back_text";
      public static final String EXTRA_ENABLE_NEXT_ON_CONNECT = "wifi_enable_next_on_connect";
  
@@ -139,7 +139,7 @@ index 34b8b1b..2aa217c 100644
      public static final String ENABLE_RECOVERY_UPDATE = "enable_recovery_update";
      public static final String UPDATE_RECOVERY_PROP = "persist.vendor.recovery_update";
 diff --git a/src/org/lineageos/setupwizard/util/SetupWizardUtils.java b/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
-index 7b10a1f..99f0156 100644
+index fb10760..83a2257 100644
 --- a/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
 +++ b/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
 @@ -20,7 +20,6 @@ import static com.google.android.setupcompat.util.ResultCodes.RESULT_SKIP;
@@ -150,7 +150,7 @@ index 7b10a1f..99f0156 100644
  import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
  import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
  import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
-@@ -195,7 +194,6 @@ public class SetupWizardUtils {
+@@ -190,7 +189,6 @@ public class SetupWizardUtils {
                      Settings.Secure.TV_USER_SETUP_COMPLETE, 1);
          }
  
@@ -158,7 +158,7 @@ index 7b10a1f..99f0156 100644
          handleNavKeys(context);
          handleRecoveryUpdate();
          handleNavigationOption();
-@@ -293,17 +291,6 @@ public class SetupWizardUtils {
+@@ -270,17 +268,6 @@ public class SetupWizardUtils {
                  enabledState, DONT_KILL_APP);
      }
  

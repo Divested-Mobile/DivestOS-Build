@@ -13,10 +13,10 @@ they get a message each time it tries again.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index 3bc33bac37bc..be714871ad0f 100644
+index 0a4fc6515368..34ddab5adae1 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
-@@ -4211,7 +4211,7 @@
+@@ -4281,7 +4281,7 @@
  
      <!-- List of comma separated package names for which we the system will not show crash, ANR,
           etc. dialogs. -->

@@ -13,10 +13,10 @@ RANDOMIZATION_ALWAYS is set as the default option
  5 files changed, 31 insertions(+), 9 deletions(-)
 
 diff --git a/res/layout/wifi_network_config.xml b/res/layout/wifi_network_config.xml
-index 77afedc3042..075b751e710 100644
+index 3de1a38c3ea..52cc8cf9e74 100644
 --- a/res/layout/wifi_network_config.xml
 +++ b/res/layout/wifi_network_config.xml
-@@ -694,7 +694,7 @@
+@@ -707,7 +707,7 @@
                       android:layout_height="wrap_content"
                       style="@style/wifi_item_spinner"
                       android:prompt="@string/wifi_privacy_settings"
@@ -26,10 +26,10 @@ index 77afedc3042..075b751e710 100644
  
          <LinearLayout
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 085a33bc53f..b3511593319 100644
+index 99f52b499c2..a0030084801 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1172,6 +1172,12 @@
+@@ -1192,6 +1192,12 @@
          <item>Treat as unmetered</item>
      </string-array>
  
@@ -42,7 +42,7 @@ index 085a33bc53f..b3511593319 100644
      <string-array name="wifi_privacy_entries">
          <item>Use randomized MAC (default)</item>
          <item>Use device MAC</item>
-@@ -1189,6 +1195,7 @@
+@@ -1209,6 +1215,7 @@
      </string-array>
  
      <string-array name="wifi_privacy_values" translatable="false">
@@ -51,7 +51,7 @@ index 085a33bc53f..b3511593319 100644
          <item>0</item>
      </string-array>
 diff --git a/res/xml/wifi_network_details_fragment2.xml b/res/xml/wifi_network_details_fragment2.xml
-index daff20f5a28..7c54ee1fc1d 100644
+index 598f9d86173..fa1fa6cab61 100644
 --- a/res/xml/wifi_network_details_fragment2.xml
 +++ b/res/xml/wifi_network_details_fragment2.xml
 @@ -94,7 +94,7 @@
@@ -62,7 +62,7 @@ index daff20f5a28..7c54ee1fc1d 100644
 +        android:entries="@array/wifi_privacy_entries_extended"
          android:entryValues="@array/wifi_privacy_values"/>
  
-     <Preference
+     <com.android.settings.spa.preference.ComposePreference
 diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
 index b67c84832fb..e0c9ba89ab7 100644
 --- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
@@ -77,7 +77,7 @@ index b67c84832fb..e0c9ba89ab7 100644
                      ? R.string.wifi_advanced_randomized_mac_address_title
                      : R.string.wifi_advanced_randomized_mac_address_disconnected_title;
 diff --git a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
-index 8c78e805d69..4ec97ba5f42 100644
+index 5d393e54a21..504ec1f9dd5 100644
 --- a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
 +++ b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
 @@ -17,6 +17,7 @@
@@ -88,7 +88,7 @@ index 8c78e805d69..4ec97ba5f42 100644
  import android.net.wifi.WifiManager;
  
  import androidx.annotation.NonNull;
-@@ -38,6 +39,10 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+@@ -39,6 +40,10 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
      private final WifiManager mWifiManager;
      private WifiEntry mWifiEntry;
  
@@ -99,7 +99,7 @@ index 8c78e805d69..4ec97ba5f42 100644
      public WifiPrivacyPreferenceController2(Context context) {
          super(context, KEY_WIFI_PRIVACY);
  
-@@ -93,8 +98,6 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+@@ -94,8 +99,6 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
          return mWifiEntry.getPrivacy();
      }
  
@@ -108,7 +108,7 @@ index 8c78e805d69..4ec97ba5f42 100644
  
      /**
       * Returns preference index value.
-@@ -103,8 +106,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+@@ -104,8 +107,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
       * @return index value of preference
       */
      public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
@@ -125,7 +125,7 @@ index 8c78e805d69..4ec97ba5f42 100644
      }
  
      /**
-@@ -114,8 +123,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+@@ -115,8 +124,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
       * @return mac randomized value
       */
      public static int translatePrefValueToMacRandomizedValue(int prefMacRandomized) {

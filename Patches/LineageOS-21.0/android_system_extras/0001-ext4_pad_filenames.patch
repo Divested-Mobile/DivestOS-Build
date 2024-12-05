@@ -12,10 +12,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/libfscrypt/fscrypt.cpp b/libfscrypt/fscrypt.cpp
-index 174cecad..a28f988f 100644
+index 4c756b18..16f81847 100644
 --- a/libfscrypt/fscrypt.cpp
 +++ b/libfscrypt/fscrypt.cpp
-@@ -228,18 +228,8 @@ bool ParseOptionsForApiLevel(unsigned int first_api_level, const std::string& op
+@@ -235,18 +235,8 @@ bool ParseOptionsForApiLevel(unsigned int first_api_level, const std::string& op
          }
      }
  

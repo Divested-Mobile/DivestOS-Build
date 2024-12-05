@@ -25,7 +25,7 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index b3511593319..bd9f5f06ae0 100644
+index a0030084801..7aa5fec4487 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -157,6 +157,36 @@
@@ -66,10 +66,10 @@ index b3511593319..bd9f5f06ae0 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 1ad831e1b7e..04722ef295b 100644
+index 9afe2bd2a30..70ea886db71 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -12461,6 +12461,9 @@
+@@ -12834,6 +12834,9 @@
      <!-- [CHAR LIMIT=NONE] Hint for QR code process failure -->
      <string name="bt_le_audio_qr_code_is_not_valid_format">QR code isn\u0027t a valid format</string>
  

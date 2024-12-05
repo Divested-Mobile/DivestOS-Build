@@ -12,10 +12,10 @@ Subject: [PATCH] add exec spawning toggle
  create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 8ad86f32445..2905e96d006 100644
+index d9a023e091f..0b0f47c2ba3 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -668,6 +668,9 @@
+@@ -665,6 +665,9 @@
      <string name="auto_reboot_title">Auto reboot</string>
      <string name="auto_reboot_summary">Automatically reboot the device, if the phone hasn\'t been unlocked within the selected number of hours.</string>
  

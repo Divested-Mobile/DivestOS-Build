@@ -27,7 +27,7 @@ index d678715e7..1e866e3ca 100644
      <bool name="show_extreme_alert_settings">true</bool>
      <!-- Whether to show severe alert settings -->
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 66a8a306c..10d43df0a 100644
+index c234c924c..647d9e3d6 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -392,4 +392,6 @@
@@ -53,10 +53,10 @@ index fc0649e24..08c1ccf30 100644
  
          <!-- Enable CMAS Extreme Threat alerts -->
 diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java b/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
-index 0f9a5ed16..d45b8f854 100644
+index 2ac1402bf..3e8f3b65d 100644
 --- a/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
 +++ b/src/com/android/cellbroadcastreceiver/CellBroadcastAlertService.java
-@@ -575,8 +575,8 @@ public class CellBroadcastAlertService extends Service {
+@@ -580,8 +580,8 @@ public class CellBroadcastAlertService extends Service {
          }
          // CMAS warning types
          if (resourcesKey == R.array.cmas_presidential_alerts_channels_range_strings) {
@@ -85,10 +85,10 @@ index eaca6d741..e4cf7a509 100644
                              case KEY_SCREEN_ON_DURATION:
                                  mScreenOnDuration = Integer.parseInt(value);
 diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java b/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
-index e8b55feb1..4b6541011 100644
+index 642cfd85a..0e088e662 100644
 --- a/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
 +++ b/src/com/android/cellbroadcastreceiver/CellBroadcastReceiver.java
-@@ -660,6 +660,8 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
+@@ -672,6 +672,8 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
                      break;
  
                  case CdmaSmsCbProgramData.OPERATION_CLEAR_CATEGORIES:
@@ -97,7 +97,7 @@ index e8b55feb1..4b6541011 100644
                      tryCdmaSetCategory(mContext,
                              CdmaSmsCbProgramData.CATEGORY_CMAS_EXTREME_THREAT, false);
                      tryCdmaSetCategory(mContext,
-@@ -687,6 +689,12 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
+@@ -699,6 +701,12 @@ public class CellBroadcastReceiver extends BroadcastReceiver {
          SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
  
          switch (category) {

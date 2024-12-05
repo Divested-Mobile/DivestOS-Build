@@ -13,10 +13,10 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 46 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 64e39f5001f0..ec292016d3db 100644
+index 783483d8e491..48913891ac52 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -18673,6 +18673,13 @@ public final class Settings {
+@@ -19027,6 +19027,13 @@ public final class Settings {
          public static final String REVIEW_PERMISSIONS_NOTIFICATION_STATE =
                  "review_permissions_notification_state";
  
@@ -31,7 +31,7 @@ index 64e39f5001f0..ec292016d3db 100644
           * Whether repair mode is active on the device.
           * <p>
 diff --git a/data/etc/com.android.systemui.xml b/data/etc/com.android.systemui.xml
-index 43683ffad432..499d39e0c5cf 100644
+index ce2543a47cf5..67108d16e099 100644
 --- a/data/etc/com.android.systemui.xml
 +++ b/data/etc/com.android.systemui.xml
 @@ -54,6 +54,7 @@
@@ -41,12 +41,12 @@ index 43683ffad432..499d39e0c5cf 100644
 +        <permission name="android.permission.REBOOT"/>
          <permission name="android.permission.REQUEST_NETWORK_SCORES"/>
          <permission name="android.permission.RECEIVE_MEDIA_RESOURCE_USAGE"/>
-         <permission name="android.permission.SET_WALLPAPER_DIM_AMOUNT"/>
+         <permission name="android.permission.SATELLITE_COMMUNICATION"/>
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 6f86f4e83623..3770d9530d5b 100644
+index 351cce0929b7..00604a316019 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -348,6 +348,9 @@
+@@ -356,6 +356,9 @@
  
      <uses-permission android:name="android.permission.SET_UNRESTRICTED_KEEP_CLEAR_AREAS" />
  
@@ -55,12 +55,12 @@ index 6f86f4e83623..3770d9530d5b 100644
 +
      <uses-permission android:name="android.permission.MONITOR_KEYBOARD_BACKLIGHT" />
  
-     <!-- Listen to (dis-)connection of external displays and enable / disable them. -->
+     <uses-permission android:name="android.permission.MONITOR_STICKY_MODIFIER_STATE" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 81856ac16575..dafa9bf8a9a3 100644
+index 6034e92be873..d00599310c5c 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-@@ -238,6 +238,8 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+@@ -240,6 +240,8 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
  
      private final static String TAG = "KeyguardViewMediator";
  
@@ -69,7 +69,7 @@ index 81856ac16575..dafa9bf8a9a3 100644
      public static final String DELAYED_KEYGUARD_ACTION =
          "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD";
      private static final String DELAYED_LOCK_PROFILE_ACTION =
-@@ -411,6 +413,11 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+@@ -417,6 +419,11 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
       */
      private int mDelayedProfileShowingSequence;
  
@@ -81,7 +81,7 @@ index 81856ac16575..dafa9bf8a9a3 100644
      private final DismissCallbackRegistry mDismissCallbackRegistry;
  
      // the properties of the keyguard
-@@ -1495,6 +1502,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+@@ -1503,6 +1510,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          final IntentFilter delayedActionFilter = new IntentFilter();
          delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
          delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
@@ -119,18 +119,18 @@ index 81856ac16575..dafa9bf8a9a3 100644
      /**
       * It will let us know when the device is waking up.
       */
-@@ -2276,6 +2300,10 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+@@ -2298,6 +2322,10 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
-         showLocked(options);
+         showKeyguard(options);
 +        final long rebootAfterTimeout = Settings.Global.getLong(mContext.getContentResolver(), Settings.Global.SETTINGS_REBOOT_AFTER_TIMEOUT, 0);
 +        if (rebootAfterTimeout >= 1) {
 +            doRebootForOwnerAfterTimeoutIfEnabled(rebootAfterTimeout);
 +        }
      }
  
-     private void lockProfile(int userId) {
-@@ -2455,6 +2483,12 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+     @SuppressLint("MissingPermission")
+@@ -2478,6 +2506,12 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
                          }
                      }
                  }
@@ -143,7 +143,7 @@ index 81856ac16575..dafa9bf8a9a3 100644
              }
          }
      };
-@@ -3164,6 +3198,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
+@@ -3200,6 +3234,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          mHideAnimationRun = false;
          adjustStatusBarLocked();
          sendUserPresentBroadcast();

@@ -75,7 +75,7 @@ index 246c7b36a..86e17c570 100644
      public synchronized boolean isAutoJoinEnabled() {
          if (mTargetWifiConfig == null) {
 diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
-index 09dfd89e3..358b534db 100644
+index 6843d5a75..495fa7959 100644
 --- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
 +++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
 @@ -142,6 +142,7 @@ public class WifiEntry {

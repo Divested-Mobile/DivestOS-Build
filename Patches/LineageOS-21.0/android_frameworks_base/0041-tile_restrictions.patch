@@ -11,10 +11,10 @@ Subject: [PATCH] SystemUI: require unlocking to use QS tiles by default
  4 files changed, 45 insertions(+), 3 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
-index 919b99604fd5..3b73cb8bf7a3 100644
+index ba3357c8b591..57c6966da8ab 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
-@@ -55,6 +55,7 @@ public interface QSHost {
+@@ -49,6 +49,7 @@ public interface QSHost {
      Context getUserContext();
      int getUserId();
      Collection<QSTile> getTiles();
@@ -84,7 +84,7 @@ index cc370ff50c52..6cbef8241a48 100644
      public Collection<QSTile> getTiles() {
          return mTiles.values();
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
-index 529d68407ce9..5cb51840bb52 100644
+index 35cac4b2adb2..a4c69237693d 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
 @@ -68,6 +68,7 @@ import com.android.systemui.qs.QSHost;
@@ -94,8 +94,8 @@ index 529d68407ce9..5cb51840bb52 100644
 +import com.android.systemui.statusbar.policy.KeyguardStateController;
  
  import java.io.PrintWriter;
- import java.util.ArrayList;
-@@ -269,6 +270,32 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
+ 
+@@ -268,6 +269,32 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
          return true;
      }
  
@@ -128,7 +128,7 @@ index 529d68407ce9..5cb51840bb52 100644
      // safe to call from any thread
  
      public void addCallback(Callback callback) {
-@@ -592,16 +619,19 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
+@@ -591,16 +618,19 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                          mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
                      } else {
                          mQSLogger.logHandleClick(mTileSpec, msg.arg1);

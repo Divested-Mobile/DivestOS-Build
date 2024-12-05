@@ -31,10 +31,10 @@ Change-Id: I5926493864d4b1291ae83f8b601bf5dcc54085cd
  create mode 100644 hosts_cache.h
 
 diff --git a/Android.bp b/Android.bp
-index 4047527d..31f16ca7 100644
+index 7d60d768..24a2a34e 100644
 --- a/Android.bp
 +++ b/Android.bp
-@@ -238,6 +238,7 @@ cc_library {
+@@ -243,6 +243,7 @@ cc_library {
          "getaddrinfo.cpp",
          "gethnamaddr.cpp",
          "sethostent.cpp",
@@ -633,7 +633,7 @@ index 00000000..55138dcb
 +
 +#endif
 diff --git a/sethostent.cpp b/sethostent.cpp
-index a9b0de6e..d19ab461 100644
+index 1bd8ab4c..0bc71870 100644
 --- a/sethostent.cpp
 +++ b/sethostent.cpp
 @@ -43,6 +43,8 @@
@@ -654,6 +654,6 @@ index a9b0de6e..d19ab461 100644
 +        return (rc == NETDB_SUCCESS ? 0 : EAI_NODATA);
 +    }
 +
+     // TODO: Wrap the 'hf' into a RAII class or std::shared_ptr and modify the
+     // sethostent_r()/endhostent_r() to get rid of manually endhostent_r(&hf) everywhere.
      FILE* hf = NULL;
-     sethostent_r(&hf);
-     if (hf == NULL) {

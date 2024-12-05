@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/core/config_sanitizers.mk b/core/config_sanitizers.mk
-index 3507961833..01cb295bfe 100644
+index ab2d5c1ddf..d55f93081e 100644
 --- a/core/config_sanitizers.mk
 +++ b/core/config_sanitizers.mk
-@@ -572,3 +572,9 @@ ifneq ($(findstring fsanitize,$(my_cflags)),)
+@@ -575,3 +575,9 @@ ifneq ($(findstring fsanitize,$(my_cflags)),)
      endif
    endif
  endif

@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/libc/bionic/pthread_internal.h b/libc/bionic/pthread_internal.h
-index 3b9e6a481..c4d124e8e 100644
+index 091f711eb..07df081a9 100644
 --- a/libc/bionic/pthread_internal.h
 +++ b/libc/bionic/pthread_internal.h
-@@ -256,7 +256,11 @@ __LIBC_HIDDEN__ void pthread_key_clean_all(void);
+@@ -258,7 +258,11 @@ __LIBC_HIDDEN__ void pthread_key_clean_all(void);
  // stack overflows, we subtracted the same amount we were using there
  // from the default thread stack size. This should keep memory usage
  // roughly constant.

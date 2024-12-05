@@ -33,7 +33,7 @@ export -f scanWorkspaceForMalware;
 buildDevice() {
 	cd "$DOS_BUILD_BASE";
 	if [[ -d "$DOS_SIGNING_KEYS/$1" ]]; then
-		breakfast "lineage_$1-ap1a-user" && mka target-files-package otatools && processRelease $1 true $2;
+		breakfast "lineage_$1-ap2a-user" && mka target-files-package otatools && processRelease $1 true $2;
 	else
 		echo -e "\e[0;31mNo signing keys available for $1\e[0m";
 	fi;

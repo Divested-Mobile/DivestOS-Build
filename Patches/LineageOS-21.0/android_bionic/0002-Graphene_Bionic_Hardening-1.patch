@@ -26,17 +26,17 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  create mode 100644 libc/bionic/explicit_bzero.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 13cefe94f..9f8b689af 100644
+index a5f87c3a2..bc5b16a22 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -1127,6 +1127,7 @@ cc_library_static {
+@@ -850,6 +850,7 @@ cc_library_static {
          "bionic/eventfd.cpp",
          "bionic/exec.cpp",
          "bionic/execinfo.cpp",
 +        "bionic/explicit_bzero.cpp",
+         "bionic/exit.cpp",
          "bionic/faccessat.cpp",
          "bionic/fchmod.cpp",
-         "bionic/fchmodat.cpp",
 diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
 new file mode 100644
 index 000000000..dd43f9c00
@@ -64,7 +64,7 @@ index 47bdd7271..e601ea022 100644
   * [memset_explicit(3)](http://man7.org/linux/man-pages/man3/memset_explicit.3.html)
   * writes the bottom 8 bits of the given int to the next `n` bytes of `dst`,
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 5d87cd8ef..dd2e6c6f7 100644
+index f5340c172..9a0e7fb99 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -332,6 +332,7 @@ LIBC {

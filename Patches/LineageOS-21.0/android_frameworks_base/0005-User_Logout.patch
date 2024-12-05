@@ -10,10 +10,10 @@ Ported from 11, 12 moved the isLogoutEnabled boolean to ActiveAdmin.java
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java b/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
-index 17638fcaba68..7e416811c45a 100644
+index dc8cec91001b..2ae616fc9cc5 100644
 --- a/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
 +++ b/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
-@@ -234,7 +234,7 @@ class ActiveAdmin {
+@@ -233,7 +233,7 @@ class ActiveAdmin {
      boolean requireAutoTime = false;
      boolean forceEphemeralUsers = false;
      boolean isNetworkLoggingEnabled = false;
@@ -23,10 +23,10 @@ index 17638fcaba68..7e416811c45a 100644
      // one notification after enabling + one more after reboots
      static final int DEF_MAXIMUM_NETWORK_LOGGING_NOTIFICATIONS_SHOWN = 2;
 diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-index fb07763f58d6..cc8da148d272 100644
+index e85a4c48f1c1..51e8499ffd52 100644
 --- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
 +++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-@@ -18919,11 +18919,11 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
+@@ -19243,11 +19243,11 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
      @Override
      public boolean isLogoutEnabled() {
          if (!mHasFeature) {

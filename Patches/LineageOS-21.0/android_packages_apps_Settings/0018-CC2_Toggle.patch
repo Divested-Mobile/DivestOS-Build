@@ -1,0 +1,173 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 20 Apr 2022 01:04:27 -0400
+Subject: [PATCH] Add a toggle for CarrierConfig2 enablement
+
+Copy and pasted from the GrapheneOS exec spawning toggle patch
+TODO: MOVE OUT OF SECURITY CATEGORY
+
+Change-Id: Ibea6ea9bed1c2ae3491f403d9e5c17c1d1c403f1
+Signed-off-by: Tad <tad@spotco.us>
+---
+ res/values/strings.xml                        |   3 +
+ res/xml/security_dashboard_settings.xml       |   6 +
+ .../CarrierConfig2PreferenceController.java   | 106 ++++++++++++++++++
+ .../settings/security/SecuritySettings.java   |   1 +
+ 4 files changed, 116 insertions(+)
+ create mode 100644 src/com/android/settings/security/CarrierConfig2PreferenceController.java
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 44aacacb5a7..4766f048364 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -680,6 +680,9 @@
+     <string name="openeuicc_title">Enable eUICC management</string>
+     <string name="openeuicc_summary">Enables the OpenEUICC app to allow management of virtual (eSIM) and physical eUICC cards. Reboot required after toggling.</string>
+ 
++    <string name="carrierconfig2_title">Enable CarrierConfig2</string>
++    <string name="carrierconfig2_summary">Use a larger Google database instead of the AOSP database for carrier specific configurations. May improve cellular network compatibility &amp; functionality. Requires reboot.</string>
++
+     <!-- Text shown for summary of owner info setting (if none set) [CHAR LIMIT=40]-->
+     <string name="owner_info_settings_summary">None</string>
+     <!-- Hint text shown in owner info edit text [CHAR LIMIT=50] -->
+diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
+index de90cec5bcc..d8766ab41a3 100644
+--- a/res/xml/security_dashboard_settings.xml
++++ b/res/xml/security_dashboard_settings.xml
+@@ -98,6 +98,12 @@
+             android:title="@string/openeuicc_title"
+             android:summary="@string/openeuicc_summary"
+             android:persistent="false" />
++
++        <SwitchPreference
++            android:key="carrierconfig2"
++            android:title="@string/carrierconfig2_title"
++            android:summary="@string/carrierconfig2_summary"
++            android:persistent="false" />
+     </PreferenceCategory>
+ 
+     <Preference
+diff --git a/src/com/android/settings/security/CarrierConfig2PreferenceController.java b/src/com/android/settings/security/CarrierConfig2PreferenceController.java
+new file mode 100644
+index 00000000000..a3e5aa17591
+--- /dev/null
++++ b/src/com/android/settings/security/CarrierConfig2PreferenceController.java
+@@ -0,0 +1,106 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License
++ */
++
++package com.android.settings.security;
++
++import android.content.Context;
++
++import android.os.UserHandle;
++import android.os.UserManager;
++import android.os.SystemProperties;
++
++import android.provider.Settings;
++
++import androidx.preference.Preference;
++import androidx.preference.PreferenceCategory;
++import androidx.preference.PreferenceGroup;
++import androidx.preference.PreferenceScreen;
++import androidx.preference.TwoStatePreference;
++import androidx.preference.SwitchPreference;
++
++import com.android.internal.widget.LockPatternUtils;
++import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.core.AbstractPreferenceController;
++import com.android.settingslib.core.lifecycle.events.OnResume;
++
++public class CarrierConfig2PreferenceController extends AbstractPreferenceController
++        implements PreferenceControllerMixin, OnResume, Preference.OnPreferenceChangeListener {
++
++    private static final String SYS_KEY_CARRIERCONFIG2_ENABLE = "persist.security.carrierconfig2";
++    private static final String PREF_KEY_CARRIERCONFIG2_ENABLE = "carrierconfig2";
++    private static final String PREF_KEY_SECURITY_CATEGORY = "security_category";
++
++    private PreferenceCategory mSecurityCategory;
++    private SwitchPreference mCarrierConfig2Enable;
++    private boolean mIsAdmin;
++    private UserManager mUm;
++
++    public CarrierConfig2PreferenceController(Context context) {
++        super(context);
++        mUm = UserManager.get(context);
++    }
++
++    @Override
++    public void displayPreference(PreferenceScreen screen) {
++        super.displayPreference(screen);
++        mSecurityCategory = screen.findPreference(PREF_KEY_SECURITY_CATEGORY);
++        updatePreferenceState();
++    }
++
++    @Override
++    public boolean isAvailable() {
++        mIsAdmin = mUm.isAdminUser();
++        return mIsAdmin;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return PREF_KEY_CARRIERCONFIG2_ENABLE;
++    }
++
++    // TODO: should we use onCreatePreferences() instead?
++    private void updatePreferenceState() {
++        if (mSecurityCategory == null) {
++            return;
++        }
++
++        if (mIsAdmin) {
++            mCarrierConfig2Enable = (SwitchPreference) mSecurityCategory.findPreference(PREF_KEY_CARRIERCONFIG2_ENABLE);
++            mCarrierConfig2Enable.setChecked(SystemProperties.getInt(SYS_KEY_CARRIERCONFIG2_ENABLE, 0) == 1);
++        } else {
++            mSecurityCategory.removePreference(mSecurityCategory.findPreference(PREF_KEY_CARRIERCONFIG2_ENABLE));
++        }
++    }
++
++    @Override
++    public void onResume() {
++        updatePreferenceState();
++        if (mCarrierConfig2Enable != null) {
++                boolean mode = mCarrierConfig2Enable.isChecked();
++                SystemProperties.set(SYS_KEY_CARRIERCONFIG2_ENABLE, mode ? "1" : "0");
++        }
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object value) {
++        final String key = preference.getKey();
++        if (PREF_KEY_CARRIERCONFIG2_ENABLE.equals(key)) {
++            final boolean mode = !mCarrierConfig2Enable.isChecked();
++            SystemProperties.set(SYS_KEY_CARRIERCONFIG2_ENABLE, mode ? "1" : "0");
++        }
++        return true;
++    }
++}
+diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
+index ee9acc01f6b..c52bb957697 100644
+--- a/src/com/android/settings/security/SecuritySettings.java
++++ b/src/com/android/settings/security/SecuritySettings.java
+@@ -111,6 +111,7 @@ public class SecuritySettings extends DashboardFragment {
+         securityPreferenceControllers.add(new HostsPreferenceController(context));
+         securityPreferenceControllers.add(new SigSpoofPreferenceController(context));
+         securityPreferenceControllers.add(new OpenEuiccPreferenceController(context));
++        securityPreferenceControllers.add(new CarrierConfig2PreferenceController(context));
+         controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
+                 .setChildren(securityPreferenceControllers));
+         controllers.addAll(securityPreferenceControllers);

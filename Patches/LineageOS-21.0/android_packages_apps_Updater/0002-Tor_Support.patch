@@ -178,7 +178,7 @@ index 3494947..7a7f7cf 100644
      }
  }
 diff --git a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
-index b9c4b5d..b94fff0 100644
+index 6306761..eace948 100644
 --- a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
 +++ b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
 @@ -18,12 +18,16 @@ package org.lineageos.updater.download;
@@ -376,7 +376,7 @@ index c1b4356..93f1bfc 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index b59cea4..841be10 100644
+index 744d46f..eb80934 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -79,6 +79,7 @@

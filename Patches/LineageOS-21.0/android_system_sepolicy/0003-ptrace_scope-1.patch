@@ -259,10 +259,10 @@ index a399b3aeb..05e8443c1 100644
  allow init dev_type:blk_file r_file_perms;
  allowxperm init dev_type:blk_file ioctl BLKROSET;
 diff --git a/private/domain.te b/private/domain.te
-index 2f107dde0..77f09d959 100644
+index 66bce05e2..7e2af14f3 100644
 --- a/private/domain.te
 +++ b/private/domain.te
-@@ -203,6 +203,7 @@ neverallow {
+@@ -233,6 +233,7 @@ neverallow {
  # with other UIDs to these allowlisted domains.
  neverallow {
    domain
@@ -271,7 +271,7 @@ index 2f107dde0..77f09d959 100644
    userdebug_or_eng(`-llkd')
    -dumpstate
 diff --git a/private/genfs_contexts b/private/genfs_contexts
-index 19083cef2..393d8a6c7 100644
+index c27fa76cc..421c5b748 100644
 --- a/private/genfs_contexts
 +++ b/private/genfs_contexts
 @@ -79,6 +79,7 @@ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
@@ -283,10 +283,10 @@ index 19083cef2..393d8a6c7 100644
  genfscon proc /sys/net/core/bpf_ u:object_r:proc_bpf:s0
  genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
 diff --git a/public/init.te b/public/init.te
-index 29dd42d43..08f9a7075 100644
+index 47b8603b5..a10a96852 100644
 --- a/public/init.te
 +++ b/public/init.te
-@@ -156,6 +156,9 @@ allow init self:global_capability_class_set sys_time;
+@@ -157,6 +157,9 @@ allow init self:global_capability_class_set sys_time;
  
  allow init self:global_capability_class_set { sys_rawio mknod };
  

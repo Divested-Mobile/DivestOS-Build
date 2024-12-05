@@ -78,10 +78,10 @@ index cab84bb01f70..07691fcec545 100644
 +    public static native void nativeHandleRuntimeFlags(int runtimeFlags);
  }
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index cc936ccefb91..eea7b1e57b37 100644
+index 703b5d12cbc2..7cff4afe93ce 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -539,7 +539,7 @@ class ZygoteConnection {
+@@ -542,7 +542,7 @@ class ZygoteConnection {
                  if (SystemProperties.getBoolean("sys.spawn.exec", false) &&
                          (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                      ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
@@ -91,10 +91,10 @@ index cc936ccefb91..eea7b1e57b37 100644
                      // Should not get here.
                      throw new IllegalStateException("ExecInit.execApplication unexpectedly returned");
 diff --git a/core/jni/com_android_internal_os_Zygote.cpp b/core/jni/com_android_internal_os_Zygote.cpp
-index 7c5885adb220..9fc92a480e1e 100644
+index 3ed9f49ede26..236f34e7239f 100644
 --- a/core/jni/com_android_internal_os_Zygote.cpp
 +++ b/core/jni/com_android_internal_os_Zygote.cpp
-@@ -1872,6 +1872,86 @@ static void BindMountStorageDirs(JNIEnv* env, jobjectArray pkg_data_info_list,
+@@ -1894,6 +1894,86 @@ static void BindMountStorageDirs(JNIEnv* env, jobjectArray pkg_data_info_list,
    }
  }
  
@@ -181,7 +181,7 @@ index 7c5885adb220..9fc92a480e1e 100644
  // Utility routine to specialize a zygote child process.
  static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids, jint runtime_flags,
                               jobjectArray rlimits, jlong permitted_capabilities,
-@@ -2019,84 +2099,9 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids,
+@@ -2044,84 +2124,9 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids,
          }
      }
  
@@ -268,7 +268,7 @@ index 7c5885adb220..9fc92a480e1e 100644
  
      SetCapabilities(permitted_capabilities, effective_capabilities, permitted_capabilities,
                      fail_fn);
-@@ -3004,6 +3009,10 @@ static void com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload(JNIEn
+@@ -3044,6 +3049,10 @@ static void com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload(JNIEn
      gPreloadFdsExtracted = true;
  }
  
@@ -279,7 +279,7 @@ index 7c5885adb220..9fc92a480e1e 100644
  static const JNINativeMethod gMethods[] = {
          {"nativeForkAndSpecialize",
           "(II[II[[IILjava/lang/String;Ljava/lang/String;[I[IZLjava/lang/String;Ljava/lang/"
-@@ -3056,6 +3065,7 @@ static const JNINativeMethod gMethods[] = {
+@@ -3096,6 +3105,7 @@ static const JNINativeMethod gMethods[] = {
           (void*)com_android_internal_os_Zygote_nativeMarkOpenedFilesBeforePreload},
          {"nativeAllowFilesOpenedByPreload", "()V",
           (void*)com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload},

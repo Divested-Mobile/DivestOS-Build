@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index f84afec09fc..954e3047f57 100644
+index 0e35fed6a11..b6fe89a9bce 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -105,6 +105,37 @@
@@ -55,10 +55,10 @@ index f84afec09fc..954e3047f57 100644
  
      <!-- Match this with the order of NetworkInfo.DetailedState. --> <skip />
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 8fcbcbf6b49..9713adcc767 100644
+index 61aa1b265e6..bf2c65eefec 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -627,6 +627,9 @@
+@@ -624,6 +624,9 @@
      <!-- Text shown for title of owner info setting [CHAR LIMIT=30]-->
      <string name="owner_info_settings_title">Add text on lock screen</string>
  

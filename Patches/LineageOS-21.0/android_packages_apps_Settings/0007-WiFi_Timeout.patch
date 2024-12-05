@@ -12,7 +12,7 @@ Subject: [PATCH] add Wi-Fi timeout feature
  create mode 100644 src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 8982867bb0e..085a33bc53f 100644
+index 8bc2d2a97e8..99f52b499c2 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -62,6 +62,50 @@
@@ -67,7 +67,7 @@ index 8982867bb0e..085a33bc53f 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 48b67197e77..de8ed4718e4 100644
+index 3f8e5f12cc6..9f0e7336f1d 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -46,6 +46,25 @@
@@ -97,7 +97,7 @@ index 48b67197e77..de8ed4718e4 100644
      <string name="device_info_default">Unknown</string>
      <!-- String for removal of sensitive info on about, depending on tap -->
 diff --git a/res/xml/wifi_configure_settings.xml b/res/xml/wifi_configure_settings.xml
-index bf795d057d1..63ad940984f 100644
+index 5866c5898d9..663e3109d76 100644
 --- a/res/xml/wifi_configure_settings.xml
 +++ b/res/xml/wifi_configure_settings.xml
 @@ -26,6 +26,14 @@

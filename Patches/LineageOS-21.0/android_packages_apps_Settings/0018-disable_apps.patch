@@ -9,10 +9,10 @@ Subject: [PATCH] add an ability to disable non-system apps from the "App info"
  1 file changed, 39 insertions(+), 2 deletions(-)
 
 diff --git a/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java b/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
-index 03053fdeeb6..e0d2d2ee61c 100644
+index b80de32cf86..b7bc37c2425 100644
 --- a/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
 +++ b/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
-@@ -205,6 +205,15 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -206,6 +206,15 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
      }
  
      private class UninstallAndDisableButtonListener implements View.OnClickListener {
@@ -28,7 +28,7 @@ index 03053fdeeb6..e0d2d2ee61c 100644
  
          @Override
          public void onClick(View v) {
-@@ -236,8 +245,13 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -237,8 +246,13 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
                              mUserId);
              if (admin != null && !uninstallBlockedBySystem) {
                  RestrictedLockUtils.sendShowAdminSupportDetailsIntent(mActivity, admin);
@@ -43,7 +43,7 @@ index 03053fdeeb6..e0d2d2ee61c 100644
                      showDialogInner(ButtonActionDialogFragment.DialogType.DISABLE);
                  } else {
                      mMetricsFeatureProvider.action(
-@@ -468,6 +482,25 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -477,6 +491,25 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
          }
  
          mButtonsPref.setButton2Enabled(enabled);
@@ -69,7 +69,7 @@ index 03053fdeeb6..e0d2d2ee61c 100644
      }
  
      /**
-@@ -491,7 +524,9 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -500,7 +533,9 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
  
      @VisibleForTesting
      void updateForceStopButton() {
@@ -80,7 +80,7 @@ index 03053fdeeb6..e0d2d2ee61c 100644
              // User can't force stop device admin.
              Log.w(TAG, "User can't force stop device admin");
              updateForceStopButtonInner(false /* enabled */);
-@@ -516,6 +551,7 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -525,6 +560,7 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
  
      @VisibleForTesting
      void updateForceStopButtonInner(boolean enabled) {
@@ -88,7 +88,7 @@ index 03053fdeeb6..e0d2d2ee61c 100644
          if (mAppsControlDisallowedBySystem) {
              mButtonsPref.setButton3Enabled(false);
          } else {
-@@ -530,6 +566,7 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
+@@ -539,6 +575,7 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
          Uri packageUri = Uri.parse("package:" + packageName);
          Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
          uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_ALL_USERS, allUsers);

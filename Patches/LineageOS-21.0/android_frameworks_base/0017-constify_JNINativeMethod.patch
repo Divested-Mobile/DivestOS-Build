@@ -3,28 +3,26 @@ From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Mon, 9 Oct 2023 14:21:11 +0300
 Subject: [PATCH] constify JNINativeMethod tables
 
-fd '.+\.(c|cpp|cc)$' --exec sed -i 's/static JNINativeMethod/static const JNINativeMethod/'
+fd '.+\.(c|cpp|cc)$' --type file --exec sed -i 's/static JNINativeMethod/static const JNINativeMethod/'
 ---
- .../jni/com_android_commands_hid_Device.cpp   |   2 +-
- .../com_android_commands_uinput_Device.cpp    |   2 +-
- core/jni/LayoutlibLoader.cpp                  |   2 +-
- core/jni/android_app_ActivityThread.cpp       |   2 +-
- core/jni/android_media_MediaMetricsJNI.cpp    | 238 +++++++++++++++++-
- core/jni/android_os_HidlMemory.cpp            |   2 +-
- core/jni/android_os_HwBinder.cpp              |   2 +-
- core/jni/android_os_HwBlob.cpp                |   2 +-
- core/jni/android_os_HwParcel.cpp              |   2 +-
- core/jni/android_os_HwRemoteBinder.cpp        |   2 +-
- .../android_graphics_DisplayListCanvas.cpp    |   2 +-
- media/jni/android_media_ImageWriter.cpp       |   4 +-
- media/jni/android_media_MediaSync.cpp         |   2 +-
- .../jni/soundpool/android_media_SoundPool.cpp |   2 +-
- .../com_android_server_UsbAlsaMidiDevice.cpp  |   2 +-
- ...rver_companion_virtual_InputController.cpp |   2 +-
- .../com_android_server_tv_TvUinputBridge.cpp  |   2 +-
- ...oid_view_tests_ChoreographerNativeTest.cpp |   2 +-
- 18 files changed, 255 insertions(+), 19 deletions(-)
- mode change 120000 => 100644 core/jni/android_media_MediaMetricsJNI.cpp
+ cmds/hid/jni/com_android_commands_hid_Device.cpp              | 2 +-
+ cmds/uinput/jni/com_android_commands_uinput_Device.cpp        | 2 +-
+ core/jni/LayoutlibLoader.cpp                                  | 2 +-
+ core/jni/android_app_ActivityThread.cpp                       | 2 +-
+ core/jni/android_os_HidlMemory.cpp                            | 2 +-
+ core/jni/android_os_HwBinder.cpp                              | 2 +-
+ core/jni/android_os_HwBlob.cpp                                | 2 +-
+ core/jni/android_os_HwParcel.cpp                              | 2 +-
+ core/jni/android_os_HwRemoteBinder.cpp                        | 2 +-
+ libs/hwui/jni/android_graphics_DisplayListCanvas.cpp          | 2 +-
+ media/jni/android_media_ImageWriter.cpp                       | 4 ++--
+ media/jni/android_media_MediaSync.cpp                         | 2 +-
+ media/jni/soundpool/android_media_SoundPool.cpp               | 2 +-
+ services/core/jni/com_android_server_UsbAlsaMidiDevice.cpp    | 2 +-
+ .../com_android_server_companion_virtual_InputController.cpp  | 2 +-
+ services/core/jni/com_android_server_tv_TvUinputBridge.cpp    | 2 +-
+ .../jni/android_view_tests_ChoreographerNativeTest.cpp        | 2 +-
+ 17 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/cmds/hid/jni/com_android_commands_hid_Device.cpp b/cmds/hid/jni/com_android_commands_hid_Device.cpp
 index 8b8d361edbd4..60aa5e4267aa 100644
@@ -40,7 +38,7 @@ index 8b8d361edbd4..60aa5e4267aa 100644
           "(Ljava/lang/String;IIII[B"
           "Lcom/android/commands/hid/Device$DeviceCallback;)J",
 diff --git a/cmds/uinput/jni/com_android_commands_uinput_Device.cpp b/cmds/uinput/jni/com_android_commands_uinput_Device.cpp
-index a78a46504684..5752be8829cb 100644
+index bd61000186e5..3179c8a28e47 100644
 --- a/cmds/uinput/jni/com_android_commands_uinput_Device.cpp
 +++ b/cmds/uinput/jni/com_android_commands_uinput_Device.cpp
 @@ -325,7 +325,7 @@ static jint getEvdevInputPropByLabel(JNIEnv* env, jclass /* clazz */, jstring ra
@@ -53,7 +51,7 @@ index a78a46504684..5752be8829cb 100644
           "(Ljava/lang/String;IIIIIILjava/lang/String;"
           "Lcom/android/commands/uinput/Device$DeviceCallback;)J",
 diff --git a/core/jni/LayoutlibLoader.cpp b/core/jni/LayoutlibLoader.cpp
-index 200ddefc3bbc..e7acbdfbddf6 100644
+index d5f17da0a072..05c6388aa445 100644
 --- a/core/jni/LayoutlibLoader.cpp
 +++ b/core/jni/LayoutlibLoader.cpp
 @@ -69,7 +69,7 @@ static void NativeAllocationRegistry_Delegate_nativeApplyFreeFunction(JNIEnv*, j
@@ -78,257 +76,6 @@ index e25ba76cbbeb..16a8d4656179 100644
      // ------------ Regular JNI ------------------
      { "nPurgePendingResources",        "()V",
        (void*) android_app_ActivityThread_purgePendingResources },
-diff --git a/core/jni/android_media_MediaMetricsJNI.cpp b/core/jni/android_media_MediaMetricsJNI.cpp
-deleted file mode 120000
-index 3204317cab68..000000000000
---- a/core/jni/android_media_MediaMetricsJNI.cpp
-+++ /dev/null
-@@ -1 +0,0 @@
--../../media/jni/android_media_MediaMetricsJNI.cpp
-\ No newline at end of file
-diff --git a/core/jni/android_media_MediaMetricsJNI.cpp b/core/jni/android_media_MediaMetricsJNI.cpp
-new file mode 100644
-index 000000000000..2769dbc430ba
---- /dev/null
-+++ b/core/jni/android_media_MediaMetricsJNI.cpp
-@@ -0,0 +1,237 @@
-+/*
-+ * Copyright 2017, The Android Open Source Project
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+#define LOG_TAG "MediaMetricsJNI"
-+
-+#include <binder/Parcel.h>
-+#include <jni.h>
-+#include <media/MediaMetricsItem.h>
-+#include <nativehelper/JNIHelp.h>
-+#include <variant>
-+
-+#include "android_media_MediaMetricsJNI.h"
-+#include "android_os_Parcel.h"
-+#include "android_runtime/AndroidRuntime.h"
-+
-+// This source file is compiled and linked into:
-+// core/jni/ (libandroid_runtime.so)
-+
-+namespace android {
-+
-+namespace {
-+struct BundleHelper {
-+    BundleHelper(JNIEnv* _env, jobject _bundle)
-+        : env(_env)
-+        , clazzBundle(env->FindClass("android/os/PersistableBundle"))
-+        , putIntID(env->GetMethodID(clazzBundle, "putInt", "(Ljava/lang/String;I)V"))
-+        , putLongID(env->GetMethodID(clazzBundle, "putLong", "(Ljava/lang/String;J)V"))
-+        , putDoubleID(env->GetMethodID(clazzBundle, "putDouble", "(Ljava/lang/String;D)V"))
-+        , putStringID(env->GetMethodID(clazzBundle,
-+                      "putString", "(Ljava/lang/String;Ljava/lang/String;)V"))
-+        , constructID(env->GetMethodID(clazzBundle, "<init>", "()V"))
-+        , bundle(_bundle == nullptr ? env->NewObject(clazzBundle, constructID) : _bundle)
-+        { }
-+
-+    JNIEnv* const env;
-+    const jclass clazzBundle;
-+    const jmethodID putIntID;
-+    const jmethodID putLongID;
-+    const jmethodID putDoubleID;
-+    const jmethodID putStringID;
-+    const jmethodID constructID;
-+    jobject const bundle;
-+
-+    // We use templated put to access mediametrics::Item based on data type not type enum.
-+    // See std::variant and std::visit.
-+    template<typename T>
-+    void put(jstring keyName, const T& value) = delete;
-+
-+    template<>
-+    void put(jstring keyName, const int32_t& value) {
-+        env->CallVoidMethod(bundle, putIntID, keyName, (jint)value);
-+    }
-+
-+    template<>
-+    void put(jstring keyName, const int64_t& value) {
-+        env->CallVoidMethod(bundle, putLongID, keyName, (jlong)value);
-+    }
-+
-+    template<>
-+    void put(jstring keyName, const double& value) {
-+        env->CallVoidMethod(bundle, putDoubleID, keyName, (jdouble)value);
-+    }
-+
-+    template<>
-+    void put(jstring keyName, const std::string& value) {
-+        env->CallVoidMethod(bundle, putStringID, keyName, env->NewStringUTF(value.c_str()));
-+    }
-+
-+    template<>
-+    void put(jstring keyName, const std::pair<int64_t, int64_t>& value) {
-+        ; // rate is currently ignored
-+    }
-+
-+    template<>
-+    void put(jstring keyName, const std::monostate& value) {
-+        ; // none is currently ignored
-+    }
-+
-+    // string char * helpers
-+
-+    template<>
-+    void put(jstring keyName, const char * const& value) {
-+        env->CallVoidMethod(bundle, putStringID, keyName, env->NewStringUTF(value));
-+    }
-+
-+    template<>
-+    void put(jstring keyName, char * const& value) {
-+        env->CallVoidMethod(bundle, putStringID, keyName, env->NewStringUTF(value));
-+    }
-+
-+    // We allow both jstring and non-jstring variants.
-+    template<typename T>
-+    void put(const char *keyName, const T& value) {
-+        put(env->NewStringUTF(keyName), value);
-+    }
-+};
-+} // namespace
-+
-+// place the attributes into a java PersistableBundle object
-+jobject MediaMetricsJNI::writeMetricsToBundle(
-+        JNIEnv* env, mediametrics::Item *item, jobject bundle)
-+{
-+    BundleHelper bh(env, bundle);
-+
-+    if (bh.bundle == nullptr) {
-+        ALOGE("%s: unable to create Bundle", __func__);
-+        return nullptr;
-+    }
-+
-+    bh.put(mediametrics::BUNDLE_KEY, item->getKey().c_str());
-+    if (item->getPid() != -1) {
-+        bh.put(mediametrics::BUNDLE_PID, (int32_t)item->getPid());
-+    }
-+    if (item->getTimestamp() > 0) {
-+        bh.put(mediametrics::BUNDLE_TIMESTAMP, (int64_t)item->getTimestamp());
-+    }
-+    if (static_cast<int32_t>(item->getUid()) != -1) {
-+        bh.put(mediametrics::BUNDLE_UID, (int32_t)item->getUid());
-+    }
-+    for (const auto &prop : *item) {
-+        const char *name = prop.getName();
-+        if (name == nullptr) continue;
-+        prop.visit([&] (auto &value) { bh.put(name, value); });
-+    }
-+    return bh.bundle;
-+}
-+
-+// Implementation of MediaMetrics.native_submit_bytebuffer(),
-+// Delivers the byte buffer to the mediametrics service.
-+static jint android_media_MediaMetrics_submit_bytebuffer(
-+        JNIEnv* env, jobject thiz, jobject byteBuffer, jint length)
-+{
-+    const jbyte* buffer =
-+            reinterpret_cast<const jbyte*>(env->GetDirectBufferAddress(byteBuffer));
-+    if (buffer == nullptr) {
-+        ALOGE("Error retrieving source of audio data to play, can't play");
-+        return (jint)BAD_VALUE;
-+    }
-+
-+    return (jint)mediametrics::BaseItem::submitBuffer((char *)buffer, length);
-+}
-+
-+// Helper function to convert a native PersistableBundle to a Java
-+// PersistableBundle.
-+jobject MediaMetricsJNI::nativeToJavaPersistableBundle(JNIEnv *env,
-+                                                       os::PersistableBundle* nativeBundle) {
-+    if (env == NULL || nativeBundle == NULL) {
-+        ALOGE("Unexpected NULL parmeter");
-+        return NULL;
-+    }
-+
-+    // Create a Java parcel with the native parcel data.
-+    // Then create a new PersistableBundle with that parcel as a parameter.
-+    jobject jParcel = android::createJavaParcelObject(env);
-+    if (jParcel == NULL) {
-+      ALOGE("Failed to create a Java Parcel.");
-+      return NULL;
-+    }
-+
-+    android::Parcel* nativeParcel = android::parcelForJavaObject(env, jParcel);
-+    if (nativeParcel == NULL) {
-+      ALOGE("Failed to get the native Parcel.");
-+      return NULL;
-+    }
-+
-+    android::status_t result = nativeBundle->writeToParcel(nativeParcel);
-+    nativeParcel->setDataPosition(0);
-+    if (result != android::OK) {
-+      ALOGE("Failed to write nativeBundle to Parcel: %d.", result);
-+      return NULL;
-+    }
-+
-+#define STATIC_INIT_JNI(T, obj, method, globalref, ...) \
-+    static T obj{};\
-+    if (obj == NULL) { \
-+        obj = method(__VA_ARGS__); \
-+        if (obj == NULL) { \
-+            ALOGE("%s can't find " #obj, __func__); \
-+            return NULL; \
-+        } else { \
-+            obj = globalref; \
-+        }\
-+    } \
-+
-+    STATIC_INIT_JNI(jclass, clazzBundle, env->FindClass,
-+            static_cast<jclass>(env->NewGlobalRef(clazzBundle)),
-+            "android/os/PersistableBundle");
-+    STATIC_INIT_JNI(jfieldID, bundleCreatorId, env->GetStaticFieldID,
-+            bundleCreatorId,
-+            clazzBundle, "CREATOR", "Landroid/os/Parcelable$Creator;");
-+    STATIC_INIT_JNI(jobject, bundleCreator, env->GetStaticObjectField,
-+            env->NewGlobalRef(bundleCreator),
-+            clazzBundle, bundleCreatorId);
-+    STATIC_INIT_JNI(jclass, clazzCreator, env->FindClass,
-+            static_cast<jclass>(env->NewGlobalRef(clazzCreator)),
-+            "android/os/Parcelable$Creator");
-+    STATIC_INIT_JNI(jmethodID, createFromParcelId, env->GetMethodID,
-+            createFromParcelId,
-+            clazzCreator, "createFromParcel", "(Landroid/os/Parcel;)Ljava/lang/Object;");
-+
-+    jobject newBundle = env->CallObjectMethod(bundleCreator, createFromParcelId, jParcel);
-+    if (newBundle == NULL) {
-+        ALOGE("Failed to create a new PersistableBundle "
-+              "from the createFromParcel call.");
-+    }
-+
-+    return newBundle;
-+}
-+
-+// ----------------------------------------------------------------------------
-+
-+static constexpr JNINativeMethod gMethods[] = {
-+    {"native_submit_bytebuffer", "(Ljava/nio/ByteBuffer;I)I",
-+            (void *)android_media_MediaMetrics_submit_bytebuffer},
-+};
-+
-+// Registers the native methods, called from core/jni/AndroidRuntime.cpp
-+int register_android_media_MediaMetrics(JNIEnv *env)
-+{
-+    return AndroidRuntime::registerNativeMethods(
-+            env, "android/media/MediaMetrics", gMethods, std::size(gMethods));
-+}
-+
-+};  // namespace android
 diff --git a/core/jni/android_os_HidlMemory.cpp b/core/jni/android_os_HidlMemory.cpp
 index 69e48184c0ad..612fc95776a5 100644
 --- a/core/jni/android_os_HidlMemory.cpp
@@ -343,10 +90,10 @@ index 69e48184c0ad..612fc95776a5 100644
  };
  
 diff --git a/core/jni/android_os_HwBinder.cpp b/core/jni/android_os_HwBinder.cpp
-index 781895eeeaba..cbec79144826 100644
+index 734b5f497e2e..d6c1e00d9b4a 100644
 --- a/core/jni/android_os_HwBinder.cpp
 +++ b/core/jni/android_os_HwBinder.cpp
-@@ -352,7 +352,7 @@ static void JHwBinder_report_sysprop_change(JNIEnv * /*env*/, jclass /*clazz*/)
+@@ -396,7 +396,7 @@ static void JHwBinder_report_sysprop_change(JNIEnv * /*env*/, jclass /*clazz*/)
      report_sysprop_change();
  }
  
@@ -443,10 +190,10 @@ index d1ce30a3e827..d93bda166c44 100644
        "(Landroid/view/Surface;)V",
        (void *)android_media_MediaSync_native_setSurface },
 diff --git a/media/jni/soundpool/android_media_SoundPool.cpp b/media/jni/soundpool/android_media_SoundPool.cpp
-index 25040a942061..f62c4340428c 100644
+index e872a58c96cf..fd6fb80d6867 100644
 --- a/media/jni/soundpool/android_media_SoundPool.cpp
 +++ b/media/jni/soundpool/android_media_SoundPool.cpp
-@@ -560,7 +560,7 @@ android_media_SoundPool_release(JNIEnv *env, jobject thiz)
+@@ -563,7 +563,7 @@ android_media_SoundPool_release(JNIEnv *env, jobject thiz)
  // ----------------------------------------------------------------------------
  
  // Dalvik VM type signatures
@@ -469,11 +216,11 @@ index 93938b1ff1bc..47b22c5fd39f 100644
           (void *)android_server_UsbAlsaMidiDevice_open},
          {"nativeClose", "([Ljava/io/FileDescriptor;)V",
 diff --git a/services/core/jni/com_android_server_companion_virtual_InputController.cpp b/services/core/jni/com_android_server_companion_virtual_InputController.cpp
-index 4cd018b0269e..039258cf983c 100644
+index 50d48b7d30e7..12afdeaf0a38 100644
 --- a/services/core/jni/com_android_server_companion_virtual_InputController.cpp
 +++ b/services/core/jni/com_android_server_companion_virtual_InputController.cpp
-@@ -287,7 +287,7 @@ static bool nativeWriteScrollEvent(JNIEnv* env, jobject thiz, jlong ptr, jfloat
-                                           std::chrono::nanoseconds(eventTimeNanos));
+@@ -381,7 +381,7 @@ static bool nativeWriteStylusButtonEvent(JNIEnv* env, jobject thiz, jlong ptr, j
+                                            std::chrono::nanoseconds(eventTimeNanos));
  }
  
 -static JNINativeMethod methods[] = {

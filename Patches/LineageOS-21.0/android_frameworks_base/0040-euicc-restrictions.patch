@@ -9,24 +9,29 @@ Depends on commit: "don't crash apps that depend on missing Gservices provider"
 
 Change-Id: I49e3ff6f2ce8d74383da1c4dfd42913c713016c6
 ---
- data/etc/preinstalled-packages-platform.xml   |  6 ++++
+ data/etc/preinstalled-packages-platform.xml   |  7 ++++-
  .../server/ext/PackageManagerHooks.java       | 31 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/data/etc/preinstalled-packages-platform.xml b/data/etc/preinstalled-packages-platform.xml
-index 421bc25d60e9..7e46319dca38 100644
+index 782327713fdc..b1d803b0d905 100644
 --- a/data/etc/preinstalled-packages-platform.xml
 +++ b/data/etc/preinstalled-packages-platform.xml
-@@ -128,4 +128,10 @@ to pre-existing users, but cannot uninstall pre-existing system packages from pr
+@@ -129,9 +129,14 @@ to pre-existing users, but cannot uninstall pre-existing system packages from pr
      <install-in-user-type package="com.android.wallpaperbackup">
          <install-in user-type="FULL" />
      </install-in-user-type>
+-
+     <!-- AvatarPicker (AvatarPicker app)-->
+     <install-in-user-type package="com.android.avatarpicker">
+         <install-in user-type="FULL" />
++
 +    <install-in-user-type package="com.google.euiccpixel">
 +        <install-in user-type="SYSTEM" />
 +    </install-in-user-type>
 +    <install-in-user-type package="im.angry.openeuicc">
 +        <install-in user-type="SYSTEM" />
-+    </install-in-user-type>
+     </install-in-user-type>
  </config>
 diff --git a/services/core/java/com/android/server/ext/PackageManagerHooks.java b/services/core/java/com/android/server/ext/PackageManagerHooks.java
 index 007b65349e55..3c38b9e73049 100644

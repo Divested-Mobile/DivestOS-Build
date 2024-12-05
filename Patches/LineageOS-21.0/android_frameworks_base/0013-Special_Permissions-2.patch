@@ -12,10 +12,10 @@ Ported from 12: a980a4c3d6b6906eb0ee5fb07ca4cf0bae052d00
  4 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/core/api/current.txt b/core/api/current.txt
-index 9b5316fb79b5..ab1becbad01f 100644
+index 62980ed5bd69..a08bc5ee1887 100644
 --- a/core/api/current.txt
 +++ b/core/api/current.txt
-@@ -331,6 +331,7 @@ package android {
+@@ -345,6 +345,7 @@ package android {
      field public static final String LOCATION = "android.permission-group.LOCATION";
      field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
      field public static final String NEARBY_DEVICES = "android.permission-group.NEARBY_DEVICES";
@@ -24,10 +24,10 @@ index 9b5316fb79b5..ab1becbad01f 100644
      field public static final String PHONE = "android.permission-group.PHONE";
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 22591641cc66..6536d86432b4 100644
+index abe4b2942ca2..63e4fca51d80 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -2054,13 +2054,21 @@
+@@ -2083,13 +2083,21 @@
      <!-- ======================================= -->
      <eat-comment />
  
@@ -51,10 +51,10 @@ index 22591641cc66..6536d86432b4 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 4596ca74bf8f..5fe90e5510f5 100644
+index 59066eb83f1c..a967af7720a2 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -946,6 +946,11 @@
+@@ -967,6 +967,11 @@
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. [CHAR LIMIT=NONE]-->
      <string name="permgroupdesc_notifications">show notifications</string>
  
@@ -67,10 +67,10 @@ index 4596ca74bf8f..5fe90e5510f5 100644
      <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
      <!-- Description for the capability of an accessibility service to retrieve window content. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 8c51fec86a46..ad63a2d19779 100644
+index 162d6ba1cd0b..ea7e13f20a17 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-@@ -2477,7 +2477,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2487,7 +2487,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {

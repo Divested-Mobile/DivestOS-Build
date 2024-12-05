@@ -136,10 +136,10 @@ index e99edd6c4f9..61b75bcd358 100644
  };
  void register_libcore_io_AsynchronousCloseMonitor(JNIEnv* env) {
 diff --git a/luni/src/main/native/libcore_io_Linux.cpp b/luni/src/main/native/libcore_io_Linux.cpp
-index adf7b75ad95..53c362616ab 100644
+index 3c87e6328aa..532e8101e22 100644
 --- a/luni/src/main/native/libcore_io_Linux.cpp
 +++ b/luni/src/main/native/libcore_io_Linux.cpp
-@@ -2759,7 +2759,7 @@ static jint Linux_writev(JNIEnv* env, jobject, jobject javaFd, jobjectArray buff
+@@ -2761,7 +2761,7 @@ static jint Linux_writev(JNIEnv* env, jobject, jobject javaFd, jobjectArray buff
  #define NATIVE_METHOD_OVERLOAD(className, functionName, signature, variant) \
      { #functionName, signature, reinterpret_cast<void*>(className ## _ ## functionName ## variant) }
  
@@ -301,10 +301,10 @@ index 36cc6cf4bc1..39ff9241791 100644
    NATIVE_METHOD(DatagramDispatcher, readv0, "(Ljava/io/FileDescriptor;JI)J"),
    NATIVE_METHOD(DatagramDispatcher, write0, "(Ljava/io/FileDescriptor;JI)I"),
 diff --git a/ojluni/src/main/native/Deflater.c b/ojluni/src/main/native/Deflater.c
-index 9ee032619dd..2230f8c9519 100644
+index 9dfff0a3593..a20456df0be 100644
 --- a/ojluni/src/main/native/Deflater.c
 +++ b/ojluni/src/main/native/Deflater.c
-@@ -240,7 +240,7 @@ Deflater_end(JNIEnv *env, jclass cls, jlong addr)
+@@ -313,7 +313,7 @@ Deflater_end(JNIEnv *env, jclass cls, jlong addr)
      }
  }
  
@@ -312,7 +312,7 @@ index 9ee032619dd..2230f8c9519 100644
 +static const JNINativeMethod gMethods[] = {
    NATIVE_METHOD(Deflater, init, "(IIZ)J"),
    NATIVE_METHOD(Deflater, setDictionary, "(J[BII)V"),
-   NATIVE_METHOD(Deflater, deflateBytes, "(J[BIII)I"),
+   NATIVE_METHOD(Deflater, setDictionaryBuffer, "(JJI)V"),
 diff --git a/ojluni/src/main/native/Double.c b/ojluni/src/main/native/Double.c
 index 8382b889945..2bcb97a653f 100644
 --- a/ojluni/src/main/native/Double.c
@@ -340,18 +340,18 @@ index 51339dff9c1..6d5c075e835 100644
    NATIVE_METHOD(FileChannelImpl, map0, "(IJJ)J"),
    NATIVE_METHOD(FileChannelImpl, unmap0, "(JJ)I"),
 diff --git a/ojluni/src/main/native/FileDescriptor_md.c b/ojluni/src/main/native/FileDescriptor_md.c
-index 880f5ea56ad..3ba1c1343a0 100644
+index a838507e145..35eb7837a94 100644
 --- a/ojluni/src/main/native/FileDescriptor_md.c
 +++ b/ojluni/src/main/native/FileDescriptor_md.c
-@@ -70,7 +70,7 @@ JNIEXPORT jboolean JNICALL FileDescriptor_isSocket(JNIEnv *env, jclass ignored,
-     // END Android-changed: isSocket - do not clear socket error code
+@@ -75,7 +75,7 @@ FileDescriptor_getAppend(jint fd) {
  }
+ 
  
 -static JNINativeMethod gMethods[] = {
 +static const JNINativeMethod gMethods[] = {
    NATIVE_METHOD(FileDescriptor, sync, "()V"),
-   NATIVE_METHOD(FileDescriptor, isSocket, "(I)Z"),
- };
+   CRITICAL_NATIVE_METHOD(FileDescriptor, isSocket, "(I)Z"),
+   CRITICAL_NATIVE_METHOD(FileDescriptor, getAppend, "(I)Z"),
 diff --git a/ojluni/src/main/native/FileDispatcherImpl.c b/ojluni/src/main/native/FileDispatcherImpl.c
 index 3e8e4f3e0f2..facede4cf14 100644
 --- a/ojluni/src/main/native/FileDispatcherImpl.c
@@ -366,18 +366,18 @@ index 3e8e4f3e0f2..facede4cf14 100644
    NATIVE_METHOD(FileDispatcherImpl, preClose0, "(Ljava/io/FileDescriptor;)V"),
    NATIVE_METHOD(FileDispatcherImpl, close0, "(Ljava/io/FileDescriptor;)V"),
 diff --git a/ojluni/src/main/native/FileInputStream.c b/ojluni/src/main/native/FileInputStream.c
-index 650cb6c9040..bd2f64e68f0 100644
+index adb5c409114..5f0ad56c57f 100644
 --- a/ojluni/src/main/native/FileInputStream.c
 +++ b/ojluni/src/main/native/FileInputStream.c
-@@ -145,7 +145,7 @@ FileInputStream_available0(JNIEnv *env, jobject this) {
+@@ -179,7 +179,7 @@ Java_java_io_FileInputStream_available0(JNIEnv *env, jobject this) {
      return 0;
  }
  
 -static JNINativeMethod gMethods[] = {
 +static const JNINativeMethod gMethods[] = {
-   NATIVE_METHOD(FileInputStream, skip0, "(J)J"),
-   NATIVE_METHOD(FileInputStream, available0, "()I"),
- };
+   NATIVE_METHOD(Java_java_io_FileInputStream, length0, "()J"),
+   NATIVE_METHOD(Java_java_io_FileInputStream, position0, "()J"),
+   NATIVE_METHOD(Java_java_io_FileInputStream, skip0, "(J)J"),
 diff --git a/ojluni/src/main/native/FileKey.c b/ojluni/src/main/native/FileKey.c
 index c3b5d2a00fe..61d3c2ae896 100644
 --- a/ojluni/src/main/native/FileKey.c
@@ -431,10 +431,10 @@ index d2a8cf1a2e9..de47c111b1b 100644
    NATIVE_METHOD(IOUtil, fdLimit, "()I"),
    NATIVE_METHOD(IOUtil, drain, "(I)Z"),
 diff --git a/ojluni/src/main/native/Inflater.c b/ojluni/src/main/native/Inflater.c
-index c4c24f0fed1..23b107426db 100644
+index 2b664db516a..dc3736b822d 100644
 --- a/ojluni/src/main/native/Inflater.c
 +++ b/ojluni/src/main/native/Inflater.c
-@@ -201,7 +201,7 @@ Inflater_end(JNIEnv *env, jclass cls, jlong addr)
+@@ -307,7 +307,7 @@ Inflater_end(JNIEnv *env, jclass cls, jlong addr)
      }
  }
  
@@ -442,7 +442,7 @@ index c4c24f0fed1..23b107426db 100644
 +static const JNINativeMethod gMethods[] = {
    NATIVE_METHOD(Inflater, init, "(Z)J"),
    NATIVE_METHOD(Inflater, setDictionary, "(J[BII)V"),
-   NATIVE_METHOD(Inflater, inflateBytes, "(J[BII)I"),
+   NATIVE_METHOD(Inflater, setDictionaryBuffer, "(JJI)V"),
 diff --git a/ojluni/src/main/native/MappedByteBuffer.c b/ojluni/src/main/native/MappedByteBuffer.c
 index e68ba04cb3c..013273b5433 100644
 --- a/ojluni/src/main/native/MappedByteBuffer.c
@@ -691,10 +691,10 @@ index 6710e13be51..47dc1213422 100644
    NATIVE_METHOD(Java_sun_nio_fs_UnixNativeDispatcher, dup, "(I)I"),
    NATIVE_METHOD(Java_sun_nio_fs_UnixNativeDispatcher, open0, "(JII)I"),
 diff --git a/ojluni/src/main/native/ZipFile.c b/ojluni/src/main/native/ZipFile.c
-index 314b6c7aa79..2abdede0ca3 100644
+index fcdd41c7c65..8896e62eb3e 100644
 --- a/ojluni/src/main/native/ZipFile.c
 +++ b/ojluni/src/main/native/ZipFile.c
-@@ -398,7 +398,7 @@ JarFile_getMetaInfEntryNames(JNIEnv *env, jobject obj)
+@@ -388,7 +388,7 @@ JarFile_getMetaInfEntryNames(JNIEnv *env, jobject obj)
      return result;
  }
  
@@ -703,7 +703,7 @@ index 314b6c7aa79..2abdede0ca3 100644
    NATIVE_METHOD(ZipFile, getFileDescriptor, "(J)I"),
    NATIVE_METHOD(ZipFile, getEntry, "(J[BZ)J"),
    NATIVE_METHOD(ZipFile, freeEntry, "(JJ)V"),
-@@ -419,7 +419,7 @@ static JNINativeMethod gMethods[] = {
+@@ -409,7 +409,7 @@ static JNINativeMethod gMethods[] = {
    NATIVE_METHOD(ZipFile, getZipMessage, "(J)Ljava/lang/String;"),
  };
  

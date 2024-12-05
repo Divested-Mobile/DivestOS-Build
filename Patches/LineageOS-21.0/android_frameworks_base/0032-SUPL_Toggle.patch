@@ -11,10 +11,10 @@ Change-Id: I5c31c319d198f09ace493e601278f8224a259f05
  3 files changed, 38 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 9fae9911e2fc..2544b7bcb7c8 100644
+index c0f9a1ad6be2..2b4836861219 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -18680,6 +18680,15 @@ public final class Settings {
+@@ -19034,6 +19034,15 @@ public final class Settings {
           */
          public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
  
@@ -31,11 +31,11 @@ index 9fae9911e2fc..2544b7bcb7c8 100644
           * The amount of time in milliseconds before a disconnected Wi-Fi adapter is turned off
           * @hide
 diff --git a/services/core/java/com/android/server/location/gnss/GnssConfiguration.java b/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
-index 5ef89ad4269a..0192ed9de15b 100644
+index a5939e924adb..7cdf29223fc7 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssConfiguration.java
-@@ -19,11 +19,13 @@ package com.android.server.location.gnss;
- import android.content.Context;
+@@ -20,11 +20,13 @@ import android.content.Context;
+ import android.location.flags.Flags;
  import android.os.PersistableBundle;
  import android.os.SystemProperties;
 +import android.provider.Settings;
@@ -48,7 +48,7 @@ index 5ef89ad4269a..0192ed9de15b 100644
  
  import com.android.internal.util.FrameworkStatsLog;
  
-@@ -289,6 +291,7 @@ public class GnssConfiguration {
+@@ -296,6 +298,7 @@ public class GnssConfiguration {
           */
          loadPropertiesFromGpsDebugConfig(mProperties, DEBUG_PROPERTIES_VENDOR_FILE);
          loadPropertiesFromGpsDebugConfig(mProperties, DEBUG_PROPERTIES_SYSTEM_FILE);
@@ -56,7 +56,7 @@ index 5ef89ad4269a..0192ed9de15b 100644
          mEsExtensionSec = getRangeCheckedConfigEsExtensionSec();
  
          logConfigurations();
-@@ -489,4 +492,15 @@ public class GnssConfiguration {
+@@ -514,4 +517,15 @@ public class GnssConfiguration {
      private static native boolean native_set_satellite_blocklist(int[] constellations, int[] svIds);
  
      private static native boolean native_set_es_extension_sec(int emergencyExtensionSeconds);
@@ -73,10 +73,10 @@ index 5ef89ad4269a..0192ed9de15b 100644
 +    }
  }
 diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-index af7dcc7d917a..d4706d9da0a8 100644
+index c99773ec89d5..36ec04b74d9c 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-@@ -103,6 +103,7 @@ import android.telephony.TelephonyManager;
+@@ -104,6 +104,7 @@ import android.telephony.TelephonyManager;
  import android.text.TextUtils;
  import android.text.format.DateUtils;
  import android.util.Log;
@@ -84,7 +84,7 @@ index af7dcc7d917a..d4706d9da0a8 100644
  import android.util.Pair;
  import android.util.TimeUtils;
  
-@@ -489,6 +490,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -490,6 +491,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
          mGnssNative.setNotificationCallbacks(this);
          mGnssNative.setLocationRequestCallbacks(this);
          mGnssNative.setTimeCallbacks(this);

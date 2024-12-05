@@ -43,7 +43,7 @@ index ca6e7db4c5b1..c0acba502cc2 100644
 +    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
-index aae1aa9a6698..90bcd525b32f 100644
+index 3b86d302ac0a..450e1f297f10 100644
 --- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 @@ -159,6 +159,13 @@ public class NavigationBarView extends FrameLayout {
@@ -93,10 +93,10 @@ index aae1aa9a6698..90bcd525b32f 100644
          reloadNavIcons();
      }
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-index 73b95114b005..b943444676f6 100644
+index 18e95781a32c..32e1aebaedb3 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-@@ -216,6 +216,7 @@ import com.android.systemui.statusbar.notification.stack.NotificationStackScroll
+@@ -218,6 +218,7 @@ import com.android.systemui.statusbar.notification.stack.NotificationStackScroll
  import com.android.systemui.statusbar.phone.dagger.StatusBarPhoneModule;
  import com.android.systemui.statusbar.policy.BatteryController;
  import com.android.systemui.statusbar.policy.BrightnessMirrorController;
@@ -104,7 +104,7 @@ index 73b95114b005..b943444676f6 100644
  import com.android.systemui.statusbar.policy.ConfigurationController;
  import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
  import com.android.systemui.statusbar.policy.DeviceProvisionedController;
-@@ -379,6 +380,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+@@ -371,6 +372,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
      private BiometricUnlockController mBiometricUnlockController;
      private final LightBarController mLightBarController;
      private final AutoHideController mAutoHideController;
@@ -112,7 +112,7 @@ index 73b95114b005..b943444676f6 100644
  
      private final Point mCurrentDisplaySize = new Point();
  
-@@ -1223,6 +1225,12 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+@@ -1228,6 +1230,12 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
                      mShadeSurface.updateExpansionAndVisibility();
                      setBouncerShowingForStatusBarComponents(mBouncerShowing);
                      checkBarModes();
@@ -125,7 +125,7 @@ index 73b95114b005..b943444676f6 100644
                  });
          mStatusBarInitializer.initializeStatusBar();
  
-@@ -2494,6 +2502,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+@@ -2503,6 +2511,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
  
              updateNotificationPanelTouchState();
              getNotificationShadeWindowViewController().cancelCurrentTouch();
@@ -135,7 +135,7 @@ index 73b95114b005..b943444676f6 100644
              if (mLaunchCameraOnFinishedGoingToSleep) {
                  mLaunchCameraOnFinishedGoingToSleep = false;
  
-@@ -2659,6 +2670,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+@@ -2668,6 +2679,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
                  }
              }
              updateScrimController();
@@ -146,10 +146,10 @@ index 73b95114b005..b943444676f6 100644
      };
  
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-index 1207388b4389..3015dfa7768f 100644
+index b275b3f35fa4..ed87f389c168 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-@@ -19,6 +19,7 @@ package com.android.systemui.statusbar.phone;
+@@ -21,6 +21,7 @@ import static com.android.systemui.Flags.truncatedStatusBarIconsFix;
  
  import android.annotation.Nullable;
  import android.content.Context;
@@ -157,9 +157,9 @@ index 1207388b4389..3015dfa7768f 100644
  import android.content.res.Configuration;
  import android.graphics.Insets;
  import android.graphics.Rect;
-@@ -65,6 +66,13 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
-     private final CommandQueue mCommandQueue;
+@@ -69,6 +70,13 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
      private final StatusBarContentInsetsProvider mContentInsetsProvider;
+     private final StatusBarWindowController mStatusBarWindowController;
  
 +    private int mBasePaddingBottom;
 +    private int mBasePaddingLeft;
@@ -171,7 +171,7 @@ index 1207388b4389..3015dfa7768f 100644
      private DarkReceiver mBattery;
      private ClockController mClockController;
      private int mRotationOrientation = -1;
-@@ -143,6 +151,18 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
+@@ -150,6 +158,18 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
          StatusBarUserChipViewBinder.bind(container, viewModel);
      }
  
@@ -190,7 +190,7 @@ index 1207388b4389..3015dfa7768f 100644
      @Override
      public void onFinishInflate() {
          super.onFinishInflate();
-@@ -150,6 +170,13 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
+@@ -157,6 +177,13 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
          mClockController = new ClockController(getContext(), this);
          mCutoutSpace = findViewById(R.id.cutout_space_view);
  

@@ -54,7 +54,7 @@ index 99077c101..74608513e 100644
        __loader_remove_thread_local_dtor(current->dso_handle);
      }
 diff --git a/libc/bionic/libc_init_common.cpp b/libc/bionic/libc_init_common.cpp
-index 7ef79b61a..9c946b077 100644
+index 51f7ce9ce..31d45724d 100644
 --- a/libc/bionic/libc_init_common.cpp
 +++ b/libc/bionic/libc_init_common.cpp
 @@ -46,6 +46,7 @@
@@ -74,13 +74,13 @@ index 7ef79b61a..9c946b077 100644
  }
  
 diff --git a/libc/private/bionic_globals.h b/libc/private/bionic_globals.h
-index 66f8d84b0..bd34e3a08 100644
+index 598918f09..fcf049899 100644
 --- a/libc/private/bionic_globals.h
 +++ b/libc/private/bionic_globals.h
-@@ -50,6 +50,7 @@ struct libc_globals {
-   uintptr_t heap_pointer_tag;
+@@ -51,6 +51,7 @@ struct libc_globals {
    _Atomic(bool) memtag_stack;
    _Atomic(bool) decay_time_enabled;
+   _Atomic(bool) memtag;
 +  long dtor_cookie;
  
    // In order to allow a complete switch between dispatch tables without
