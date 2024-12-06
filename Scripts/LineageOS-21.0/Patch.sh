@@ -362,6 +362,7 @@ if enterAndClear "packages/modules/Permission"; then
 #applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permissions-2.patch"; #Fix usage UI summary for Network/Sensors (GrapheneOS) #TODO: 21REBASE
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Location.patch"; #Stop auto-granting location to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0007-No_safety_center.patch"; #Disable Safety Center (GrapheneOS)
 fi;
 
 if enterAndClear "packages/modules/Wifi"; then

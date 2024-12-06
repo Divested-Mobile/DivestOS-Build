@@ -25,7 +25,7 @@ wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-21.0/prebu
 
 #Visual VoiceMail Config
 #wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-21.0/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
-wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/14/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
+wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/15/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 
 #LineageOS Contributors Cloud
 wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-21.0/assets/contributors.db" -O ../Patches/Common/contributors.db;

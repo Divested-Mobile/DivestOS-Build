@@ -24,7 +24,7 @@ Change-Id: I4b0bb81699151d5b371850daebf785e35ec9b170
  1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/hosts_cache.cpp b/hosts_cache.cpp
-index a40fb403..258eac1b 100644
+index 3415bed6..7f72d37b 100644
 --- a/hosts_cache.cpp
 +++ b/hosts_cache.cpp
 @@ -126,7 +126,7 @@ static int cmp_hcent_name(const void *a, const void *b)

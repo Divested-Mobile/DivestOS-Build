@@ -71,7 +71,7 @@ index 8d9ed6d4..048b6c68 100644
          cur->ai_next = p;
 diff --git a/hosts_cache.cpp b/hosts_cache.cpp
 new file mode 100644
-index 00000000..a40fb403
+index 00000000..3415bed6
 --- /dev/null
 +++ b/hosts_cache.cpp
 @@ -0,0 +1,523 @@

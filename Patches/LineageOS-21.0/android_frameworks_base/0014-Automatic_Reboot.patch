@@ -57,7 +57,7 @@ index 351cce0929b7..00604a316019 100644
  
      <uses-permission android:name="android.permission.MONITOR_STICKY_MODIFIER_STATE" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 6034e92be873..d00599310c5c 100644
+index 6034e92be873..67dd84e8ae8f 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -240,6 +240,8 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,

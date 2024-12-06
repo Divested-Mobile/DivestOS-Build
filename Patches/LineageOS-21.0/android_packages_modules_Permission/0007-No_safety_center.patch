@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 5 Oct 2023 14:52:04 +0300
+Subject: [PATCH] temp: disable Safety Center
+
+It will require extensive adjustments to Settings app, and likely elsewhere.
+---
+ service/java/com/android/safetycenter/SafetyCenterFlags.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/service/java/com/android/safetycenter/SafetyCenterFlags.java b/service/java/com/android/safetycenter/SafetyCenterFlags.java
+index e51d3a1cf..6393c92a9 100644
+--- a/service/java/com/android/safetycenter/SafetyCenterFlags.java
++++ b/service/java/com/android/safetycenter/SafetyCenterFlags.java
+@@ -229,7 +229,7 @@ public final class SafetyCenterFlags {
+ 
+     /** Returns whether Safety Center is enabled. */
+     public static boolean getSafetyCenterEnabled() {
+-        return getBoolean(PROPERTY_SAFETY_CENTER_ENABLED, SdkLevel.isAtLeastU());
++        return getBoolean(PROPERTY_SAFETY_CENTER_ENABLED, false);
+     }
+ 
+     /** Returns whether Safety Center notifications are enabled. */
