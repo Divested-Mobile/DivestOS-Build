@@ -78,7 +78,7 @@ index 5ddea4605..3eca8235c 100644
  
      public boolean isReviewRequired() {
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
-index aed275d8a..2cc012479 100644
+index 436612d58..6a20a6164 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
 +++ b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
 @@ -108,7 +108,7 @@ suspend fun revokeAppPermissions(
@@ -91,7 +91,7 @@ index aed275d8a..2cc012479 100644
                  }
              }
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt b/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
-index 2216802f3..7bca04085 100644
+index e7f4874e4..738b5d0fa 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
 +++ b/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
 @@ -597,6 +597,7 @@ object KotlinUtils {
@@ -104,7 +104,7 @@ index 2216802f3..7bca04085 100644
          // Do not touch permissions fixed by the system, or permissions that cannot be granted
 @@ -827,6 +828,7 @@ object KotlinUtils {
          var newFlags = perm.flags
-         var isGranted = perm.isGrantedIncludingAppOp
+         var isGranted = perm.isGranted
          val supportsRuntime = group.packageInfo.targetSdkVersion >= Build.VERSION_CODES.M
 +                || Utils.isSpecialRuntimePermission(perm.name)
          var shouldKill = false
