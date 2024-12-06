@@ -9,10 +9,10 @@ Subject: [PATCH] don't crash INTERNET-unaware apps that try to access
  1 file changed, 33 insertions(+), 5 deletions(-)
 
 diff --git a/framework-t/src/android/net/nsd/NsdManager.java b/framework-t/src/android/net/nsd/NsdManager.java
-index bf01a9d633..4fd0b6e4da 100644
+index 1001423732..d3110e49d9 100644
 --- a/framework-t/src/android/net/nsd/NsdManager.java
 +++ b/framework-t/src/android/net/nsd/NsdManager.java
-@@ -647,11 +647,39 @@ public final class NsdManager {
+@@ -723,11 +723,39 @@ public final class NsdManager {
          // Instead of launching separate threads to handle tasks from the various instances.
          mHandler = new ServiceHandler(ConnectivityThread.getInstanceLooper());
  
@@ -56,4 +56,4 @@ index bf01a9d633..4fd0b6e4da 100644
 +            }
          }
  
-         // Only proactively start the daemon if the target SDK < S, otherwise the internal service
+         // Only proactively start the daemon if the target SDK < S AND platform < V, For target

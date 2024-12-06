@@ -9,7 +9,7 @@ Subject: [PATCH] fixup! don't crash INTERNET-unaware apps that try to access
  1 file changed, 3 insertions(+)
 
 diff --git a/framework-t/src/android/net/nsd/NsdManager.java b/framework-t/src/android/net/nsd/NsdManager.java
-index 4fd0b6e4da..a457369a07 100644
+index d3110e49d9..9d8ac37a84 100644
 --- a/framework-t/src/android/net/nsd/NsdManager.java
 +++ b/framework-t/src/android/net/nsd/NsdManager.java
 @@ -38,6 +38,7 @@ import android.net.ConnectivityManager.NetworkCallback;
@@ -20,7 +20,7 @@ index 4fd0b6e4da..a457369a07 100644
  import android.os.Handler;
  import android.os.Looper;
  import android.os.Message;
-@@ -671,6 +672,8 @@ public final class NsdManager {
+@@ -747,6 +748,8 @@ public final class NsdManager {
                  @Override public void stopResolution(int listenerKey) {}
                  @Override public void registerServiceInfoCallback(int listenerKey, NsdServiceInfo serviceInfo) {}
                  @Override public void unregisterServiceInfoCallback(int listenerKey) {}

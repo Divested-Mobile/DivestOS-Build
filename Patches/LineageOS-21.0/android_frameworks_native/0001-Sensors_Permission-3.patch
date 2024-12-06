@@ -9,10 +9,10 @@ Subject: [PATCH] exempt system processes from OTHER_SENSORS permission
  1 file changed, 10 insertions(+)
 
 diff --git a/services/sensorservice/SensorService.cpp b/services/sensorservice/SensorService.cpp
-index fbf4facbc6..e454033675 100644
+index 76cf6082ba..7245b3fa78 100644
 --- a/services/sensorservice/SensorService.cpp
 +++ b/services/sensorservice/SensorService.cpp
-@@ -2261,6 +2261,16 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
+@@ -2304,6 +2304,16 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
              canAccess = true;
          }
      } else {

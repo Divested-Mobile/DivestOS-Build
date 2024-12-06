@@ -10,10 +10,10 @@ Subject: [PATCH] enforce INTERNET permission per-uid instead of per-appId
  2 files changed, 48 insertions(+), 25 deletions(-)
 
 diff --git a/bpf_progs/netd.c b/bpf_progs/netd.c
-index 59bbfbae51..6bcc863043 100644
+index 0fad7ecb6e..9542ab8a03 100644
 --- a/bpf_progs/netd.c
 +++ b/bpf_progs/netd.c
-@@ -653,14 +653,8 @@ DEFINE_XTBPF_PROG("skfilter/denylist/xtbpf", AID_ROOT, AID_NET_ADMIN, xt_bpf_den
+@@ -664,14 +664,8 @@ DEFINE_XTBPF_PROG("skfilter/denylist/xtbpf", AID_ROOT, AID_NET_ADMIN, xt_bpf_den
  }
  
  static __always_inline inline uint8_t get_app_permissions(uint32_t uid) {
@@ -31,7 +31,7 @@ index 59bbfbae51..6bcc863043 100644
      return permissions ? *permissions : BPF_PERMISSION_INTERNET;
  }
 diff --git a/service/src/com/android/server/connectivity/PermissionMonitor.java b/service/src/com/android/server/connectivity/PermissionMonitor.java
-index c9b6387e0e..4443c4316e 100755
+index b5c8f184df..5a9caf1e25 100755
 --- a/service/src/com/android/server/connectivity/PermissionMonitor.java
 +++ b/service/src/com/android/server/connectivity/PermissionMonitor.java
 @@ -426,6 +426,11 @@ public class PermissionMonitor {
@@ -46,7 +46,7 @@ index c9b6387e0e..4443c4316e 100755
          // Listen to EXTERNAL_APPLICATIONS_AVAILABLE is that an app becoming available means it may
          // need to gain a permission. But an app that becomes unavailable can neither gain nor lose
          // permissions on that account, it just can no longer run. Thus, doesn't need to listen to
-@@ -599,7 +604,7 @@ public class PermissionMonitor {
+@@ -600,7 +605,7 @@ public class PermissionMonitor {
          mUsersTrafficPermissions.put(user, addedUserAppIds);
          // Generate appIds from all users and send result to netd.
          final SparseIntArray appIds = makeAppIdsTrafficPermForAllUsers();
@@ -55,7 +55,7 @@ index c9b6387e0e..4443c4316e 100755
  
          // Log user added
          mPermissionUpdateLogs.log("New user(" + user.getIdentifier() + ") added: nPerm uids="
-@@ -648,7 +653,7 @@ public class PermissionMonitor {
+@@ -649,7 +654,7 @@ public class PermissionMonitor {
                  appIds.put(appId, PERMISSION_UNINSTALLED);
              }
          }
@@ -64,7 +64,7 @@ index c9b6387e0e..4443c4316e 100755
  
          // Log user removed
          mPermissionUpdateLogs.log("User(" + user.getIdentifier() + ") removed: nPerm uids="
-@@ -772,16 +777,25 @@ public class PermissionMonitor {
+@@ -773,16 +778,25 @@ public class PermissionMonitor {
          }
      }
  
@@ -91,7 +91,7 @@ index c9b6387e0e..4443c4316e 100755
          }
          return installed ? permission : PERMISSION_UNINSTALLED;
      }
-@@ -800,8 +814,8 @@ public class PermissionMonitor {
+@@ -801,8 +815,8 @@ public class PermissionMonitor {
          updateAppIdTrafficPermission(uid);
          // Get the appId permission from all users then send the latest permission to netd.
          final int appId = UserHandle.getAppId(uid);
@@ -102,7 +102,7 @@ index c9b6387e0e..4443c4316e 100755
  
          final int currentPermission = mUidToNetworkPerm.get(uid, PERMISSION_NONE);
          final int permission = highestPermissionForUid(uid, currentPermission, packageName);
-@@ -831,7 +845,7 @@ public class PermissionMonitor {
+@@ -832,7 +846,7 @@ public class PermissionMonitor {
          mPermissionUpdateLogs.log("Package add: uid=" + uid
                  + ", nPerm=(" + permissionToString(permission) + "/"
                  + permissionToString(currentPermission) + ")"
@@ -111,7 +111,7 @@ index c9b6387e0e..4443c4316e 100755
      }
  
      private int highestUidNetworkPermission(int uid) {
-@@ -864,8 +878,8 @@ public class PermissionMonitor {
+@@ -865,8 +879,8 @@ public class PermissionMonitor {
          updateAppIdTrafficPermission(uid);
          // Get the appId permission from all users then send the latest permission to netd.
          final int appId = UserHandle.getAppId(uid);
@@ -122,7 +122,7 @@ index c9b6387e0e..4443c4316e 100755
  
          // If the newly-removed package falls within some VPN's uid range, update Netd with it.
          // This needs to happen before the mUidToNetworkPerm update below, since
-@@ -885,7 +899,7 @@ public class PermissionMonitor {
+@@ -886,7 +900,7 @@ public class PermissionMonitor {
          mPermissionUpdateLogs.log("Package remove: uid=" + uid
                  + ", nPerm=(" + permissionToString(permission) + "/"
                  + permissionToString(currentPermission) + ")"
@@ -131,7 +131,7 @@ index c9b6387e0e..4443c4316e 100755
  
          if (permission != currentPermission) {
              final SparseIntArray apps = new SparseIntArray();
-@@ -1169,14 +1183,17 @@ public class PermissionMonitor {
+@@ -1170,14 +1184,17 @@ public class PermissionMonitor {
       * @hide
       */
      @VisibleForTesting
@@ -151,7 +151,7 @@ index c9b6387e0e..4443c4316e 100755
      }
  
      /**
-@@ -1188,7 +1205,7 @@ public class PermissionMonitor {
+@@ -1189,7 +1206,7 @@ public class PermissionMonitor {
       * @hide
       */
      @VisibleForTesting
@@ -160,7 +160,7 @@ index c9b6387e0e..4443c4316e 100755
          ensureRunningOnHandlerThread();
          final ArrayList<Integer> allPermissionAppIds = new ArrayList<>();
          final ArrayList<Integer> internetPermissionAppIds = new ArrayList<>();
-@@ -1223,29 +1240,41 @@ public class PermissionMonitor {
+@@ -1224,29 +1241,41 @@ public class PermissionMonitor {
              if (allPermissionAppIds.size() != 0) {
                  mBpfNetMaps.setNetPermForUids(
                          PERMISSION_INTERNET | PERMISSION_UPDATE_DEVICE_STATS,

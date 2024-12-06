@@ -9,10 +9,10 @@ Subject: [PATCH] protect step sensors with OTHER_SENSORS permission for
  1 file changed, 15 insertions(+), 9 deletions(-)
 
 diff --git a/services/sensorservice/SensorService.cpp b/services/sensorservice/SensorService.cpp
-index 85043c9038..fbf4facbc6 100644
+index e1c43c6fec..76cf6082ba 100644
 --- a/services/sensorservice/SensorService.cpp
 +++ b/services/sensorservice/SensorService.cpp
-@@ -2249,17 +2249,9 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
+@@ -2292,17 +2292,9 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
      }
  
      const int32_t opCode = sensor.getRequiredAppOp();
@@ -31,7 +31,7 @@ index 85043c9038..fbf4facbc6 100644
          // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
          if (opCode >= 0) {
              const int32_t appOpMode = sAppOpsManager.checkOp(opCode,
-@@ -2268,6 +2260,20 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
+@@ -2311,6 +2303,20 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
          } else {
              canAccess = true;
          }

@@ -11,10 +11,10 @@ Needed by packages_modules_Connectivity ->
  2 files changed, 7 insertions(+)
 
 diff --git a/core/api/module-lib-current.txt b/core/api/module-lib-current.txt
-index 190fe9f31f3c..3156a91765ac 100644
+index 99abdce29c3c..434f7c5b2fbc 100644
 --- a/core/api/module-lib-current.txt
 +++ b/core/api/module-lib-current.txt
-@@ -467,6 +467,11 @@ package android.os {
+@@ -458,6 +458,11 @@ package android.os {
      field public static final long TRACE_TAG_NETWORK = 2097152L; // 0x200000L
    }
  

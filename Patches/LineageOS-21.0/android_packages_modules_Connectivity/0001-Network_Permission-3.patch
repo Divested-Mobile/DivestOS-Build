@@ -9,7 +9,7 @@ Subject: [PATCH] ConnectivityManager: pretend that network is down to
  1 file changed, 129 insertions(+)
 
 diff --git a/framework/src/android/net/ConnectivityManager.java b/framework/src/android/net/ConnectivityManager.java
-index fa27d0e010..d7431bd192 100644
+index 915ec52e77..08651038df 100644
 --- a/framework/src/android/net/ConnectivityManager.java
 +++ b/framework/src/android/net/ConnectivityManager.java
 @@ -43,6 +43,7 @@ import android.compat.annotation.UnsupportedAppUsage;
@@ -20,7 +20,7 @@ index fa27d0e010..d7431bd192 100644
  import android.net.ConnectivityDiagnosticsManager.DataStallReport.DetectionMethod;
  import android.net.IpSecManager.UdpEncapsulationSocket;
  import android.net.SocketKeepalive.Callback;
-@@ -1382,6 +1383,10 @@ public class ConnectivityManager {
+@@ -1383,6 +1384,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public NetworkInfo getActiveNetworkInfo() {
@@ -31,7 +31,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getActiveNetworkInfo();
          } catch (RemoteException e) {
-@@ -1403,6 +1408,10 @@ public class ConnectivityManager {
+@@ -1404,6 +1409,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public Network getActiveNetwork() {
@@ -42,7 +42,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getActiveNetwork();
          } catch (RemoteException e) {
-@@ -1636,6 +1645,10 @@ public class ConnectivityManager {
+@@ -1637,6 +1646,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public NetworkInfo getNetworkInfo(int networkType) {
@@ -53,7 +53,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getNetworkInfo(networkType);
          } catch (RemoteException e) {
-@@ -1657,6 +1670,10 @@ public class ConnectivityManager {
+@@ -1658,6 +1671,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public NetworkInfo getNetworkInfo(@Nullable Network network) {
@@ -64,7 +64,7 @@ index fa27d0e010..d7431bd192 100644
          return getNetworkInfoForUid(network, Process.myUid(), false);
      }
  
-@@ -1683,6 +1700,10 @@ public class ConnectivityManager {
+@@ -1684,6 +1701,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @NonNull
      public NetworkInfo[] getAllNetworkInfo() {
@@ -75,7 +75,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getAllNetworkInfo();
          } catch (RemoteException e) {
-@@ -1722,6 +1743,10 @@ public class ConnectivityManager {
+@@ -1723,6 +1744,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @UnsupportedAppUsage
      public Network getNetworkForType(int networkType) {
@@ -86,7 +86,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getNetworkForType(networkType);
          } catch (RemoteException e) {
-@@ -1745,6 +1770,10 @@ public class ConnectivityManager {
+@@ -1746,6 +1771,10 @@ public class ConnectivityManager {
      @NonNull
      @Deprecated
      public Network[] getAllNetworks() {
@@ -97,7 +97,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getAllNetworks();
          } catch (RemoteException e) {
-@@ -1783,6 +1812,10 @@ public class ConnectivityManager {
+@@ -1784,6 +1813,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 109783091)
      public LinkProperties getActiveLinkProperties() {
@@ -108,7 +108,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getActiveLinkProperties();
          } catch (RemoteException e) {
-@@ -1808,6 +1841,10 @@ public class ConnectivityManager {
+@@ -1809,6 +1842,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 130143562)
      public LinkProperties getLinkProperties(int networkType) {
@@ -119,7 +119,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getLinkPropertiesForType(networkType);
          } catch (RemoteException e) {
-@@ -1825,6 +1862,10 @@ public class ConnectivityManager {
+@@ -1826,6 +1863,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public LinkProperties getLinkProperties(@Nullable Network network) {
@@ -130,7 +130,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getLinkProperties(network);
          } catch (RemoteException e) {
-@@ -1879,6 +1920,10 @@ public class ConnectivityManager {
+@@ -1880,6 +1921,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @Nullable
      public NetworkCapabilities getNetworkCapabilities(@Nullable Network network) {
@@ -141,7 +141,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.getNetworkCapabilities(
                      network, mContext.getOpPackageName(), getAttributionTag());
-@@ -2891,6 +2936,10 @@ public class ConnectivityManager {
+@@ -2892,6 +2937,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetherableIfaces() {
@@ -152,7 +152,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetherableIfaces();
      }
  
-@@ -2906,6 +2955,10 @@ public class ConnectivityManager {
+@@ -2907,6 +2956,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetheredIfaces() {
@@ -163,7 +163,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetheredIfaces();
      }
  
-@@ -2927,6 +2980,10 @@ public class ConnectivityManager {
+@@ -2928,6 +2981,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetheringErroredIfaces() {
@@ -174,7 +174,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetheringErroredIfaces();
      }
  
-@@ -3233,6 +3290,10 @@ public class ConnectivityManager {
+@@ -3234,6 +3291,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetherableUsbRegexs() {
@@ -185,7 +185,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetherableUsbRegexs();
      }
  
-@@ -3251,6 +3312,10 @@ public class ConnectivityManager {
+@@ -3252,6 +3313,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetherableWifiRegexs() {
@@ -196,7 +196,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetherableWifiRegexs();
      }
  
-@@ -3270,6 +3335,10 @@ public class ConnectivityManager {
+@@ -3271,6 +3336,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage
      @Deprecated
      public String[] getTetherableBluetoothRegexs() {
@@ -207,7 +207,7 @@ index fa27d0e010..d7431bd192 100644
          return getTetheringManager().getTetherableBluetoothRegexs();
      }
  
-@@ -3410,6 +3479,10 @@ public class ConnectivityManager {
+@@ -3411,6 +3480,10 @@ public class ConnectivityManager {
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
      @Deprecated
      public int getLastTetherError(String iface) {
@@ -218,7 +218,7 @@ index fa27d0e010..d7431bd192 100644
          int error = getTetheringManager().getLastTetherError(iface);
          if (error == TetheringManager.TETHER_ERROR_UNKNOWN_TYPE) {
              // TETHER_ERROR_UNKNOWN_TYPE was introduced with TetheringManager and has never been
-@@ -3552,6 +3625,10 @@ public class ConnectivityManager {
+@@ -3553,6 +3626,10 @@ public class ConnectivityManager {
       *                        Internet using {@code network} or {@code false} if not.
       */
      public void reportNetworkConnectivity(@Nullable Network network, boolean hasConnectivity) {
@@ -229,7 +229,7 @@ index fa27d0e010..d7431bd192 100644
          printStackTrace();
          try {
              mService.reportNetworkConnectivity(network, hasConnectivity);
-@@ -3658,6 +3735,10 @@ public class ConnectivityManager {
+@@ -3659,6 +3736,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 130143562)
      public boolean isNetworkSupported(int networkType) {
@@ -240,7 +240,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.isNetworkSupported(networkType);
          } catch (RemoteException e) {
-@@ -3678,6 +3759,10 @@ public class ConnectivityManager {
+@@ -3679,6 +3760,10 @@ public class ConnectivityManager {
       */
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public boolean isActiveNetworkMetered() {
@@ -251,7 +251,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.isActiveNetworkMetered();
          } catch (RemoteException e) {
-@@ -4745,6 +4830,10 @@ public class ConnectivityManager {
+@@ -4746,6 +4831,10 @@ public class ConnectivityManager {
       *                  corresponding NetworkRequest you'd like to remove. Cannot be null.
       */
      public void releaseNetworkRequest(@NonNull PendingIntent operation) {
@@ -262,7 +262,7 @@ index fa27d0e010..d7431bd192 100644
          printStackTrace();
          checkPendingIntentNotNull(operation);
          try {
-@@ -4792,6 +4881,10 @@ public class ConnectivityManager {
+@@ -4793,6 +4882,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public void registerNetworkCallback(@NonNull NetworkRequest request,
              @NonNull NetworkCallback networkCallback) {
@@ -273,7 +273,7 @@ index fa27d0e010..d7431bd192 100644
          registerNetworkCallback(request, networkCallback, getDefaultHandler());
      }
  
-@@ -4820,6 +4913,10 @@ public class ConnectivityManager {
+@@ -4821,6 +4914,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public void registerNetworkCallback(@NonNull NetworkRequest request,
              @NonNull NetworkCallback networkCallback, @NonNull Handler handler) {
@@ -284,7 +284,7 @@ index fa27d0e010..d7431bd192 100644
          CallbackHandler cbHandler = new CallbackHandler(handler);
          NetworkCapabilities nc = request.networkCapabilities;
          sendRequestForNetwork(nc, networkCallback, 0, LISTEN, TYPE_NONE, cbHandler);
-@@ -4868,6 +4965,10 @@ public class ConnectivityManager {
+@@ -4869,6 +4966,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public void registerNetworkCallback(@NonNull NetworkRequest request,
              @NonNull PendingIntent operation) {
@@ -295,7 +295,7 @@ index fa27d0e010..d7431bd192 100644
          printStackTrace();
          checkPendingIntentNotNull(operation);
          try {
-@@ -4903,6 +5004,10 @@ public class ConnectivityManager {
+@@ -4904,6 +5005,10 @@ public class ConnectivityManager {
       */
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public void registerDefaultNetworkCallback(@NonNull NetworkCallback networkCallback) {
@@ -306,7 +306,7 @@ index fa27d0e010..d7431bd192 100644
          registerDefaultNetworkCallback(networkCallback, getDefaultHandler());
      }
  
-@@ -4929,6 +5034,10 @@ public class ConnectivityManager {
+@@ -4930,6 +5035,10 @@ public class ConnectivityManager {
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public void registerDefaultNetworkCallback(@NonNull NetworkCallback networkCallback,
              @NonNull Handler handler) {
@@ -317,7 +317,7 @@ index fa27d0e010..d7431bd192 100644
          registerDefaultNetworkCallbackForUid(Process.INVALID_UID, networkCallback, handler);
      }
  
-@@ -5034,6 +5143,10 @@ public class ConnectivityManager {
+@@ -5035,6 +5144,10 @@ public class ConnectivityManager {
      @SuppressLint("ExecutorRegistration")
      public void registerBestMatchingNetworkCallback(@NonNull NetworkRequest request,
              @NonNull NetworkCallback networkCallback, @NonNull Handler handler) {
@@ -328,7 +328,7 @@ index fa27d0e010..d7431bd192 100644
          final NetworkCapabilities nc = request.networkCapabilities;
          final CallbackHandler cbHandler = new CallbackHandler(handler);
          sendRequestForNetwork(nc, networkCallback, 0, LISTEN_FOR_BEST, TYPE_NONE, cbHandler);
-@@ -5052,6 +5165,10 @@ public class ConnectivityManager {
+@@ -5053,6 +5166,10 @@ public class ConnectivityManager {
       * @return {@code true} on success, {@code false} if the {@link Network} is no longer valid.
       */
      public boolean requestBandwidthUpdate(@NonNull Network network) {
@@ -339,7 +339,7 @@ index fa27d0e010..d7431bd192 100644
          try {
              return mService.requestBandwidthUpdate(network);
          } catch (RemoteException e) {
-@@ -5072,6 +5189,10 @@ public class ConnectivityManager {
+@@ -5073,6 +5190,10 @@ public class ConnectivityManager {
       * @param networkCallback The {@link NetworkCallback} used when making the request.
       */
      public void unregisterNetworkCallback(@NonNull NetworkCallback networkCallback) {
@@ -350,7 +350,7 @@ index fa27d0e010..d7431bd192 100644
          printStackTrace();
          checkCallbackNotNull(networkCallback);
          final List<NetworkRequest> reqs = new ArrayList<>();
-@@ -5114,6 +5235,10 @@ public class ConnectivityManager {
+@@ -5115,6 +5236,10 @@ public class ConnectivityManager {
       *                  Cannot be null.
       */
      public void unregisterNetworkCallback(@NonNull PendingIntent operation) {
@@ -361,7 +361,7 @@ index fa27d0e010..d7431bd192 100644
          releaseNetworkRequest(operation);
      }
  
-@@ -5333,6 +5458,10 @@ public class ConnectivityManager {
+@@ -5334,6 +5459,10 @@ public class ConnectivityManager {
       */
      @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
      public @MultipathPreference int getMultipathPreference(@Nullable Network network) {

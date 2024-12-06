@@ -10,17 +10,19 @@ Subject: [PATCH] fix usage UI summary for Network/Sensors
  2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/PermissionController/res/values/strings.xml b/PermissionController/res/values/strings.xml
-index d10c6fb90..ad597ea7c 100644
+index 6e8005ad0..bc4739e44 100644
 --- a/PermissionController/res/values/strings.xml
 +++ b/PermissionController/res/values/strings.xml
-@@ -1934,4 +1934,7 @@ Allow <xliff:g id="app_name" example="Gmail">%4$s</xliff:g> to upload a bug repo
-     <string name="safety_label_changes_gear_description">Settings</string>
+@@ -1950,6 +1950,9 @@ Allow <xliff:g id="app_name" example="Gmail">%4$s</xliff:g> to upload a bug repo
  
      <!-- Safety Label Change Notifications End -->
-+
+ 
 +    <!-- Summary text if tracking permission usage is not supported [CHAR LIMIT=60] -->
 +    <string name="permission_usage_preference_summary_not_supported">Tracking usage not yet supported</string>
- </resources>
++
+     <!-- Summary for showing the last access text for today for Wear [CHAR LIMIT=50] -->
+     <string name="wear_app_perms_24h_access">Accessed <xliff:g id="time_date" example="12:42 PM">%1$s</xliff:g></string>
+ 
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt b/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
 index 7d299fdda..fbc8022bb 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt

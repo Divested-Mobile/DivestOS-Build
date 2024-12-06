@@ -9,7 +9,7 @@ Permissions are enforced per-uid, checking pid may break spoofing for multi-proc
  1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
-index f4e5f2959b87..932c79e5bf7c 100644
+index 2e66b88ff674..c68d4135ada1 100644
 --- a/core/java/android/app/ContextImpl.java
 +++ b/core/java/android/app/ContextImpl.java
 @@ -2259,18 +2259,16 @@ class ContextImpl extends Context {

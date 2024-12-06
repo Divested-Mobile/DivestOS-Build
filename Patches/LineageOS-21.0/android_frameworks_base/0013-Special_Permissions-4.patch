@@ -11,7 +11,7 @@ Subject: [PATCH] infrastructure for spoofing self permission checks
  create mode 100644 core/java/android/content/pm/AppPermissionUtils.java
 
 diff --git a/core/java/android/app/ApplicationPackageManager.java b/core/java/android/app/ApplicationPackageManager.java
-index d1694013ae52..d90f463779ef 100644
+index 4950c0fdbaf8..94509e313be2 100644
 --- a/core/java/android/app/ApplicationPackageManager.java
 +++ b/core/java/android/app/ApplicationPackageManager.java
 @@ -47,6 +47,7 @@ import android.content.IntentFilter;
@@ -22,12 +22,12 @@ index d1694013ae52..d90f463779ef 100644
  import android.content.pm.ApplicationInfo;
  import android.content.pm.ArchivedPackageInfo;
  import android.content.pm.ChangedPackages;
-@@ -847,8 +848,18 @@ public class ApplicationPackageManager extends PackageManager {
+@@ -849,8 +850,18 @@ public class ApplicationPackageManager extends PackageManager {
  
      @Override
      public int checkPermission(String permName, String pkgName) {
--        return PermissionManager.checkPackageNamePermission(permName, pkgName,
-+        int res = PermissionManager.checkPackageNamePermission(permName, pkgName,
+-        return getPermissionManager().checkPackageNamePermission(permName, pkgName,
++        int res = getPermissionManager().checkPackageNamePermission(permName, pkgName,
                  mContext.getDeviceId(), getUserId());
 +
 +        if (res != PERMISSION_GRANTED) {
@@ -43,7 +43,7 @@ index d1694013ae52..d90f463779ef 100644
  
      @Override
 diff --git a/core/java/android/app/ContextImpl.java b/core/java/android/app/ContextImpl.java
-index 014ddd41f8d4..f4e5f2959b87 100644
+index af56cb4d55b2..2e66b88ff674 100644
 --- a/core/java/android/app/ContextImpl.java
 +++ b/core/java/android/app/ContextImpl.java
 @@ -48,6 +48,7 @@ import android.content.ReceiverCallNotAllowedException;

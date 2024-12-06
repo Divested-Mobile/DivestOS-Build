@@ -18,10 +18,10 @@ declaration inside <application> element in its AndroidManifest, or is a system 
  5 files changed, 62 insertions(+)
 
 diff --git a/core/api/system-current.txt b/core/api/system-current.txt
-index 38e4b74acc38..d7461cbb5be3 100644
+index 373f48e937dd..bbbac378487b 100644
 --- a/core/api/system-current.txt
 +++ b/core/api/system-current.txt
-@@ -4176,6 +4176,11 @@ package android.content.pm {
+@@ -4413,6 +4413,11 @@ package android.content.pm {
    }
  
    public class SpecialRuntimePermAppUtils {

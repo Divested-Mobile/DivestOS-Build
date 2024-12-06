@@ -14,10 +14,10 @@ Subject: [PATCH] app-side infrastructure for special runtime permissions
  create mode 100644 services/core/java/com/android/server/pm/permission/SpecialRuntimePermUtils.java
 
 diff --git a/core/api/system-current.txt b/core/api/system-current.txt
-index e92564b5d7c2..38e4b74acc38 100644
+index 5aa89b98353f..373f48e937dd 100644
 --- a/core/api/system-current.txt
 +++ b/core/api/system-current.txt
-@@ -4175,6 +4175,9 @@ package android.content.pm {
+@@ -4412,6 +4412,9 @@ package android.content.pm {
      field @NonNull public static final android.os.Parcelable.Creator<android.content.pm.ShortcutManager.ShareShortcutInfo> CREATOR;
    }
  
@@ -28,7 +28,7 @@ index e92564b5d7c2..38e4b74acc38 100644
      method public int describeContents();
      method public void writeToParcel(android.os.Parcel, int);
 diff --git a/core/java/android/content/pm/IPackageManager.aidl b/core/java/android/content/pm/IPackageManager.aidl
-index 6dc8d4738c87..6acfeded7760 100644
+index bff90f1d2298..fc6b097c5e19 100644
 --- a/core/java/android/content/pm/IPackageManager.aidl
 +++ b/core/java/android/content/pm/IPackageManager.aidl
 @@ -832,6 +832,8 @@ interface IPackageManager {
@@ -101,10 +101,10 @@ index 000000000000..efd48cb49aa3
 +    private SpecialRuntimePermAppUtils() {}
 +}
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 7798790c1026..7117861d2d16 100644
+index 09abae640bc5..f41bcf3b7c28 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -229,6 +229,7 @@ import com.android.server.pm.permission.LegacyPermissionManagerService;
+@@ -233,6 +233,7 @@ import com.android.server.pm.permission.LegacyPermissionManagerService;
  import com.android.server.pm.permission.LegacyPermissionSettings;
  import com.android.server.pm.permission.PermissionManagerService;
  import com.android.server.pm.permission.PermissionManagerServiceInternal;
@@ -112,7 +112,7 @@ index 7798790c1026..7117861d2d16 100644
  import com.android.server.pm.pkg.AndroidPackage;
  import com.android.server.pm.pkg.ArchiveState;
  import com.android.server.pm.pkg.PackageState;
-@@ -6535,6 +6536,24 @@ public class PackageManagerService implements PackageSender, TestUtilityService
+@@ -6644,6 +6645,24 @@ public class PackageManagerService implements PackageSender, TestUtilityService
                      getPerUidReadTimeouts(snapshot), mSnapshotStatistics
              ).doDump(snapshot, fd, pw, args);
          }
