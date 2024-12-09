@@ -132,10 +132,6 @@ sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
 fi;
 
-if enterAndClear "external/skia"; then
-git fetch https://github.com/LineageOS/android_external_skia refs/changes/54/408154/1 && git cherry-pick FETCH_HEAD; #S_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
-fi;
-
 if enterAndClear "frameworks/base"; then
 git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)

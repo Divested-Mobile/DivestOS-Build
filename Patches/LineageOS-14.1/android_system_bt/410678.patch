@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Mon, 8 Jul 2024 22:42:18 +0000
+Subject: [PATCH] Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+
+build_read_multi_rsp is missing a bounds check, which can lead to an
+OOB write when the mtu parameter is set to zero.
+
+Add that bounds check.
+
+Bug: 323850943
+Test: atest GattSrTest
+Test: researcher POC
+Tag: #security
+Flag: EXEMPT trivial validity checks
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c177fdbd6189a114239e11e2713740b5a50624e1)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:f7171d31e247e3367b302374a3a0cf671f50ffcd)
+Merged-In: Icc8209aec68873c9821a36c579cd5df05c6ec8b8
+Change-Id: Icc8209aec68873c9821a36c579cd5df05c6ec8b8
+---
+ stack/gatt/gatt_sr.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/stack/gatt/gatt_sr.c b/stack/gatt/gatt_sr.c
+index 6457a3758..c2ae49752 100644
+--- a/stack/gatt/gatt_sr.c
++++ b/stack/gatt/gatt_sr.c
+@@ -146,6 +146,13 @@ static BOOLEAN process_read_multi_rsp (tGATT_SR_CMD *p_cmd, tGATT_STATUS status,
+         /* Wait till we get all the responses */
+         if (fixed_queue_length(p_cmd->multi_rsp_q) == p_cmd->multi_req.num_handles)
+         {
++            // We need at least one extra byte for the opcode
++            if (mtu == 0)
++            {
++                GATT_TRACE_ERROR("Invalid MTU");
++                p_cmd->status = GATT_ILLEGAL_PARAMETER;
++                return(TRUE);
++            }
+             len = sizeof(BT_HDR) + L2CAP_MIN_OFFSET + mtu;
+             p_buf = (BT_HDR *)osi_calloc(len);
+             p_buf->offset = L2CAP_MIN_OFFSET;

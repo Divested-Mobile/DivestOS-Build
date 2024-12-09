@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Osman <brianosman@google.com>
+Date: Thu, 29 Aug 2024 12:47:48 -0400
+Subject: [PATCH] RESTRICT AUTOMERGE: Check for size overflow before allocating
+ SkMask data
+
+Bug: 352631932
+Test: N/A -- not reproducible / speculative fix
+Reviewed-on: https://skia-review.googlesource.com/c/skia/+/894478
+Commit-Queue: Ben Wagner <bungeman@google.com>
+Reviewed-by: Ben Wagner <bungeman@google.com>
+Auto-Submit: Brian Osman <brianosman@google.com>
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1fa94ff39bee75fe3a4abf061c09b972e2ffd0fa)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:cbf6a5953623cdb0ef200bcba00bc43986b16c91)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a96bda269af74d90cf3993c4429ce9e673a5fc36)
+Merged-In: I74c081a7b849f13194ec7807b7a748d1919c1bb2
+Change-Id: I74c081a7b849f13194ec7807b7a748d1919c1bb2
+
+Change-Id: I4e5330532e3981a15f6eee8e65fe74e7da50f719
+---
+ src/effects/SkBlurMaskFilter.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/effects/SkBlurMaskFilter.cpp b/src/effects/SkBlurMaskFilter.cpp
+index 1be030baf6..4416a6174b 100644
+--- a/src/effects/SkBlurMaskFilter.cpp
++++ b/src/effects/SkBlurMaskFilter.cpp
+@@ -196,6 +196,9 @@ static bool prepare_to_draw_into_mask(const SkRect& bounds, SkMask* mask) {
+     mask->fRowBytes = SkAlign4(mask->fBounds.width());
+     mask->fFormat = SkMask::kA8_Format;
+     const size_t size = mask->computeImageSize();
++    if (size == 0) {
++        return false;
++    }
+     mask->fImage = SkMask::AllocImage(size);
+     if (nullptr == mask->fImage) {
+         return false;

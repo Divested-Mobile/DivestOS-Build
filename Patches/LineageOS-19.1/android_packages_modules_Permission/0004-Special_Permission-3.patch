@@ -9,7 +9,7 @@ Toggles were not working correctly for API < 23.
  1 file changed, 2 insertions(+)
 
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt b/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
-index da93d4f78..96f6e356f 100644
+index 85908cb0e..fb320761f 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
 +++ b/PermissionController/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
 @@ -547,6 +547,7 @@ object KotlinUtils {
@@ -22,7 +22,7 @@ index da93d4f78..96f6e356f 100644
          // Do not touch permissions fixed by the system, or permissions that cannot be granted
 @@ -776,6 +777,7 @@ object KotlinUtils {
          var newFlags = perm.flags
-         var isGranted = perm.isGrantedIncludingAppOp
+         var isGranted = perm.isGranted
          val supportsRuntime = group.packageInfo.targetSdkVersion >= Build.VERSION_CODES.M
 +                || Utils.isSpecialRuntimePermission(perm.name)
          var shouldKill = false

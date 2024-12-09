@@ -16,7 +16,7 @@ Change-Id: I4e51da9d8fe08d1c4a287808f4464c0338b40334
  2 files changed, 248 insertions(+)
 
 diff --git a/framework/src/android/net/ConnectivitySettingsManager.java b/framework/src/android/net/ConnectivitySettingsManager.java
-index 9c8d08fb1..27263d2a4 100644
+index 9c8d08fb1..6ce4b5969 100644
 --- a/framework/src/android/net/ConnectivitySettingsManager.java
 +++ b/framework/src/android/net/ConnectivitySettingsManager.java
 @@ -351,6 +351,84 @@ public class ConnectivitySettingsManager {

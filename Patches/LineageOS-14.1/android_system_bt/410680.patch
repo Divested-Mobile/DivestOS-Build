@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Wed, 29 Nov 2023 00:53:33 +0000
+Subject: [PATCH] Fix an OOB bug in btif_to_bta_response and
+ attp_build_value_cmd
+
+Fix typo when converting from cc to c:
+p_dest->attr_value.len = std::min<uint16_t>(p_src->attr_value.len, GATT_MAX_ATTR_LEN);
+
+Bug: 276898739
+Test: manual
+Tag: #security
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:138120c65f9b5a03d462d01da9c5c7f71c875e1e)
+
+Change-Id: I0f1131b0b1ebd168202b4fde814010002e786817
+---
+ btif/src/btif_gatt_util.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/btif/src/btif_gatt_util.c b/btif/src/btif_gatt_util.c
+index 4edc7cf29..dc986385c 100644
+--- a/btif/src/btif_gatt_util.c
++++ b/btif/src/btif_gatt_util.c
+@@ -113,8 +113,8 @@ void btif_to_bta_response(tBTA_GATTS_RSP *p_dest, btgatt_response_t* p_src)
+ {
+     p_dest->attr_value.auth_req = p_src->attr_value.auth_req;
+     p_dest->attr_value.handle   = p_src->attr_value.handle;
+-    p_dest->attr_value.len      = (p_dest->attr_value.len < GATT_MAX_ATTR_LEN) ?
+-                                   p_dest->attr_value.len : GATT_MAX_ATTR_LEN;
++    p_dest->attr_value.len      = (p_src->attr_value.len < GATT_MAX_ATTR_LEN) ?
++                                   p_src->attr_value.len : GATT_MAX_ATTR_LEN;
+     p_dest->attr_value.offset   = p_src->attr_value.offset;
+     memcpy(p_dest->attr_value.value, p_src->attr_value.value, p_dest->attr_value.len);
+ }

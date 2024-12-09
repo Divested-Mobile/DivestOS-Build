@@ -36,7 +36,7 @@ index 18686875a..fad5be5b6 100644
                  }
              }
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
-index d57e79751..4cfa0d38b 100644
+index 92bfa887e..43d41f6c7 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
 +++ b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
 @@ -100,7 +100,8 @@ suspend fun revokeAppPermissions(

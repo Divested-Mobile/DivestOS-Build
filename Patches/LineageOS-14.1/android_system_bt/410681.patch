@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jakub=20Paw=C5=82owski?= <jpawlowski@google.com>
+Date: Thu, 1 Aug 2024 14:12:58 +0000
+Subject: [PATCH] Fix "GATT Read Multiple Variable Response" builder
+
+0 length value is perfectly fine, and should result in just length
+added into the packet.
+Currently, for 0 length value we just break out of loop, and don't add
+any value.
+This means, that if first characetristic in response had 0 length, we
+would return empty packet.
+
+Ignore-AOSP-First: security fix
+Test: mma -j32;
+Bug: 352696105
+Bug: 356886209
+Flag: exempt, obvious logic fix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:167573989a2a11a71af1289615692c360c14bddf)
+Merged-In: Ida4f6b566cf9fa40fc5330d8084c29669ccaa608
+Change-Id: Ida4f6b566cf9fa40fc5330d8084c29669ccaa608
+---
+ stack/gatt/gatt_sr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/stack/gatt/gatt_sr.c b/stack/gatt/gatt_sr.c
+index 71ef7f427..584fe3887 100644
+--- a/stack/gatt/gatt_sr.c
++++ b/stack/gatt/gatt_sr.c
+@@ -194,7 +194,7 @@ static BOOLEAN process_read_multi_rsp (tGATT_SR_CMD *p_cmd, tGATT_STATUS status,
+                     len = (p_rsp->attr_value.len < mtu - total_len) ?
+                            p_rsp->attr_value.len : mtu - total_len;
+ 
+-                    if (len == 0)
++                    if (total_len == mtu && p_rsp->attr_value.len > 0)
+                     {
+                         GATT_TRACE_DEBUG ("Buffer space not enough for this data item, skipping");
+                         break;

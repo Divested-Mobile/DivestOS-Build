@@ -82,7 +82,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-11 #XXX
+sed -i 's/2021-06-05/2024-12-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-12 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -178,6 +178,8 @@ fi;
 
 if enterAndClear "external/skia"; then
 applyPatch "$DOS_PATCHES/android_external_skia/407794.patch"; #n-asb-2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/410675.patch"; #n-asb-2024-12 [pdf] Bounds check in skia_alloc_func
+applyPatch "$DOS_PATCHES/android_external_skia/410676.patch"; #n-asb-2024-12 Check for size overflow before allocating SkMask data
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -613,6 +615,10 @@ applyPatch "$DOS_PATCHES/android_system_bt/385238.patch"; #n-asb-2024-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/385239.patch"; #n-asb-2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/396612.patch"; #n-asb-2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_system_bt/399271.patch"; #n-asb-2024-08 Fix heap-buffer overflow in sdp_utils.cc
+applyPatch "$DOS_PATCHES/android_system_bt/410678.patch"; #n-asb-2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_system_bt/410679.patch"; #n-asb-2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/410680.patch"; #n-asb-2024-12 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/410681.patch"; #n-asb-2024-12 Fix "GATT Read Multiple Variable Response" builder
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
