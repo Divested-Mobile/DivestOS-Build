@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tavi <tavi@divested.dev>
+Date: Tue, 10 Dec 2024 17:35:35 -0500
+Subject: [PATCH] OpenEUICC integration
+
+Change-Id: I3c290582e70cda3ab37ea116fbd5e2574b48104d
+Signed-off-by: Tavi <tavi@divested.dev>
+---
+ data/etc/preinstalled-packages-platform.xml | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/data/etc/preinstalled-packages-platform.xml b/data/etc/preinstalled-packages-platform.xml
+index 782327713fdc..0367799ee15c 100644
+--- a/data/etc/preinstalled-packages-platform.xml
++++ b/data/etc/preinstalled-packages-platform.xml
+@@ -134,4 +134,11 @@ to pre-existing users, but cannot uninstall pre-existing system packages from pr
+     <install-in-user-type package="com.android.avatarpicker">
+         <install-in user-type="FULL" />
+     </install-in-user-type>
++
++    <install-in-user-type package="com.google.euiccpixel">
++        <install-in user-type="SYSTEM" />
++    </install-in-user-type>
++    <install-in-user-type package="im.angry.openeuicc">
++        <install-in user-type="SYSTEM" />
++    </install-in-user-type>
+ </config>

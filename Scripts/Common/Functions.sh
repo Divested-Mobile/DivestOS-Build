@@ -678,20 +678,29 @@ enableAutoVarInit() {
 	local DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fairphone/sdm632' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'samsung/exynos9810' 'samsung/universal9810' 'sony/sdm660' 'sony/sdm845' 'xiaomi/msm8937' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/vayu' 'xiaomi/sm8250' 'zuk/msm8996');
 	cd "$DOS_BUILD_BASE";
 	echo "auto-var-init: Starting!";
+	if [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
+		local patch_suffix="-modern";
+	else
+		local patch_suffix="-deprecated";
+	fi;
 	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"
 	do
 		if [ -d "$DOS_BUILD_BASE/kernel/$kernel" ]; then
 			cd "$DOS_BUILD_BASE/kernel/$kernel";
-			if git apply --check "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then
-				if git apply "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then #(GrapheneOS)
+			if git apply --check "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init$patch_suffix.patch" &> /dev/null; then
+				if git apply "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init$patch_suffix.patch" &> /dev/null; then #(GrapheneOS)
 					echo "auto-var-init: Enabled for $kernel";
 				else
 					echo "auto-var-init: Failed to enable for $kernel";
 				fi;
-			elif git apply --check --reverse "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then
+			elif git apply --check --reverse "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init$patch_suffix.patch" &> /dev/null; then
 				echo "auto-var-init: Already enabled for $kernel";
 			elif grep -q "trivial-auto-var-init=pattern" Makefile; then
-				sed -i 's/ftrivial-auto-var-init=pattern/ftrivial-auto-var-init=zero -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang/' Makefile; #(GrapheneOS)
+				if [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
+					sed -i 's/ftrivial-auto-var-init=pattern/ftrivial-auto-var-init=zero/' Makefile; #(GrapheneOS)
+				else
+					sed -i 's/ftrivial-auto-var-init=pattern/ftrivial-auto-var-init=zero -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang/' Makefile; #(GrapheneOS)
+				fi;
 				grep -q "trivial-auto-var-init=pattern" Makefile;
 				if [ $? -eq 0 ]; then
 					echo "auto-var-init: Failed to switch from pattern to zero on $kernel";

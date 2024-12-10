@@ -17,12 +17,12 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/CarrierConfig2PreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 44aacacb5a7..4766f048364 100644
+index 5d99076843f..c713758a2cb 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -680,6 +680,9 @@
-     <string name="openeuicc_title">Enable eUICC management</string>
-     <string name="openeuicc_summary">Enables the OpenEUICC app to allow management of virtual (eSIM) and physical eUICC cards. Reboot required after toggling.</string>
+@@ -677,6 +677,9 @@
+     <string name="sig_spoof_title">Unprivileged microG enablement</string>
+     <string name="sig_spoof_summary">Allows official builds of microG apps to function. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
  
 +    <string name="carrierconfig2_title">Enable CarrierConfig2</string>
 +    <string name="carrierconfig2_summary">Use a larger Google database instead of the AOSP database for carrier specific configurations. May improve cellular network compatibility &amp; functionality. Requires reboot.</string>
@@ -31,12 +31,12 @@ index 44aacacb5a7..4766f048364 100644
      <string name="owner_info_settings_summary">None</string>
      <!-- Hint text shown in owner info edit text [CHAR LIMIT=50] -->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index de90cec5bcc..d8766ab41a3 100644
+index 604e8720e6f..441231e2b7c 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
-@@ -98,6 +98,12 @@
-             android:title="@string/openeuicc_title"
-             android:summary="@string/openeuicc_summary"
+@@ -92,6 +92,12 @@
+             android:title="@string/sig_spoof_title"
+             android:summary="@string/sig_spoof_summary"
              android:persistent="false" />
 +
 +        <SwitchPreference
@@ -160,13 +160,13 @@ index 00000000000..a3e5aa17591
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index ee9acc01f6b..c52bb957697 100644
+index f009703ed24..2e1f2765614 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
-@@ -111,6 +111,7 @@ public class SecuritySettings extends DashboardFragment {
+@@ -110,6 +110,7 @@ public class SecuritySettings extends DashboardFragment {
+         securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
          securityPreferenceControllers.add(new HostsPreferenceController(context));
          securityPreferenceControllers.add(new SigSpoofPreferenceController(context));
-         securityPreferenceControllers.add(new OpenEuiccPreferenceController(context));
 +        securityPreferenceControllers.add(new CarrierConfig2PreferenceController(context));
          controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
                  .setChildren(securityPreferenceControllers));

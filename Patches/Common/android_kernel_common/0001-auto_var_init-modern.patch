@@ -1,0 +1,22 @@
+From 919a61dedb0458ebd52291cb6d4948446fad4b44 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 8 Apr 2020 11:10:43 -0400
+Subject: [PATCH] enable -ftrivial-auto-var-init=zero
+
+---
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 79e2a78a7e92..abc66c11c84a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -770,6 +770,8 @@ KBUILD_CFLAGS	+= -fomit-frame-pointer
+ endif
+ endif
+ 
++KBUILD_CFLAGS += -ftrivial-auto-var-init=zero
++
+ KBUILD_CFLAGS   += $(call cc-option, -fno-var-tracking-assignments)
+ 
+ ifdef CONFIG_DEBUG_INFO
