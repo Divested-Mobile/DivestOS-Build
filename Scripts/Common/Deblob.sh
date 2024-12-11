@@ -383,7 +383,7 @@ echo "Deblobbing...";
 		#RCS (Proprietary messaging protocol)
 		#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/rcs-service/ [useless]
 		blobs=$blobs"|imsrcsd";
-		blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
+		blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so|lib-imsrcsbaseimpl.so";
 		blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
 		blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
 		blobs=$blobs"|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
@@ -432,7 +432,7 @@ echo "Deblobbing...";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/location/
-	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libgdtap.so|libloc_ext.so|libloc_xtra.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so";
+	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libgdtap.so|libloc_ext.so|libloc_xtra.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|libxtwifi_server_protocol.so|libxtwifi_server_protocol_uri_v3.so";
 	#blobs=$blobs"|libulp2.so|libxtadapter.so|libgeofence.so|liblbs_core.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|liblocationservice_glue.so|liblocationservice.so|liblowi_client.so";
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.xml|com.qualcomm.location.xml|izat.conf|izat.xt.srv.xml|lowi.conf|xtra_root_cert.pem|xtwifi.conf";
 	blobs=$blobs"|com.qti.location.sdk.jar|izat.xt.srv.jar";
@@ -555,7 +555,7 @@ echo "Deblobbing...";
 	#SecureUI [Qualcomm]
 	blobs=$blobs"|com.qualcomm.qti.services.secureui.*";
 	if [ "$DOS_VERSION" != "LineageOS-14.1" ]; then
-		blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #XXX: Can break qseecomd
+		blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so|libsecureui_svcsock_system.so|android.hardware.confirmationui@1.0-service-google"; #XXX: Can break qseecomd
 		blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSecureExtAuthJNI.so";
 	fi;
 	blobs=$blobs"|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureSampleAuthClient.so";
@@ -628,7 +628,7 @@ echo "Deblobbing...";
 
 	#Wfd (Wireless Display) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
-	blobs=$blobs"|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdclient.so|libwfdcodecv4l2_proprietary.so|libwfdcodecv4l2.so|libwfdcommonutils_proprietary.so|libwfdcommonutils.so|libwfdconfigutils_proprietary.so|libwfdconfigutils.so|libwfddisplayconfig_proprietary.so|libwfddisplayconfig.so|libwfdhaldsmanager.so|libwfdhdcpcp.so|libwfdhdcpservice_proprietary.so|libwfdmminterface_proprietary.so|libwfdmminterface.so|libwfdmmservice_proprietary.so|libwfdmmservice.so|libwfdmmsink.so|libwfdmmsrc_proprietary.so|libwfdmmsrc.so|libwfdmmsrc_system.so|libwfdmmutils.so|libwfdmodulehdcpsession.so|libwfdnative.so|libwfdrtsp_proprietary.so|libwfdrtsp.so|libwfdservice.so|libwfdsessionmodule.so|libwfdsinksm.so|libwfdsm.so|libwfdsourcesession_proprietary.so|libwfdsourcesm_proprietary.so|libwfduibcinterface_proprietary.so|libwfduibcinterface.so|libwfduibcsinkinterface_proprietary.so|libwfduibcsinkinterface.so|libwfduibcsink_proprietary.so|libwfduibcsink.so|libwfduibcsrcinterface_proprietary.so|libwfduibcsrcinterface.so|libwfduibcsrc_proprietary.so|libwfduibcsrc.so|libwfdutils_proprietary.so|libwfdaac.so";
+	blobs=$blobs"|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdclient.so|libwfdcodecv4l2_proprietary.so|libwfdcodecv4l2.so|libwfdcommonutils_proprietary.so|libwfdcommonutils.so|libwfdconfigutils_proprietary.so|libwfdconfigutils.so|libwfddisplayconfig_proprietary.so|libwfddisplayconfig.so|libwfdhaldsmanager.so|libwfdhdcpcp.so|libwfdhdcpservice_proprietary.so|libwfdmminterface_proprietary.so|libwfdmminterface.so|libwfdmmservice_proprietary.so|libwfdmmservice.so|libwfdmmsink.so|libwfdmmsrc_proprietary.so|libwfdmmsrc.so|libwfdmmsrc_system.so|libwfdmmutils.so|libwfdmodulehdcpsession.so|libwfdnative.so|libwfdrtsp_proprietary.so|libwfdrtsp.so|libwfdservice.so|libwfdsessionmodule.so|libwfdsinksm.so|libwfdsm.so|libwfdsourcesession_proprietary.so|libwfdsourcesm_proprietary.so|libwfduibcinterface_proprietary.so|libwfduibcinterface.so|libwfduibcsinkinterface_proprietary.so|libwfduibcsinkinterface.so|libwfduibcsink_proprietary.so|libwfduibcsink.so|libwfduibcsrcinterface_proprietary.so|libwfduibcsrcinterface.so|libwfduibcsrc_proprietary.so|libwfduibcsrc.so|libwfdutils_proprietary.so|libwfdaac.so|libOmxVideoDSMode.so";
 	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice|wfdvndservice";
 	blobs=$blobs"|WfdService.apk";
 	blobs=$blobs"|WfdCommon.jar";
@@ -817,6 +817,7 @@ deblobVendorBp() {
 	#Credit: https://stackoverflow.com/a/26053127
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm@1.*-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	sed -i ':a;N;s/\n/&/3;Ta;/android.hardware.confirmationui@1.0-service-google.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_vendor.xiaomi.hardware.mlipay.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/vendor.qti.hardware.radio.atcmdfwd@1.0.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/com.google.android.widevine-.*.apex/!{P;D};:b;N;s/\n/&/6;Tb;d' "$bpfile";

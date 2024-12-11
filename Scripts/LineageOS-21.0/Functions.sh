@@ -56,9 +56,9 @@ buildAll() {
 	buildDevice flame avb;
 	#SD835
 	buildDevice walleye avb;
-	buildDevice cheeseburger verity;
-	buildDevice dumpling verity;
-	buildDevice mata verity;
+	buildDevice cheeseburger verity; #TODO: fixup verity
+	buildDevice dumpling verity; #TODO: fixup verity
+	buildDevice mata verity; #TODO: fixup verity
 	buildDevice pro1 avb;
 	#SD845
 	buildDevice enchilada avb;
