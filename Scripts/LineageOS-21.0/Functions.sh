@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2024-12-05
 
 patchAllKernels() {
-	startPatcher "kernel_google_wahoo";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_fxtec_sm6115 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350";
 }
 export -f patchAllKernels;
 
@@ -52,14 +52,52 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#frontloaded for testing
 	buildDevice taimen avb;
-
+	buildDevice fajita avb;
+	buildDevice flame avb;
 	#SD835
 	buildDevice walleye avb;
-
-	#Tensor #TODO: inline kernel building
+	buildDevice cheeseburger verity;
+	buildDevice dumpling verity;
+	buildDevice mata verity;
+	buildDevice pro1 avb;
+	#SD845
+	buildDevice enchilada avb;
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
+	#SD750
+	buildDevice FP4 avb;
+	#SD855
+	buildDevice guacamole avb;
+	buildDevice guacamoleb avb;
+	buildDevice hotdog avb;
+	buildDevice hotdogb avb;
+	buildDevice coral avb;
+	#SD730
+	buildDevice sunfish avb;
+	#SD632
+	buildDevice FP3 avb; #TODO: firmware
+	#SD865
+	buildDevice instantnoodle avb;
+	buildDevice instantnoodlep avb;
+	buildDevice kebab avb;
+	buildDevice lemonades avb;
+	#SD888
+	buildDevice lemonade avb;
+	buildDevice lemonadep avb;
+	#SD662
+	buildDevice pro1x avb;
+	#SD765
+	buildDevice avicii avb;
+	buildDevice bramble avb;
+	buildDevice redfin avb;
+	buildDevice barbet avb;
+	#SD670
+	buildDevice bonito avb;
+	buildDevice sargo avb;
+	#Tensor #TODO: replace the outdated prebuilt kernels
+	buildDevice bluejay avb;
 	buildDevice oriole avb;
 	buildDevice raven avb;
-	buildDevice bluejay avb;
 	buildDevice panther avb;
 	buildDevice cheetah avb;
 	buildDevice lynx avb;

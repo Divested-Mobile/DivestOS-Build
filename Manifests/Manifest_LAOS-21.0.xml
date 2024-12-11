@@ -63,12 +63,64 @@
 	<project path="hardware/sony/timekeep" remote="github" name="LineageOS/android_hardware_sony_timekeep" revision="lineage-21" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
+	<!-- Essential PH-1 (mata) -->
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" revision="lineage-21" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" revision="lineage-21" />
+
+	<!-- F(x)tec Pro¹ (pro1) -->
+	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" revision="lineage-21" />
+	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" revision="lineage-21" />
+
+	<!-- F(x)tec Pro¹ X (pro1x) -->
+	<project path="device/fxtec/pro1x" name="LineageOS/android_device_fxtec_pro1x" remote="github" revision="lineage-21" />
+	<project path="kernel/fxtec/sm6115" name="LineageOS/android_kernel_fxtec_sm6115" remote="github" revision="lineage-21" />
+
+	<!-- Fairphone 3 (FP3) -->
+	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" revision="lineage-21" />
+	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" revision="lineage-21" />
+
+	<!-- Fairphone 4 (FP4) -->
+	<project path="device/fairphone/FP4" name="LineageOS/android_device_fairphone_FP4" remote="github" revision="lineage-21" />
+	<project path="kernel/fairphone/sm7225" name="LineageOS/android_kernel_fairphone_sm7225" remote="github" revision="lineage-21" />
+
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" revision="lineage-21" />
 	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" revision="lineage-21" />
 	<project path="device/google/walleye" name="LineageOS/android_device_google_walleye" remote="github" revision="lineage-21" />
 	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" revision="lineage-21" />
 	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" revision="lineage-21" />
+
+	<!-- Google Pixel 3 (crosshatch/blueline) -->
+	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" revision="lineage-21" />
+	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" revision="lineage-21" />
+	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" revision="lineage-21" />
+
+	<!-- Google Pixel 3a (bonito/sargo) -->
+	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" revision="lineage-21" />
+	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" revision="lineage-21" />
+	<!-- uses google/msm-4.9 kernel -->
+
+	<!-- Google Pixel 4 (coral/flame) -->
+	<project path="device/google/coral" name="LineageOS/android_device_google_coral" remote="github" revision="lineage-21" />
+	<project path="device/google/flame" name="LineageOS/android_device_google_flame" remote="github" revision="lineage-21" />
+	<project path="kernel/google/msm-4.14" name="LineageOS/android_kernel_google_msm-4.14" remote="github" revision="lineage-21" />
+
+	<!-- Google Pixel 4a (sunfish) -->
+	<project path="device/google/sunfish" name="LineageOS/android_device_google_sunfish" remote="github" revision="lineage-21" />
+	<!-- uses google/msm-4.14 kernel -->
+
+	<!-- Google Pixel 4a 5G (bramble) -->
+	<project path="device/google/bramble" name="LineageOS/android_device_google_bramble" remote="github" revision="lineage-21" />
+	<project path="device/google/redbull" name="LineageOS/android_device_google_redbull" remote="github" revision="lineage-21" />
+	<project path="kernel/google/redbull" name="LineageOS/android_kernel_google_redbull" remote="github" revision="lineage-21" />
+
+	<!-- Google Pixel 5 (redfin) -->
+	<project path="device/google/redfin" name="LineageOS/android_device_google_redfin" remote="github" revision="lineage-21" />
+	<!-- uses redbull commons -->
+
+	<!-- Google Pixel 5a (barbet) -->
+	<project path="device/google/barbet" name="LineageOS/android_device_google_barbet" remote="github" revision="lineage-21" />
+	<!-- uses redbull commons -->
 
 	<!-- Google Tensor Commons -->
 	<project path="device/google/gs-common" name="LineageOS/android_device_google_gs-common" remote="github" revision="lineage-21" />
@@ -97,15 +149,108 @@
 	<project path="device/google/felix" name="LineageOS/android_device_google_felix" remote="github" revision="lineage-21" />
 	<project path="device/google/felix-kernel" name="device/google/felix-kernel" remote="aosp-felix" clone-depth="1" />
 
+	<!-- OnePlus 5 (cheeseburger) -->
+	<project path="device/oneplus/cheeseburger" name="LineageOS/android_device_oneplus_cheeseburger" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/msm8998-common" name="LineageOS/android_device_oneplus_msm8998-common" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/msm8998" name="LineageOS/android_kernel_oneplus_msm8998" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 5T (dumpling) -->
+	<project path="device/oneplus/dumpling" name="LineageOS/android_device_oneplus_dumpling" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 6 (enchilada) -->
+	<project path="hardware/oneplus" name="LineageOS/android_hardware_oneplus" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/sdm845-common" name="LineageOS/android_device_oneplus_sdm845-common" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/enchilada" name="LineageOS/android_device_oneplus_enchilada" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/sdm845" name="LineageOS/android_kernel_oneplus_sdm845" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 6T (fajita) -->
+	<project path="device/oneplus/fajita" name="LineageOS/android_device_oneplus_fajita" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus Nord (avicii) -->
+	<project path="device/oneplus/avicii" name="LineageOS/android_device_oneplus_avicii" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/sm7250" name="LineageOS/android_kernel_oneplus_sm7250" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 7 Pro (guacamole) -->
+	<project path="device/oneplus/sm8150-common" name="LineageOS/android_device_oneplus_sm8150-common" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/guacamole" name="LineageOS/android_device_oneplus_guacamole" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/sm8150" name="LineageOS/android_kernel_oneplus_sm8150" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 7 (guacamoleb) -->
+	<project path="device/oneplus/guacamoleb" name="LineageOS/android_device_oneplus_guacamoleb" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 7T Pro (hotdog) -->
+	<project path="device/oneplus/hotdog" name="LineageOS/android_device_oneplus_hotdog" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 7T (hotdogb) -->
+	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 8 Pro (instantnoodlep) -->
+	<project path="device/oneplus/sm8250-common" name="LineageOS/android_device_oneplus_sm8250-common" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/instantnoodlep" name="LineageOS/android_device_oneplus_instantnoodlep" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/sm8250" name="LineageOS/android_kernel_oneplus_sm8250" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 8 (instantnoodle) -->
+	<project path="device/oneplus/instantnoodle" name="LineageOS/android_device_oneplus_instantnoodle" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 8T (kebab) -->
+	<project path="device/oneplus/kebab" name="LineageOS/android_device_oneplus_kebab" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 9R (lemonades) -->
+	<project path="device/oneplus/lemonades" name="LineageOS/android_device_oneplus_lemonades" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 9 Pro (lemonadep) -->
+	<project path="hardware/oplus" name="LineageOS/android_hardware_oplus" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/sm8350-common" name="LineageOS/android_device_oneplus_sm8350-common" remote="github" revision="lineage-21" />
+	<project path="device/oneplus/lemonadep" name="LineageOS/android_device_oneplus_lemonadep" remote="github" revision="lineage-21" />
+	<project path="kernel/oneplus/sm8350" name="LineageOS/android_kernel_oneplus_sm8350" remote="github" revision="lineage-21" />
+
+	<!-- OnePlus 9 (lemonade) -->
+	<project path="device/oneplus/lemonade" name="LineageOS/android_device_oneplus_lemonade" remote="github" revision="lineage-21" />
+
         <!-- Proprietary Blobs -->
-	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="github" revision="lineage-21" />
-	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="github" revision="lineage-21" />
-	<project path="vendor/google/felix" name="[COLOUR IN THE LINES]/proprietary_vendor_google_felix" remote="github" revision="lineage-21" />
-	<project path="vendor/google/lynx" name="[COLOUR IN THE LINES]/proprietary_vendor_google_lynx" remote="github" revision="lineage-21" />
-	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="github" revision="lineage-21" />
-	<project path="vendor/google/panther" name="[COLOUR IN THE LINES]/proprietary_vendor_google_panther" remote="github" revision="lineage-21" />
-	<project path="vendor/google/raven" name="[COLOUR IN THE LINES]/proprietary_vendor_google_raven" remote="github" revision="lineage-21" />
-	<project path="vendor/google/tangorpro" name="[COLOUR IN THE LINES]/proprietary_vendor_google_tangorpro" remote="github" revision="lineage-21" />
+	<project path="vendor/essential/mata" name="[COLOUR IN THE LINES]/proprietary_vendor_essential_mata" remote="github" revision="lineage-21" />
+	<project path="vendor/fairphone/FP3" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP3" remote="github" revision="lineage-21" />
+	<project path="vendor/fairphone/FP4" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP4" remote="github" revision="lineage-21" />
+	<project path="vendor/fxtec/pro1" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1" remote="github" revision="lineage-21" />
+	<project path="vendor/fxtec/pro1x" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1x" remote="github" revision="lineage-21" />
+	<project path="vendor/google/barbet" name="[COLOUR IN THE LINES]/proprietary_vendor_google_barbet" remote="github" revision="lineage-21" />
+	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/blueline" name="[COLOUR IN THE LINES]/proprietary_vendor_google_blueline" remote="github" revision="lineage-21" />
+	<project path="vendor/google/bonito" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bonito" remote="github" revision="lineage-21" />
+	<project path="vendor/google/bramble" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bramble" remote="github" revision="lineage-21" />
+	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/coral" name="[COLOUR IN THE LINES]/proprietary_vendor_google_coral" remote="github" revision="lineage-21" />
+	<project path="vendor/google/crosshatch" name="[COLOUR IN THE LINES]/proprietary_vendor_google_crosshatch" remote="github" revision="lineage-21" />
+	<project path="vendor/google/felix" name="[COLOUR IN THE LINES]/proprietary_vendor_google_felix" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/flame" name="[COLOUR IN THE LINES]/proprietary_vendor_google_flame" remote="github" revision="lineage-21" />
+	<project path="vendor/google/lynx" name="[COLOUR IN THE LINES]/proprietary_vendor_google_lynx" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/panther" name="[COLOUR IN THE LINES]/proprietary_vendor_google_panther" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/raven" name="[COLOUR IN THE LINES]/proprietary_vendor_google_raven" remote="gitlab" revision="lineage-21" />
+	<project path="vendor/google/redfin" name="[COLOUR IN THE LINES]/proprietary_vendor_google_redfin" remote="github" revision="lineage-21" />
+	<project path="vendor/google/sargo" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sargo" remote="github" revision="lineage-21" />
+	<project path="vendor/google/sunfish" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sunfish" remote="github" revision="lineage-21" />
+	<project path="vendor/google/tangorpro" name="[COLOUR IN THE LINES]/proprietary_vendor_google_tangorpro" remote="gitlab" revision="lineage-21" />
 	<project path="vendor/google/taimen" name="[COLOUR IN THE LINES]/proprietary_vendor_google_taimen" remote="github" revision="lineage-21" />
 	<project path="vendor/google/walleye" name="[COLOUR IN THE LINES]/proprietary_vendor_google_walleye" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/avicii" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_avicii" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/cheeseburger" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_cheeseburger" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/dumpling" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_dumpling" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/enchilada" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_enchilada" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/fajita" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_fajita" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/guacamoleb" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_guacamoleb" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/guacamole" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_guacamole" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/hotdogb" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_hotdogb" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/hotdog" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_hotdog" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/instantnoodle" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_instantnoodle" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/instantnoodlep" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_instantnoodlep" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/kebab" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_kebab" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/lemonade" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_lemonade" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/lemonadep" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_lemonadep" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/lemonades" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_lemonades" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/msm8998-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_msm8998-common" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sdm845-common" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/sm8150-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8150-common" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/sm8250-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8250-common" remote="github" revision="lineage-21" />
+	<project path="vendor/oneplus/sm8350-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8350-common" remote="github" revision="lineage-21" />
 </manifest>
