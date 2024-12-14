@@ -93,7 +93,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2024-02-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-11
+sed -i 's/2024-02-05/2024-12-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-12
 fi;
 
 if enterAndClear "build/soong"; then
@@ -134,6 +134,9 @@ fi;
 
 if enterAndClear "external/skia"; then
 applyPatch "$DOS_PATCHES/android_external_skia/408442.patch"; #R_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/411484.patch"; #R_asb_2024-12 [pdf] Bounds check in skia_alloc_func
+applyPatch "$DOS_PATCHES/android_external_skia/411485.patch"; #R_asb_2024-12 Check for size overflow before allocating SkMask data
+applyPatch "$DOS_PATCHES/android_external_skia/411486.patch"; #R_asb_2024-12 Prevent overflow when growing an SkRegion's RunArray
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -188,6 +191,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/408445.patch"; #R_asb_2024-11 S
 applyPatch "$DOS_PATCHES/android_frameworks_base/408446.patch"; #R_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/408447.patch"; #R_asb_2024-11 Clear app-provided shortcut icons
 applyPatch "$DOS_PATCHES/android_frameworks_base/408448.patch"; #R_asb_2024-11 Restrict access to directories
+applyPatch "$DOS_PATCHES/android_frameworks_base/411487.patch"; #R_asb_2024-12 Properly handle onNullBinding() in appwidget service.
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -479,6 +483,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/399742.patch"; #R_asb_2024-08 Fix hea
 applyPatch "$DOS_PATCHES/android_system_bt/405535.patch"; #R_asb_2024-10 Add privatize option for bluetooth addresses for logging
 applyPatch "$DOS_PATCHES/android_system_bt/405536.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_system_bt/405537.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
+applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_system_bt/411489.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 git am "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic (AOSP)
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
@@ -545,6 +552,9 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/397546.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/399743.patch"; #R_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405583.patch"; #R_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/405584.patch"; #R_asb_2024-10 Disallow unexpected incoming HID connections 1/2
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411491.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411492.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411493.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 fi;
 
 if enterAndClear "vendor/lineage"; then

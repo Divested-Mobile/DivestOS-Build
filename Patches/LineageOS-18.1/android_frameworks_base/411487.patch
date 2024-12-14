@@ -1,0 +1,60 @@
+From b958e5cbbb8982c37dcc60f076e9e71a85588c87 Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Thu, 29 Aug 2024 17:01:55 +0000
+Subject: [PATCH] Properly handle onNullBinding() in appwidget service.
+
+Bug: 340239088
+Test: manually verified with the PoC app
+Flag: EXEMPT CVE
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5b076641fc517b37f1689697130de3cbc22a4c92)
+Merged-In: I12fccb572e159a73785aa33a4f5204e094ccd1b7
+Change-Id: I12fccb572e159a73785aa33a4f5204e094ccd1b7
+---
+ core/java/android/widget/RemoteViewsAdapter.java       |  5 +++++
+ .../android/server/appwidget/AppWidgetServiceImpl.java | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/core/java/android/widget/RemoteViewsAdapter.java b/core/java/android/widget/RemoteViewsAdapter.java
+index e58f08a799655..d64a3b5ee16ba 100644
+--- a/core/java/android/widget/RemoteViewsAdapter.java
++++ b/core/java/android/widget/RemoteViewsAdapter.java
+@@ -238,6 +238,11 @@ public void onServiceDisconnected(ComponentName name) {
+             }
+         }
+ 
++        @Override
++        public void onNullBinding(ComponentName name) {
++            enqueueDeferredUnbindServiceMessage();
++        }
++
+         @Override
+         public void handleMessage(Message msg) {
+             RemoteViewsAdapter adapter = mAdapter.get();
+diff --git a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+index f989f73b11b10..709a206a39c77 100644
+--- a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
++++ b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+@@ -1888,6 +1888,11 @@ public void onServiceConnected(ComponentName name, IBinder service) {
+                 mContext.unbindService(this);
+             }
+ 
++            @Override
++            public void onNullBinding(ComponentName name) {
++                mContext.unbindService(this);
++            }
++
+             @Override
+             public void onServiceDisconnected(ComponentName name) {
+                 // Do nothing
+@@ -2028,6 +2033,11 @@ public void onServiceConnected(ComponentName name, IBinder service) {
+                                 mContext.unbindService(this);
+                             }
+ 
++                            @Override
++                            public void onNullBinding(ComponentName name) {
++                                mContext.unbindService(this);
++                            }
++
+                             @Override
+                             public void onServiceDisconnected(android.content.ComponentName name) {
+                                 // Do nothing
