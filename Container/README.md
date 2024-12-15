@@ -10,7 +10,6 @@ required arguments:
 - $1 - path where android build will end up
 
 ```sh
-mkdir android
 ./run-image-{podman,docker}.sh "$(pwd)/Builds"
 ```
 
@@ -25,19 +24,15 @@ Either proceed manually (https://divestos.org/pages/build#init) or use the scrip
     ./phase-1.sh "20.0" |& tee phase-1.log
     ```
 
-  b. Choose your options (optional)
+  b. Set options (optional)
+
+    See Scripts/init.sh for available options. For example:
 
     ```sh
-    nano DivestOS/Scripts/init.sh
+    export DOS_BRANDING_ORG="My Company"
     ```
 
-  c. Update description (optional)
-
-    ```sh
-    nano DivestOS/Scripts/Generate_Signing_Keys.sh
-    ```
-
-  d. Add vendor blobs
+  c. Add vendor blobs
 
     ```sh
     githuborg=""  # <-- put the correct github organization here
@@ -46,7 +41,7 @@ Either proceed manually (https://divestos.org/pages/build#init) or use the scrip
     sed -i "/gitlab/s/\[COLOUR IN THE LINES\]/$gitlaborg/g" DivestOS/Build/LineageOS-20.0/.repo/local_manifests/local_manifest.xml
     ```
 
-  e. Download and Build
+  d. Download and Build
 
     ```sh
     # $1: version
