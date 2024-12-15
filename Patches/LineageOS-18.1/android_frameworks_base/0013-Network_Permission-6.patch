@@ -8,7 +8,7 @@ Subject: [PATCH] skip reportNetworkConnectivity() when permission is revoked
  1 file changed, 8 insertions(+)
 
 diff --git a/core/java/android/net/ConnectivityManager.java b/core/java/android/net/ConnectivityManager.java
-index dfdbbe085c0f..dc1b4f16feba 100644
+index 03ac83fd947d..6e9312e52b68 100644
 --- a/core/java/android/net/ConnectivityManager.java
 +++ b/core/java/android/net/ConnectivityManager.java
 @@ -17,6 +17,7 @@ package android.net;

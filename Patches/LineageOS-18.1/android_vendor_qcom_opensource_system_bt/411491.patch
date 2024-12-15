@@ -1,4 +1,4 @@
-From aff29339e466060263340cee43e16fbfc767d57f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 8 Jul 2024 22:42:18 +0000
 Subject: [PATCH] Fix OOB write in build_read_multi_rsp of gatt_sr.cc

@@ -21,7 +21,7 @@ Change-Id: Id75a774ce1ed109a83c6a5bf512536c643165d71
  2 files changed, 170 insertions(+)
 
 diff --git a/core/java/android/net/ConnectivityManager.java b/core/java/android/net/ConnectivityManager.java
-index ed03f5198d6f..dfdbbe085c0f 100644
+index ed03f5198d6f..03ac83fd947d 100644
 --- a/core/java/android/net/ConnectivityManager.java
 +++ b/core/java/android/net/ConnectivityManager.java
 @@ -796,6 +796,58 @@ public class ConnectivityManager {
