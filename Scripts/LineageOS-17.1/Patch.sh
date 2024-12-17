@@ -95,7 +95,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2023-02-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-11
+sed -i 's/2023-02-05/2024-12-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-12
 fi;
 
 if enterAndClear "build/soong"; then
@@ -175,6 +175,9 @@ fi;
 
 if enterAndClear "external/skia"; then
 applyPatch "$DOS_PATCHES/android_external_skia/410984.patch"; #Q_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/411484-backport.patch"; #R_asb_2024-12 [pdf] Bounds check in skia_alloc_func
+applyPatch "$DOS_PATCHES/android_external_skia/411485.patch"; #R_asb_2024-12 Check for size overflow before allocating SkMask data
+applyPatch "$DOS_PATCHES/android_external_skia/411486.patch"; #R_asb_2024-12 Prevent overflow when growing an SkRegion's RunArray
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -342,6 +345,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/410988.patch"; #Q_asb_2024-11 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/410989.patch"; #Q_asb_2024-11 Set no data transfer on function switch timeout for accessory mode
 applyPatch "$DOS_PATCHES/android_frameworks_base/410990.patch"; #Q_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/410991.patch"; #Q_asb_2024-11 Clear app-provided shortcut icons
+applyPatch "$DOS_PATCHES/android_frameworks_base/411487.patch"; #R_asb_2024-12 Properly handle onNullBinding() in appwidget service.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -693,6 +697,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/403317.patch"; #Q_asb_2024-09 Disallo
 applyPatch "$DOS_PATCHES/android_system_bt/408530.patch"; #Q_asb_2024-10 Add privatize option for bluetooth addresses for logging
 applyPatch "$DOS_PATCHES/android_system_bt/408531.patch"; #Q_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_system_bt/408532.patch"; #Q_asb_2024-10 Disallow unexpected incoming HID connections 1/2
+applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_system_bt/411489.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -821,6 +828,9 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403327.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408535.patch"; #Q_asb_2024-10 Add privatize option for bluetooth addresses for logging
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408535.patch"; #Q_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408536.patch"; #Q_asb_2024-10 Disallow unexpected incoming HID connections 1/2
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411491.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411492.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411493.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 fi;
 
 if enterAndClear "vendor/lineage"; then

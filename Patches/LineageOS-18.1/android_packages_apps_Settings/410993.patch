@@ -1,0 +1,42 @@
+From 38f463ffa95d46bb7a56caefe12f7ed96adbf856 Mon Sep 17 00:00:00 2001
+From: Anna Bauza <annabauza@google.com>
+Date: Thu, 14 Nov 2024 18:58:26 +0100
+Subject: [PATCH] [PATCH] fix: Security Report - Reveal images across users via
+ EditUserPhotoController
+
+This functionality has implemented tests on t+ branches.
+
+Bug: 296915959
+Test: N/A
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ae74e70c36ec027dd55164880d8b7225be4c85a3)
+Merged-In: If79af734432b14be74815a47e1026dc8369a304f
+Change-Id: If79af734432b14be74815a47e1026dc8369a304f
+---
+ .../android/settings/users/EditUserPhotoController.java    | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/com/android/settings/users/EditUserPhotoController.java b/src/com/android/settings/users/EditUserPhotoController.java
+index f1831f7120b..d836d2687bc 100644
+--- a/src/com/android/settings/users/EditUserPhotoController.java
++++ b/src/com/android/settings/users/EditUserPhotoController.java
+@@ -18,6 +18,7 @@
+ 
+ import android.app.Activity;
+ import android.content.ClipData;
++import android.content.ContentProvider;
+ import android.content.ContentResolver;
+ import android.content.Context;
+ import android.content.Intent;
+@@ -131,6 +132,12 @@ public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+             return false;
+         }
+ 
++        final int currentUserId = UserHandle.myUserId();
++        if (currentUserId != ContentProvider.getUserIdFromUri(pictureUri, currentUserId)) {
++            Log.e(TAG, "Invalid pictureUri: " + pictureUri);
++            return false;
++        }
++
+         switch (requestCode) {
+             case REQUEST_CODE_CROP_PHOTO:
+                 onPhotoCropped(pictureUri, true);

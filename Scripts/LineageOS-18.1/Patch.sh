@@ -397,6 +397,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/405534.patch"; #R_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408449.patch"; #R_asb_2024-11 Stops hiding a11y services with the same package+label as an activity.
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408450.patch"; #R_asb_2024-11 startActivityForResult with new Intent
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/408451.patch"; #R_asb_2024-11 Checks cross user permission before handling intent
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/410993.patch"; #Q_asb_2024-11 fix: Security Report - Reveal images across users via EditUserPhotoController
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
