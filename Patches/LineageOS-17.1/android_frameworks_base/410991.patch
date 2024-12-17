@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 3e0d2fe6c935a72da1862cb6c9010f7adc567f58 Mon Sep 17 00:00:00 2001
 From: Ben Murdoch <benm@google.com>
 Date: Fri, 30 Aug 2024 17:22:59 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Clear app-provided shortcut icons
@@ -18,10 +18,10 @@ Change-Id: If7e291eb2254c3cbec23673c65e7477e6ad45b09
  2 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/view/KeyboardShortcutInfo.java b/core/java/android/view/KeyboardShortcutInfo.java
-index 2660e74dcb20..2075d77a9871 100644
+index 2660e74dcb205..2075d77a9871e 100644
 --- a/core/java/android/view/KeyboardShortcutInfo.java
 +++ b/core/java/android/view/KeyboardShortcutInfo.java
-@@ -29,7 +29,7 @@ import android.os.Parcelable;
+@@ -29,7 +29,7 @@
   */
  public final class KeyboardShortcutInfo implements Parcelable {
      private final CharSequence mLabel;
@@ -30,7 +30,7 @@ index 2660e74dcb20..2075d77a9871 100644
      private final char mBaseCharacter;
      private final int mKeycode;
      private final int mModifiers;
-@@ -115,6 +115,15 @@ public final class KeyboardShortcutInfo implements Parcelable {
+@@ -115,6 +115,15 @@ public Icon getIcon() {
          return mIcon;
      }
  
@@ -46,7 +46,7 @@ index 2660e74dcb20..2075d77a9871 100644
      /**
       * Returns the base keycode that, combined with the modifiers, triggers this shortcut. If the
       * base character was set instead, returns {@link KeyEvent#KEYCODE_UNKNOWN}. Valid keycodes are
-@@ -165,4 +174,4 @@ public final class KeyboardShortcutInfo implements Parcelable {
+@@ -165,4 +174,4 @@ public KeyboardShortcutInfo[] newArray(int size) {
              return new KeyboardShortcutInfo[size];
          }
      };
@@ -54,10 +54,10 @@ index 2660e74dcb20..2075d77a9871 100644
 \ No newline at end of file
 +}
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java b/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
-index 7e6ddcfea762..cc373d3c8b0f 100644
+index 7e6ddcfea7620..cc373d3c8b0f1 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/KeyboardShortcuts.java
-@@ -378,6 +378,7 @@ public final class KeyboardShortcuts {
+@@ -378,6 +378,7 @@ private void showKeyboardShortcuts(int deviceId) {
              @Override
              public void onKeyboardShortcutsReceived(
                      final List<KeyboardShortcutGroup> result) {
@@ -65,7 +65,7 @@ index 7e6ddcfea762..cc373d3c8b0f 100644
                  result.add(getSystemShortcuts());
                  final KeyboardShortcutGroup appShortcuts = getDefaultApplicationShortcuts();
                  if (appShortcuts != null) {
-@@ -388,6 +389,14 @@ public final class KeyboardShortcuts {
+@@ -388,6 +389,14 @@ public void onKeyboardShortcutsReceived(
          }, deviceId);
      }
  

@@ -1,7 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From bc5e1e951c11a53149083c1b8a2dcc330c9a091d Mon Sep 17 00:00:00 2001
 From: Nate Jiang <qiangjiang@google.com>
 Date: Thu, 8 Aug 2024 18:13:39 +0000
-Subject: [PATCH] Fix security issue by change the field in WifiConfig
+Subject: [PATCH] [BACKPORT] Fix security issue by change the field in
+ WifiConfig
 
 Flag: EXEMPT bugfix
 Bug: 347912017
@@ -13,14 +14,14 @@ Test: atest com.android.server.wifi
 Merged-In: I8998340ae557660036895dd906808d682b83c6f0
 Change-Id: I8998340ae557660036895dd906808d682b83c6f0
 ---
- .../server/wifi/WifiConfigurationUtil.java    | 72 ++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ .../server/wifi/WifiConfigurationUtil.java    | 73 ++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index b8992a011..98d2cb31a 100644
+index b8992a0119..4d484adfb6 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-@@ -82,6 +82,11 @@ public class WifiConfigurationUtil {
+@@ -82,6 +82,12 @@ public class WifiConfigurationUtil {
      private static final int SAE_ASCII_MIN_LEN = 1 + ENCLOSING_QUOTES_LEN;
      private static final int PSK_SAE_ASCII_MAX_LEN = 63 + ENCLOSING_QUOTES_LEN;
      private static final int PSK_SAE_HEX_LEN = 64;
@@ -29,10 +30,11 @@ index b8992a011..98d2cb31a 100644
 +    // BACKPORT
 +    private static final int MAX_NUMBER_OF_OI = 36;
 +    private static final long MAX_OI_VALUE = ((long) 1 << 40)  - 1;
++
      @VisibleForTesting
      public static final String PASSWORD_MASK = "*";
      private static final String MATCH_EMPTY_SSID_PATTERN_PATH = "";
-@@ -688,7 +693,8 @@ public class WifiConfigurationUtil {
+@@ -688,7 +694,8 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
          if (!validateSsid(config.SSID, isAdd)) {
              return false;
          }
@@ -42,7 +44,7 @@ index b8992a011..98d2cb31a 100644
              return false;
          }
          if (!validateBitSets(config)) {
-@@ -697,6 +703,12 @@ public class WifiConfigurationUtil {
+@@ -697,6 +704,12 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
          if (!validateKeyMgmt(config.allowedKeyManagement)) {
              return false;
          }
@@ -55,7 +57,7 @@ index b8992a011..98d2cb31a 100644
          if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK)
                  && !validatePassword(config.preSharedKey, isAdd, false)) {
              return false;
-@@ -732,6 +744,64 @@ public class WifiConfigurationUtil {
+@@ -732,6 +745,64 @@ public static boolean validate(WifiConfiguration config, boolean isAdd) {
          return true;
      }
  

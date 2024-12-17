@@ -1,7 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From f9b4d83aff0d3dac5d73676b251fd1e14c5bf682 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:44:45 +0000
-Subject: [PATCH] Disallow unexpected incoming HID connections 2/2
+Subject: [PATCH] BACKPORT: RESTRICT AUTOMERGE Disallow unexpected incoming HID
+ connections 2/2
 
 HID profile accepted any new incoming HID connection. Even when the
 connection policy disabled HID connection, remote devices could initiate
@@ -57,22 +58,22 @@ index 7838ff6ce..60fffc2f3 100644
      {"virtualUnPlugNative", "([B)Z", (void*)virtualUnPlugNative},
      {"setProtocolModeNative", "([BB)Z", (void*)setProtocolModeNative},
 diff --git a/src/com/android/bluetooth/hid/HidHostService.java b/src/com/android/bluetooth/hid/HidHostService.java
-index c378f8e89..fea167148 100644
+index c378f8e89..d49edfa7a 100644
 --- a/src/com/android/bluetooth/hid/HidHostService.java
 +++ b/src/com/android/bluetooth/hid/HidHostService.java
-@@ -157,7 +157,10 @@ public class HidHostService extends ProfileService {
+@@ -157,7 +157,10 @@ public void handleMessage(Message msg) {
                  break;
                  case MESSAGE_DISCONNECT: {
                      BluetoothDevice device = (BluetoothDevice) msg.obj;
 -                    if (!disconnectHidNative(Utils.getByteAddress(device))) {
-+                    int connectionPolicy = getPriority(device);
++                    int priority = getPriority(device);
 +                    boolean reconnectAllowed =
-+                            connectionPolicy == BluetoothProfile.PRIORITY_ON;
++                            priority == BluetoothProfile.PRIORITY_ON;
 +                    if (!disconnectHidNative(Utils.getByteAddress(device), reconnectAllowed)) {
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTING);
                          broadcastConnectionState(device, BluetoothProfile.STATE_DISCONNECTED);
                          break;
-@@ -871,7 +874,7 @@ public class HidHostService extends ProfileService {
+@@ -871,7 +874,7 @@ public void dump(StringBuilder sb) {
  
      private native boolean connectHidNative(byte[] btAddress);
  

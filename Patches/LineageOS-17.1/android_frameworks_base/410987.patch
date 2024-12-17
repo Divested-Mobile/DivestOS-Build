@@ -1,0 +1,144 @@
+From 0fd389af4bbeff48cfb1faff5a31803f55003514 Mon Sep 17 00:00:00 2001
+From: Ioana Alexandru <aioana@google.com>
+Date: Wed, 31 Jul 2024 13:46:30 +0000
+Subject: [PATCH] Check more URIs in notifications
+
+Bug: 281044385
+Test: presubmit + tested in current release
+
+(cherry picked from commit f47b41a138ebd60f7b518fb6a9d8aa8230488422,
+includes changes from commit 57bf60dd7b6a0a0e9785231f8ec25a458fedde64
+and commit 47fa2f79584b0a4e9ca7e9c6b237c4e5cf699032)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e6ed8a4bef3ec5a2517fc80ac88e2fc09b67c226)
+Merged-In: I1ce6bebd9452466d005505dc5b99a0fdc0e05e80
+Change-Id: I1ce6bebd9452466d005505dc5b99a0fdc0e05e80
+---
+ core/java/android/app/Notification.java   | 34 +++++++++++------------
+ core/java/android/app/Person.java         | 17 ++++++++++++
+ core/java/android/widget/RemoteViews.java |  7 +++++
+ 3 files changed, 41 insertions(+), 17 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index e7f226d091d6d..61a355ddbc77d 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -2486,29 +2486,22 @@ public void visitUris(@NonNull Consumer<Uri> visitor) {
+             ArrayList<Person> people = extras.getParcelableArrayList(EXTRA_PEOPLE_LIST);
+             if (people != null && !people.isEmpty()) {
+                 for (Person p : people) {
+-                    if (p.getIconUri() != null) {
+-                        visitor.accept(p.getIconUri());
+-                    }
++                    p.visitUris(visitor);
+                 }
+             }
+ 
+             // Extras for MessagingStyle. We visit them even if not isStyle(MessagingStyle), since
+             // Notification Listeners might use directly (without the isStyle check).
+             final Person person = extras.getParcelable(EXTRA_MESSAGING_PERSON);
+-            if (person != null && person.getIconUri() != null) {
+-                visitor.accept(person.getIconUri());
++            if (person != null) {
++                person.visitUris(visitor);
+             }
+ 
+             final Parcelable[] messages = extras.getParcelableArray(EXTRA_MESSAGES);
+             if (!ArrayUtils.isEmpty(messages)) {
+                 for (MessagingStyle.Message message : MessagingStyle.Message
+                         .getMessagesFromBundleArray(messages)) {
+-                    visitor.accept(message.getDataUri());
+-
+-                    Person senderPerson = message.getSenderPerson();
+-                    if (senderPerson != null && senderPerson.getIconUri() != null) {
+-                        visitor.accept(senderPerson.getIconUri());
+-                    }
++                    message.visitUris(visitor);
+                 }
+             }
+ 
+@@ -2516,12 +2509,7 @@ public void visitUris(@NonNull Consumer<Uri> visitor) {
+             if (!ArrayUtils.isEmpty(historic)) {
+                 for (MessagingStyle.Message message : MessagingStyle.Message
+                         .getMessagesFromBundleArray(historic)) {
+-                    visitor.accept(message.getDataUri());
+-
+-                    Person senderPerson = message.getSenderPerson();
+-                    if (senderPerson != null && senderPerson.getIconUri() != null) {
+-                        visitor.accept(senderPerson.getIconUri());
+-                    }
++                    message.visitUris(visitor);
+                 }
+             }
+         }
+@@ -7779,6 +7767,18 @@ static Bundle[] getBundleArrayForMessages(List<Message> messages) {
+                 return bundles;
+             }
+ 
++            /**
++             * See {@link Notification#visitUris(Consumer)}.
++             *
++             * @hide
++             */
++            public void visitUris(@NonNull Consumer<Uri> visitor) {
++                visitor.accept(getDataUri());
++                if (mSender != null) {
++                    mSender.visitUris(visitor);
++                }
++            }
++
+             /**
+              * @return A list of messages read from the bundles.
+              *
+diff --git a/core/java/android/app/Person.java b/core/java/android/app/Person.java
+index b5820ba70020c..f6b9054ef0cc5 100644
+--- a/core/java/android/app/Person.java
++++ b/core/java/android/app/Person.java
+@@ -24,6 +24,7 @@
+ import android.os.Parcelable;
+ 
+ import java.util.Objects;
++import java.util.function.Consumer;
+ 
+ /**
+  * Provides an immutable reference to an entity that appears repeatedly on different surfaces of the
+@@ -176,6 +177,22 @@ public void writeToParcel(Parcel dest, @WriteFlags int flags) {
+         dest.writeBoolean(mIsBot);
+     }
+ 
++    /**
++     * Note all {@link Uri} that are referenced internally, with the expectation that Uri permission
++     * grants will need to be issued to ensure the recipient of this object is able to render its
++     * contents.
++     * See b/281044385 for more context and examples about what happens when this isn't done
++     * correctly.
++     *
++     * @hide
++     */
++    public void visitUris(@NonNull Consumer<Uri> visitor) {
++        visitor.accept(getIconUri());
++        if (mUri != null && !mUri.isEmpty()) {
++            visitor.accept(Uri.parse(mUri));
++        }
++    }
++
+     /** Builder for the immutable {@link Person} class. */
+     public static class Builder {
+         @Nullable private CharSequence mName;
+diff --git a/core/java/android/widget/RemoteViews.java b/core/java/android/widget/RemoteViews.java
+index c2e591950e25a..9f51fbf025700 100644
+--- a/core/java/android/widget/RemoteViews.java
++++ b/core/java/android/widget/RemoteViews.java
+@@ -761,6 +761,13 @@ public int getActionTag() {
+             return SET_REMOTE_VIEW_ADAPTER_LIST_TAG;
+         }
+ 
++        @Override
++        public void visitUris(@NonNull Consumer<Uri> visitor) {
++            for (RemoteViews remoteViews : list) {
++                remoteViews.visitUris(visitor);
++            }
++        }
++
+         int viewTypeCount;
+         ArrayList<RemoteViews> list;
+     }

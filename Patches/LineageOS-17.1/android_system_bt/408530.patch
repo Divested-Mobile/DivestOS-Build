@@ -1,0 +1,49 @@
+From ea63021fbc4a92554c11fc07f1ca7282b41e6641 Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Sun, 29 Nov 2020 17:05:05 -0800
+Subject: [PATCH] Add privatize option for bluetooth addresses for logging
+
+Toward loggable code
+
+Bug: 163134718
+Tag: #refactor
+Test: gd/cert/run --host
+
+Change-Id: Id568adb9f9497072a79100202501c4d207e40828
+---
+ main/shim/dumpsys.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 main/shim/dumpsys.h
+
+diff --git a/main/shim/dumpsys.h b/main/shim/dumpsys.h
+new file mode 100644
+index 00000000000..0dc0bc2fd94
+--- /dev/null
++++ b/main/shim/dumpsys.h
+@@ -0,0 +1,26 @@
++/*
++ * Copyright 2019 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#pragma once
++
++#include <string>
++
++constexpr char kPrivateAddressPrefix[] = "xx:xx:xx:xx";
++#define PRIVATE_ADDRESS(addr)                                            \
++  (addr.ToString()                                                       \
++       .replace(0, strlen(kPrivateAddressPrefix), kPrivateAddressPrefix) \
++       .c_str())
++

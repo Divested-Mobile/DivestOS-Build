@@ -1,0 +1,82 @@
+From dcb0d9a1881ac39d3fb576c6af07b1f7dd1dc7e1 Mon Sep 17 00:00:00 2001
+From: Puma Hsu <pumahsu@google.com>
+Date: Mon, 9 Mar 2020 16:57:43 +0800
+Subject: [PATCH] Fix function setting failed in Developer options
+
+One can select USB function in Settings->System->
+Developer options->Default USB configuration without
+a cable connected, and the selected function will be
+the default function after re-connecting. However, this
+function might be restored to NONE due to ENUMERATION_TIMEOUT
+if one selected the function without a cable connected.
+
+When the device is not connected to a host, we should not
+queue the ENUMERATION_TIMEOUT while switching function.
+Fix it by checking connected status and also make it switch
+to corresponding function if an user has selected one in the
+Default USB configuration.
+
+Bug: 150422683
+Test: Switch functions from Default USB configuration for the
+both cases cable connecting and disconnecting. And also try it
+while there is the secure lock.
+Signed-off-by: Puma Hsu <pumahsu@google.com>
+Change-Id: I1933c098e47496b8d6813a5a4e295bcf12027401
+---
+ .../com/android/server/usb/UsbDeviceManager.java  | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/services/usb/java/com/android/server/usb/UsbDeviceManager.java b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+index 434592f129b36..dd2198106b32b 100644
+--- a/services/usb/java/com/android/server/usb/UsbDeviceManager.java
++++ b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+@@ -461,7 +461,6 @@ private static void initRndisAddress() {
+     abstract static class UsbHandler extends Handler {
+ 
+         // current USB state
+-        private boolean mConnected;
+         private boolean mHostConnected;
+         private boolean mSourcePower;
+         private boolean mSinkPower;
+@@ -489,6 +488,7 @@ abstract static class UsbHandler extends Handler {
+         private final UsbSettingsManager mSettingsManager;
+         private NotificationManager mNotificationManager;
+ 
++        protected boolean mConnected;
+         protected long mScreenUnlockedFunctions;
+         protected boolean mBootCompleted;
+         protected boolean mCurrentFunctionsApplied;
+@@ -1834,7 +1834,8 @@ public void handleMessage(Message msg) {
+                 case MSG_SET_FUNCTIONS_TIMEOUT:
+                     Slog.e(TAG, "Set functions timed out! no reply from usb hal");
+                     if (msg.arg1 != 1) {
+-                        setEnabledFunctions(UsbManager.FUNCTION_NONE, false);
++                        // Set this since default function may be selected from Developer options
++                        setEnabledFunctions(mScreenUnlockedFunctions, false);
+                     }
+                     break;
+                 case MSG_GET_CURRENT_USB_FUNCTIONS:
+@@ -1856,7 +1857,8 @@ public void handleMessage(Message msg) {
+                      * Dont force to default when the configuration is already set to default.
+                      */
+                     if (msg.arg1 != 1) {
+-                        setEnabledFunctions(UsbManager.FUNCTION_NONE, !isAdbEnabled());
++                        // Set this since default function may be selected from Developer options
++                        setEnabledFunctions(mScreenUnlockedFunctions, false);
+                     }
+                     break;
+                 case MSG_GADGET_HAL_REGISTERED:
+@@ -1957,8 +1959,11 @@ private void setUsbConfig(long config, boolean chargingFunctions) {
+                             SET_FUNCTIONS_TIMEOUT_MS - SET_FUNCTIONS_LEEWAY_MS);
+                     sendMessageDelayed(MSG_SET_FUNCTIONS_TIMEOUT, chargingFunctions,
+                             SET_FUNCTIONS_TIMEOUT_MS);
+-                    sendMessageDelayed(MSG_FUNCTION_SWITCH_TIMEOUT, chargingFunctions,
+-                            SET_FUNCTIONS_TIMEOUT_MS + ENUMERATION_TIME_OUT_MS);
++                    if (mConnected) {
++                        // Only queue timeout of enumeration when the USB is connected
++                        sendMessageDelayed(MSG_FUNCTION_SWITCH_TIMEOUT, chargingFunctions,
++                                SET_FUNCTIONS_TIMEOUT_MS + ENUMERATION_TIME_OUT_MS);
++                    }
+                     if (DEBUG) Slog.d(TAG, "timeout message queued");
+                 } catch (RemoteException e) {
+                     Slog.e(TAG, "Remoteexception while calling setCurrentUsbFunctions", e);

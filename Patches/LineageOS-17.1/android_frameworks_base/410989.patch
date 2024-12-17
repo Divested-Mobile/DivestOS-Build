@@ -1,0 +1,53 @@
+From b798244c86fbd567b1a8ec17e9d267316be4b28e Mon Sep 17 00:00:00 2001
+From: Ashish Kumar Gupta <kumarashishg@google.com>
+Date: Wed, 31 Jul 2024 16:02:29 +0000
+Subject: [PATCH] Set no data transfer on function switch timeout for accessory
+ mode
+
+In case of function switch times out, we will check whether
+the last function set was accessory. If this is the case, it is
+recommended to set the function to NONE(No data transfer) rather than
+setting it to the default USB function.
+
+Bug: 353712853
+Test: Build the code, flash the device and test it.
+Test: atest CtsUsbManagerTestCases
+Test: run CtsVerifier tool
+Test: atest CtsUsbTests
+(cherry picked from commit 7c6ec68537ba8abf798afd9ab7c3e5889841171f)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:b032a602cdad00687e1fe089d66a6c4fa6925d79)
+Merged-In: I698e9df0333cbb51dd9bd5917a94d81273a2784a
+Change-Id: I698e9df0333cbb51dd9bd5917a94d81273a2784a
+---
+ .../java/com/android/server/usb/UsbDeviceManager.java | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/services/usb/java/com/android/server/usb/UsbDeviceManager.java b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+index dd2198106b32b..19b86b21216a4 100644
+--- a/services/usb/java/com/android/server/usb/UsbDeviceManager.java
++++ b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+@@ -673,7 +673,7 @@ private void updateCurrentAccessory() {
+             }
+         }
+ 
+-        private void notifyAccessoryModeExit() {
++        protected void notifyAccessoryModeExit() {
+             // make sure accessory mode is off
+             // and restore default functions
+             Slog.d(TAG, "exited USB accessory mode");
+@@ -1857,8 +1857,13 @@ public void handleMessage(Message msg) {
+                      * Dont force to default when the configuration is already set to default.
+                      */
+                     if (msg.arg1 != 1) {
+-                        // Set this since default function may be selected from Developer options
+-                        setEnabledFunctions(mScreenUnlockedFunctions, false);
++                        if (mCurrentFunctions == UsbManager.FUNCTION_ACCESSORY) {
++                            notifyAccessoryModeExit();
++                        } else {
++                            // Set this since default function may be selected from Developer
++                            // options
++                            setEnabledFunctions(mScreenUnlockedFunctions, false);
++                        }
+                     }
+                     break;
+                 case MSG_GADGET_HAL_REGISTERED:

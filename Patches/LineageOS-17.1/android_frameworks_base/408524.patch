@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From c913dee38cbeaae19c5f12c37aec25654d74b671 Mon Sep 17 00:00:00 2001
 From: Dmitry Dementyev <dementyev@google.com>
 Date: Thu, 11 Jul 2024 12:39:22 -0700
 Subject: [PATCH] Update AccountManagerService checkKeyIntent.
@@ -17,10 +17,10 @@ Change-Id: I8b23191d3d60036ca7ddf0ef7dcba6b38fb27b3c
  1 file changed, 3 insertions(+)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index bf577735d037..e8c8b32884e9 100644
+index bf577735d0372..e8c8b32884e96 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -4822,6 +4822,9 @@ public class AccountManagerService
+@@ -4822,6 +4822,9 @@ protected boolean checkKeyIntent(int authUid, Bundle bundle) {
                  if (resolveInfo == null) {
                      return false;
                  }

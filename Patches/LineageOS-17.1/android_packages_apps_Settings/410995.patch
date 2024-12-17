@@ -1,7 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 99e4f13fcff7a6659d4575c904f3102aa7b4d9e3 Mon Sep 17 00:00:00 2001
 From: Fan Wu <cechkahn@google.com>
 Date: Mon, 22 Jul 2024 16:12:46 +0800
-Subject: [PATCH] Checks cross user permission before handling intent
+Subject: [PATCH] RESTRICT AUTOMERGE Checks cross user permission before
+ handling intent
 
 Bug: 326057017
 
@@ -17,10 +18,10 @@ Change-Id: I3444e55b22b7487f96b0e3e9deb3f844c4c4723a
  1 file changed, 36 insertions(+), 2 deletions(-)
 
 diff --git a/src/com/android/settings/applications/AppInfoBase.java b/src/com/android/settings/applications/AppInfoBase.java
-index 71043400ff8..ef5297acaec 100644
+index 71043400ff8..9d098000fbc 100644
 --- a/src/com/android/settings/applications/AppInfoBase.java
 +++ b/src/com/android/settings/applications/AppInfoBase.java
-@@ -18,7 +18,9 @@ package com.android.settings.applications;
+@@ -18,7 +18,9 @@
  
  import static com.android.settingslib.RestrictedLockUtils.EnforcedAdmin;
  
@@ -30,7 +31,7 @@ index 71043400ff8..ef5297acaec 100644
  import android.app.Dialog;
  import android.app.admin.DevicePolicyManager;
  import android.app.settings.SettingsEnums;
-@@ -38,6 +40,7 @@ import android.os.UserManager;
+@@ -38,6 +40,7 @@
  import android.text.TextUtils;
  import android.util.Log;
  
@@ -38,7 +39,7 @@ index 71043400ff8..ef5297acaec 100644
  import androidx.appcompat.app.AlertDialog;
  import androidx.fragment.app.DialogFragment;
  import androidx.fragment.app.Fragment;
-@@ -134,8 +137,13 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
+@@ -134,8 +137,13 @@ protected String retrieveAppEntry() {
              }
          }
          if (intent != null && intent.hasExtra(Intent.EXTRA_USER_HANDLE)) {
@@ -46,7 +47,7 @@ index 71043400ff8..ef5297acaec 100644
 -                    Intent.EXTRA_USER_HANDLE)).getIdentifier();
 +            mUserId = ((UserHandle) intent.getParcelableExtra(Intent.EXTRA_USER_HANDLE))
 +                    .getIdentifier();
-+            if (mUserId != UserHandle.myUserId() && !hasInteractAcrossUsersPerm()) {
++            if (mUserId != UserHandle.myUserId() && !hasInteractAcrossUsersPermission()) {
 +                Log.w(TAG, "Intent not valid.");
 +                finish();
 +                return "";
@@ -54,12 +55,12 @@ index 71043400ff8..ef5297acaec 100644
          } else {
              mUserId = UserHandle.myUserId();
          }
-@@ -158,6 +166,32 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
+@@ -158,6 +166,32 @@ protected String retrieveAppEntry() {
          return mPackageName;
      }
  
 +    @VisibleForTesting
-+    protected boolean hasInteractAcrossUsersPerm() {
++    protected boolean hasInteractAcrossUsersPermission() {
 +        Activity activity = getActivity();
 +        if (activity == null) {
 +            return false;
