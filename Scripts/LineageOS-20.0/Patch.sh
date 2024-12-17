@@ -128,6 +128,7 @@ fi;
 if enterAndClear "frameworks/base"; then
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
+git revert --no-edit 53e2f4b85ce836360dd58bdb2f0d7f42dc796443; #Reverts "Allow spoofing signingInfo for microG Companion/Services" in favor of below patch
 git revert --no-edit 6d2955f0bd55e9938d5d49415182c27b50900b95; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
