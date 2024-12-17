@@ -76,7 +76,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-12-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -156,6 +156,8 @@ fi;
 
 if enterAndClear "external/skia"; then
 applyPatch "$DOS_PATCHES/android_external_skia/408506.patch"; #P_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/410675-backport.patch"; #n-asb-2024-12 [pdf] Bounds check in skia_alloc_func
+applyPatch "$DOS_PATCHES/android_external_skia/410676-backport.patch"; #n-asb-2024-12 Check for size overflow before allocating SkMask data
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -574,6 +576,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/385677.patch"; #P_asb_2024-03 Reland:
 applyPatch "$DOS_PATCHES/android_system_bt/385678.patch"; #P_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an authentication bypass bug in SMP
 applyPatch "$DOS_PATCHES/android_system_bt/399772-backport.patch"; #P_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc #XXX
+applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_system_bt/411489-backport.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 fi;
 
 if enterAndClear "system/ca-certificates"; then
