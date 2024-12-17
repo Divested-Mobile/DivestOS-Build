@@ -132,6 +132,7 @@ fi;
 
 if enterAndClear "frameworks/base"; then 
 git revert --no-edit f9b5586a3887e70aa5580f8073611826eed2b88f; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
+git revert --no-edit a2b52bdf99f03afe2e36d49fa2b30ffe5bf58a5c; #Reverts "Allow spoofing signingInfo for microG Companion/Services" in favor of below patch
 git revert --no-edit 18f3b5a2615efe61636ff952b500b19d891bdc80; #Reverts "fixup! Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/revert-6b793fa9.patch"; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
