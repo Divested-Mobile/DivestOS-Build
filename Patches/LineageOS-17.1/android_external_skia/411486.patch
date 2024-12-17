@@ -1,4 +1,4 @@
-From 7f44cab6fa5bc8ff805795f88d0912612e849224 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Osman <brianosman@google.com>
 Date: Thu, 29 Aug 2024 11:52:35 -0400
 Subject: [PATCH] Prevent overflow when growing an SkRegion's RunArray
@@ -17,10 +17,10 @@ Change-Id: Iea27fe62ef97deb8a75e8dae276657d809223b57
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/src/core/SkRegion.cpp b/src/core/SkRegion.cpp
-index 73707c2b876..275410cbd22 100644
+index 9176c7a55c..f97da2e9dd 100644
 --- a/src/core/SkRegion.cpp
 +++ b/src/core/SkRegion.cpp
-@@ -52,8 +52,10 @@ class RunArray {
+@@ -53,8 +53,10 @@ public:
      /** Resize the array to a size greater-than-or-equal-to count. */
      void resizeToAtLeast(int count) {
          if (count > fCount) {

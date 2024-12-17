@@ -1,4 +1,4 @@
-From e0b5d40517e5f89c1570fa9726835e3fbce89e56 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Thu, 27 Jul 2023 04:09:04 +0000
 Subject: [PATCH] Fix an integer underflow in build_read_multi_rsp

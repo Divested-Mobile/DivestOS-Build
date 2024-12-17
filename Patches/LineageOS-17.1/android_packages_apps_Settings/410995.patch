@@ -1,4 +1,4 @@
-From 99e4f13fcff7a6659d4575c904f3102aa7b4d9e3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Fan Wu <cechkahn@google.com>
 Date: Mon, 22 Jul 2024 16:12:46 +0800
 Subject: [PATCH] RESTRICT AUTOMERGE Checks cross user permission before
@@ -21,7 +21,7 @@ diff --git a/src/com/android/settings/applications/AppInfoBase.java b/src/com/an
 index 71043400ff8..9d098000fbc 100644
 --- a/src/com/android/settings/applications/AppInfoBase.java
 +++ b/src/com/android/settings/applications/AppInfoBase.java
-@@ -18,7 +18,9 @@
+@@ -18,7 +18,9 @@ package com.android.settings.applications;
  
  import static com.android.settingslib.RestrictedLockUtils.EnforcedAdmin;
  
@@ -31,7 +31,7 @@ index 71043400ff8..9d098000fbc 100644
  import android.app.Dialog;
  import android.app.admin.DevicePolicyManager;
  import android.app.settings.SettingsEnums;
-@@ -38,6 +40,7 @@
+@@ -38,6 +40,7 @@ import android.os.UserManager;
  import android.text.TextUtils;
  import android.util.Log;
  
@@ -39,7 +39,7 @@ index 71043400ff8..9d098000fbc 100644
  import androidx.appcompat.app.AlertDialog;
  import androidx.fragment.app.DialogFragment;
  import androidx.fragment.app.Fragment;
-@@ -134,8 +137,13 @@ protected String retrieveAppEntry() {
+@@ -134,8 +137,13 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
              }
          }
          if (intent != null && intent.hasExtra(Intent.EXTRA_USER_HANDLE)) {
@@ -55,7 +55,7 @@ index 71043400ff8..9d098000fbc 100644
          } else {
              mUserId = UserHandle.myUserId();
          }
-@@ -158,6 +166,32 @@ protected String retrieveAppEntry() {
+@@ -158,6 +166,32 @@ public abstract class AppInfoBase extends SettingsPreferenceFragment
          return mPackageName;
      }
  

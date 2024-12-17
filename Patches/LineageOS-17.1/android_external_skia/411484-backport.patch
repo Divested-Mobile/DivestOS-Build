@@ -21,7 +21,7 @@ Change-Id: Id1a30592d435bd0de4630e7047f26b0dc17654fc
  1 file changed, 8 insertions(+)
 
 diff --git a/src/pdf/SkDeflate.cpp b/src/pdf/SkDeflate.cpp
-index be3e182cd1..8f48b7f16d 100644
+index be3e182cd1..40631f1f06 100644
 --- a/src/pdf/SkDeflate.cpp
 +++ b/src/pdf/SkDeflate.cpp
 @@ -10,6 +10,7 @@

@@ -1,4 +1,4 @@
-From 6f447355dd4fd0cfdf7c49b688149c71390194cb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Osman <brianosman@google.com>
 Date: Thu, 29 Aug 2024 12:47:48 -0400
 Subject: [PATCH] RESTRICT AUTOMERGE: Check for size overflow before allocating
@@ -20,10 +20,10 @@ Change-Id: I74c081a7b849f13194ec7807b7a748d1919c1bb2
  1 file changed, 3 insertions(+)
 
 diff --git a/src/core/SkBlurMF.cpp b/src/core/SkBlurMF.cpp
-index bd7accae8d2..e16f6ee7698 100644
+index e175d2ef62..42cb9951f1 100644
 --- a/src/core/SkBlurMF.cpp
 +++ b/src/core/SkBlurMF.cpp
-@@ -316,6 +316,9 @@ static bool prepare_to_draw_into_mask(const SkRect& bounds, SkMask* mask) {
+@@ -315,6 +315,9 @@ static bool prepare_to_draw_into_mask(const SkRect& bounds, SkMask* mask) {
      mask->fRowBytes = SkAlign4(mask->fBounds.width());
      mask->fFormat = SkMask::kA8_Format;
      const size_t size = mask->computeImageSize();

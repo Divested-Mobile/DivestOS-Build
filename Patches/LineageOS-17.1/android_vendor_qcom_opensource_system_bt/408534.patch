@@ -1,4 +1,4 @@
-From 41e0ee3735cdd68949edbedf5ff4fd16f8496b73 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Sun, 29 Nov 2020 17:05:05 -0800
 Subject: [PATCH] Add privatize option for bluetooth addresses for logging

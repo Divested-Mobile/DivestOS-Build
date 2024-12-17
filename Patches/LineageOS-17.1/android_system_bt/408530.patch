@@ -1,4 +1,4 @@
-From ea63021fbc4a92554c11fc07f1ca7282b41e6641 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Manton <cmanton@google.com>
 Date: Sun, 29 Nov 2020 17:05:05 -0800
 Subject: [PATCH] Add privatize option for bluetooth addresses for logging
@@ -17,7 +17,7 @@ Change-Id: Id568adb9f9497072a79100202501c4d207e40828
 
 diff --git a/main/shim/dumpsys.h b/main/shim/dumpsys.h
 new file mode 100644
-index 00000000000..0dc0bc2fd94
+index 000000000..0dc0bc2fd
 --- /dev/null
 +++ b/main/shim/dumpsys.h
 @@ -0,0 +1,26 @@

@@ -1,7 +1,7 @@
-From 38f463ffa95d46bb7a56caefe12f7ed96adbf856 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Anna Bauza <annabauza@google.com>
 Date: Thu, 14 Nov 2024 18:58:26 +0100
-Subject: [PATCH] [PATCH] fix: Security Report - Reveal images across users via
+Subject: [PATCH] fix: Security Report - Reveal images across users via
  EditUserPhotoController
 
 This functionality has implemented tests on t+ branches.
@@ -19,7 +19,7 @@ diff --git a/src/com/android/settings/users/EditUserPhotoController.java b/src/c
 index f1831f7120b..d836d2687bc 100644
 --- a/src/com/android/settings/users/EditUserPhotoController.java
 +++ b/src/com/android/settings/users/EditUserPhotoController.java
-@@ -18,6 +18,7 @@
+@@ -18,6 +18,7 @@ package com.android.settings.users;
  
  import android.app.Activity;
  import android.content.ClipData;
@@ -27,7 +27,7 @@ index f1831f7120b..d836d2687bc 100644
  import android.content.ContentResolver;
  import android.content.Context;
  import android.content.Intent;
-@@ -131,6 +132,12 @@ public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+@@ -131,6 +132,12 @@ public class EditUserPhotoController {
              return false;
          }
  

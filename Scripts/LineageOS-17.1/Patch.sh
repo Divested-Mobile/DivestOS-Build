@@ -825,7 +825,7 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403324.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403325.patch"; #Q_asb_2024-09 Add support for checking security downgrade
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403326.patch"; #Q_asb_2024-09 Disallow connect with Secure Connections downgrade
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/403327.patch"; #Q_asb_2024-09 Disallow connect with key length downgrade
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408535.patch"; #Q_asb_2024-10 Add privatize option for bluetooth addresses for logging
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408534.patch"; #Q_asb_2024-10 Add privatize option for bluetooth addresses for logging
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408535.patch"; #Q_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/408536.patch"; #Q_asb_2024-10 Disallow unexpected incoming HID connections 1/2
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/411491.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc

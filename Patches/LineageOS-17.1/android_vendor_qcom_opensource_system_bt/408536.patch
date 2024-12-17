@@ -1,4 +1,4 @@
-From 70750edace71473e69cca83023972066e8233d2e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:42:21 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE Disallow unexpected incoming HID
@@ -29,7 +29,7 @@ Change-Id: I6e9db983e752dd498625078c13b736cd4c668806
  5 files changed, 160 insertions(+), 8 deletions(-)
 
 diff --git a/btif/include/btif_hh.h b/btif/include/btif_hh.h
-index 98dc33383d..2aa03fddc9 100644
+index 98dc33383..2aa03fddc 100644
 --- a/btif/include/btif_hh.h
 +++ b/btif/include/btif_hh.h
 @@ -113,6 +113,7 @@ typedef struct {
@@ -51,7 +51,7 @@ index 98dc33383d..2aa03fddc9 100644
  extern void btif_hh_disconnect(RawAddress* bd_addr);
  extern void btif_hh_service_registration(bool enable);
 diff --git a/btif/include/btif_storage.h b/btif/include/btif_storage.h
-index b1ada4db61..a32b7b8ffc 100755
+index b1ada4db6..a32b7b8ff 100755
 --- a/btif/include/btif_storage.h
 +++ b/btif/include/btif_storage.h
 @@ -201,6 +201,29 @@ bt_status_t btif_storage_is_device_bonded(RawAddress *remote_bd_addr);
@@ -85,7 +85,7 @@ index b1ada4db61..a32b7b8ffc 100755
   *
   * Function         btif_storage_add_hid_device_info
 diff --git a/btif/src/btif_hh.cc b/btif/src/btif_hh.cc
-index b5135ff2fe..0d184a6465 100644
+index b5135ff2f..0d184a646 100644
 --- a/btif/src/btif_hh.cc
 +++ b/btif/src/btif_hh.cc
 @@ -340,6 +340,24 @@ btif_hh_device_t* btif_hh_find_connected_dev_by_handle(uint8_t handle) {
@@ -263,7 +263,7 @@ index b5135ff2fe..0d184a6465 100644
  
    osi_free_and_reset((void**)&dscp_info.descriptor.dsc_list);
 diff --git a/btif/src/btif_storage.cc b/btif/src/btif_storage.cc
-index a62d9da6d3..db2091d9cf 100644
+index a62d9da6d..db2091d9c 100644
 --- a/btif/src/btif_storage.cc
 +++ b/btif/src/btif_storage.cc
 @@ -91,6 +91,8 @@ using bluetooth::Uuid;
@@ -349,7 +349,7 @@ index a62d9da6d3..db2091d9cf 100644
    return BT_STATUS_SUCCESS;
  }
 diff --git a/include/hardware/bt_hh.h b/include/hardware/bt_hh.h
-index c39e3e5b8a..c1247cb1c7 100644
+index c39e3e5b8..c1247cb1c 100644
 --- a/include/hardware/bt_hh.h
 +++ b/include/hardware/bt_hh.h
 @@ -151,7 +151,7 @@ typedef struct {

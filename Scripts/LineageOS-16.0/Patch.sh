@@ -697,9 +697,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/399772.patch"; #P_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
 applyPatch "$DOS_PATCHES/android_system_bt/405833.patch"; #P_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_system_bt/405834.patch"; #P_asb_2024-10 Disallow unexpected incoming HID connections 1/2
-+applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
-+applyPatch "$DOS_PATCHES/android_system_bt/411489-backport.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
-+applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
+applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+applyPatch "$DOS_PATCHES/android_system_bt/411489-backport.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 

@@ -1,4 +1,4 @@
-From 2f3d8b20b8211999d7758c7bb0e868fe46eea540 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jakub=20Paw=C5=82owski?= <jpawlowski@google.com>
 Date: Thu, 1 Aug 2024 14:12:58 +0000
 Subject: [PATCH] Fix "GATT Read Multiple Variable Response" builder

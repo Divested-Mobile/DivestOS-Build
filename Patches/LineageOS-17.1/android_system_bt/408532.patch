@@ -1,7 +1,7 @@
-From 26c752cae91c2483bdbc16c49d5f62dffb4a784a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Himanshu Rawat <rwt@google.com>
 Date: Mon, 8 Apr 2024 19:42:21 +0000
-Subject: [PATCH] [BACKPORT] Disallow unexpected incoming HID connections 1/2
+Subject: [PATCH] Disallow unexpected incoming HID connections 1/2
 
 HID profile accepted any new incoming HID connection. Even when the
 connection policy disabled HID connection, remote devices could initiate
@@ -27,7 +27,7 @@ Change-Id: I6e9db983e752dd498625078c13b736cd4c668806
  5 files changed, 161 insertions(+), 8 deletions(-)
 
 diff --git a/btif/include/btif_hh.h b/btif/include/btif_hh.h
-index f33598d2f19..f93341d89f1 100644
+index f33598d2f..f93341d89 100644
 --- a/btif/include/btif_hh.h
 +++ b/btif/include/btif_hh.h
 @@ -97,6 +97,7 @@ typedef struct {
@@ -49,7 +49,7 @@ index f33598d2f19..f93341d89f1 100644
  extern void btif_hh_disconnect(RawAddress* bd_addr);
  extern void btif_hh_setreport(btif_hh_device_t* p_dev,
 diff --git a/btif/include/btif_storage.h b/btif/include/btif_storage.h
-index 1c1163d1428..362ffdc21bb 100644
+index 1c1163d14..362ffdc21 100644
 --- a/btif/include/btif_storage.h
 +++ b/btif/include/btif_storage.h
 @@ -178,6 +178,29 @@ bt_status_t btif_storage_remove_bonded_device(const RawAddress* remote_bd_addr);
@@ -83,7 +83,7 @@ index 1c1163d1428..362ffdc21bb 100644
   *
   * Function         btif_storage_add_hid_device_info
 diff --git a/btif/src/btif_hh.cc b/btif/src/btif_hh.cc
-index 5c57ee80c7a..50ea2d4e386 100644
+index 5c57ee80c..50ea2d4e3 100644
 --- a/btif/src/btif_hh.cc
 +++ b/btif/src/btif_hh.cc
 @@ -42,6 +42,7 @@
@@ -269,7 +269,7 @@ index 5c57ee80c7a..50ea2d4e386 100644
  
    osi_free_and_reset((void**)&dscp_info.descriptor.dsc_list);
 diff --git a/btif/src/btif_storage.cc b/btif/src/btif_storage.cc
-index 200ea2c4e42..ecbf2b50aea 100644
+index 200ea2c4e..ecbf2b50a 100644
 --- a/btif/src/btif_storage.cc
 +++ b/btif/src/btif_storage.cc
 @@ -89,6 +89,8 @@ using bluetooth::Uuid;
@@ -355,7 +355,7 @@ index 200ea2c4e42..ecbf2b50aea 100644
    return BT_STATUS_SUCCESS;
  }
 diff --git a/include/hardware/bt_hh.h b/include/hardware/bt_hh.h
-index b87b129bb12..923c6279216 100644
+index b87b129bb..923c62792 100644
 --- a/include/hardware/bt_hh.h
 +++ b/include/hardware/bt_hh.h
 @@ -154,7 +154,7 @@ typedef struct {

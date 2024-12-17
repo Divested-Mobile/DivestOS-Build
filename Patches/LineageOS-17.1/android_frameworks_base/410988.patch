@@ -1,4 +1,4 @@
-From dcb0d9a1881ac39d3fb576c6af07b1f7dd1dc7e1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Puma Hsu <pumahsu@google.com>
 Date: Mon, 9 Mar 2020 16:57:43 +0800
 Subject: [PATCH] Fix function setting failed in Developer options
@@ -27,10 +27,10 @@ Change-Id: I1933c098e47496b8d6813a5a4e295bcf12027401
  1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/services/usb/java/com/android/server/usb/UsbDeviceManager.java b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
-index 434592f129b36..dd2198106b32b 100644
+index 434592f129b3..dd2198106b32 100644
 --- a/services/usb/java/com/android/server/usb/UsbDeviceManager.java
 +++ b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
-@@ -461,7 +461,6 @@ private static void initRndisAddress() {
+@@ -461,7 +461,6 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
      abstract static class UsbHandler extends Handler {
  
          // current USB state
@@ -38,7 +38,7 @@ index 434592f129b36..dd2198106b32b 100644
          private boolean mHostConnected;
          private boolean mSourcePower;
          private boolean mSinkPower;
-@@ -489,6 +488,7 @@ abstract static class UsbHandler extends Handler {
+@@ -489,6 +488,7 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
          private final UsbSettingsManager mSettingsManager;
          private NotificationManager mNotificationManager;
  
@@ -46,7 +46,7 @@ index 434592f129b36..dd2198106b32b 100644
          protected long mScreenUnlockedFunctions;
          protected boolean mBootCompleted;
          protected boolean mCurrentFunctionsApplied;
-@@ -1834,7 +1834,8 @@ public void handleMessage(Message msg) {
+@@ -1834,7 +1834,8 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
                  case MSG_SET_FUNCTIONS_TIMEOUT:
                      Slog.e(TAG, "Set functions timed out! no reply from usb hal");
                      if (msg.arg1 != 1) {
@@ -56,7 +56,7 @@ index 434592f129b36..dd2198106b32b 100644
                      }
                      break;
                  case MSG_GET_CURRENT_USB_FUNCTIONS:
-@@ -1856,7 +1857,8 @@ public void handleMessage(Message msg) {
+@@ -1856,7 +1857,8 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
                       * Dont force to default when the configuration is already set to default.
                       */
                      if (msg.arg1 != 1) {
@@ -66,7 +66,7 @@ index 434592f129b36..dd2198106b32b 100644
                      }
                      break;
                  case MSG_GADGET_HAL_REGISTERED:
-@@ -1957,8 +1959,11 @@ private void setUsbConfig(long config, boolean chargingFunctions) {
+@@ -1957,8 +1959,11 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
                              SET_FUNCTIONS_TIMEOUT_MS - SET_FUNCTIONS_LEEWAY_MS);
                      sendMessageDelayed(MSG_SET_FUNCTIONS_TIMEOUT, chargingFunctions,
                              SET_FUNCTIONS_TIMEOUT_MS);

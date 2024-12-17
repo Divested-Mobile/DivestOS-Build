@@ -18,7 +18,7 @@ Change-Id: Ia60dd829ff9152c083de1f4c1265bb3ad595dcc4
  1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/stack/gatt/gatt_sr.cc b/stack/gatt/gatt_sr.cc
-index 28e7d3415..e80070b05 100644
+index 11a4d1b4e..413f91c80 100644
 --- a/stack/gatt/gatt_sr.cc
 +++ b/stack/gatt/gatt_sr.cc
 @@ -23,6 +23,7 @@
@@ -29,7 +29,7 @@ index 28e7d3415..e80070b05 100644
  #include "bt_target.h"
  #include "bt_utils.h"
  #include "osi/include/osi.h"
-@@ -170,9 +171,21 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,
+@@ -168,9 +169,21 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,
          }
  
          if (p_rsp != NULL) {
@@ -52,7 +52,7 @@ index 28e7d3415..e80070b05 100644
              /* just send the partial response for the overflow case */
              len = p_rsp->attr_value.len - (total_len - mtu);
              is_overflow = true;
-@@ -184,15 +197,8 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,
+@@ -182,15 +195,8 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,
            }
  
            if (p_rsp->attr_value.handle == p_cmd->multi_req.handles[ii]) {
