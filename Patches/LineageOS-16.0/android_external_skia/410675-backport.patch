@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ben Wagner <bungeman@google.com>
+Date: Mon, 12 Aug 2024 15:00:08 -0400
+Subject: [PATCH] Bounds check in skia_alloc_func
+
+The allocator callback for zlib needs to check that items * size will
+fit in size_t and return nullptr if not.
+
+Conflicts:
+- src/pdf/SkDeflate.cpp: just in header includes
+
+Bug: 349678452
+Reviewed-on: https://skia-review.googlesource.com/c/skia/+/888996
+Commit-Queue: Ben Wagner <bungeman@google.com>
+Reviewed-by: Brian Osman <brianosman@google.com>
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:94b46e52960ec84a69304ea058fd928e3de6fa56)
+Merged-In: Id1a30592d435bd0de4630e7047f26b0dc17654fc
+Change-Id: Id1a30592d435bd0de4630e7047f26b0dc17654fc
+---
+ src/pdf/SkDeflate.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/pdf/SkDeflate.cpp b/src/pdf/SkDeflate.cpp
+index 6952ec4f11..8ae2102c0e 100644
+--- a/src/pdf/SkDeflate.cpp
++++ b/src/pdf/SkDeflate.cpp
+@@ -10,6 +10,7 @@
+ #include "SkDeflate.h"
+ #include "SkMakeUnique.h"
+ #include "SkMalloc.h"
++#include "SkTFitsIn.h"
+ #include "SkTraceEvent.h"
+ 
+ #include "zlib.h"
+@@ -19,6 +20,13 @@ namespace {
+ // Different zlib implementations use different T.
+ // We've seen size_t and unsigned.
+ template <typename T> void* skia_alloc_func(void*, T items, T size) {
++    if (!SkTFitsIn<size_t>(size)) {
++        return nullptr;
++    }
++    const size_t maxItems = SIZE_MAX / size;
++    if (maxItems < items) {
++        return nullptr;
++    }
+     return sk_calloc_throw(SkToSizeT(items) * SkToSizeT(size));
+ }
+ 

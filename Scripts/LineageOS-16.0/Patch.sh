@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2024-11-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-11 #XXX
+sed -i 's/2022-01-05/2024-12-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-12 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -180,6 +180,8 @@ fi;
 
 if enterAndClear "external/skia"; then
 applyPatch "$DOS_PATCHES/android_external_skia/408506.patch"; #P_asb_2024-11 Avoid potential overflow when allocating 3D mask from emboss filter
+applyPatch "$DOS_PATCHES/android_external_skia/410675-backport.patch"; #n-asb-2024-12 [pdf] Bounds check in skia_alloc_func
+applyPatch "$DOS_PATCHES/android_external_skia/410676-backport.patch"; #n-asb-2024-12 Check for size overflow before allocating SkMask data
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -349,6 +351,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/408507.patch"; #P_asb_2024-11 R
 applyPatch "$DOS_PATCHES/android_frameworks_base/408508.patch"; #P_asb_2024-11 RingtoneManager: allow video ringtone URI
 applyPatch "$DOS_PATCHES/android_frameworks_base/408509.patch"; #P_asb_2024-11 Disallow device admin package and protected packages to be reinstalled as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/408510.patch"; #P_asb_2024-11 Clear app-provided shortcut icons
+applyPatch "$DOS_PATCHES/android_frameworks_base/411487.patch"; #R_asb_2024-12 Properly handle onNullBinding() in appwidget service.
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -694,6 +697,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/397596.patch"; #P_asb_2024-07 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/399772.patch"; #P_asb_2024-08 Fix heap-buffer overflow in sdp_utils.cc
 applyPatch "$DOS_PATCHES/android_system_bt/405833.patch"; #P_asb_2024-10 Add btif/include/btif_hh::btif_hh_status_text
 applyPatch "$DOS_PATCHES/android_system_bt/405834.patch"; #P_asb_2024-10 Disallow unexpected incoming HID connections 1/2
++applyPatch "$DOS_PATCHES/android_system_bt/411488.patch"; #R_asb_2024-12 Fix OOB write in build_read_multi_rsp of gatt_sr.cc
++applyPatch "$DOS_PATCHES/android_system_bt/411489-backport.patch"; #R_asb_2024-12 Fix an integer underflow in build_read_multi_rsp
++applyPatch "$DOS_PATCHES/android_system_bt/411490.patch"; #R_asb_2024-12 Fix "GATT Read Multiple Variable Response" builder
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
