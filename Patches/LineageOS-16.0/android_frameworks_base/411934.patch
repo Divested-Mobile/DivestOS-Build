@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 5052b6ded1d3b0451c59a3b7537ab8e87274991b Mon Sep 17 00:00:00 2001
 From: Pinyao Ting <pinyaoting@google.com>
 Date: Thu, 29 Aug 2024 17:01:55 +0000
 Subject: [PATCH] Properly handle onNullBinding() in appwidget service.
@@ -15,10 +15,10 @@ Change-Id: I12fccb572e159a73785aa33a4f5204e094ccd1b7
  2 files changed, 15 insertions(+)
 
 diff --git a/core/java/android/widget/RemoteViewsAdapter.java b/core/java/android/widget/RemoteViewsAdapter.java
-index e5ae0ca0070c..797689beb582 100644
+index e5ae0ca0070c3..797689beb5825 100644
 --- a/core/java/android/widget/RemoteViewsAdapter.java
 +++ b/core/java/android/widget/RemoteViewsAdapter.java
-@@ -229,6 +229,11 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback
+@@ -229,6 +229,11 @@ public void onServiceDisconnected(ComponentName name) {
              }
          }
  
@@ -31,10 +31,10 @@ index e5ae0ca0070c..797689beb582 100644
          public void handleMessage(Message msg) {
              RemoteViewsAdapter adapter = mAdapter.get();
 diff --git a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
-index 9c18029ec693..ba1eacad3935 100644
+index 9c18029ec693e..ba1eacad39352 100644
 --- a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
 +++ b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
-@@ -1872,6 +1872,11 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
+@@ -1872,6 +1872,11 @@ public void onServiceConnected(ComponentName name, IBinder service) {
                  mContext.unbindService(this);
              }
  
@@ -46,7 +46,7 @@ index 9c18029ec693..ba1eacad3935 100644
              @Override
              public void onServiceDisconnected(ComponentName name) {
                  // Do nothing
-@@ -2013,6 +2018,11 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
+@@ -2013,6 +2018,11 @@ public void onServiceConnected(ComponentName name, IBinder service) {
                                  mContext.unbindService(this);
                              }
  

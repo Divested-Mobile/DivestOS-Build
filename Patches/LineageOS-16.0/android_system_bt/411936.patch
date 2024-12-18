@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From e2da2a67aa6fbf2eb0c2a9435b3838e78b974b6c Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Thu, 27 Jul 2023 04:09:04 +0000
-Subject: [PATCH] Fix an integer underflow in build_read_multi_rsp
+Subject: [PATCH] [BACKPORT] Fix an integer underflow in build_read_multi_rsp
 
 This is a backport of Ia60dd829ff9152c083de1f4c1265bb3ad595dcc4
 to sc-dev
@@ -18,7 +18,7 @@ Change-Id: Ia60dd829ff9152c083de1f4c1265bb3ad595dcc4
  1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/stack/gatt/gatt_sr.cc b/stack/gatt/gatt_sr.cc
-index 28e7d3415..e80070b05 100644
+index 28e7d34158..e80070b051 100644
 --- a/stack/gatt/gatt_sr.cc
 +++ b/stack/gatt/gatt_sr.cc
 @@ -23,6 +23,7 @@

@@ -1,7 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 4b72e7c1522845c3d7c9a9f7c49c5061651edd06 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Mon, 8 Jul 2024 22:42:18 +0000
-Subject: [PATCH] Fix OOB write in build_read_multi_rsp of gatt_sr.cc
+Subject: [PATCH] [BACKPORT] Fix OOB write in build_read_multi_rsp of
+ gatt_sr.cc
 
 build_read_multi_rsp is missing a bounds check, which can lead to an
 OOB write when the mtu parameter is set to zero.
@@ -23,7 +24,7 @@ Change-Id: Icc8209aec68873c9821a36c579cd5df05c6ec8b8
  1 file changed, 8 insertions(+)
 
 diff --git a/stack/gatt/gatt_sr.cc b/stack/gatt/gatt_sr.cc
-index d4e3c046b..28e7d3415 100644
+index d4e3c046b4..28e7d34158 100644
 --- a/stack/gatt/gatt_sr.cc
 +++ b/stack/gatt/gatt_sr.cc
 @@ -135,6 +135,14 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,

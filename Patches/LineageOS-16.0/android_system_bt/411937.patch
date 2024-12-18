@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From ef894d2f902d5018fdd2d1fd0395a1af9a5c85c2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jakub=20Paw=C5=82owski?= <jpawlowski@google.com>
 Date: Thu, 1 Aug 2024 14:12:58 +0000
-Subject: [PATCH] Fix "GATT Read Multiple Variable Response" builder
+Subject: [PATCH] [BACKPORT] Fix "GATT Read Multiple Variable Response" builder
 
 0 length value is perfectly fine, and should result in just length
 added into the packet.
@@ -23,7 +23,7 @@ Change-Id: Ida4f6b566cf9fa40fc5330d8084c29669ccaa608
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/stack/gatt/gatt_sr.cc b/stack/gatt/gatt_sr.cc
-index e80070b05..1cfa1796a 100644
+index e80070b051..1cfa1796ab 100644
 --- a/stack/gatt/gatt_sr.cc
 +++ b/stack/gatt/gatt_sr.cc
 @@ -180,7 +180,7 @@ static bool process_read_multi_rsp(tGATT_SR_CMD* p_cmd, tGATT_STATUS status,

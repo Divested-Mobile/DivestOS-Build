@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 8c22b48c6c718fe5428d2c2ae77d47fec26ff6ab Mon Sep 17 00:00:00 2001
 From: Ben Wagner <bungeman@google.com>
 Date: Mon, 12 Aug 2024 15:00:08 -0400
-Subject: [PATCH] Bounds check in skia_alloc_func
+Subject: [PATCH] [pdf] Bounds check in skia_alloc_func
 
 The allocator callback for zlib needs to check that items * size will
 fit in size_t and return nullptr if not.
@@ -21,7 +21,7 @@ Change-Id: Id1a30592d435bd0de4630e7047f26b0dc17654fc
  1 file changed, 8 insertions(+)
 
 diff --git a/src/pdf/SkDeflate.cpp b/src/pdf/SkDeflate.cpp
-index 6952ec4f11..8ae2102c0e 100644
+index 6952ec4f11a..8ae2102c0e8 100644
 --- a/src/pdf/SkDeflate.cpp
 +++ b/src/pdf/SkDeflate.cpp
 @@ -10,6 +10,7 @@
